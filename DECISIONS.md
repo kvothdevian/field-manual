@@ -21,3 +21,5 @@ names the one it replaces.
 | 13 | 2026-08-24 | Repo location `journey/book` — inherits journey/design.md tokens and AGENTS.md persona | Sibling of builds/; visual identity unified |
 | 14 | 2026-08-24 | Source discipline = three tiers: T1 official docs + established practitioners (verify before cite); T2 vendor blogs (flag as marketing); T3 X/Reddit/SEO farms (leads only, never cited as fact) | Reliability rating printed on every receipt in the book |
 | 15 | 2026-08-24 | Part colors reuse journey route palette L0–L5 (saffron/coral/olive/jade/plum/rose) — six parts, six lines | Zero new hues; color routes, never decorates |
+| 16 | 2026-08-24 | SUPERSEDES #13: repo relocated to `C:\Users\Aman\Projects\field-manual`, standalone; design system vendored internally as `DESIGN.md`; journey/builds referenced by absolute path | Per Aman — book gets its own dedicated folder |
+| 17 | 2026-08-24 | Milestone quizzes waived for this project (journey persona rule #4 does not apply here) | Per Aman |

@@ -2,8 +2,11 @@
 
 A visual HTML book teaching students to ship real software with coding agents.
 Plain HTML/CSS/JS, zero dependencies, must keep working over `file://`.
-Sibling of `../builds/` — inherits `../design.md` (binding) and the Critical
-Teacher persona from `../AGENTS.md`.
+Standalone repo at `C:\Users\Aman\Projects\field-manual`. The visual system is
+vendored in `DESIGN.md` (binding); threaded build specs live at
+`C:\Users\Aman\Projects\journey\builds\<slug>\BUILD.md`; the Critical Teacher
+persona from `..\journey\AGENTS.md` applies EXCEPT milestone quizzes, which are
+waived for this project (DECISIONS #17).
 
 ## Commands
 
@@ -19,7 +22,7 @@ without a superseding DECISIONS.md row.
 1. `DECISIONS.md` — every locked decision. Never contradict; supersede in writing.
 2. `STATUS.md` — current phase, next actions, milestone log.
 3. `docs/coverage-matrix.md` — the exhaustiveness contract.
-4. `../design.md` — binding visual system. No blue. Route palette = part colors.
+4. `DESIGN.md` — binding visual system (vendored from journey/design.md). No blue.
 
 ## Chapter contract (every chapter MUST have)
 
@@ -64,8 +67,8 @@ the run. Never exit on a round count.
 2. Every milestone: update STATUS.md milestone log AND progress.html together.
 3. Local git only. No remote push before P5 (DECISIONS #12).
 4. Never commit secrets. There should be none — the book is static content.
-5. Accessibility floor per ../design.md §4: semantic HTML, 3px ink focus rings,
-   ≥38px tap targets, prefers-reduced-motion honored, shape+label never color alone.
+5. Accessibility floor per DESIGN.md (semantic HTML, 3px ink focus rings,
+   ≥38px tap targets, prefers-reduced-motion honored, shape+label never color alone).
 6. Dark theme tokens are first-class — any new component defines both themes.
 7. Search index regenerated (`node scripts/build-index.mjs`) before any commit
    that touched HTML.
