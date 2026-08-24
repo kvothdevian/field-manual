@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="toc.html">contents</a>
+    <a href="progress.html" aria-current="page">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <h1>Progress</h1>
+  <p class="lede">The book is built in phases, each phase a fresh gauntlet run that
+  resumes from disk. This board is the human view of <code>STATUS.md</code> —
+  agents update both together at every milestone.</p>
+  <p class="updated-stamp">last updated: 2026-08-24 · P0 scaffold complete</p>
+
+  <div class="board">
+    <section class="board-col" aria-labelledby="done-col">
+      <h2 id="done-col">Done</h2>
+      <div class="card" style="border-top-color: var(--l3);">
+        <span class="part-plate p-l3">P0 · shipped</span>
+        <h3>Scaffold</h3>
+        <p>Repo + local git, design tokens ported (light + dark), site skeleton
+        (index/toc/progress/chapter template), client-side search, theme toggle,
+        coverage matrix, governance files.</p>
+      </div>
+    </section>
+
+    <section class="board-col" aria-labelledby="transit-col">
+      <h2 id="transit-col">In transit</h2>
+      <div class="card" style="border-top-color: var(--l0);">
+        <span class="part-plate p-l0">P0.5 · now</span>
+        <h3>Aman review gate</h3>
+        <p>Aman opens index.html, checks look and feel in light and dark,
+        approves before P1 research begins.</p>
+      </div>
+    </section>
+
+    <section class="board-col" aria-labelledby="next-col">
+      <h2 id="next-col">Not yet built</h2>
+      <div class="card" style="border-top-color: var(--l1);">
+        <span class="part-plate p-l1">P1</span>
+        <h3>Research wave</h3>
+        <p>Parallel source-vetting subagents per chapter cluster produce the
+        annotated source ledger — every future citation comes from it.</p>
+      </div>
+      <div class="card" style="border-top-color: var(--l4);">
+        <span class="part-plate p-l4">P2</span>
+        <h3>Foundations + Build 1</h3>
+        <p>Chapters 1–4 gauntleted against the bars; agent-cost-compass built via
+        its BUILD.md kickoff and woven into the chapters.</p>
+      </div>
+      <div class="card" style="border-top-color: var(--l4);">
+        <span class="part-plate p-l4">P3</span>
+        <h3>Craft + Build 2</h3>
+        <p>Chapters 5–11; ncert-quiz-forge built.</p>
+      </div>
+      <div class="card" style="border-top-color: var(--l4);">
+        <span class="part-plate p-l4">P4</span>
+        <h3>Ship &amp; sanity + Build 3</h3>
+        <p>Chapters 12–16; free-tier-atlas capstone.</p>
+      </div>
+      <div class="card" style="border-top-color: var(--l5);">
+        <span class="part-plate p-l5">P5</span>
+        <h3>Integration &amp; launch</h3>
+        <p>Cross-links, full-book blind judging vs both bars, push to GitHub,
+        Pages live.</p>
+      </div>
+    </section>
+  </div>
+
+  <h2>How quality is enforced</h2>
+  <div class="flow-stage">
+    <div class="flow-chain">
+      <div class="flow-step"><b>builder agent</b><small>fresh context</small></div>
+      <span class="flow-arrow" aria-hidden="true">→</span>
+      <div class="flow-step"><b>critic agent</b><small>fetches real bars</small></div>
+      <span class="pivot">blind A/B, labels stripped</span>
+      <span class="flow-arrow" aria-hidden="true">→</span>
+      <div class="flow-step"><b>verdict</b><small>winner + biggest gap</small></div>
+    </div>
+    <span class="flow-stage-label">bars: ciechanow.ski (visual) · code.claude.com best practices (content)</span>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>mirrors STATUS.md — keep them in sync</span>
+</footer>
+<script src="assets/search-index.js"></script>
+<script src="assets/js/search.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+</html>

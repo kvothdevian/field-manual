@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Agentic Coding Field Manual — अ Man Learns Things</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="toc.html">contents</a>
+    <a href="progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <p class="as-of">अ Man Learns Things · a field manual · scaffold v1</p>
+  <h1>The Agentic Coding<br>Field Manual</h1>
+  <p class="lede">Ship real software with coding agents — opencode, Claude Code,
+  Codex, Gemini CLI and friends. $0-first tools, honest grey zones, prompting
+  patterns that survive contact with production, and a receipt behind every claim.
+  Written for people who learn by building, not by reading theory.</p>
+
+  <div class="btn-row">
+    <a class="btn btn-primary" href="toc.html">Open the contents</a>
+    <a class="btn" href="progress.html">Watch it being built</a>
+  </div>
+
+  <p>
+    <span class="chip">16 chapters</span>
+    <span class="chip">3 real builds</span>
+    <span class="chip">$0-first tools</span>
+    <span class="chip">blind-critic quality gates</span>
+  </p>
+
+  <h2>The method that wrote this book</h2>
+  <p>Every chapter is ground through the same loop you'll learn inside it:
+  a builder agent makes a piece, a separate critic with fresh context compares
+  ours against the real reference blind, picks a winner, names the biggest gap,
+  and sends it back. The loop only stops when ours wins.</p>
+
+  <div class="flow-stage">
+    <div class="flow-chain">
+      <div class="flow-step"><b>builder</b><small>writes the piece</small></div>
+      <span class="flow-arrow" aria-hidden="true">→</span>
+      <div class="flow-step"><b>critic</b><small>fresh context, harsh, binary</small></div>
+      <span class="pivot">blind A/B vs bar</span>
+      <span class="flow-arrow" aria-hidden="true">→</span>
+      <div class="flow-step"><b>biggest gap</b><small>named, sent back</small></div>
+    </div>
+    <span class="flow-stage-label">loop until ours wins — never a round count</span>
+  </div>
+
+  <h2>Three real builds carry the book</h2>
+  <p>You won't practice on toys. Three projects from Aman's own build specs get
+  constructed chapter by chapter as the book teaches — each one $0-native,
+  each one shipped.</p>
+
+  <div class="build-card bc-l0">
+    <span class="part-plate p-l0">build 1 · weekend</span>
+    <h3>Agent Cost Compass</h3>
+    <p>Paste your agent's token pattern, see what a run costs across ~20 LLM
+    providers. Your first agent build — configured, prompted, verified, shipped.</p>
+  </div>
+  <div class="build-card bc-l2">
+    <span class="part-plate p-l2">build 2 · two-week</span>
+    <h3>NCERT Quiz Forge</h3>
+    <p>Quizzes + spaced repetition for NCERT textbooks. Where UI craft, testing
+    discipline and human-review gates get learned for real.</p>
+  </div>
+  <div class="build-card bc-l3">
+    <span class="part-plate p-l3">build 3 · six-week capstone</span>
+    <h3>Free-Tier Atlas</h3>
+    <p>The IMDb of free tiers — change-tracking, watchlists, community submissions.
+    Pipelines, anti-bloat ops and honest grey zones, at capstone scale.</p>
+  </div>
+
+  <h2>Generalized, not project-bound</h2>
+  <p>Every chapter teaches the technique tool-agnostically first, demonstrates it
+  on the build, then closes with <em>Beyond this build</em>: where else the
+  pattern applies, which other tools it works with, and where it breaks.
+  The <a href="docs/coverage-matrix.html">coverage matrix</a> in <code>docs/</code>
+  guarantees nothing gets dropped because a project didn't happen to need it.</p>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>local git until P5 · github pages at ship</span>
+</footer>
+<script src="assets/search-index.js"></script>
+<script src="assets/js/search.js"></script>
+<script src="assets/js/theme.js"></script>
+</body>
+</html>
