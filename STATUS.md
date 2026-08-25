@@ -39,3 +39,4 @@ Awaiting Aman's go before P2 chapter drafting begins.
    `../journey/builds/24-agent-cost-compass/`; build log feeds chapter demos.
 3. Gauntlet each piece: builder/critic subagents, blind A/B vs
    ciechanow.ski (visual) and code.claude.com/docs/en/best-practices (content).
+| 2026-08-25 | P2-prep | Audit of P0/P1 passed (commits/files/index/ledger/board all verified); emphasis rebalance logged (#18); table styles added to book.css | Ch15/16 re-scoped in toc + matrix

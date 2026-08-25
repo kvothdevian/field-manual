@@ -38,8 +38,9 @@
 | Security: prompt injection, secrets | | | | | | | | | | | | | | W | | | |
 | Supply chain: malicious MCP/skills | | | | | | | | | | | | | | W | | | |
 | Licensing & copyright of output | | | | | | | | | | | | | | W | W | | |
-| Grey-zone tactics (flagged) | | | W | | | | | | | | | | | | W | W | |
-| Cost & rate-limit management | | | | | | | | | | | | | | | | W | |
+| Grey-zone tactics (flagged) | | | W | | | | | | | | | | | | W | | |
+| Cost & rate-limit management | | | | | | | | | | | | | | | W | | |
+| Daily workflow rituals (sessions, memory upkeep, review rhythm) | | | | W | W | | | | | | | W | | | | W | |
 | Source evaluation & benchmark gaming | | | | | | | W | | | | | | | | | | B |
 | When NOT to use an agent | W | | | | | | | | | | | | | | | | |
 | Exercises + self-checks per chapter | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
@@ -48,7 +49,8 @@ Chapter key: 01 what agentic coding is · 02 harness landscape · 03 models
 without money · 04 configuring your agent · 05 context engineering ·
 06 patterns that ship · 07 source literacy · 08 good UI with agents ·
 09 testing · 10 debugging · 11 brownfield · 12 pipelines/anti-bloat ·
-13 shipping $0 · 14 security/secrets · 15 grey zones · 16 cost/rate limits.
+13 shipping $0 · 14 security/secrets · 15 costs+limits+grey zones (merged,
+per DECISIONS #18) · 16 your daily agentic workflow.
 App = appendices A cheat sheet, B source ledger, C glossary, D this matrix.
 
 Builds woven through (per DECISIONS #9): build 1 agent-cost-compass → ch
