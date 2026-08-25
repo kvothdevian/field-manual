@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 09 · Testing what agents build — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+  <h1>Chapter 09 · Testing what agents build</h1>
+  <p class="lede">Promise: after this chapter you can verify agent output like a skeptical
+  QA lead — ordering tests so they can actually fail, demanding browser evidence for UI,
+  and running review gates you can execute without reading a line of code.</p>
+  <p class="as-of">facts checked as of 2026-08-26 · every claim below traces to the book's source ledger</p>
+
+  <p>Agent output arrives pre-green. The diff looks clean, the demo works on the happy
+  path, the summary says <em>done</em>. The trust-then-verify gap from Chapter&nbsp;01
+  is widest exactly here, and this chapter is the closing move: the QA-lead habit of
+  assuming nothing works until evidence says so. Three skills make up the habit — put
+  the test in the right <em>order</em>, collect <em>evidence</em> instead of assurances,
+  and build <em>gates</em> shallow enough that anyone can operate them.</p>
+
+  <h2>Verification is an ordering problem</h2>
+  <p>A test is an instruction to the loop. Chapter&nbsp;06 introduced tests as the
+  steering wheel; what it could only name in passing, this chapter makes you
+  <em>feel</em>: the wheel only steers if it was bolted on before the car moved.
+  Write the test first and it is a specification — the code must come to
+  <em>it</em>. Write the test after and it is a biography — it can only describe what
+  the code already does, misreadings included.</p>
+  <p>That second path has a name: the <strong>tautology trap</strong>. Field synthesis
+  of agentic development datasets found that tests written after the code tend to
+  encode the model's own misreadings, producing suites that pass while the behavior
+  is wrong — the test agrees with the code because it learned correctness
+  <em>from</em> the code. Practitioner defenses exist (review contract tests as
+  specification, audit for hermeticity), but the cheapest defense is structural and
+  costs one sentence of prompt. Willison's red-green guide reduces it to exactly
+  that: write a failing test first, confirm it fails, then make it pass. The
+  confirmed failure is the entire point — it is proof the test <em>can</em> fail,
+  which is what separates an instrument from a decoration.</p>
+  <p>The same skepticism applies to the agent's own reports. An agent that ends with
+  "the feature works" has asserted; an agent that boots the server, hits the endpoint,
+  and pastes the transcript has exercised. Practitioner rule from the field:
+  agents must exercise what they build and show the evidence, not declare success —
+  and the corollary for you is that "it passed" is a claim, while a captured command
+  and its output are a fact.</p>
+
+  <h2>The experiment: same feature, two orders</h2>
+  <p>Judge the ordering argument yourself. Below, two teams build the identical tiny
+  feature: a page that divides two inputs and shows the result. Unknown to both, one
+  of three defects rides along — a division-by-zero leaking raw <em>Infinity</em>,
+  a negative input quietly losing its sign, or floating-point garbage in the
+  decimals. Which defect is drawn is randomized each round, shuffled so repeated
+  plays cover all three. Track&nbsp;A codes first and writes tests afterward.
+  Track&nbsp;B writes the failing test first. Press both through, watch the same bug
+  meet two different workflows, and let the scoreboard keep the honest accounting:
+  bugs caught per minute of verification, across as many rounds as you play.</p>
+
+  <div class="ctlab" id="ctlab">
+    <style>
+      .ctlab { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
+      .ctlab-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.4rem; }
+      .ctlbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 0.9rem; }
+      .ctlbtn-main, .ctlbtn-ghost, .ctlbtn-track { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; border-radius: 10px; min-height: 38px; }
+      .ctlbtn-main { font-size: 0.82rem; padding: 0.5rem 1.2rem; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: var(--shadow-sm); }
+      .ctlbtn-main:hover:not(:disabled) { translate: -2px -2px; box-shadow: var(--shadow-md); }
+      .ctlbtn-main:disabled { opacity: 0.55; cursor: default; }
+      .ctlbtn-ghost { font-size: 0.78rem; padding: 0.5rem 1rem; border: 1.5px solid var(--line-strong); background: var(--paper-raised); color: var(--ink); }
+      .ctlbtn-ghost:hover { border-color: var(--ink); }
+      .ctlbtn-track { display: block; width: 100%; font-size: 0.78rem; padding: 0.55rem 0.8rem; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); }
+      .ctlbtn-track:hover:not(:disabled) { translate: -2px -2px; box-shadow: var(--shadow-sm); }
+      .ctlbtn-track:disabled { opacity: 0.45; cursor: default; }
+      .ctlab button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+      .ctltracks { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.1rem; }
+      .ctltrack { flex: 1 1 19rem; border: 1.5px solid var(--line-strong); border-radius: 10px; background: var(--paper); padding: 0.85rem 1rem; }
+      .ctltrack h3 { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; margin: 0 0 0.15rem; }
+      .ctltrack-sub { display: block; font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); margin-bottom: 0.6rem; }
+      .ctlsteps { min-height: 3.2rem; border-top: 2px solid var(--ink); padding-top: 0.65rem; display: flex; flex-direction: column; gap: 0.45rem; }
+      .ctlhint { margin: 0; font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted); }
+      .ctlline { margin: 0; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; }
+      .ctlline-muted { color: var(--muted); }
+      .ctlmono { display: block; margin: 0.25rem 0 0 0.9rem; padding-left: 0.55rem; border-left: 3px solid var(--l0); overflow-wrap: break-word; }
+      .ctltag { display: inline-block; margin-right: 0.45rem; padding: 0 0.4rem; border: 1.5px solid var(--pgc, var(--muted)); border-radius: 6px; font-weight: 700; background: color-mix(in srgb, var(--pgc, var(--muted)) 12%, var(--paper)); }
+      .ctltag-step { --pgc: var(--muted); }
+      .ctltag-red { --pgc: var(--l1); }
+      .ctltag-green { --pgc: var(--l3); }
+      .ctlverdict { margin: 0.45rem 0 0; padding: 0.5rem 0.7rem; border-left: 3px solid var(--pgc, var(--muted)); background: color-mix(in srgb, var(--pgc, var(--muted)) 10%, var(--paper-raised)); border-radius: 0 8px 8px 0; }
+      .ctlboard { margin-top: 1.1rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
+      .ctlboard-title { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0; }
+      .ctlboard p.ctlline b { color: var(--ink); }
+      .ok { color: var(--l3); font-weight: 700; }
+      .bad { color: var(--l1); font-weight: 700; }
+      @media (max-width: 640px) { .ctltracks { flex-direction: column; } }
+      @media (prefers-reduced-motion: reduce) {
+        .ctlab *, .ctlab *::before, .ctlab *::after { transition: none !important; animation: none !important; }
+        .ctlbtn-main:hover, .ctlbtn-track:hover { translate: none; box-shadow: none; }
+      }
+    </style>
+    <span class="ctlab-tag">catch-the-bug lab · one feature, two orders · randomized defect each round · runs locally, nothing leaves this page</span>
+
+    <div class="ctlbar">
+      <button type="button" id="ctl-start" class="ctlbtn-main">▶ start round 1</button>
+      <button type="button" id="ctl-reset" class="ctlbtn-ghost">reset scoreboard</button>
+      <span class="chip" id="ctl-status">round 0 · defect undrawn · press start</span>
+    </div>
+
+    <div class="ctltracks">
+      <div class="ctltrack">
+        <h3>TRACK A</h3>
+        <span class="ctltrack-sub">code first · tests written after</span>
+        <div class="ctlsteps" id="ctl-steps-a" aria-live="polite" aria-label="Track A progress">
+          <p class="ctlhint">idle — waiting for round start.</p>
+        </div>
+        <button type="button" id="ctl-btn-a" class="ctlbtn-track" disabled>press: next A step</button>
+      </div>
+      <div class="ctltrack">
+        <h3>TRACK B</h3>
+        <span class="ctltrack-sub">failing test first · code second</span>
+        <div class="ctlsteps" id="ctl-steps-b" aria-live="polite" aria-label="Track B progress">
+          <p class="ctlhint">idle — waiting for round start.</p>
+        </div>
+        <button type="button" id="ctl-btn-b" class="ctlbtn-track" disabled>press: next B step</button>
+      </div>
+    </div>
+
+    <div class="ctlboard" id="ctl-board" aria-live="polite" aria-label="scoreboard">
+      <p class="ctlboard-title">scoreboard · bugs caught per minute of verification</p>
+      <p class="ctlline ctlline-muted">no rounds played yet. A spends less time verifying; B spends more. Watch what each minute buys.</p>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("ctlab");
+    if (!root || root.dataset.ctlabBound) return;
+    root.dataset.ctlabBound = "1";
+
+    var BUGS = [
+      {
+        name: "division-by-zero",
+        shipped: "1 \u00F7 0 \u2192 page proudly shows \u201CInfinity\u201D",
+        spec: "spec: \u00F7 0 must show a friendly \u201Ccan\u2019t divide by zero\u201D note \u2014 never Infinity",
+        aTest: "expect(divide(1, 0)).toBe(Infinity)",
+        aNote: "test copied the page \u2014 Infinity is now \u201Ccorrect\u201D",
+        bRed: "1 \u00F7 0 returned Infinity \u00B7 spec demands a friendly error message"
+      },
+      {
+        name: "negative input loses its sign",
+        shipped: "-9 \u00F7 3 \u2192 page shows \u201C3\u201D \u2014 the minus vanished",
+        spec: "spec: signs survive \u2014 -9 \u00F7 3 is -3, not 3",
+        aTest: "expect(divide(-9, 3)).toBe(3)",
+        aNote: "the dropped sign is now enshrined as the expected value",
+        bRed: "-9 \u00F7 3 returned 3 \u00B7 the sign was silently dropped"
+      },
+      {
+        name: "decimal precision garbage",
+        shipped: "2.6 \u00F7 1.3 \u2192 page shows \u201C2.0000000000000004\u201D",
+        spec: "spec: results round to 2 decimals \u2014 2.6 \u00F7 1.3 displays 2",
+        aTest: "expect(divide(2.6, 1.3)).toBe(2.0000000000000004)",
+        aNote: "the float artifact is pinned as ground truth",
+        bRed: "2.6 \u00F7 1.3 printed seventeen digits \u00B7 spec demands 2-decimal rounding"
+      }
+    ];
+
+    var A_MIN = 1, B_MIN = 2;
+
+    var startBtn = document.getElementById("ctl-start");
+    var resetBtn = document.getElementById("ctl-reset");
+    var btnA = document.getElementById("ctl-btn-a");
+    var btnB = document.getElementById("ctl-btn-b");
+    var listA = document.getElementById("ctl-steps-a");
+    var listB = document.getElementById("ctl-steps-b");
+    var board = document.getElementById("ctl-board");
+    var statusChip = document.getElementById("ctl-status");
+
+    var bag = [];
+    var bug = null;
+    var round = 0;
+    var idxA = 0, idxB = 0;
+    var minsA = 0, minsB = 0, caughtA = 0, caughtB = 0;
+    var started = false;
+
+    function el(tag, text, cls) {
+      var n = document.createElement(tag);
+      if (text !== "") n.textContent = text;
+      if (cls) n.className = cls;
+      return n;
+    }
+
+    function tag(cls, txt) {
+      var s = el("span", txt, "ctltag " + cls);
+      return s;
+    }
+
+    function drawBug() {
+      if (!bag.length) {
+        var order = [0, 1, 2], i, j, t;
+        for (i = order.length - 1; i > 0; i--) {
+          j = Math.floor(Math.random() * (i + 1));
+          t = order[i]; order[i] = order[j]; order[j] = t;
+        }
+        bag = order;
+      }
+      return BUGS[bag.pop()];
+    }
+
+    function hint(list, txt) {
+      list.innerHTML = "";
+      list.appendChild(el("p", txt, "ctlhint"));
+    }
+
+    function clearList(list) {
+      list.innerHTML = "";
+    }
+
+    function addStepA() {
+      if (idxA === 0) clearList(listA);
+      if (idxA === 0) {
+        var p1 = el("p", "", "ctlline");
+        p1.appendChild(tag("ctltag-step", "step 1"));
+        p1.appendChild(document.createTextNode("brief: \u201Cbuild a divide-two-inputs page, ship today.\u201D"));
+        listA.appendChild(p1);
+        var p2 = el("p", "", "ctlline");
+        p2.appendChild(document.createTextNode("agent codes straight onto the page. live in one sitting \u2014 fast."));
+        listA.appendChild(p2);
+      } else if (idxA === 1) {
+        var q1 = el("p", "", "ctlline");
+        q1.appendChild(tag("ctltag-step", "spot-check"));
+        q1.appendChild(document.createTextNode(bug.shipped));
+        listA.appendChild(q1);
+        var q2 = el("p", "", "ctlline ctlline-muted");
+        q2.appendChild(document.createTextNode("(look closely \u2014 something is off. nobody here looks yet.)"));
+        listA.appendChild(q2);
+      } else if (idxA === 2) {
+        var r1 = el("p", "", "ctlline");
+        r1.appendChild(tag("ctltag-step", "step 2"));
+        r1.appendChild(document.createTextNode("tests written AFTER, read back off the code:"));
+        listA.appendChild(r1);
+        var r2 = el("p", "", "ctlline");
+        r2.appendChild(el("span", bug.aTest, "ctlmono"));
+        r2.appendChild(el("span", bug.aNote, "ctlmono ctlline-muted"));
+        listA.appendChild(r2);
+        var r3 = el("p", "", "ctlline");
+        r3.appendChild(tag("ctltag-green", "suite"));
+        r3.appendChild(document.createTextNode("PASS \u2713 1/1 green \u2014 in " + A_MIN + " min."));
+        listA.appendChild(r3);
+        var v = el("p", "", "ctlverdict");
+        v.style.setProperty("--pgc", "var(--l1)");
+        v.appendChild(el("b", "\u2717 SHIPPED WRONG \u2014 green suite, defective page.", "bad"));
+        v.appendChild(document.createElement("br"));
+        v.appendChild(document.createTextNode("verification: " + A_MIN + " min \u00B7 bugs caught: 0. the test cannot fail, so it never does."));
+        listA.appendChild(v);
+      }
+      idxA += 1;
+      if (idxA >= 3) { btnA.disabled = true; btnA.textContent = "track A done"; tryFinish(); }
+    }
+
+    function addStepB() {
+      if (idxB === 0) clearList(listB);
+      if (idxB === 0) {
+        var p1 = el("p", "", "ctlline");
+        p1.appendChild(tag("ctltag-step", "step 1"));
+        p1.appendChild(document.createTextNode("test written FIRST \u2014 from the spec, before any code:"));
+        listB.appendChild(p1);
+        var p2 = el("p", "", "ctlline");
+        p2.appendChild(el("span", bug.spec, "ctlmono"));
+        listB.appendChild(p2);
+      } else if (idxB === 1) {
+        var q1 = el("p", "", "ctlline");
+        q1.appendChild(tag("ctltag-red", "run"));
+        q1.appendChild(document.createTextNode("confirmed RED \u2717 \u2014 " + bug.bRed));
+        listB.appendChild(q1);
+        var q2 = el("p", "", "ctlline ctlline-muted");
+        q2.appendChild(document.createTextNode("caught at step one. no page code exists yet \u2014 nothing to un-build."));
+        listB.appendChild(q2);
+      } else if (idxB === 2) {
+        var r1 = el("p", "", "ctlline");
+        r1.appendChild(tag("ctltag-green", "step 2"));
+        r1.appendChild(document.createTextNode("code written AGAINST the test \u2192 rerun \u2192 GREEN \u2713."));
+        listB.appendChild(r1);
+        var v = el("p", "", "ctlverdict");
+        v.style.setProperty("--pgc", "var(--l3)");
+        v.appendChild(el("b", "\u2713 DEFECT NEVER SHIPPED \u2014 the red named it before it existed.", "ok"));
+        v.appendChild(document.createElement("br"));
+        v.appendChild(document.createTextNode("verification: " + B_MIN + " min \u00B7 bugs caught: 1. slower per round; sensitive every round."));
+        listB.appendChild(v);
+      }
+      idxB += 1;
+      if (idxB >= 3) { btnB.disabled = true; btnB.textContent = "track B done"; tryFinish(); }
+    }
+
+    function fmtRate(c, m) {
+      return (m === 0 ? "0.00" : (c / m).toFixed(2));
+    }
+
+    function tryFinish() {
+      if (idxA < 3 || idxB < 3) return;
+      minsA += A_MIN; minsB += B_MIN;
+      caughtB += 1;
+      started = false;
+      startBtn.disabled = false;
+      startBtn.textContent = "\u25B6 start round " + (round + 1);
+      statusChip.textContent = "round " + round + " complete \u00B7 defect drawn: " + bug.name;
+      var marker = board.querySelector(".ctlboard-live");
+      if (marker) marker.parentNode.removeChild(marker);
+      board.appendChild(el("p", "round " + round + " \u00B7 defect: " + bug.name +
+        " \u2014 A: shipped wrong (" + A_MIN + " min) \u2717 \u00B7 B: caught pre-ship (" + B_MIN + " min) \u2713", "ctlline ctlboard-live"));
+      board.appendChild(el("p", "totals after " + round + " round" + (round > 1 ? "s" : "") +
+        " \u2014 A: " + minsA + " min, " + caughtA + " bugs, " + fmtRate(caughtA, minsA) + " bugs/min \u00B7 B: " +
+        minsB + " min, " + caughtB + " bugs, " + fmtRate(caughtB, minsB) + " bugs/min", "ctlline ctlboard-live"));
+      board.appendChild(el("p", "read it straight: A verifies faster AND catches nothing, every round \u2014 its checks are incapable of failing. B pays one extra minute and catches everything. sensitivity beats speed.", "ctlline ctlline-muted ctlboard-live"));
+    }
+
+    function startRound() {
+      bug = drawBug();
+      round += 1;
+      idxA = 0; idxB = 0;
+      started = true;
+      startBtn.disabled = true;
+      btnA.disabled = false; btnB.disabled = false;
+      btnA.textContent = "press: next A step";
+      btnB.textContent = "press: next B step";
+      clearList(listA); clearList(listB);
+      hint(listA, "round " + round + " \u2014 defect #" + round + " placed. press through.");
+      hint(listB, "round " + round + " \u2014 same defect. different order.");
+      statusChip.textContent = "round " + round + " running \u00B7 defect hidden from both tracks";
+    }
+
+    function resetAll() {
+      bag = []; bug = null; round = 0;
+      idxA = 0; idxB = 0;
+      minsA = 0; minsB = 0; caughtA = 0; caughtB = 0;
+      started = false;
+      startBtn.disabled = false;
+      startBtn.textContent = "\u25B6 start round 1";
+      btnA.disabled = true; btnB.disabled = true;
+      btnA.textContent = "press: next A step";
+      btnB.textContent = "press: next B step";
+      hint(listA, "idle \u2014 waiting for round start.");
+      hint(listB, "idle \u2014 waiting for round start.");
+      board.innerHTML = "";
+      board.appendChild(el("p", "scoreboard \u00B7 bugs caught per minute of verification", "ctlboard-title"));
+      board.appendChild(el("p", "no rounds played yet. A spends less time verifying; B spends more. Watch what each minute buys.", "ctlline ctlline-muted"));
+      statusChip.textContent = "round 0 \u00B7 defect undrawn \u00B7 press start";
+    }
+
+    startBtn.addEventListener("click", startRound);
+    btnA.addEventListener("click", function () { if (started) addStepA(); });
+    btnB.addEventListener("click", function () { if (started) addStepB(); });
+    resetBtn.addEventListener("click", resetAll);
+  })();
+  </script>
+
+  <p>Play at least three rounds so the shuffle deals you all three defects. Then read
+  the totals the way a QA lead would. Track&nbsp;A posts the fastest verification time
+  in the building and a permanently perfect green suite — and a bug-catching rate of
+  zero, forever, because a test that merely restates the code <em>cannot</em> fail.
+  Its green light certifies agreement, not correctness: 1&nbsp;&divide;&nbsp;0 shipping
+  as "Infinity — verified ✓" is the tautology trap made visible. Track&nbsp;B looks
+  slower on paper and catches every defect at step one, because the red run happens
+  <em>before</em> the code exists and names the violation in the spec's own words.
+  That asymmetry is the whole chapter: verification time buys nothing without
+  sensitivity, and sensitivity comes from order.</p>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Make the agent write the check <strong>before</strong> the fix. One line of
+    prompt does it: "write a failing test first, confirm it fails, then make it
+    pass." The confirmation step is non-negotiable — an unconfirmed red is a guess,
+    a confirmed red is a measurement.</p>
+  </div>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p><strong>Green ≠ correct.</strong> A test that cannot fail is decoration. Before
+    trusting any suite — especially one the agent wrote after the code — ask the only
+    question that matters: what change would make this turn red? If the honest answer
+    is "none," you are looking at Track&nbsp;A.</p>
+  </div>
+
+  <h2>Browser evidence for UI: the trace as a review gate</h2>
+  <p>Unit tests argue about logic; interfaces need evidence a human can eyeball. For
+  UI work, the strongest non-coder-reviewable artifact in current practice is the
+  browser trace: Playwright's trace viewer records a screenshot, DOM snapshot,
+  network activity and console output for <em>every action</em> in a run, replayable
+  step by step. You do not read the code to review the feature — you open the trace
+  and watch what actually happened. That is a gate a non-coder can operate: did the
+  right request fire, did the right pixels render, did the console stay quiet?</p>
+
+  <div class="tracebox">
+    <style>
+      .tracebox { border: 1.5px solid var(--line-strong); border-radius: 10px; background: var(--paper-raised); padding: 0.8rem 1rem; margin: 0.9rem 0; }
+      .tracebox-tag { display: block; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 0.4rem; }
+      .tracebox p { margin: 0.35rem 0; font-size: 0.86rem; }
+      .tracebox code { font-family: var(--font-mono); font-size: 0.78rem; }
+    </style>
+    <span class="tracebox-tag">operate the gate · two commands · per playwright.dev/docs/trace-viewer</span>
+    <p><strong>Record a trace:</strong> run <code>npx playwright test --trace on</code> — or set
+    <code>trace: 'on'</code> in your Playwright Test configuration.</p>
+    <p><strong>Open it:</strong> run <code>npx playwright show-trace path/to/trace.zip</code>,
+    or drag the zip file into trace.playwright.dev.</p>
+  </div>
+
+  <p>Getting that evidence through an agent involves one genuine tradeoff, and
+  Microsoft documents both sides of it. The <strong>@playwright/cli</strong> route is
+  token-cheap: it deliberately does not push page data, accessibility trees, or tool
+  schemas into the model's context, and it ships a <code>show --annotate</code>
+  dashboard built for UI review. The <strong>Playwright MCP</strong> server takes the
+  opposite deal — heavier context load in exchange for continuous, stateful
+  back-and-forth with the live page across many turns. An independent hands-on
+  comparison measured the difference at roughly 68 tokens of skill description versus
+  about 3.6k tokens of loaded schema — treat those digits as one third-party
+  measurement, not gospel, but the <em>direction</em> is stated plainly in
+  Microsoft's own repos: CLI when you want cheap bursts of evidence, MCP when a long
+  interactive session genuinely needs shared page state. For review gates, bursts win
+  most of the time. Performance checks ride the same rails: "check the performance of
+  this URL" through a browser-driving agent produces trace-backed timing evidence as
+  an acceptance artifact.</p>
+
+  <h2>Evals-lite: grading what assertions can't</h2>
+  <p>Some qualities refuse to become booleans — "is this summary faithful," "does
+  this reply sound right." The lightweight version of an eval, per Anthropic's
+  engineering team, needs exactly three parts: a <strong>task</strong>, one or more
+  <strong>graders</strong>, and a judged <strong>outcome</strong>. Their operating
+  advice reads like QA folklore distilled: grade real outcomes rather than
+  proxy signals, read the transcripts yourself instead of trusting aggregate scores,
+  and maintain the suite like any other test asset. Chapter&nbsp;06 covered the full
+  ladder and the judge-alignment discipline; here, take the floor: even five graded
+  examples beat vibes, because the grader forces you to write down what "good"
+  means before the agent touches anything.</p>
+
+  <h2>Two practitioner moves worth stealing</h2>
+  <p>The <strong>conformance-suite trick</strong>: when several implementations must
+  agree, write the shared passing suite <em>first</em> — every implementation, human
+  or agent, then earns green by conforming to it. Willison documents the pattern with
+  a worked example; it converts "please match the existing behavior" from a hope
+  into a gate.</p>
+  <p>The <strong>evidence mandate</strong>: from the same field notes, "tests are
+  effectively free now… no longer optional" — the marginal cost of asking the agent
+  to prove its work has collapsed, so the excuse not to has collapsed with it. Bake
+  it into your standing prompts: <em>show me the command and its output</em>.</p>
+
+  <h2>Where this lands in your build</h2>
+  <p>The compass build already runs this chapter in miniature. Its
+  <code>npm run verify</code> is nine pinned assertions — hand-checked pricing
+  calculations, including deliberately asymmetric cases — and the milestone log
+  records math passing 9/9, independently re-run during review. Nobody trusted that
+  result by reading calculator code; the reviewer ran one command and read nine
+  lines of pass/fail. That is a review gate a non-coder operates, and Build&nbsp;2
+  extends the same shape from math to facts: quiz-forge's batch gates require every
+  generated question to be read against the actual textbook before it ships. Same
+  skeleton in all three places — checks that can fail, executed by someone who did
+  not write the thing being checked. When Chapter&nbsp;12 wires CI pipelines, these
+  are the commands that become merge-blocking gates; the habit you build now is the
+  config you will paste later.</p>
+
+  <h2>Receipts</h2>
+  <p>Tier key: T1 official docs or established practitioners · T2 vendor blog or
+  secondary · T3 lead only, never cited alone. Every card below is a source-ledger
+  row.</p>
+  <style>.xref { color: var(--muted); font-weight: 400; }</style>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://codewithseb.com/test-driven-agentic-development-guide</span>
+    <span class="tier xref">also anchors ch06</span>
+    <span class="as-of">checked 2026-08-01 · tests-written-after-code encode the model's misreadings (tautology problem); contract tests reviewed as spec; hermeticity audit</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 research · PREPRINT — not yet peer-reviewed</span>
+    <span class="r-url">https://arxiv.org/html/2607.12068v1</span>
+    <span class="as-of">checked 2026-08-26 · companion receipt for the card above — "Beyond Test Presence: Assessing the Quality and Robustness of Agent-Generated Tests in Open-Source Projects": the 204,673-file AIDev-dataset study (24,941 human vs 179,732 agent-generated test files) that codewithseb synthesizes</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span>
+    <span class="tier xref">also anchors ch06</span>
+    <span class="as-of">checked 2026-02-23 · red/green TDD as agent control: failing test first, confirmed failure prevents broken AND unused code; works as one-line prompt</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span>
+    <span class="as-of">checked 2026-03-14 · agents must exercise what they build (boot server, hit API) and show evidence, not assert success</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span>
+    <span class="as-of">checked 2026-03-14 · "tests are effectively free now… no longer optional"; conformance-suite trick with worked example</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/microsoft/playwright-cli</span>
+    <span class="as-of">checked 2026-08-26 · CLI avoids forcing page data/schemas/a11y trees into LLM context; includes show --annotate UI-review dashboard</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/microsoft/playwright-mcp</span>
+    <span class="as-of">checked 2026-08-26 · MCP for stateful loops when continuous context beats token cost; README frames the tradeoff honestly</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t2">T2 vendor blog</span>
+    <span class="r-url">https://betterstack.com/community/guides/ai/playwright-cli-vs-mcp-browser</span>
+    <span class="as-of">checked 2026-02-22 · reproducible hands-on: ~68-token skill description vs ~3.6k-token MCP schema · third-party measurement, direction corroborated by T1 rows above</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://playwright.dev/docs/trace-viewer</span>
+    <span class="as-of">checked 2026-08-26 · trace viewer records screenshots/DOM snapshots/network/console per action — reviewable evidence gate for non-coders</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/ChromeDevTools/chrome-devtools-mcp</span>
+    <span class="as-of">checked 2026-08-26 · performance traces as acceptance checks via browser-driving agent ("check performance of url" pattern)</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t2">T2 vendor blog</span>
+    <span class="r-url">https://anthropic.com/engineering/demystifying-evals-for-ai-agents</span>
+    <span class="as-of">checked 2026-01-09 · evals-lite: task + graders + outcome; grade real outcomes, read transcripts, maintain suites like tests · written by the team running these evals</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself</h2>
+    <ol>
+      <li><strong>Exact-click checkpoint.</strong> Play four rounds of the lab above.
+      Before each round, predict which defect the shuffle holds and which track will
+      surface it. After round&nbsp;4, read the totals line aloud: what is Track&nbsp;A's
+      bugs-per-minute, and would you hire that number?</li>
+      <li><strong>Break it on purpose.</strong> Open
+      <code>playwright.dev/docs/trace-viewer</code> and find the list of what a trace
+      records per action. Write down the four evidence types, then answer: which one
+      would have exposed the Infinity bug from the lab without reading any code?</li>
+      <li><strong>Ship-sized task.</strong> In your next real agent session, paste
+      Willison's one-liner — "write a failing test first, confirm it fails, then make
+      it pass" — and add the evidence mandate: "end by showing the test run's command
+      and output." Compare how much you trusted this session's result versus last
+      session's "done!".</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Why does Track A's suite stay green while the page is wrong?</summary>
+      <p>The tests were written after the code and read back off it, so they encode
+      whatever the code does — including the misreading. The suite proves the code
+      agrees with itself, which is a tautology, not a verification. Only a check
+      derived from an independent source (the spec) can disagree with the code, and
+      disagreement is what catching bugs means.</p>
+    </details>
+    <details>
+      <summary>What does the confirmed red buy that a passing test never can?</summary>
+      <p>Proof of sensitivity. A confirmed failing test demonstrates it detects the
+      missing behavior before any code exists; the later green then measures real
+      progress. A test that starts green has demonstrated nothing except that it
+      matches whatever is already there.</p>
+    </details>
+    <details>
+      <summary>Name one situation where clicking manually beats writing automation.</summary>
+      <p>One-shot or heavily aesthetic work — a landing page you will rebuild next
+      month, a visual taste call, first exploratory contact with a feature. If the
+      check would outlive the thing it checks, or the judgment is yours alone, spend
+      the click, not the harness. Automation earns its keep on behavior that must
+      keep working after today.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>Pipelines.</strong> A test only steers while someone runs it. Chapter&nbsp;12
+    promotes these checks to CI gates — run automatically on every proposed change,
+    blocking merges — which is where the compass <code>verify</code> script and the
+    quiz-forge content lints are headed. The ordering lesson survives the promotion
+    unchanged: a pipeline full of tautologies blocks nothing.</p>
+    <p><strong>Property-based testing.</strong> Instead of pinning example inputs,
+    you state a property — "sign is preserved," "result times divisor rounds back to
+    the dividend" — and a generator throws hundreds of random cases at it. It pairs
+    naturally with agents: the property is short enough to specify in a prompt, and
+    the machine does the tedious case enumeration.</p>
+    <p><strong>Where it breaks down.</strong> Suites rot: behavior changes, tests
+    fossilize, and a green legacy suite can certify yesterday's product. Fuzzy
+    qualities resist assertion — that is what evals-lite is for, and why graders
+    need periodic re-alignment against human judgment. And the deepest limit is the
+    spec itself: tests inherit the spec's blind spots, so a miswritten requirement
+    passes forever. Verification amplifies the quality of your intent; it cannot
+    substitute for it.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch08-good-ui-with-agents.html">← ch08 · good UI with agents</a>
+    <a href="ch10-debugging-when-it-breaks.html">ch10 · debugging when it breaks →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 09 · testing what agents build · facts as of 2026-08-26</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>

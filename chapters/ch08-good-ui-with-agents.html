@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 08 · Good UI with agents — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+  <h1>Chapter 08 · Good UI with agents</h1>
+  <p class="lede">Promise: after this chapter you can get non-generic, accessible UI out of
+  an agent — by feeding it constraints (tokens, component contracts, a screenshot loop)
+  instead of vibes.</p>
+  <p class="as-of">facts checked as of 2026-08-26 · every claim traces to the book's source ledger</p>
+
+  <p>Ask three agents, on three days, for "a clean modern landing page," and watch them
+  converge: white canvas, placeholder-grey captions you can barely read, one deeply
+  familiar shade of blue, soft blur shadows, generously rounded everything. The models
+  aren't coordinating. With no local constraints, a language model regresses to the median
+  of everything it has ever seen — and the median of the training data is precisely the
+  generic interface you didn't want.</p>
+  <p>The inverse observation is the good news. Simon Willison's first-person account from
+  the March 2026 Pragmatic Summit records that inside a codebase with established
+  conventions, agents follow the existing patterns "almost to a tee." Hold the two facts
+  together and the whole chapter falls out: the pattern-following machinery <em>is</em> the
+  product. Give it patterns and imitation becomes leverage. Give it nothing and the median
+  ships. So we supply patterns — three constraint layers any agent can consume, plus the
+  accessibility floor that converts "looks fine" into a measurement.</p>
+
+  <h2>Constraint layer one: design tokens</h2>
+  <p>A design token is a named value — a color, a radius, a spacing step — stored as data,
+  separate from any stylesheet. For an agent it works as a machine-readable guardrail: the
+  model doesn't have to interpret adjectives like "warm," it resolves
+  <code>--paper</code> to <code>#F6F1E7</code> and stops improvising. Off-palette choices
+  don't get argued against; they become unwritable, because every rule references a token
+  instead of a literal.</p>
+  <p>Honesty about maturity, per this book's protocol: the Design Tokens Community Group's
+  format is published as a <strong>Community Group Draft Report</strong> — the de facto
+  interchange standard for tokens, and explicitly, deliberately <em>not</em> a W3C
+  Standard. Adopt it as the lingua franca between humans, agents and build tools, but
+  verify your pipeline's importer before betting a release on it:</p>
+  <pre><code>{
+  "color": {
+    "ink":   { "$type": "color", "$value": "#201B14" },
+    "paper": { "$type": "color", "$value": "#F6F1E7" }
+  },
+  "radius": {
+    "card":  { "$type": "dimension", "$value": "12px" }
+  }
+}</code></pre>
+  <p>Hand a file shaped like that to an agent before line one and "make it fit the brand"
+  stops being a mood board and becomes a lookup.</p>
+
+  <h2>Constraint layer two: component contracts</h2>
+  <p>Tokens pin the raw materials; component contracts pin the assembled parts. The
+  shadcn/ui docs state the quiet part out loud: open code you copy into your own repo,
+  written to be predictable "for your team and LLMs" — an explicit AI-readiness claim, not
+  a retroactive one. When a button, a dialog, a card already exist as readable source, the
+  instruction "use the existing dialog, don't invent one" is enforceable: the agent can
+  read the contract and compose instead of reinvent.</p>
+  <p>Utility-CSS frameworks play the same game at a finer grain. Tailwind's utility
+  classes plus theme variables act as a constraint lattice for generated CSS: every color
+  the agent writes routes through something like <code>bg-primary</code>, resolved by the
+  theme, so an off-palette hex has nowhere to land. None of this requires Tailwind
+  specifically — the generalizable move is <em>make the compliant path the path of least
+  resistance</em>. An agent greedy for the shortest output will take the lattice you built
+  if inventing freehand costs more tokens than obeying.</p>
+
+  <h2>Constraint layer three: the accessibility floor</h2>
+  <p>WCAG 2.2's quick reference is the floor, not the ceiling. Two rows matter most day to
+  day, both from Success Criterion 1.4.3 (Contrast, Minimum): text needs <strong>4.5:1</strong>,
+  large text — at least 24px regular or roughly 18.66px bold — needs <strong>3:1</strong>;
+  the enhanced criterion 1.4.6 raises normal text to <strong>7:1</strong>. Contrast is
+  arithmetic, which makes it the perfect acceptance test for agentic UI: no taste
+  required, only math. The ratio comes from relative luminance:</p>
+  <pre><code>linearise each channel c ∈ [0,1]:
+    c ≤ 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ^ 2.4
+L  = 0.2126·R + 0.7152·G + 0.0722·B
+ratio = (L_lighter + 0.05) / (L_darker + 0.05)</code></pre>
+
+  <h3>The contrast &amp; constraint lab</h3>
+  <p>Every number below is computed live in your browser from exactly that formula —
+  against this book's real palette, warts and all. Pick a text color, pick a surface, and
+  read the verdict. One swatch is blue on purpose: it exists so you can watch the hue this
+  book bans fail the test it deserves. Then flip the second switch and watch a token sheet
+  rebuild a generic agent-produced card in place.</p>
+
+  <div class="cclab" id="cclab">
+    <style>
+      .cclab { border:2px solid var(--ink); border-radius:14px; background:var(--paper-raised); box-shadow:var(--shadow-lg); padding:1.15rem 1.3rem; margin:1.4rem 0; }
+      .cclab * { box-sizing:border-box; }
+      .cc-tag { display:block; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.6rem; }
+      .cc-part { border-top:2px solid var(--ink); margin-top:1.1rem; padding-top:0.9rem; }
+      .cc-part:first-of-type { border-top:0; margin-top:0; padding-top:0; }
+      .cc-label { display:block; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); margin-bottom:0.45rem; }
+      .cc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:0.5rem; margin-bottom:0.9rem; }
+      .cc-sw { appearance:none; cursor:pointer; border:1.5px solid var(--ink); border-radius:10px; padding:0.5rem 0.55rem; min-height:52px; text-align:left; font-family:var(--font-mono); box-shadow:3px 3px 0 var(--line-strong); transition:translate .12s ease, box-shadow .12s ease; }
+      .cc-sw:hover { translate:-2px -2px; box-shadow:5px 5px 0 rgba(32,27,20,.9); }
+      .cc-sw[aria-pressed="true"] { translate:none; box-shadow:inset 0 0 0 3px var(--paper-raised), inset 0 0 0 5px var(--ink), 3px 3px 0 var(--line-strong); }
+      .cc-sw b { display:block; font-size:0.74rem; line-height:1.3; }
+      .cc-sw small { display:block; font-size:0.62rem; opacity:0.85; }
+      .cc-banned { border:2px dashed var(--l1) !important; }
+      .cc-readout { border:2px dashed var(--line-strong); border-radius:12px; padding:0.85rem 1rem; background:var(--paper); }
+      .cc-ratio-row { display:flex; flex-wrap:wrap; align-items:baseline; gap:0.4rem 0.8rem; }
+      .cc-ratio { font-family:var(--font-display); font-weight:900; font-size:2rem; font-stretch:110%; letter-spacing:-0.01em; }
+      .cc-unit { font-family:var(--font-mono); font-weight:700; font-size:0.9rem; color:var(--muted); }
+      .cc-verdicts { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.55rem; }
+      .cc-v { display:inline-flex; align-items:center; gap:0.3rem; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; padding:0.2rem 0.6rem; border:1.5px solid var(--line-strong); border-radius:999px; color:var(--muted); background:var(--paper); }
+      .cc-v.on[data-tier="fail"] { border-color:var(--l1); color:var(--l1); background:color-mix(in srgb, var(--l1) 16%, var(--paper)); }
+      .cc-v.on[data-tier="large"] { border-color:var(--l0); color:var(--l0); background:color-mix(in srgb, var(--l0) 16%, var(--paper)); }
+      .cc-v.on[data-tier="aa"] { border-color:var(--l3); color:var(--l3); background:color-mix(in srgb, var(--l3) 16%, var(--paper)); }
+      .cc-v.on[data-tier="aaa"] { border-color:var(--l3); color:var(--paper); background:var(--l3); }
+      .cc-math { display:block; font-family:var(--font-mono); font-size:0.7rem; line-height:1.6; color:var(--muted); margin-top:0.55rem; word-break:break-all; }
+      .cc-say { margin:0.55rem 0 0; font-size:0.86rem; line-height:1.55; }
+      .cc-preview { margin-top:0.8rem; border:1.5px solid var(--ink); border-radius:10px; padding:0.8rem 1rem; }
+      .cc-preview p { margin:0.15rem 0; }
+      .cc-largenote { display:block; font-family:var(--font-mono); font-size:0.64rem; color:var(--muted); margin-top:0.4rem; }
+      .cc-stage { display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-start; margin-top:0.9rem; }
+      .cc-demowrap { flex:1 1 17rem; min-width:16rem; }
+      .cc-sheetwrap { flex:1 1 15rem; min-width:14rem; }
+      .cc-actions { display:flex; flex-wrap:wrap; gap:0.7rem; margin-bottom:0.9rem; }
+      .cc-btn-main, .cc-btn-ghost { appearance:none; cursor:pointer; font-family:var(--font-mono); font-weight:700; border-radius:10px; min-height:44px; font-size:0.8rem; }
+      .cc-btn-main { border:2px solid var(--ink); background:var(--ink); color:var(--paper); box-shadow:var(--shadow-sm); padding:0.5rem 1.1rem; }
+      .cc-btn-main:hover { translate:-2px -2px; box-shadow:var(--shadow-md); }
+      .cc-btn-main[aria-pressed="true"] { background:var(--paper-raised); color:var(--ink); }
+      .cc-btn-ghost { border:1.5px solid var(--line-strong); background:var(--paper-raised); color:var(--ink); padding:0.5rem 0.9rem; font-size:0.74rem; }
+      .cc-btn-ghost:hover { border-color:var(--ink); }
+      .qcard { background:#FFFFFF; border:1px solid #E0DDD6; border-radius:18px; padding:18px; box-shadow:0 10px 24px rgba(0,0,0,.12); font-family:ui-sans-serif,system-ui,sans-serif; transition:background-color .25s ease, border-color .25s ease, border-radius .25s ease, box-shadow .25s ease, padding .25s ease; }
+      .qcard h4 { margin:0 0 0.2rem; font-size:1rem; font-weight:600; color:#4A443B; }
+      .qcap { font-size:0.72rem; color:#A8A29E; margin:0 0 0.6rem; }
+      .qopt { display:block; width:100%; text-align:left; cursor:pointer; margin:0.4rem 0; padding:0.3rem 0.6rem; min-height:28px; font-size:0.9rem; font-family:inherit; color:#4A443B; background:#F2EFE9; border:1px solid #CFC9BE; border-radius:8px; transition:background-color .25s ease, border-color .25s ease, min-height .25s ease, padding .25s ease, border-radius .25s ease; }
+      .qopt[data-state="right"] { background:#DCFCE7; border-color:#86EFAC; }
+      .qopt[data-state="wrong"] { background:#FEE2E2; border-color:#FCA5A5; }
+      .qsub { cursor:pointer; margin-top:0.6rem; min-height:28px; padding:0.3rem 1rem; font-size:0.9rem; border:0; border-radius:8px; background:#8A8378; color:#FFFFFF; font-family:inherit; transition:min-height .25s ease, border-radius .25s ease, background-color .25s ease, box-shadow .25s ease; }
+      .qmark { font-family:var(--font-mono); font-weight:700; font-size:0.72rem; margin-right:0.45rem; }
+      .cclab.cc-on .qcard { background:var(--paper-raised); border:2px solid var(--ink); border-radius:12px; padding:1.15rem 1.3rem; box-shadow:3px 3px 0 var(--line-strong); }
+      .cclab.cc-on .qcard h4 { color:var(--ink); }
+      .cclab.cc-on .qcap { font-family:var(--font-mono); color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
+      .cclab.cc-on .qopt { background:var(--paper); border:1.5px solid var(--line-strong); border-radius:10px; min-height:44px; padding:0.55rem 0.8rem; color:var(--ink); }
+      .cclab.cc-on .qopt[data-state="right"] { background:color-mix(in srgb, var(--l3) 18%, var(--paper)); border-color:var(--l3); }
+      .cclab.cc-on .qopt[data-state="right"] .qmark { color:var(--l3); }
+      .cclab.cc-on .qopt[data-state="wrong"] { background:color-mix(in srgb, var(--l1) 16%, var(--paper)); border-color:var(--l1); }
+      .cclab.cc-on .qopt[data-state="wrong"] .qmark { color:var(--l1); }
+      .cclab.cc-on .qsub { background:var(--ink); color:var(--paper); min-height:44px; border-radius:10px; box-shadow:var(--shadow-sm); }
+      .cc-sheet { border:2px solid var(--ink); border-radius:12px; background:var(--paper); box-shadow:var(--shadow-lg); overflow:hidden; }
+      .cc-sheet header { display:block; font-family:var(--font-mono); font-size:0.66rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:0.5rem 0.8rem; border-bottom:2px solid var(--ink); background:color-mix(in srgb, var(--l3) 14%, var(--paper)); }
+      .cc-trow { display:flex; justify-content:space-between; gap:0.6rem; padding:0.32rem 0.8rem; border-bottom:1px dashed var(--line-strong); font-family:var(--font-mono); font-size:0.7rem; }
+      .cc-trow:last-child { border-bottom:0; }
+      .cc-trow span:first-child { color:var(--ink); font-weight:700; }
+      .cc-trow span:last-child { color:var(--muted); text-align:right; }
+      .cc-dot { display:inline-block; width:0.7rem; height:0.7rem; border:1px solid var(--ink); border-radius:3px; vertical-align:-1px; margin-right:0.3rem; }
+      .cc-noteline { margin:0.7rem 0 0; font-size:0.8rem; line-height:1.55; color:var(--muted); min-height:2.4em; }
+      .cclab button:focus-visible { outline:3px solid var(--ink); outline-offset:2px; }
+      @media (max-width:640px) { .cc-grid { grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); } }
+      @media (prefers-reduced-motion: reduce) {
+        .cclab *, .cclab *::before, .cclab *::after { transition:none !important; animation:none !important; }
+        .cc-sw:hover, .cc-btn-main:hover { translate:none; box-shadow:3px 3px 0 var(--line-strong); }
+      }
+    </style>
+    <span class="cc-tag">contrast &amp; constraint lab · interactive · ratios computed live from the WCAG formula · runs locally, nothing leaves this page</span>
+
+    <div class="cc-part">
+      <span class="cc-label">1 · text colour (foreground)</span>
+      <div class="cc-grid" id="cc-fg-grid" role="group" aria-label="Foreground text colour swatches"></div>
+      <span class="cc-label">2 · surface (background)</span>
+      <div class="cc-grid" id="cc-bg-grid" role="group" aria-label="Background surface swatches"></div>
+
+      <div class="cc-readout">
+        <div class="cc-ratio-row">
+          <span class="cc-ratio" id="cc-ratio">–</span>
+          <span class="cc-unit">: 1 contrast ratio</span>
+        </div>
+        <div class="cc-verdicts" role="group" aria-label="WCAG verdict tiers">
+          <span class="cc-v" data-tier="fail">✕ fail</span>
+          <span class="cc-v" data-tier="large">▲ aa · large only</span>
+          <span class="cc-v" data-tier="aa">✓ aa</span>
+          <span class="cc-v" data-tier="aaa">★ aaa</span>
+        </div>
+        <span class="cc-math" id="cc-math"></span>
+        <p class="cc-say" id="cc-say" aria-live="polite">pick any text colour and any surface — the ratio recomputes live.</p>
+        <div class="cc-preview" id="cc-preview" aria-hidden="true">
+          <p style="font-size:1rem;margin:0.15rem 0;">Normal body text — the size you're reading now.</p>
+          <p style="font-size:1.5rem;font-weight:600;margin:0.15rem 0;">Large text — 24px and up.</p>
+        </div>
+        <span class="cc-largenote">WCAG "large" = ≥24px regular or ≥18.66px bold · thresholds from SC 1.4.3 (4.5:1 / 3:1) and SC 1.4.6 (7:1)</span>
+      </div>
+    </div>
+
+    <div class="cc-part">
+      <span class="cc-label">3 · the constraint switch</span>
+      <p style="margin:0 0 0.8rem;font-size:0.9rem;line-height:1.6;">Below: a quiz card the way an
+      unconstrained agent ships one — a composed illustration of typical unconstrained output, not a
+      captured transcript. Tap an answer to see its feedback, then apply the token
+      sheet and watch the same card — same markup — get rebuilt by six named tokens.</p>
+      <div class="cc-actions">
+        <button type="button" class="cc-btn-main" id="cc-tok-btn" aria-pressed="false">apply the token sheet</button>
+        <button type="button" class="cc-btn-ghost" id="cc-reset-demo">reset sample</button>
+      </div>
+      <div class="cc-stage">
+        <div class="cc-demowrap">
+          <div class="qcard" id="cc-qcard">
+            <p class="qcap">question 3 of 10</p>
+            <h4>Which gas do plants take in for photosynthesis?</h4>
+            <button type="button" class="qopt" data-key="nitrogen">Nitrogen</button>
+            <button type="button" class="qopt" data-key="co2" data-correct="true">Carbon dioxide</button>
+            <button type="button" class="qopt" data-key="o2">Oxygen</button>
+            <button type="button" class="qopt" data-key="h2">Hydrogen</button>
+            <button type="button" class="qsub" id="cc-qsub">Check answer</button>
+          </div>
+        </div>
+        <div class="cc-sheetwrap">
+          <aside class="cc-sheet" id="cc-sheet" hidden>
+            <header>quiz-forge token sheet · inherited from journey/design.md</header>
+            <div class="cc-trow"><span><i class="cc-dot" style="background:#F6F1E7"></i>--paper</span><span>#F6F1E7 · page background</span></div>
+            <div class="cc-trow"><span><i class="cc-dot" style="background:#FFFDF7"></i>--paper-raised</span><span>#FFFDF7 · cards</span></div>
+            <div class="cc-trow"><span><i class="cc-dot" style="background:#201B14"></i>--ink</span><span>#201B14 · text · borders · primary buttons</span></div>
+            <div class="cc-trow"><span><i class="cc-dot" style="background:#6F6455"></i>--muted</span><span>#6F6455 · secondary text</span></div>
+            <div class="cc-trow"><span><i class="cc-dot" style="background:#1F9D6E"></i>--l3 jade</span><span>#1F9D6E · correct — ever with ✓</span></div>
+            <div class="cc-trow"><span><i class="cc-dot" style="background:#D9573F"></i>--l1 coral</span><span>#D9573F · wrong — ever with ✕</span></div>
+            <div class="cc-trow"><span>radius</span><span>12px cards · 10px controls · 4px rhythm</span></div>
+            <div class="cc-trow"><span>shadow</span><span>3px 3px 0 line-strong · never blur</span></div>
+            <div class="cc-trow"><span>rules</span><span>shape + label, never colour alone · no blue · targets ≥38px</span></div>
+          </aside>
+        </div>
+      </div>
+      <p class="cc-noteline" id="cc-note" aria-live="polite">sample idle — tap an answer, then apply the token sheet.</p>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("cclab");
+    if (!root || root.dataset.ccBound) return;
+    root.dataset.ccBound = "1";
+
+    var FG = [
+      { k: "ink",     n: "ink",     h: "#201B14", t: "body text" },
+      { k: "muted",   n: "muted",   h: "#5F5648", t: "secondary text" },
+      { k: "jade",    n: "jade",    h: "#1F9D6E", t: "route L3" },
+      { k: "olive",   n: "olive",   h: "#7A8C3F", t: "route L2" },
+      { k: "saffron", n: "saffron", h: "#E8890C", t: "route L0" },
+      { k: "coral",   n: "coral",   h: "#D9573F", t: "route L1" },
+      { k: "plum",    n: "plum",    h: "#8E5BA6", t: "route L4" },
+      { k: "rose",    n: "rose",    h: "#C2455A", t: "route L5" },
+      { k: "grey",    n: "placeholder grey", h: "#A8A29E", t: "generic-agent default", note: "The classic caption grey of unattended agent output — measured, it fails everything." },
+      { k: "blue",    n: "banned blue", h: "#3B82F6", t: "demonstration only · banned", banned: true, note: "The default blue unsupervised models love. Banned outright in this book's system — shown only so you can measure why." }
+    ];
+    var BG = [
+      { k: "paper",  n: "paper",  h: "#F6F1E7", t: "page" },
+      { k: "raised", n: "raised", h: "#FFFDF7", t: "cards" },
+      { k: "line",   n: "hairline", h: "#E4DAC8", t: "divider, not a surface" },
+      { k: "white",  n: "white",  h: "#FFFFFF", t: "generic default" },
+      { k: "dark",   n: "ink (flipped)", h: "#201B14", t: "light text on dark" }
+    ];
+
+    var sel = { fg: "muted", bg: "paper" };
+    var ratioEl = document.getElementById("cc-ratio");
+    var mathEl = document.getElementById("cc-math");
+    var sayEl = document.getElementById("cc-say");
+    var prevEl = document.getElementById("cc-preview");
+    var chips = {};
+    var chipEls = root.querySelectorAll(".cc-v");
+    for (var ci = 0; ci < chipEls.length; ci++) chips[chipEls[ci].getAttribute("data-tier")] = chipEls[ci];
+
+    function chan(v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+    function lum(h) {
+      return 0.2126 * chan(parseInt(h.substr(1, 2), 16)) +
+             0.7152 * chan(parseInt(h.substr(3, 2), 16)) +
+             0.0722 * chan(parseInt(h.substr(5, 2), 16));
+    }
+
+    function swatchTextColor(h) { return lum(h) > 0.35 ? "#201B14" : "#F6F1E7"; }
+
+    function buildGrid(list, mountId, kind) {
+      var mount = document.getElementById(mountId);
+      for (var i = 0; i < list.length; i++) {
+        var d = list[i];
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "cc-sw" + (d.banned ? " cc-banned" : "");
+        b.setAttribute("data-kind", kind);
+        b.setAttribute("data-key", d.k);
+        b.setAttribute("aria-pressed", sel[kind] === d.k ? "true" : "false");
+        b.style.background = d.h;
+        b.style.color = swatchTextColor(d.h);
+        var t = document.createElement("b"); t.textContent = d.n;
+        var s = document.createElement("small"); s.textContent = d.t + " · " + d.h;
+        b.appendChild(t); b.appendChild(s);
+        mount.appendChild(b);
+      }
+    }
+    buildGrid(FG, "cc-fg-grid", "fg");
+    buildGrid(BG, "cc-bg-grid", "bg");
+
+    function find(list, k) { for (var i = 0; i < list.length; i++) if (list[i].k === k) return list[i]; return list[0]; }
+    function fx(x) { return x.toFixed(4); }
+
+    function update() {
+      var f = find(FG, sel.fg), b = find(BG, sel.bg);
+      var lf = lum(f.h), lb = lum(b.h);
+      var hi = Math.max(lf, lb), lo = Math.min(lf, lb);
+      var r = (hi + 0.05) / (lo + 0.05);
+      ratioEl.textContent = r.toFixed(2);
+      mathEl.textContent = "L(text " + f.h + ") = " + fx(lf) +
+        " · L(surface " + b.h + ") = " + fx(lb) +
+        " → (" + fx(hi) + " + 0.05) ÷ (" + fx(lo) + " + 0.05) = " + r.toFixed(2);
+      var passAAA = r >= 7, passAA = r >= 4.5, passLarge = r >= 3;
+      chips.fail.className = "cc-v" + (!passLarge ? " on" : "");
+      chips.large.className = "cc-v" + (passLarge ? " on" : "");
+      chips.aa.className = "cc-v" + (passAA ? " on" : "");
+      chips.aaa.className = "cc-v" + (passAAA ? " on" : "");
+      var phrase;
+      if (!passLarge) {
+        phrase = "FAILS WCAG — below even the 3:1 large-text floor (short by " + (3 - r).toFixed(2) + ").";
+      } else if (!passAA) {
+        phrase = "Passes AA for LARGE text only (3:1) — fails normal body text, missing 4.5:1 by " + (4.5 - r).toFixed(2) + ".";
+      } else if (!passAAA) {
+        phrase = "Passes AA for normal text (4.5:1); misses the enhanced AAA tier (7:1).";
+      } else {
+        phrase = "Meets AAA (7:1) — the enhanced tier.";
+      }
+      var extra = f.note || "";
+      sayEl.textContent = f.n + " (" + f.h + ") on " + b.n + " (" + b.h + ") reads " + r.toFixed(2) + ":1. " + phrase + (extra ? " " + extra : "");
+      prevEl.style.background = b.h;
+      prevEl.style.color = f.h;
+    }
+
+    root.addEventListener("click", function (ev) {
+      var t = ev.target;
+      var sw = t && t.closest ? t.closest(".cc-sw") : null;
+      if (sw) {
+        sel[sw.getAttribute("data-kind")] = sw.getAttribute("data-key");
+        var sibs = sw.parentNode.querySelectorAll(".cc-sw");
+        for (var i = 0; i < sibs.length; i++) sibs[i].setAttribute("aria-pressed", sibs[i] === sw ? "true" : "false");
+        update();
+        return;
+      }
+      var opt = t && t.closest ? t.closest(".qopt") : null;
+      if (opt) { answer(opt); return; }
+      if (t && t.id === "cc-reset-demo") { resetDemo(); return; }
+      if (t && t.id === "cc-tok-btn") { toggleTokens(); return; }
+    });
+
+    var tokBtn = document.getElementById("cc-tok-btn");
+    var note = document.getElementById("cc-note");
+    var sheet = document.getElementById("cc-sheet");
+
+    function clearFeedback() {
+      var opts = root.querySelectorAll(".qopt");
+      for (var i = 0; i < opts.length; i++) {
+        opts[i].removeAttribute("data-state");
+        var m = opts[i].querySelector(".qmark");
+        if (m) m.parentNode.removeChild(m);
+      }
+    }
+
+    function answer(opt) {
+      clearFeedback();
+      var right = opt.getAttribute("data-correct") === "true";
+      opt.setAttribute("data-state", right ? "right" : "wrong");
+      if (root.classList.contains("cc-on")) {
+        var m = document.createElement("span");
+        m.className = "qmark";
+        m.textContent = right ? "✓ correct" : "✕ wrong";
+        opt.insertBefore(m, opt.firstChild);
+        note.textContent = "Contract feedback: jade/coral tint PLUS a glyph PLUS a word, on a ≥44px target. Grayscale-safe, screen-reader-legible — the shape carries what the colour whispers.";
+      } else {
+        note.textContent = "Colour-wash feedback alone: no shape, no label, no live region. Invisible to the ~1 in 12 men with colour-vision deficiency and silent for assistive tech — yet the diff looked perfectly reasonable.";
+      }
+    }
+
+    document.getElementById("cc-qsub").addEventListener("click", function () {
+      note.textContent = root.classList.contains("cc-on")
+        ? "Still nothing — and that's the honest lesson stacked on the last one: tokens constrain appearance, not behaviour. Wiring is a component contract with tests (Chapter 09's job)."
+        : "Nothing happened. The unconstrained agent shipped a button it never wired up — UI that looks finished isn't finished. This is why the loop ends in verification, not vibes.";
+    });
+
+    function resetDemo() {
+      clearFeedback();
+      if (root.classList.contains("cc-on")) toggleTokens();
+      note.textContent = "sample reset — back to whatever the model improvises.";
+    }
+
+    function toggleTokens() {
+      var on = !root.classList.contains("cc-on");
+      root.classList.toggle("cc-on", on);
+      tokBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      tokBtn.textContent = on ? "retract the token sheet" : "apply the token sheet";
+      if (on) {
+        sheet.hidden = false;
+        note.textContent = "Token sheet applied — same markup, rebuilt by six named values: placeholder grey replaced by the ink/muted pair (15.2:1 on paper), radius snapped 18px → 12px, blur shadow swapped for offset-print, answer targets grew 28px → 44px, and feedback gained ✓/✕ shapes. Tap an answer to feel the difference.";
+      } else {
+        sheet.hidden = true;
+        note.textContent = "Sheet retracted — the card slides back to the median. Nothing broke; nothing is memorable either.";
+      }
+    }
+
+    update();
+  })();
+  </script>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p>Screenshot loops without acceptance criteria are infinite polish. "Make it closer to
+    the mock" has no finish line, so the loop eats your token budget redesigning the same
+    card forever. Name the done: these five pairs must clear 4.5:1, these elements must use
+    these tokens, the flow must survive 360px. Then the loop converges — or you stop it.</p>
+  </div>
+
+  <h2>The screenshot loop, prescribed</h2>
+  <p>Constraints tell the agent what <em>good</em> means; the loop lets it <em>check</em>.
+  Anthropic's Claude Code best practices prescribe this formally: hand the agent a design
+  mock or screenshot, let it take screenshots of its own result, compare against the
+  target, fix, iterate — and verify UI changes visually instead of trusting that a diff
+  "should" render right. This is the same bounded loop Chapter 01 taught with goals and
+  stopping conditions, pointed at pixels.</p>
+  <p>Two maintained bridges give the model eyes. ChromeDevTools'
+  <strong>chrome-devtools-mcp</strong> drives a live app: screenshots, console messages,
+  DOM snapshots, performance checks — roughly 50k stars at checking time. Microsoft's
+  <strong>playwright-mcp</strong> is the accessibility-tree alternative: instead of pixels,
+  the model reads a structured snapshot of the page, and the project's own README weighs
+  the MCP-versus-CLI tradeoff rather than hiding it. Screenshots judge aesthetics;
+  accessibility trees judge structure — serious UI loops use both.</p>
+
+  <div class="flow-stage">
+    <pre><code>you   → build the quiz card from journey/design.md · done = every
+        token rule passes at a 360px viewport
+agent → screenshot taken · three diffs vs the token sheet:
+        1. card radius is 18px vs tokens say 12px
+        2. focus ring invisible on ink buttons — ink outline, ink fill
+        3. answer tap target 32px &lt; 38px floor
+you   → fix all three against the sheet · change nothing else
+agent → second screenshot taken · radius snapped to 12px, focus ring
+        re-cut in paper with offset, targets at 44px · diffs clear</code></pre>
+    <span class="flow-stage-label">one cycle of the screenshot-compare loop · an authored example shaped from real sessions — your transcripts will differ</span>
+  </div>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Give the agent YOUR tokens before line one. Sixteen lines of token JSON pasted into
+    the first message (or better, an AGENTS.md) costs less than one round of "no, not that
+    blue," and every later session inherits it for free. Constraints compound; corrections
+    churn.</p>
+  </div>
+
+  <h2>Where this lands in your build</h2>
+  <p>Your current threaded build — <strong>ncert-quiz-forge</strong>, Build 2 in the
+  companion specs — never asks its agents what the brand looks like, because the answer is
+  already machine-readable. Its BUILD.md binds the UI to the journey site's
+  <code>design.md</code>, and this is the actual block it inherits, verbatim:</p>
+  <pre><code>:root {
+  --paper:        #F6F1E7;   /* page background */
+  --paper-raised: #FFFDF7;   /* cards, tickets, station nodes */
+  --ink:          #201B14;   /* text, borders, primary buttons */
+  --muted:        #6F6455;   /* secondary text (≥4.5:1 on paper) */
+  --line-strong:  #CBBFA9;   /* dashed rules, ghost borders */
+}</code></pre>
+  <p>Two details worth savoring. First, the spec's frontend section already encodes this
+  chapter's floor: correct/incorrect feedback uses jade and coral <em>with ✓/✕ glyphs</em>
+  — shape plus label, never color alone — and demands large touch targets for students on
+  phones. The agent didn't decide that; the contract did. Second, a drift confession: the
+  journey's <code>--muted</code> is <code>#6F6455</code>; this book's vendored copy quietly
+  darkened it to <code>#5F5648</code> for extra AA headroom — run both through the lab
+  above and you'll see why. DESIGN.md's own preamble orders deliberate reconciliation
+  whenever the upstream file changes. Tokens drift; the discipline is noticing.</p>
+  <p>Status honesty: the forge's M1a scaffold landed 2026-08-25; the quiz UI this block
+  governs is milestone M4, gated behind human-reviewed content batches. The tokens ship
+  before the screens they style — that ordering is the whole technique.</p>
+
+  <h2>The visual bar this book is judged against</h2>
+  <p>A book about building beautiful things with agents owes you its own standard operating
+  procedure. Ours is written down: every piece of this book runs a gauntlet in which a
+  critic with fresh context fetches Bartosz Ciechanowski's essays and compares them, blind
+  and label-stripped, against ours. His moon explainer sits in our source ledger as the
+  standing visual-craft exemplar — T1, checked 2024-12-17, with the honest footnote that it
+  carries no colophon documenting its tooling. We can't copy his process. We can only be
+  judged against the output, which is the point: bars are artifacts, not adjectives.</p>
+  <p>And the case study isn't hypothetical. DESIGN.md — the binding token sheet this page,
+  the lab above, and quiz-forge all render through — is itself a design system built the
+  way this chapter prescribes: six surface tokens, six route colors that inform rather
+  than decorate, shape-plus-label rules, zero blue by law. You have been reading the output
+  of the constraints it teaches since Chapter 01. The banned blue you measured today is
+  banned in the very CSS delivering this sentence.</p>
+
+  <h2>Receipts</h2>
+  <p>Every factual claim above traces to a ledger row. Tier key: T1 official docs, specs,
+  repos, or established practitioners · T2 vendor/press secondary · T3 lead only.</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span>
+    <span class="as-of">checked 2026-03-14 · agents follow existing codebase patterns "almost to a tee" — the inverse evidence that missing conventions yield generic output</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/best-practices</span>
+    <span class="as-of">checked 2026-08-26 · screenshot-compare iteration loop prescribed: screenshot → compare to design → fix; verify UI visually</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/ChromeDevTools/chrome-devtools-mcp</span>
+    <span class="as-of">checked 2026-08-26 · browser-driving agent tools: screenshots, console, DOM snapshots vs live app · ~50k stars</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/microsoft/playwright-mcp</span>
+    <span class="as-of">checked 2026-08-26 · accessibility-tree snapshot loop; README documents the MCP-vs-CLI tradeoff itself</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 spec</span>
+    <span class="r-url">https://designtokens.org/TR/2025.10/format/</span>
+    <span class="as-of">checked 2026-07-30 · name/value/type/alias token format · Community Group Draft Report — de facto standard, explicitly NOT a W3C Standard</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://ui.shadcn.com/docs</span>
+    <span class="as-of">checked 2026-08-26 · component library designed AI-readable: open code, "predictable for your team and LLMs"</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://tailwindcss.com/docs</span>
+    <span class="as-of">checked 2026-08-26 · v4.3 · utility classes + theme variables as constraint layer for generated CSS</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 normative</span>
+    <span class="r-url">https://www.w3.org/WAI/WCAG22/quickref/</span>
+    <span class="as-of">checked 2026-08-26 · SC 1.4.3 Contrast (Minimum) 4.5:1 normal / 3:1 large; SC 1.4.6 Contrast (Enhanced) 7:1 · thresholds graded live in the lab above</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 exemplar</span>
+    <span class="r-url">https://ciechanow.ski/moon/</span>
+    <span class="as-of">checked 2024-12-17 · this book's blind-judged visual bar · noted honestly: no colophon documenting tooling</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself</h2>
+    <ol>
+      <li><strong>Exact-click checkpoint.</strong> In the lab above, pick plum
+      (<code>#8E5BA6</code>) on paper and read the number before the verdict — predict
+      pass/fail, then check. Repeat with the banned blue on white. Write both ratios down:
+      one misses AA by 0.06, and watching a threshold beat you by a hair teaches more than
+      any lecture on "close enough."</li>
+      <li><strong>Break it on purpose.</strong> Paste the six-token block from the build
+      section into your agent with "restyle this button using ONLY these tokens," then ask
+      again with no tokens at all. Diff the two outputs — count how many decisions you had
+      to make by hand in round two.</li>
+      <li><strong>Ship-sized task.</strong> Create <code>tokens.css</code> in your own
+      project with at least four named values, reference it from AGENTS.md, and require
+      every color in new CSS to arrive as a <code>var()</code>. Then run the lab's math on
+      every text/background pair the agent produced. Fix the failures by changing tokens,
+      not components.</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Why does an unconstrained agent produce generic UI — is the model bad at design?</summary>
+      <p>The opposite: it's good at patterns. With no local conventions, generation regresses
+      to the statistical median of its training data, and the median web page is beige
+      sameness. Willison's observation cuts both ways — agents follow existing patterns
+      "almost to a tee," so the fix is supplying patterns, not wishing for taste.</p>
+    </details>
+    <details>
+      <summary>Plum on paper measures 4.44:1. Why is "visually identical to passing" not good enough?</summary>
+      <p>WCAG thresholds are hard floors, not suggestions: 4.44 fails SC 1.4.3 for normal
+      text, full stop. Binary cutoffs are a feature for agentic work — they turn taste into
+      an acceptance test an agent can evaluate mechanically, and the large-text carve-out
+      (3:1) gives you a legitimate second lane instead of a rationalization.</p>
+    </details>
+    <details>
+      <summary>When is a screenshot loop actively harmful?</summary>
+      <p>When it runs without acceptance criteria. "Get closer to the mock" never terminates,
+      so polish cycles burn budget without a done state. Bound every loop with measurable
+      exits — named contrast pairs, token conformance, a minimum viewport — and stop when
+      they pass or the budget dies.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>Mobile-first checks.</strong> The screenshot loop earns its keep twice on
+    phones: drive the viewport down before judging anything, because layouts that survive
+    360px force hierarchy decisions that desktop hides. Both browser tools above can resize
+    and re-capture; make the narrow pass a named acceptance criterion, not an afterthought
+    you'll "get to before ship."</p>
+    <p><strong>When to hire a designer.</strong> Constraint layers systematize execution;
+    they don't originate identity. If your product needs a distinctive brand, a novel
+    interaction paradigm, or judgment about what a feature should <em>be</em>, that's
+    designer territory — bring one in to author the tokens and contracts, then let agents
+    scale them. Hiring execution pixel-pushers after the system exists is the spend most
+    solo builders can skip.</p>
+    <p><strong>Design systems at team scale.</strong> Everything here compounds: tokens
+    become the organization's API for look-and-feel, the CG Draft format becomes the
+    interchange between design tools and code, and CI gates — contrast checks, token lint
+    rules — enforce what documentation alone never did. Where it breaks down: systems
+    ossify. Schedule token reviews like dependency updates, or your guardrail becomes the
+    new generic.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch07-source-literacy.html">← ch07 · source literacy for agent builders</a>
+    <a href="ch09-testing-what-agents-build.html">ch09 · testing what agents build →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 08 · good ui with agents · facts as of 2026-08-26</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 10 · Debugging when it breaks — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+  <h1>Chapter 10 · Debugging when it breaks</h1>
+  <p class="lede">Promise: after this chapter you can drive a disciplined debug —
+  reproduce, hypothesize, bisect — instead of watching an agent thrash, and you
+  know exactly when to pull the plug.</p>
+  <p class="as-of">facts checked as of 2026-08-26</p>
+
+  <p>Breakage is not the exception in agentic work; it is Tuesday. The difference
+  between a beginner and a practitioner is not that practitioners break less —
+  it is that their next move is scripted. Beginner: paste the failure into the
+  agent, receive a confident edit, repeat until either the bug dies or the diff
+  becomes landfill. Practitioner: capture the symptom, force it into a proof,
+  cut the search space in half, and reach for the escape hatches early. This
+  chapter drills that script until it is muscle memory.</p>
+
+  <h2>Reproduce before you explain</h2>
+  <p>A bug you cannot summon on demand is a bug you cannot prove dead. Before
+  any theory, before any edit, get a <strong>repro recipe</strong>: the exact
+  input, the exact click or command, the expected result versus the actual one,
+  written down. Official best-practices documentation for leading harnesses
+  encodes this as the first discipline of debugging with an agent — reproduce
+  the issue, and fix the <em>root cause</em>, not the symptom. Those are two
+  rules, not one. Suppressing an error (wrapping the crash site in a silent
+  catch, returning a default value so the page renders) makes the pain stop
+  while the disease spreads.</p>
+  <p>The upgrade path from repro is a <strong>failing test</strong>: encode the
+  recipe as an assertion that goes red today and must go green tomorrow. This
+  does three jobs at once. It converts a vague complaint into a pass/fail
+  switch. It stops the agent — or you — from declaring victory prematurely,
+  because the proof is executable. And it hands every later tool, including
+  bisection below, the automatic good/bad oracle they need. Agents will not do
+  this unprompted; demanding the failing test is your move.</p>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Paste the <strong>exact</strong> error text, never a paraphrase. Not
+    "there's a type error somewhere in checkout" — the full message, the file,
+    the line number, the stack. Models route on specifics; a paraphrase sends
+    them hunting in the wrong county. Same rule for your own notes: the exact
+    string is searchable, greppable, and comparable after the next attempt.</p>
+  </div>
+
+  <h2>Escape hatches, straight from the docs</h2>
+  <p>Runaway correction loops are so predictable that harness manuals document
+  the exits officially. Know them by name:</p>
+  <ul>
+    <li><strong>Rewind to a checkpoint.</strong> Sessions checkpoint as they go;
+    <em>/rewind</em> in Claude Code restores conversation and code to an earlier
+    point, so a bad direction costs minutes, not an evening.</li>
+    <li><strong>Clear after two failed corrections.</strong> Official guidance
+    draws a bright line: when corrections keep missing, stop correcting. Start a
+    fresh session with clean context and lead with the exact error text.</li>
+    <li><strong>Hook-enforced iteration caps.</strong> Hooks are deterministic
+    guardrails you write yourself (the ch04 pattern), so a custom Stop hook
+    <em>can</em> count correction rounds and cut a spinning loop off at a fixed
+    cap — but no harness ships an anti-thrash mechanism by default: stock
+    Stop-hook behavior is verification gating, checking the work passes before
+    the turn ends. Caps are a pattern you install, not a stock mechanism.</li>
+  </ul>
+  <p>Beneath the hatches sits environment quality — Ronacher's advice from a
+  year of agentic coding, and it holds: keep everything logged to
+  <strong>one file</strong> you can actually read afterwards; keep the
+  <strong>feedback loop fast</strong> enough to rerun after every change; prefer
+  commands that fail loudly; and when context compaction hits a long session,
+  <strong>abort and restart</strong> rather than nursing a degraded one. A slow
+  loop and a murky log are how two-minute bugs become two-hour sessions.</p>
+
+  <h2>Bisect: halving beats walking</h2>
+  <p>Oldest trick in the book, and it survives agents perfectly. When you have
+  an ordered history — commits, config edits, deployed changes — and something
+  flipped from working to broken somewhere along it, do not walk the list. Test
+  the middle item. Working? The culprit is in the back half. Broken? The front
+  half. Either way you just deleted half the suspects with one test. Sixteen
+  candidates fall to four tests, because ⌈log₂ 16⌉ = 4; a linear walk drags
+  through up to fifteen tests and averages more than eight. Git productized the
+  loop decades ago: <em>git bisect</em> checks out midpoints, takes your
+  good/bad verdicts, and names the first bad commit — and <em>git bisect
+  run</em> hands your test script to the loop so git plays both sides and you
+  never click anything.</p>
+
+  <p>Feel the race before you memorize the math. Sixteen commits below, one of
+  them introduces a bug — re-randomized every reset. Pick a strategy, then
+  click commits to test them. Par is 4.</p>
+
+  <div class="bxr" id="bxr">
+    <style>
+      .bxr { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
+      .bxr-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+      .bxr-modes { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin: 0.4rem 0 0.9rem; }
+      .bxr-strip { display: flex; flex-wrap: wrap; gap: 6px; margin: 0.6rem 0; }
+      .bxr-cell { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 8px; min-height: 40px; min-width: 52px; padding: 0.25rem 0.5rem; transition: translate 0.12s ease, box-shadow 0.12s ease; }
+      .bxr-cell:hover { translate: -1px -1px; box-shadow: 2px 2px 0 var(--line-strong); }
+      .bxr-cell[data-st="out"] { border-style: dashed; border-color: var(--line-strong); color: var(--muted); opacity: 0.55; }
+      .bxr-cell[data-st="good"] { border-color: var(--l3); background: color-mix(in srgb, var(--l3) 14%, var(--paper)); }
+      .bxr-cell[data-st="bad"] { border-color: var(--l1); background: color-mix(in srgb, var(--l1) 18%, var(--paper)); }
+      .bxr-cell[data-st="culprit"] { border-color: var(--l1); background: var(--l1); color: #FFFDF7; }
+      .bxr-legend { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); margin: 0.2rem 0 0.8rem; }
+      .bxr-log { font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.6; border-top: 2px solid var(--ink); padding-top: 0.6rem; min-height: 3.2rem; }
+      .bxr-line { margin: 0 0 0.2rem; }
+      .bxr-dim { color: var(--muted); }
+      .bxr-verdict { margin-top: 0.7rem; padding: 0.6rem 0.8rem; border-left: 4px solid var(--l3); background: var(--paper); border-radius: 0 8px 8px 0; font-size: 0.88rem; line-height: 1.6; }
+      .bxr-verdict.bxr-miss { border-left-color: var(--l1); }
+      .bxr-hintline { color: var(--l0); font-weight: 600; }
+      .bxr-btn { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; font-size: 0.76rem; border-radius: 10px; min-height: 38px; padding: 0.4rem 1rem; border: 2px solid var(--ink); background: var(--paper-raised); color: var(--ink); }
+      .bxr-btn:hover { translate: -1px -1px; box-shadow: var(--shadow-sm); }
+      .bxr-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+      .bxr-chip { font-family: var(--font-mono); font-size: 0.72rem; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--paper); padding: 0.22rem 0.75rem; display: inline-block; }
+      @media (prefers-reduced-motion: reduce) {
+        .bxr *, .bxr *::before, .bxr *::after { transition: none !important; animation: none !important; }
+        .bxr-cell:hover, .bxr-btn:hover { translate: none; box-shadow: none; }
+      }
+    </style>
+    <span class="bxr-tag">bisect race · interactive · runs locally, nothing leaves this page · bug re-randomized every reset</span>
+    <div class="bxr-modes" role="group" aria-label="Strategy">
+      <button type="button" class="bxr-btn" id="bxr-bin" aria-pressed="true">strategy: binary bisection</button>
+      <button type="button" class="bxr-btn" id="bxr-lin" aria-pressed="false">strategy: linear scan</button>
+      <button type="button" class="bxr-btn" id="bxr-reset">reset · reshuffle bug</button>
+      <span class="bxr-chip" id="bxr-status">moves 0 · par 4</span>
+    </div>
+    <div class="bxr-strip" id="bxr-strip" role="group" aria-label="Commits c1 through c16, click to test"></div>
+    <p class="bxr-legend">✓ passes · ✗ shows the bug · dashed = ruled out, outside the suspect range</p>
+    <div class="bxr-log" id="bxr-log" aria-live="polite"></div>
+    <div id="bxr-msg" aria-live="polite"></div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("bxr");
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = "1";
+    var N = 16;
+    var strip = document.getElementById("bxr-strip");
+    var statusEl = document.getElementById("bxr-status");
+    var logEl = document.getElementById("bxr-log");
+    var msgEl = document.getElementById("bxr-msg");
+    var binBtn = document.getElementById("bxr-bin");
+    var linBtn = document.getElementById("bxr-lin");
+    var resetBtn = document.getElementById("bxr-reset");
+    var cells = [];
+    var bug = 1, lo = 1, hi = N, moves = 0, mode = "bin", done = false, tested = {};
+
+    function mkCells() {
+      strip.innerHTML = "";
+      cells = [];
+      for (var i = 1; i <= N; i++) {
+        (function (c) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "bxr-cell";
+          b.setAttribute("aria-label", "test commit c" + c);
+          b.addEventListener("click", function () { test(c); });
+          strip.appendChild(b);
+          cells.push(b);
+        })(i);
+      }
+    }
+
+    function logLine(t) {
+      var p = document.createElement("p");
+      p.className = "bxr-line";
+      p.textContent = t;
+      logEl.appendChild(p);
+      while (logEl.children.length > 5) logEl.removeChild(logEl.firstChild);
+    }
+
+    function msg(html, miss) {
+      msgEl.innerHTML = "";
+      var d = document.createElement("div");
+      d.className = "bxr-verdict" + (miss ? " bxr-miss" : "");
+      d.innerHTML = html;
+      msgEl.appendChild(d);
+    }
+
+    function paint() {
+      for (var i = 1; i <= N; i++) {
+        var el = cells[i - 1];
+        var st = "fresh", txt = "c" + i;
+        if (done && i === bug) { st = "culprit"; txt = "c" + i + " ✗"; }
+        else if (tested[i] === "good") { st = "good"; txt = "c" + i + " ✓"; }
+        else if (tested[i] === "bad") { st = "bad"; txt = "c" + i + " ✗"; }
+        else if (i < lo || i > hi) { st = "out"; }
+        el.dataset.st = st;
+        el.textContent = txt.trim();
+      }
+      statusEl.textContent = "suspects c" + lo + "–c" + hi + " (" + (hi - lo + 1) + ") · moves " + moves + " · par 4";
+    }
+
+    function reset() {
+      bug = 1 + Math.floor(Math.random() * N);
+      lo = 1; hi = N; moves = 0; done = false; tested = {};
+      msgEl.innerHTML = "";
+      logEl.innerHTML = "";
+      logLine("# history empty — click a commit to test it");
+      paint();
+    }
+
+    function setMode(m) {
+      mode = m;
+      binBtn.setAttribute("aria-pressed", m === "bin" ? "true" : "false");
+      linBtn.setAttribute("aria-pressed", m === "lin" ? "true" : "false");
+      reset();
+    }
+
+    function finish() {
+      done = true;
+      paint();
+      var punch = "<p style=\"margin:0 0 0.35rem;\"><b>⌈log₂ 16⌉ = 4.</b> Halving finishes in four tests, worst case, every time — walking drags through up to fifteen and averages over eight. <code>git bisect run &lt;script&gt;</code> automates exactly this loop: check out, run the script, mark good or bad, repeat, name the first bad commit. Your only job is writing the oracle — which is why the failing test comes first.</p>";
+      if (mode === "bin") {
+        var head = moves <= 4 ? "✓ First bad commit found in " + moves + " moves — par " + (moves === 4 ? "met" : "beaten") + "." : "✓ Found in " + moves + " moves — over par. Edge-tests shave one suspect at a time; midpoint tests halve.";
+        msg("<p style=\"margin:0 0 0.35rem;\"><b>" + head + "</b></p>" + punch, false);
+      } else {
+        msg("<p style=\"margin:0 0 0.35rem;\"><b>✓ Found in " + moves + " moves — by walking.</b></p>" + punch, true);
+      }
+    }
+
+    function test(c) {
+      if (done) return;
+      if (mode === "lin" && c !== lo) {
+        msg("<p class=\"bxr-hintline\" style=\"margin:0;\">linear scan walks in order — commit c" + lo + " is next. Pick a different strategy above if you want to halve.</p>", true);
+        return;
+      }
+      if (tested[c]) {
+        msg("<p class=\"bxr-hintline\" style=\"margin:0;\">c" + c + " already tested — verdicts do not change. Test inside c" + lo + "–c" + hi + ".</p>", true);
+        return;
+      }
+      if (c < lo || c > hi) {
+        msg("<p class=\"bxr-hintline\" style=\"margin:0;\">outside the suspect range c" + lo + "–c" + hi + " — those are already ruled out. Bisection only spends tests inside the range.</p>", true);
+        return;
+      }
+      moves += 1;
+      if (c >= bug) {
+        tested[c] = "bad";
+        hi = c;
+        logLine("$ git bisect bad   # c" + c + " shows the bug → suspects c" + lo + "–c" + hi);
+      } else {
+        tested[c] = "good";
+        lo = c + 1;
+        logLine("$ git bisect good  # c" + c + " passes → suspects c" + lo + "–c" + hi);
+      }
+      if (lo === hi) { finish(); return; }
+      paint();
+    }
+
+    mkCells();
+    binBtn.addEventListener("click", function () { setMode("bin"); });
+    linBtn.addEventListener("click", function () { setMode("lin"); });
+    resetBtn.addEventListener("click", reset);
+    reset();
+  })();
+  </script>
+
+  <p>If you played bisection even reasonably, you finished in four or fewer;
+  the linear walk ground through eight-plus. That gap <em>is</em> the lecture.
+  Note the prerequisite, though: every test needed a clean yes/no answer. Bools
+  come from oracles, oracles come from failing tests — the disciplines chain.</p>
+
+  <h2>Reading the wreckage</h2>
+  <p>When the failure lives in a browser, the crime scene photographs itself —
+  if someone remembers to shoot. Playwright's trace viewer records every action
+  on a timeline with <strong>Errors, Console, and Network tabs</strong> attached,
+  so a post-failure review is scrolling a film, not guessing from memory; teams
+  commonly wire traces to fire on the first retry in CI so flaky failures leave
+  evidence behind automatically. Driving the same browser through an MCP server
+  adds live forensics: console messages arrive with source-mapped stacks and
+  network inspection rides along, which means the agent can quote the failing
+  request instead of describing it from vibes.</p>
+  <p>Two habits make any of these artifacts legible. Read a stack trace
+  <strong>backward</strong>: the top frame is where the error was noticed, the
+  deepest frames are where it was born — start at the birth, not the notice.
+  And keep Ronacher's one-file rule: when every session logs to one place, the
+  question "what did we actually do before it broke" has an answer you can grep.</p>
+
+  <h2>Evidence, not assurances</h2>
+  <p>An agent saying "fixed!" is weather forecasting; an agent showing the test
+  going green is meteorology with instruments. Willison's bar for agentic work
+  is that the agent must <strong>exercise what it builds</strong> — boot the
+  server, curl the API, capture the output — and show that evidence rather than
+  assert success; his Showboat workflow turns that requirement into an
+  artifact the agent assembles as it works. Adopt the same standard for your
+  own sessions: no acceptance without output pasted. And you do not have to
+  improvise this discipline each time — Jesse Vincent's superpowers library
+  ships debugging as a <strong>packaged skill</strong> whose
+  root-cause-tracing procedure walks the agent backward through the call stack
+  before any fix is proposed. Loading a written procedure beats hoping the
+  model invents one under pressure.</p>
+
+  <p>Which brings the lesson home. Watch a session refuse to reproduce anything
+  and just… try things. Your job is to spot the moment and choose the hatch.</p>
+
+  <div class="thr" id="thr">
+    <style>
+      .thr { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
+      .thr-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+      .thr-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
+      .thr-chip { font-family: var(--font-mono); font-size: 0.7rem; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--paper); padding: 0.2rem 0.7rem; }
+      .thr-trace { border-top: 2px solid var(--ink); padding-top: 0.7rem; display: flex; flex-direction: column; gap: 0.5rem; }
+      .thr-pass { margin: 0; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; }
+      .thr-pass span { display: block; }
+      .thr-edit { border-left: 3px solid var(--l0); padding-left: 0.55rem; }
+      .thr-obs { color: var(--muted); }
+      .thr-note { margin: 0; padding-left: 0.55rem; border-left: 3px solid var(--l1); font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; color: var(--l1); }
+      .thr-grade { margin: 0; padding: 0.6rem 0.8rem; background: var(--paper); border-left: 4px solid var(--l3); border-radius: 0 8px 8px 0; font-size: 0.86rem; line-height: 1.6; }
+      .thr-grade.thr-poor { border-left-color: var(--l1); }
+      .thr-grade.thr-mid { border-left-color: var(--l0); }
+      .thr-controls { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; align-items: center; }
+      .thr-run { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; min-height: 38px; padding: 0.45rem 1.2rem; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 10px; box-shadow: var(--shadow-sm); }
+      .thr-run:hover { translate: -1px -1px; box-shadow: var(--shadow-md); }
+      .thr-hatch { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; font-size: 0.74rem; min-height: 38px; padding: 0.4rem 0.9rem; border: 2px solid var(--ink); background: var(--paper-raised); color: var(--ink); border-radius: 10px; }
+      .thr-hatch:hover { translate: -1px -1px; box-shadow: var(--shadow-sm); }
+      .thr-reset { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.74rem; min-height: 38px; padding: 0.4rem 0.9rem; border: 1.5px solid var(--line-strong); background: var(--paper-raised); color: var(--ink); border-radius: 10px; }
+      .thr-run:disabled, .thr-hatch:disabled { opacity: 0.5; cursor: default; translate: none; box-shadow: none; }
+      @media (prefers-reduced-motion: reduce) {
+        .thr *, .thr *::before, .thr *::after { transition: none !important; animation: none !important; }
+        .thr-run:hover, .thr-hatch:hover { translate: none; box-shadow: none; }
+      }
+    </style>
+    <span class="thr-tag">thrash detector · interactive · pace the loop yourself, then pick your escape hatch</span>
+    <div class="thr-chips" id="thr-chips">
+      <span class="thr-chip" id="thr-c1">commits 0</span>
+      <span class="thr-chip" id="thr-c2">diff +0 −0</span>
+      <span class="thr-chip" id="thr-c3">repro: none</span>
+      <span class="thr-chip" id="thr-c4">failing test: none</span>
+    </div>
+    <div class="thr-trace" id="thr-trace" aria-live="polite"></div>
+    <div class="thr-controls">
+      <button type="button" class="thr-run" id="thr-run">▶ let it run another pass</button>
+      <button type="button" class="thr-hatch" data-hatch="repro">pull plug: capture the repro</button>
+      <button type="button" class="thr-hatch" data-hatch="ftest">pull plug: demand a failing test</button>
+      <button type="button" class="thr-hatch" data-hatch="revert">pull plug: revert to last-good</button>
+      <button type="button" class="thr-hatch" data-hatch="clear">pull plug: /clear, restart fresh</button>
+      <button type="button" class="thr-reset" id="thr-reset">reset</button>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("thr");
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = "1";
+    var PASSES = [
+      { th: "probably just a crashy spot — wrap it so checkout proceeds",
+        ed: "edit src/checkout/totals.js  +6 −2",
+        ob: "tests: STILL FAILING · same TypeError, one layer deeper — the error is now swallowed, not fixed",
+        p: 6, m: 2 },
+      { th: "environment drift, classic — bump every dependency to latest minor",
+        ed: "package.json + package-lock.json  +214 −196",
+        ob: "tests: STILL FAILING · identical TypeError · two new deprecation warnings for free",
+        p: 214, m: 196 },
+      { th: "flaky, surely — wrap the whole calculation in retry-with-backoff",
+        ed: "edit src/checkout/index.js  +11 −1",
+        ob: "tests: STILL FAILING · suite now slower — retries hide nothing, add latency",
+        p: 11, m: 1 },
+      { th: "defensive coding time — guard everything questionable",
+        ed: "edit src/checkout/\*.js  +9 −4",
+        ob: "tests: STILL FAILING · totals silently wrong — a second bug, stacked on the first",
+        p: 9, m: 4 },
+      { th: "this module is cursed — rewriting TaxCalculator from scratch",
+        ed: "edit src/checkout/tax.js  +63 −58",
+        ob: "tests: STILL FAILING · diff now unreadable · nobody can review this",
+        p: 63, m: 58 },
+      { th: "the answer must be on screen somewhere — re-reading everything",
+        ed: "read totals.js · read tax.js · read index.js · read cart.js …",
+        ob: "no edit · transcript bloated · compaction approaching",
+        p: 0, m: 0 }
+    ];
+    var trace = document.getElementById("thr-trace");
+    var runBtn = document.getElementById("thr-run");
+    var resetBtn = document.getElementById("thr-reset");
+    var c1 = document.getElementById("thr-c1"), c2 = document.getElementById("thr-c2"),
+        c3 = document.getElementById("thr-c3"), c4 = document.getElementById("thr-c4");
+    var hatches = root.querySelectorAll(".thr-hatch");
+    var idx = 0, commits = 0, plus = 0, minus = 0, repro = false, ftest = false, ended = false;
+
+    function el(tag, cls, txt) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (txt) n.textContent = txt;
+      return n;
+    }
+
+    function chips() {
+      c1.textContent = "commits " + commits;
+      c2.textContent = "diff +" + plus + " −" + minus;
+      c3.textContent = "repro: " + (repro ? "captured" : "none");
+      c4.textContent = "failing test: " + (ftest ? "written" : "none");
+    }
+
+    function lock() {
+      runBtn.disabled = true;
+      for (var i = 0; i < hatches.length; i++) hatches[i].disabled = true;
+    }
+
+    function unlock() {
+      runBtn.disabled = false;
+      for (var i = 0; i < hatches.length; i++) hatches[i].disabled = false;
+    }
+
+    function mount() {
+      trace.innerHTML = "";
+      var g = el("p", "thr-pass");
+      g.appendChild(el("span", "", "goal handed over: \u201Ccheckout total is wrong on promo orders — fix it.\u201D"));
+      g.appendChild(el("span", "", "pass 0 · agent reads three files, runs the suite once"));
+      g.appendChild(el("span", "thr-edit", "41 passed · 1 failed — TypeError: cannot read properties of undefined (reading 'map') · src/checkout/totals.js:42"));
+      g.appendChild(el("span", "thr-obs", "no repro recipe requested · no failing test demanded · the fixing begins"));
+      trace.appendChild(g);
+    }
+
+    function grade(html, tone) {
+      var d = el("div", "thr-grade" + (tone === "poor" ? " thr-poor" : tone === "mid" ? " thr-mid" : ""));
+      d.innerHTML = html;
+      trace.appendChild(d);
+    }
+
+    function damage() {
+      return "<b>damage report:</b> " + commits + " speculative commit" + (commits === 1 ? "" : "s") +
+        " · net diff +" + plus + " −" + minus + " · repro captured: " + (repro ? "yes" : "no") +
+        " · failing test: " + (ftest ? "yes" : "no") + ".";
+    }
+
+    function endGame() {
+      ended = true;
+      lock();
+      chips();
+    }
+
+    function runPass() {
+      if (ended || idx >= PASSES.length) return;
+      var p = PASSES[idx];
+      idx += 1; commits += 1; plus += p.p; minus += p.m;
+      var n = el("p", "thr-pass");
+      n.appendChild(el("span", "", "pass " + idx + " · thought — " + p.th));
+      n.appendChild(el("span", "thr-edit", p.ed));
+      n.appendChild(el("span", "thr-obs", p.ob));
+      trace.appendChild(n);
+      chips();
+      if (idx === PASSES.length) {
+        grade("<p style=\"margin:0 0 0.35rem;\"><b>⛔ iteration cap reached — simulated harness interceding; no stock stop-hook fires mid-thrash.</b></p><p style=\"margin:0 0 0.35rem;\">" + damage() + " The bug is alive and buried under five speculative fixes.</p><p style=\"margin:0;\">Default harnesses gate on verification, not thrash — a hard cap like this is a deterministic guardrail you install yourself (ch04). The hatches were one click away the whole time.</p>", "poor");
+        endGame();
+      }
+    }
+
+    function pull(hatch) {
+      if (ended) return;
+      if (hatch === "repro") {
+        repro = true;
+        if (idx === 0) {
+          grade("<p style=\"margin:0 0 0.35rem;\"><b>✓ pulled at the right moment.</b> Repro recipe captured before the scene was disturbed: \u201Capply promo SAVE10, press pay → TypeError at totals.js:42.\u201D " + damage() + "</p><p style=\"margin:0;\">One minute of repro deletes every guess that would have followed. Hand the agent the recipe, not the panic.</p>", "good");
+        } else {
+          grade("<p style=\"margin:0 0 0.35rem;\"><b>~ right instinct, late arrival.</b> The recipe still helps — but " + idx + " speculative fix" + (idx === 1 ? " sits" : "es sit") + " between you and the crash site. This is archaeology with a shovel you brought too late. Revert first, then reproduce from clean ground.</p>", "mid");
+        }
+        endGame();
+      } else if (hatch === "ftest") {
+        if (!repro) {
+          var w = el("p", "thr-note");
+          w.textContent = "✗ a failing test pins fog — you need a reliable way to trigger the bug first. Capture the repro recipe, then encode it as the test.";
+          trace.appendChild(w);
+          return;
+        }
+        ftest = true;
+        grade("<p style=\"margin:0 0 0.35rem;\"><b>✓ bug pinned.</b> Failing test written from the recipe — the bug is now a red/green switch, and every proposed fix must flip it. " + damage() + "</p><p style=\"margin:0;\">Bonus unlocked: with an executable oracle, <code>git bisect run</code> can name the guilty commit automatically. The disciplines chain.</p>", "good");
+        endGame();
+      } else if (hatch === "revert") {
+        if (commits === 0) {
+          var n0 = el("p", "thr-note");
+          n0.textContent = "~ git revert finds nothing speculative — zero fixes to unwind. Harmless, but the failure itself is still unreproduced; you pulled a plug with nothing plugged in.";
+          trace.appendChild(n0);
+          return;
+        }
+        var saved = commits;
+        grade("<p style=\"margin:0 0 0.35rem;\"><b>" + (saved >= 2 ? "✓ clean save." : "~ acceptable save.") + "</b> Working tree back to last-known-good — " + saved + " speculative fix" + (saved === 1 ? "" : "es") + " gone in one move. " + damage() + "</p><p style=\"margin:0;\">" + (saved >= 2 ? "This is the hatch for stacked speculation — but pair it with a repro, or round two stacks the same fixes again." : "Cheap insurance. Now debug forward — with a repro this time.") + "</p>", saved >= 2 ? "good" : "mid");
+        endGame();
+      } else if (hatch === "clear") {
+        if (idx === 0) {
+          grade("<p style=\"margin:0 0 0.35rem;\"><b>✗ premature.</b> Cleared a session that had not failed you yet — and the exact error text lived only in that transcript. Cost: retyped context. Gained: nothing.</p><p style=\"margin:0;\">Restarting is cheap; restarting <i>blindly</i> is not. Carry the error with you.</p>", "poor");
+        } else if (idx === 1) {
+          grade("<p style=\"margin:0 0 0.35rem;\"><b>~ early.</b> One failed correction is noise; two is signal — the official rule of thumb exists so you do not burn good context too soon. " + damage() + "</p><p style=\"margin:0;\">Next time, hold until the second miss, then restart with the exact error pasted first.</p>", "mid");
+        } else {
+          grade("<p style=\"margin:0 0 0.35rem;\"><b>✓ textbook.</b> Official guidance: after <b>two</b> failed corrections, stop correcting. Fresh session, memory files intact, exact error text pasted as the first line. Dead theories stay behind in the old transcript. " + damage() + "</p><p style=\"margin:0;\">The restart feels like giving up; it is actually the cheapest move on the table.</p>", "good");
+        }
+        endGame();
+      }
+    }
+
+    runBtn.addEventListener("click", runPass);
+    resetBtn.addEventListener("click", function () {
+      idx = 0; commits = 0; plus = 0; minus = 0; repro = false; ftest = false; ended = false;
+      trace.innerHTML = "";
+      unlock();
+      chips();
+      mount();
+    });
+    for (var i = 0; i < hatches.length; i++) {
+      (function (b) {
+        b.addEventListener("click", function () { pull(b.getAttribute("data-hatch")); });
+      })(hatches[i]);
+    }
+    chips();
+    mount();
+  })();
+  </script>
+
+  <p>Every ending above happened to someone, yesterday, in a real session. The
+  pattern to internalize: the hatches get cheaper the earlier you pull, and the
+  best one is usually the least dramatic — capture the repro before anything
+  else, because every other hatch works better standing on it.</p>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p>Three speculative fixes stacked on top of each other is not debugging —
+    it is <strong>archaeology</strong>. Each unverified fix adds a layer between
+    you and the original failure, multiplies the diff nobody can review, and can
+    introduce its own bugs (see pass 4 above). The stack never gets smaller by
+    adding to it. Count the corrections: two misses is the documented signal to
+    restart, not a reason for a third attempt in the same direction.</p>
+  </div>
+
+  <h2>Where this lands in your build</h2>
+  <p>This is not hypothetical for the threaded builds: when the compass
+  calculator printed $0.26/M blended while the hand-math disagreed, the
+  reproduce-first move already existed — <code>npm run verify</code> replays
+  three pinned math cases and names the failing one, turning "the numbers look
+  off" into a specific red assertion before anyone theorized. Keep that pattern
+  in every build: a pinned-case verifier committed alongside the feature means
+  breakage gets replayed, not remembered.</p>
+
+  <h2>Receipts</h2>
+  <p>Every factual claim above traces to a ledger-vetted source card. Tier key:
+  T1 official docs or established practitioners · T2 vendor/single-author
+  secondary · T3 lead only.</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://git-scm.com/docs/git-bisect</span>
+    <span class="as-of">checked 2026-08-26 · v2.55.0 confirmed current by live fetch — bisect binary-searches the bug-introducing commit; bisect run automates with a test script</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/best-practices</span>
+    <span class="as-of">checked 2026-08 · reproduce-first, failing-test, root-cause-not-suppression; escape hatches: /rewind checkpoints, /clear after two failed corrections, hook caps</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://lucumr.pocoo.org/2025/6/12/agentic-coding/</span>
+    <span class="as-of">checked 2025-06 · Ronacher: one log file, fast feedback loops, defensive commands; abort &amp; restart when compaction hits</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://playwright.dev/docs/trace-viewer</span>
+    <span class="as-of">checked 2026-08 · Errors/Console/Network tabs tied to action timeline; trace-on-first-retry CI workflow</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/ChromeDevTools/chrome-devtools-mcp</span>
+    <span class="as-of">checked 2026-08 · console messages with source-mapped stacks; network inspection capabilities + limits</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span>
+    <span class="as-of">checked 2026-03 · agents must exercise what they build (boot server, curl API) and show evidence, not assert success — Showboat evidence-document workflow</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/obra/superpowers/blob/main/skills/debugging/root-cause-tracing/SKILL.md</span>
+    <span class="as-of">checked 2026-08 · packaged systematic-debugging skill: root-cause tracing backward through the call stack — Jesse Vincent library, highlighted by Willison</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t2">T2 single-author synthesis</span>
+    <span class="r-url">https://tianpan.co/blog/2026-02-19-systematic-debugging-ai-agents-production</span>
+    <span class="as-of">updated 2026-04 · normalize trajectories, earliest-failing-step isolation, replay failures as test artifacts — sound but not independently reviewed; solo-engineer lens, treat as craft note not studied fact</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself</h2>
+    <ol>
+      <li><strong>Exact-click checkpoint.</strong> Run the bisect race above to
+      completion with BOTH strategies, noting your move counts. Then open
+      git-scm.com/docs/git-bisect, find the <code>git bisect run</code> section,
+      and write down what exit code 0 means, what 125 means, and what any other
+      non-zero code means. You have just read the automation contract for the
+      game you played.</li>
+      <li><strong>Break it on purpose.</strong> Make a throwaway folder, init
+      git, and commit a tiny script 16 times, changing one number in commit #7
+      so a one-line check (<code>node check.js</code> exiting 1 on failure)
+      catches it. Run <code>git bisect start</code>, mark HEAD bad and the first
+      commit good, then <code>git bisect run node check.js</code>. Watch git
+      name commit #7 in about four automated steps.</li>
+      <li><strong>Ship-sized task.</strong> Next time your real build breaks in
+      an agent session, impose the law: no fix proposals until a written repro
+      recipe exists, and a failing test before any edit. Count the agent's
+      correction attempts aloud — when you hit two misses, run the hatch:
+      restart the session with the exact error text as your opening line.</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Why is a suppressed error usually worse than a crashing one?</summary>
+      <p>A crash announces itself at the scene — stack trace, line number,
+      reproducible state. A suppression (silent catch, default-value fallback)
+      lets execution continue in a state the programmer never reasoned about,
+      so the real failure surfaces somewhere else, later, with no breadcrumb
+      pointing home. Fix root causes; treat suppression as moving the bomb.</p>
+    </details>
+    <details>
+      <summary>Two corrections have failed and the diff is growing. What now, and in what order?</summary>
+      <p>Official rule: two failed corrections means stop correcting. Order:
+      revert the speculative commits to last-known-good (they are unreviewable
+      stacking), then start a fresh session — <em>/clear</em> — pasting the
+      exact error text first, and demand a repro recipe plus failing test before
+      any new edit. Rewind/checkpoints get you back even cheaper if the harness
+      offers them.</p>
+    </details>
+    <details>
+      <summary>When is bisection the wrong tool?</summary>
+      <p>When you have no automatic oracle — bisection needs a scriptable
+      good/bad answer, so a bug that only reproduces through manual clicking
+      must first be pinned by a test (or you burn hours hand-testing midpoints).
+      Also wrong for unordered or nonexistent history, and for nondeterministic
+      failures whose good/bad verdicts lie. Repro-first is not optional even
+      here; it is what makes the verdicts truthful.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>Production incidents.</strong> The same skeleton scales up:
+    practitioners running fleets of production agents describe normalizing
+    trajectories (each run becomes a comparable record), isolating the earliest
+    failing step, and replaying failures as test artifacts so one incident
+    becomes a permanent regression case. Flagged honestly: that write-up is a
+    solo engineer's synthesis, not peer-reviewed research — borrow the shape,
+    verify on your own systems.</p>
+    <p><strong>Reading stack traces backward</strong> transfers everywhere —
+    agent sessions, CI logs, a stranger's bug report. The throw site tells you
+    what broke; the deepest frames tell you why. Start at the bottom of the
+    trace and climb toward the noise.</p>
+    <p><strong>Delete and rewrite.</strong> Sometimes the cheapest hatch is the
+    scorched one: when the accumulated diff costs more to understand than the
+    component costs to rebuild, deleting and regenerating from a clean spec —
+    with the failing test kept safe — beats forensic repair. The discipline
+    stays identical: reproduce, pin with a test, then decide whether the fix is
+    a scalpel or a bulldozer. Bisection, hatches, evidence — all of it works
+    the day after the framework you learned it on is obsolete. That is the
+    point.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch09-testing-what-agents-build.html">← ch09 · testing what agents build</a>
+    <a href="ch11-brownfield-reality.html">ch11 · brownfield reality →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 10 · debugging when it breaks · facts as of 2026-08-26</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>
