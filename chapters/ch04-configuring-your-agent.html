@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 04 · Configuring your agent properly — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l1">part I · tools &amp; access · $0 core · L1 coral</span>
+  <h1>Chapter 04 · Configuring your agent properly</h1>
+  <p class="lede">Promise: after this chapter you can write a memory file your agent re-reads
+  every session, add skills that load only when needed, and bolt on guardrails the model
+  cannot talk its way past — so the same mistake stops costing you every single morning.</p>
+  <p class="as-of">facts checked as of 2026-08-25 · config surfaces move fast; receipts carry the dates</p>
+
+  <h2>Fixing the same thing twice is a configuration problem</h2>
+  <p>Here is the quiet tragedy of an unconfigured agent: every session starts blank. The loop
+  has no memory of yesterday except what you leave on disk. So when the agent uses the wrong
+  test command, edits a generated file, or writes commit messages in a style you hate, and you
+  correct it in chat, that correction dies with the session. Tomorrow morning it makes the same
+  mistake again, and you pay for it again, forever.</p>
+  <p>Every serious harness offers three layers of standing configuration, and the distinction
+  between them is the whole skill:</p>
+  <ul>
+    <li><strong>Memory files</strong> — prose loaded into context automatically at session
+    start. They persuade. The model reads them like advice from a colleague, and can ignore
+    them like advice too.</li>
+    <li><strong>Skills / playbooks</strong> — instruction files kept out of context until a
+    matching task appears, then loaded on demand. Economy: capability without rent.</li>
+    <li><strong>Guardrails</strong> — hooks, permission rules, plan modes. Code that runs
+    before or after the model acts, regardless of what the model believes. Enforcement.</li>
+  </ul>
+  <p>The leverage is compounding. A fix typed into chat pays once; the same fix written into a
+  memory file pays every future session, across every project that inherits it. Configuration
+  is the only part of your agent setup that grows more valuable the longer you use it — which
+  is why this chapter comes before the fancy patterns.</p>
+
+  <h2>Watch instructions load: the nested-files simulator</h2>
+  <p>Instruction files nest. There is usually a global one for your whole machine, one per
+  repository root, and optionally deeper ones per package or subfolder. When the agent works
+  on a file, most harnesses walk from that file's folder upward, loading every instruction
+  file it passes — and when two files disagree about the same topic, the <em>nearest</em> file
+  wins. Flip the toggles below to create or delete files, switch which file the agent is
+  editing, and watch exactly what enters its context.</p>
+
+  <div class="cfgsim" id="cfgsim">
+    <style>
+      .cfgsim { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
+      .cfg-tagline { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
+      .cfg-scene { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
+      .cfg-scene button { appearance: none; cursor: pointer; min-height: 38px; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; border-radius: 999px; border: 2px solid var(--ink); background: var(--paper); color: var(--muted); padding: 0.35rem 0.95rem; }
+      .cfg-scene button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+      .cfg-cols { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: flex-start; }
+      .cfg-tree, .cfg-panel { border: 1.5px solid var(--line-strong); border-radius: 12px; padding: 0.85rem 1rem; min-width: 16rem; }
+      .cfg-tree { flex: 2 1 19rem; background: var(--paper); }
+      .cfg-panel { flex: 3 1 23rem; background: var(--paper); }
+      .cfg-h { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); display: block; margin-bottom: 0.45rem; }
+      .cfg-file { display: flex; align-items: center; gap: 0.55rem; min-height: 38px; padding: 0.15rem 0; cursor: pointer; }
+      .cfg-file input { width: 1.05rem; height: 1.05rem; accent-color: var(--ink); flex-shrink: 0; }
+      .cfg-file:hover .cfg-name { text-decoration: underline; }
+      .cfg-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; }
+      .cfg-desc { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+      .cfg-leaf { display: flex; align-items: center; gap: 0.55rem; min-height: 34px; padding-left: 1.7rem; }
+      .cfg-leaf .cfg-name { font-weight: 400; }
+      .cfg-leaf.is-active .cfg-name::after { content: " ← working file"; color: var(--l0); font-weight: 700; }
+      .cfg-depth-1 { padding-left: 0; } .cfg-depth-2 { padding-left: 0.9rem; } .cfg-depth-3 { padding-left: 1.8rem; }
+      .cfg-walk { font-family: var(--font-mono); font-size: 0.72rem; line-height: 2; margin-bottom: 0.4rem; }
+      .cfg-walk .chip { font-size: 0.66rem; }
+      .cfg-walk .miss { border-style: dashed; color: var(--muted); }
+      .cfg-group { border-top: 1px dashed var(--line-strong); padding: 0.5rem 0 0.35rem; }
+      .cfg-src { display: inline-block; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; border: 1.5px solid currentColor; border-radius: 6px; padding: 0.02rem 0.4rem; margin-right: 0.5rem; }
+      .cfg-src-nearest { color: var(--l3); } .cfg-src-root { color: var(--l0); } .cfg-src-global { color: var(--l4); }
+      .cfg-line { margin: 0.25rem 0; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; border-left: 3px solid var(--l3); padding-left: 0.6rem; }
+      .cfg-line.is-over { color: var(--muted); text-decoration: line-through; border-left-color: var(--l1); }
+      .cfg-over-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700; color: var(--l1); border: 1.5px solid var(--l1); border-radius: 6px; padding: 0 0.35rem; margin-right: 0.4rem; text-decoration: none; }
+      .cfg-notload { margin: 0.25rem 0; font-family: var(--font-mono); font-size: 0.76rem; border-left: 3px dashed var(--line-strong); padding-left: 0.6rem; color: var(--muted); }
+      .cfg-absent { margin: 0.25rem 0; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); font-style: italic; }
+      .cfg-sum { margin-top: 0.7rem; border-top: 2px solid var(--ink); padding-top: 0.6rem; }
+      .cfg-sum p { margin: 0.2rem 0; font-size: 0.86rem; }
+      @media (max-width: 720px) { .cfg-tree, .cfg-panel { flex-basis: 100%; } }
+      @media (prefers-reduced-motion: reduce) { .cfgsim *, .cfgsim *::before, .cfgsim *::after { transition: none !important; animation: none !important; } }
+    </style>
+    <span class="cfg-tagline">instructions loader · interactive · nothing leaves this page</span>
+
+    <div class="cfg-scene" role="group" aria-label="Which file is the agent working on">
+      <button type="button" id="cfg-scene-app" aria-pressed="true">editing packages/app/src/payment.ts</button>
+      <button type="button" id="cfg-scene-lib" aria-pressed="false">editing packages/lib/src/format.ts</button>
+    </div>
+
+    <div class="cfg-cols">
+      <fieldset class="cfg-tree" style="min-inline-size:auto;">
+        <legend class="cfg-h">the repo — tick a file to bring it into existence</legend>
+        <div class="cfg-file cfg-depth-1">
+          <input type="checkbox" id="cfg-f-global" data-cfg-file="global" checked>
+          <label for="cfg-f-global"><span class="cfg-name">~/.agents/AGENTS.md</span><br><span class="cfg-desc">global user file · every project on this machine</span></label>
+        </div>
+        <div class="cfg-file cfg-depth-2">
+          <input type="checkbox" id="cfg-f-root" data-cfg-file="root" checked>
+          <label for="cfg-f-root"><span class="cfg-name">monorepo/AGENTS.md</span><br><span class="cfg-desc">repo root · shared commands + conventions</span></label>
+        </div>
+        <div class="cfg-file cfg-depth-3">
+          <input type="checkbox" id="cfg-f-app" data-cfg-file="app">
+          <label for="cfg-f-app"><span class="cfg-name">packages/app/AGENTS.md</span><br><span class="cfg-desc">nearest to payment.ts</span></label>
+        </div>
+        <div class="cfg-leaf" data-cfg-leaf="app"><span class="cfg-name">packages/app/src/payment.ts</span></div>
+        <div class="cfg-file cfg-depth-3">
+          <input type="checkbox" id="cfg-f-lib" data-cfg-file="lib">
+          <label for="cfg-f-lib"><span class="cfg-name">packages/lib/AGENTS.md</span><br><span class="cfg-desc">nearest to format.ts</span></label>
+        </div>
+        <div class="cfg-leaf" data-cfg-leaf="lib"><span class="cfg-name">packages/lib/src/format.ts</span></div>
+      </fieldset>
+
+      <div class="cfg-panel" aria-live="polite">
+        <span class="cfg-h">what the agent loads into context</span>
+        <div class="cfg-walk" id="cfg-walk"></div>
+        <div id="cfg-groups"></div>
+        <div class="cfg-sum">
+          <p><span class="chip" id="cfg-count">0 active instruction lines</span></p>
+          <p id="cfg-verdict"></p>
+        </div>
+      </div>
+    </div>
+    <span class="flow-stage-label">tick packages/app/AGENTS.md while editing payment.ts — watch the repo-root test rule get struck through · nearest file wins ties, global fills the gaps, siblings never load</span>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("cfgsim");
+    if (!root || root.dataset.cfgBound) return;
+    root.dataset.cfgBound = "1";
+
+    var FILES = {
+      global: {
+        name: "~/.agents/AGENTS.md",
+        lines: [
+          "keep answers short — a beginner is reading",
+          "when unsure, ask one question instead of guessing"
+        ]
+      },
+      root: {
+        name: "monorepo/AGENTS.md",
+        lines: [
+          { topic: "commits", text: "commit messages follow Conventional Commits prefixes" },
+          { topic: "tests", text: "run the full suite from the repo root: pnpm -w test" }
+        ]
+      },
+      app: {
+        name: "packages/app/AGENTS.md",
+        lines: [
+          { topic: "tests", text: "test this package only: vitest run inside packages/app" },
+          "never hand-edit src/generated/api.d.ts"
+        ]
+      },
+      lib: {
+        name: "packages/lib/AGENTS.md",
+        lines: [
+          { topic: "tests", text: "test this package only: vitest run inside packages/lib" },
+          "pure functions only — no DOM access, no network calls"
+        ]
+      }
+    };
+
+    var CHAINS = {
+      app: ["app", "root", "global"],
+      lib: ["lib", "root", "global"]
+    };
+    var SRC = { app: ["nearest · wins ties", "cfg-src-nearest"], root: ["repo root", "cfg-src-root"], global: ["global user file", "cfg-src-global"] };
+
+    var state = { scene: "app", exists: { global: true, root: true, app: false, lib: false } };
+
+    var walkEl = document.getElementById("cfg-walk");
+    var groupsEl = document.getElementById("cfg-groups");
+    var countEl = document.getElementById("cfg-count");
+    var verdictEl = document.getElementById("cfg-verdict");
+    var sceneApp = document.getElementById("cfg-scene-app");
+    var sceneLib = document.getElementById("cfg-scene-lib");
+
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text) n.textContent = text;
+      return n;
+    }
+
+    function render() {
+      var chain = CHAINS[state.scene];
+      walkEl.textContent = "";
+
+      var leafName = state.scene === "app" ? "packages/app/src/payment.ts" : "packages/lib/src/format.ts";
+      var leafChip = el("span", "chip", leafName);
+      walkEl.appendChild(leafChip);
+
+      var loaded = [];
+      for (var i = 0; i < chain.length; i++) {
+        var key = chain[i];
+        if (state.exists[key]) {
+          walkEl.appendChild(document.createTextNode(" → "));
+          walkEl.appendChild(el("span", "chip", FILES[key].name));
+          loaded.push(key);
+        }
+      }
+
+      var owners = {};
+      for (var j = 0; j < loaded.length; j++) {
+        var f = FILES[loaded[j]];
+        for (var k = 0; k < f.lines.length; k++) {
+          var ln = f.lines[k];
+          var topic = typeof ln === "string" ? null : ln.topic;
+          if (topic && !(topic in owners)) owners[topic] = loaded[j];
+        }
+      }
+
+      groupsEl.textContent = "";
+      var activeCount = 0;
+      var overrideCount = 0;
+
+      for (var m = 0; m < loaded.length; m++) {
+        var key2 = loaded[m];
+        var g = el("div", "cfg-group");
+        g.appendChild(el("span", "cfg-src " + SRC[key2][1], SRC[key2][0]));
+        g.appendChild(el("b", "", FILES[key2].name));
+        var fl = FILES[key2].lines;
+        for (var n2 = 0; n2 < fl.length; n2++) {
+          var item = fl[n2];
+          var text = typeof item === "string" ? item : item.text;
+          var topic2 = typeof item === "string" ? null : item.topic;
+          var p = el("p", "cfg-line", "");
+          if (topic2 && owners[topic2] !== key2) {
+            p.className += " is-over";
+            p.appendChild(el("span", "cfg-over-tag", "overridden · advisory precedence"));
+            p.appendChild(document.createTextNode(text));
+            overrideCount += 1;
+          } else {
+            p.textContent = text;
+            activeCount += 1;
+          }
+          g.appendChild(p);
+        }
+        groupsEl.appendChild(g);
+      }
+
+      var absentOnPath = [];
+      for (var q = 0; q < chain.length; q++) {
+        var kq = chain[q];
+        if (!state.exists[kq]) {
+          absentOnPath.push(kq);
+          groupsEl.appendChild(el("p", "cfg-absent", "· " + FILES[kq].name + " does not exist — nothing loads from here"));
+        }
+      }
+      var sibling = state.scene === "app" ? "lib" : "app";
+      if (state.exists[sibling]) {
+        var nl = el("p", "cfg-notload", "");
+        nl.appendChild(el("span", "cfg-src", "not loaded"));
+        nl.appendChild(document.createTextNode(FILES[sibling].name + " exists but sits outside this file's path — different subtree, never read"));
+        groupsEl.appendChild(nl);
+      }
+
+      countEl.textContent = activeCount + " active instruction line" + (activeCount === 1 ? "" : "s") +
+        (overrideCount ? " · " + overrideCount + " overridden by a nearer file" : "");
+
+      var v = "";
+      if (!loaded.length) {
+        v = "No instruction file anywhere on this path — the agent improvises every convention from scratch.";
+      } else {
+        var nearest = loaded[0];
+        var parts = [];
+        parts.push("Nearest file on duty: " + FILES[nearest].name + ".");
+        if (overrideCount) parts.push("A nearer file claimed a topic the wider file also covers — the wider line stays in context as advisory: nearest-wins decides which instruction governs a topic, and parents remain loaded unless the harness prunes them.");
+        else if (loaded.length > 1) parts.push("No conflicts yet, so every layer stacks: widest defaults survive underneath.");
+        if (absentOnPath.length && loaded.length) parts.push("Missing layers are simply skipped, not fatal.");
+        v = parts.join(" ");
+      }
+      verdictEl.textContent = v;
+
+      var leaves = root.querySelectorAll("[data-cfg-leaf]");
+      for (var t = 0; t < leaves.length; t++) {
+        var isActive = leaves[t].getAttribute("data-cfg-leaf") === state.scene;
+        leaves[t].className = "cfg-leaf" + (isActive ? " is-active" : "");
+      }
+    }
+
+    function setScene(s) {
+      state.scene = s;
+      sceneApp.setAttribute("aria-pressed", s === "app" ? "true" : "false");
+      sceneLib.setAttribute("aria-pressed", s === "lib" ? "true" : "false");
+      render();
+    }
+
+    sceneApp.addEventListener("click", function () { setScene("app"); });
+    sceneLib.addEventListener("click", function () { setScene("lib"); });
+    var boxes = root.querySelectorAll("[data-cfg-file]");
+    for (var b = 0; b < boxes.length; b++) {
+      boxes[b].addEventListener("change", function (ev) {
+        var k = ev.target.getAttribute("data-cfg-file");
+        state.exists[k] = ev.target.checked;
+        render();
+      });
+    }
+    render();
+  })();
+  </script>
+
+  <p>Three lessons fall out of that panel. First, <strong>global defaults are the floor</strong>:
+  personal preferences live far from any repo and apply everywhere. Second,
+  <strong>nearest wins ties</strong>: the moment a package declares its own testing rule, the
+  identical topic in the root file is dead letters for anyone working down there — which is why
+  "but my root file says so" is not a debugging strategy. Third, <strong>siblings never leak</strong>:
+  the lib package's purity rules never touch app code, because the loader walks up, not
+  sideways. This nesting-and-precedence behavior is specified, not accidental, as the receipts below show.</p>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Start with five lines, grow on evidence. Do not generate a 300-line constitution on day
+    one — long memory files dilute the short ones and cost context every session. Write five
+    lines today. Then apply the promotion rule: the moment you correct the agent about the same
+    thing twice, promote that correction into the file. Your memory file becomes a fossil record
+    of your actual friction, not your imagined one. The same grow-on-evidence bar covers
+    npm-installed plugins, which execute their code at startup before you see anything — treat
+    every install like adding an npm dependency to your own app and vet it first; chapter 2
+    owns the full supply-chain warning.</p>
+  </div>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p>Config rot is real and actively harmful. A stale instruction doesn't just stop helping —
+    it misleads: last year's "always use library X" turns every fresh session into a fight
+    against your own file. Date every rule ("adopted 2026-08, because Y"), review the file
+    quarterly, and delete anything you can't explain the reason for. An instruction file nobody
+    rereads is a liability wearing a productivity costume.</p>
+  </div>
+
+  <h2>The names you will meet</h2>
+  <p><strong>AGENTS.md</strong> is the cross-harness attempt at one standard: an open,
+  tool-agnostic instruction-file format stewarded under the Linux Foundation, with nested files
+  resolving nearest-wins exactly as the simulator showed, adopted by Codex, Cursor, opencode,
+  GitHub Copilot coding agent and Gemini CLI. Write one and several harnesses read it unmodified.
+  <strong>Claude Code</strong> centers its own family instead: CLAUDE.md files arranged in a
+  managed → user → project → local hierarchy, with <code>@</code>-imports, path-scoped rules,
+  and an auto-memory index called MEMORY.md that reloads every session under a hard load cap of
+  roughly 200 lines / 25 KB — overflow stays on disk unread, which is itself an argument for
+  short files. And Claude Code's documentation states this chapter's spine better than we could:
+  memory is context, not enforcement — use hooks and settings to actually block anything.</p>
+
+  <h3>Skills: knowledge that loads only when needed</h3>
+  <p>A skill is a SKILL.md playbook — "how we deploy," "how we add a pricing row." Its genius is
+  progressive disclosure: every session pays only for the skill's name and description (a line
+  or two), while the full body loads only when the task matches. A frontmatter flag such as
+  <code>disable-model-invocation</code> goes further, keeping a side-effecting skill entirely
+  out of the model's reach until you summon it explicitly. Compare that with pasting the same
+  procedure into your memory file, where it taxes every session whether or not it is relevant.
+  Playbooks you want always-available go in memory; procedures you want available-on-demand
+  become skills.</p>
+
+  <h3>Hooks and permissions: guardrails the model cannot argue with</h3>
+  <p>Prose persuades; exit codes compel. Hooks run your shell commands at lifecycle points —
+  before a tool executes, after each edit lands, when a session ends — and a hook that exits
+  with code 2 blocks the underlying action outright. The model cannot negotiate with an exit
+  code, which is exactly the point: use hooks to auto-run lint after edits, or to enforce rules
+  your memory file keeps getting talked past. One honest caveat from the docs themselves: a
+  hook's <code>if</code> filter fails open — break the filter and actions pass through — so put
+  hard denies in permission rules rather than trusting filter chains.</p>
+  <p>Permission rules evaluate in a strict order: <strong>deny beats ask beats allow</strong>.
+  A deny rule like <code>Read(./.env)</code> makes secret files unreadable no matter how
+  convincingly the model justifies the read; a glob like <code>Bash(git push *)</code> forces
+  every push to stop for a human. Set the denies first — they are the floor that survives even
+  a bad day.</p>
+
+  <h3>Two modes worth flipping deliberately</h3>
+  <p>One flip earns its keep specifically during configuration work: turn opencode's
+  language-server integration on, and live compiler diagnostics immediately confirm whether
+  the build commands and generated paths your freshly written rules point at actually exist.
+  The full feature tour lived in chapter 2. Similarly, plan mode lets the agent draft a full
+  approach read-only before any disk write, and git worktrees give each parallel session an
+  isolated checkout — two agents, two branches, zero trampled edits.</p>
+
+  <h2>Where this lands in your build</h2>
+  <p>Build 1 — the agent-cost-compass — gets its own AGENTS.md at Milestone 2, alongside the
+  calculator core, and ours is this chapter's living example. It opens as five lines, seeded
+  directly from the build spec's known pitfalls:</p>
+  <pre><code># AGENTS.md — agent-cost-compass
+- $0-only: flag any paid tier suggestion with its cost
+- every price row carries an as-of date + source URL — staleness kills this product
+- verify with: node scripts/check-data.mjs (must pass before any commit)
+- conventional commits; human gate before anything publishes</code></pre>
+  <p>By Milestone 4 it has grown — but only via the promotion rule, one line per repeated
+  mistake, each dated. The build log records what got added and why, which doubles as the
+  quarterly-review checklist the config-rot warning demands.</p>
+
+  <h2>Receipts</h2>
+  <p>Tier key: T1 official docs or established practitioners · T2 vendor secondary ·
+  T3 lead only, never cited as fact.</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://agents.md</span>
+    <span class="as-of">checked 2026-08 · open standard, Linux Foundation-stewarded; nested files, nearest-wins precedence; adopted by Codex/Cursor/opencode/Copilot/Gemini CLI; 60k+ repos self-reported</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/memory</span>
+    <span class="as-of">checked 2026-08-25 · CLAUDE.md managed/user/project/local hierarchy; @ imports; MEMORY.md auto-memory ~200-line/25KB load cap; "memory is context, not enforcement — use hooks/settings to block"</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/skills</span>
+    <span class="as-of">checked 2026-08-25 · SKILL.md progressive disclosure; frontmatter controls invocation incl. disable-model-invocation</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/hooks</span>
+    <span class="as-of">checked 2026-08-25 · PreToolUse deny / PostToolUse lint lifecycle; exit-code-2 blocking; `if` filters FAIL OPEN — prefer permission rules for hard denies</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/permissions</span>
+    <span class="as-of">checked 2026-08-25 · deny→ask→allow precedence; Read(./.env) and Bash(git push *) examples</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/lsp/</span>
+    <span class="as-of">checked 2026-08-25 · 30+ servers DISABLED by default (lsp: true enables); docs weigh plain lint/typecheck CLIs as cheaper alternative</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/plugins</span>
+    <span class="as-of">checked 2026-08-25 · lifecycle event hooks; npm plugins execute at startup — supply-chain consideration flagged above</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/common-workflows</span>
+    <span class="as-of">checked 2026-08-25 · plan mode reviews before disk writes; --worktree gives parallel sessions isolated checkouts</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself</h2>
+    <ol>
+      <li><strong>Exact-click checkpoint: write your first AGENTS.md tonight.</strong> Open
+      your editor at the root of any project you care about. Create a file named exactly
+      <code>AGENTS.md</code>. Paste this template and fill the five placeholders:</li>
+    </ol>
+    <pre><code># AGENTS.md — &lt;project name&gt;
+what this is: &lt;one sentence a stranger could act on&gt;
+
+commands:
+- install: &lt;exact command&gt;
+- test: &lt;exact command&gt;
+
+rules (dated, pruned):
+- &lt;a correction you have made at least once&gt;
+
+last reviewed: 2026-08-&lt;day&gt; by &lt;your name&gt;</code></pre>
+    <ol start="2">
+      <li><strong>Verify it loads.</strong> Restart your harness inside that folder and ask:
+      "list the standing instructions you are running under." If it cannot echo your rules back,
+      check the filename and location — the echo trick is how you audit any harness's memory
+      loading, including the nesting behavior from the simulator above.</li>
+      <li><strong>Break it on purpose, ship-sized.</strong> Add one contradictory rule to your
+      new file (e.g., "use tabs" vs your real style), predict which instruction wins when both
+      sit in context, then ask the agent to write a small function and grade the result against
+      your prediction. Afterwards, delete the lie and promote your most-repeated real correction
+      into the rules list — dated. That file now earns its keep.</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Your AGENTS.md says "never edit generated files," yet the agent keeps editing
+      them. Which layer do you reach for, and why?</summary>
+      <p>Enforcement, not context: a permission deny rule or a PreToolUse-style hook. As the
+      docs put it, memory is context, not enforcement — prose can be outweighed by a strong
+      local signal mid-task, while a deny rule or exit-code-2 hook physically blocks the write.</p>
+    </details>
+    <details>
+      <summary>You work in packages/app. Both monorepo/AGENTS.md and packages/app/AGENTS.md
+      define a test command. Which fires — and what happens to the other?</summary>
+      <p>The app-level command fires; nearest wins ties. The root rule stays loaded but is
+      overridden on that topic for files under packages/app — it would only fire again if the
+      nearer file were deleted or stopped claiming the topic. Sibling packages' files never load
+      at all.</p>
+    </details>
+    <details>
+      <summary>Why does a five-line memory file beat a 200-line one, when a big procedure you
+      sometimes need belongs in a skill instead?</summary>
+      <p>Memory loads every session, so every line is a permanent tax — and caps like Claude
+      Code's ~200-line MEMORY.md load limit mean overflow silently goes unread anyway. Skills
+      invert the economics: only the description persists, the body loads on demand, and flags
+      like disable-model-invocation can keep a skill out of context entirely until invoked.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>Naming differs; anatomy doesn't.</strong> Every harness implements the same three
+    layers under different labels. The AGENTS.md standard is read natively by Codex, Cursor,
+    Copilot coding agent, Gemini CLI and opencode, so it is the best default for portable
+    projects. Claude Code prefers its CLAUDE.md family — managed, user, project, local tiers
+    plus the MEMORY.md auto-memory index — though skills and permission concepts map almost
+    one-to-one onto the generic layers above. Gemini CLI also honors its own GEMINI.md at the
+    equivalent spots. Learn the layers once and each tool's naming becomes trivia, not relearning.</p>
+    <p><strong>Monorepos are where nesting earns its keep.</strong> Shared commands and commit
+    conventions belong at the repo root; per-package quirks (test runner, generated-code bans,
+    purity rules) belong next to the code they govern. If you find yourself writing "except in
+    packages/lib" at the root, that sentence wants to be a nested file instead — the loader
+    already knows how to scope it.</p>
+    <p><strong>When configuration becomes cargo cult.</strong> Symptoms: a memory file copied
+    from someone else's repo that no one has reread; rules referencing tools you no longer use;
+    a "sacred" conventions file that contradicts what the team actually does. The failure is
+    worse than having no config, because stale instructions actively steer every session wrong.
+    Antidotes: date every rule, prune on a calendar, and apply one brutal test — if you cannot
+    say why a rule exists, delete it. Configuration should be a fossil record of real friction,
+    and fossils stop being evidence when they outnumber the living.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch03-models-without-money.html">← ch03 · models without money</a>
+    <a href="ch05-context-engineering.html">ch05 · context engineering →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 04 · configuring your agent properly · facts as of 2026-08-25</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>

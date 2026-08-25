@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3 · Models without money — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l1">part I · tools &amp; access · L1 coral</span>
+  <h1>Chapter 3: Models without money</h1>
+  <p class="lede">Promise: after this chapter you can put a frontier-class model behind
+  your agent today for literally $0, pick the right one of four free doors deliberately,
+  and predict exactly where each door's published wall will interrupt you.</p>
+  <p class="as-of">facts checked as of 2026-08-25 · every rate number below carries its own inline date — they expire monthly</p>
+
+  <p>This is an on-ramp chapter, not an economics lesson — money appears here only where
+  it blocks practice, and on day one it blocks almost everyone. Access is not one
+  decision but four <strong>shapes</strong>, and every provider you will ever meet fits
+  one of them:</p>
+  <ul>
+    <li><strong>Ride an entitlement you hold.</strong> A paid AI subscription whose
+    terms allow harness reuse powers an agent at zero marginal cost.</li>
+    <li><strong>Ride a published free tier.</strong> A vendor key with printed
+    ceilings — requests per minute, requests per day.</li>
+    <li><strong>Pay almost nothing per token.</strong> Cheap open-weight APIs price
+    agent habits in pocket change, especially off-peak.</li>
+    <li><strong>Run the weights yourself.</strong> Local models: no provider, no bill,
+    no 429 — your hardware is the only wall.</li>
+  </ul>
+  <p>The transferable skill is not memorizing pricing pages; it is reading a published
+  limit before you build on it, and knowing which shape you're standing in. Every harness
+  from Chapter&nbsp;02 reaches all four through the same three config fields — endpoint,
+  credential, model id — so switching doors later costs an evening, not a semester.</p>
+
+  <h2>Feel the walls: the free-door picker</h2>
+  <p>Tables don't bruise you; walls do. Below are four real doors with their real
+  published caps — nothing invented, every figure stamped with the date it was checked.
+  Set a usage profile, then switch doors and watch the wall physically slide along the
+  track. Push the daily slider past it and see exactly when your afternoon dies.
+  One thing caps cannot show: free-tier data-training terms differ per provider and
+  change without notice, so each door below prints its stated training-data policy
+  inline wherever the source ledger holds one in writing — and every door without one
+  is stamped plainly "check current terms".</p>
+
+  <div class="doorlab" id="doorlab">
+    <style>
+      .doorlab { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
+      .doorlab, .doorlab * { box-sizing: border-box; }
+      .dl-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.7rem; }
+      .dl-doors { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+      .dl-door { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: var(--muted); background: var(--paper); border: 1.5px solid var(--line-strong); border-radius: 10px; padding: 0.4rem 0.8rem; min-height: 44px; text-align: left; }
+      .dl-door small { display: block; font-weight: 400; font-size: 0.62rem; }
+      .dl-door:hover { border-color: var(--ink); color: var(--ink); }
+      .dl-door:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+      .dl-door[aria-pressed="true"] { background: color-mix(in srgb, var(--l1) 16%, var(--paper)); border-color: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 2px var(--l1); }
+      .dl-controls { display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; margin-top: 1rem; }
+      .dl-ctl { flex: 1 1 16rem; }
+      .dl-ctl-label { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--ink); }
+      .dl-ctl input[type="range"] { width: 100%; min-height: 38px; accent-color: var(--l1); margin: 0; }
+      .dl-ctl input[type="number"] { width: 5.5rem; min-height: 38px; font-family: var(--font-mono); font-size: 0.8rem; padding: 0.25rem 0.4rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); }
+      .dl-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.7rem; }
+      .dl-presets-span { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+      .dl-preset { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; color: var(--ink); background: var(--paper); border: 1.5px dashed var(--line-strong); border-radius: 999px; padding: 0.35rem 0.75rem; min-height: 38px; }
+      .dl-preset:hover { border-style: solid; border-color: var(--ink); }
+      .dl-preset:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+      .dl-track { position: relative; height: 28px; margin-top: 2.2rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); }
+      .dl-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0%; border-radius: 999px 0 0 999px; background: var(--l3); transition: width 0.12s linear, background 0.12s linear; }
+      .dl-marker { position: absolute; top: -9px; bottom: -9px; width: 0; border-left: 3px dashed var(--l1); transform: translateX(-50%); transition: left 0.12s linear; }
+      .dl-markerlbl { position: absolute; bottom: calc(100% + 7px); left: -3px; white-space: nowrap; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; color: var(--l1); background: var(--paper-raised); border: 1.5px solid var(--l1); border-radius: 6px; padding: 0.05rem 0.4rem; }
+      .dl-nowall { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; color: var(--muted); }
+      .dl-ticks { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.62rem; color: var(--muted); margin-top: 0.35rem; }
+      .dl-out { margin-top: 0.9rem; border-top: 2px solid var(--ink); padding-top: 0.7rem; display: flex; flex-direction: column; gap: 0.35rem; }
+      .dl-line { margin: 0; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.55; }
+      .dl-note { color: var(--muted); font-size: 0.72rem; }
+      .dl-v { font-weight: 700; }
+      .dl-v-ok { color: var(--l3); }
+      .dl-v-mid { color: var(--l0); }
+      .dl-v-bad { color: var(--l1); }
+      @media (max-width: 640px) { .dl-controls { flex-direction: column; } }
+      @media (prefers-reduced-motion: reduce) {
+        .doorlab, .doorlab *, .doorlab *::before, .doorlab *::after { transition: none !important; animation: none !important; }
+      }
+    </style>
+    <span class="dl-tag">free-door picker · limit-feeler · published caps only · every door stamped with its as-of date · nothing leaves this page</span>
+
+    <div class="dl-doors" role="group" aria-label="Choose a free door">
+      <button type="button" class="dl-door" data-door="gemini" aria-pressed="true">gemini cli · free<small>personal google oauth</small></button>
+      <button type="button" class="dl-door" data-door="or50" aria-pressed="false">openrouter :free<small>never bought credits</small></button>
+      <button type="button" class="dl-door" data-door="or1000" aria-pressed="false">openrouter :free<small>has ≥$10 credits</small></button>
+      <button type="button" class="dl-door" data-door="groq" aria-pressed="false">groq free plan<small>gpt-oss-120b</small></button>
+      <button type="button" class="dl-door" data-door="local" aria-pressed="false">local ollama<small>your machine</small></button>
+    </div>
+
+    <div class="dl-controls">
+      <div class="dl-ctl">
+        <label class="dl-ctl-label" for="dl-day">requests per day
+          <input type="number" id="dl-daynum" min="1" max="5000" step="1" value="120" aria-label="requests per day (type a number)">
+        </label>
+        <input type="range" id="dl-day" min="1" max="2000" step="1" value="120" aria-label="requests per day slider">
+      </div>
+      <div class="dl-ctl">
+        <label class="dl-ctl-label" for="dl-rpm">requests in your busiest minute
+          <output id="dl-rpmval" for="dl-rpm">12</output>
+        </label>
+        <input type="range" id="dl-rpm" min="1" max="120" step="1" value="12" aria-label="requests in your busiest minute">
+      </div>
+      <div class="dl-ctl">
+        <label class="dl-ctl-label" for="dl-ctx">avg context tokens per request
+          <input type="number" id="dl-ctxnum" min="100" max="32000" step="100" value="2000" aria-label="average context tokens per request (type a number)">
+        </label>
+        <input type="range" id="dl-ctx" min="100" max="32000" step="100" value="2000" aria-label="average context tokens per request slider">
+      </div>
+    </div>
+
+    <div class="dl-presets">
+      <span class="dl-presets-span">profiles:</span>
+      <button type="button" class="dl-preset" data-preset="25">light practice · 25</button>
+      <button type="button" class="dl-preset" data-preset="120">one evening session · 120</button>
+      <button type="button" class="dl-preset" data-preset="400">all-day building · 400</button>
+      <button type="button" class="dl-preset" data-preset="1500">team demo day · 1,500</button>
+    </div>
+
+    <div class="dl-track" aria-hidden="true">
+      <div class="dl-fill" id="dl-fill"></div>
+      <div class="dl-marker" id="dl-marker"><span class="dl-markerlbl" id="dl-markerlbl"></span></div>
+      <div class="dl-nowall" id="dl-nowall" hidden>no network wall — the limit is your hardware</div>
+    </div>
+    <div class="dl-ticks" aria-hidden="true"><span>0</span><span>500</span><span>1,000</span><span>1,500</span><span>2,000 req/day</span></div>
+
+    <div class="dl-out" aria-live="polite">
+      <p class="dl-line" id="dl-doorline"></p>
+      <p class="dl-line dl-note" id="dl-poline"></p>
+      <p class="dl-line" id="dl-dayline"></p>
+      <p class="dl-line" id="dl-minline"></p>
+      <p class="dl-line" id="dl-tokline" hidden></p>
+      <p class="dl-line dl-note" id="dl-note"></p>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("doorlab");
+    if (!root || root.dataset.doorBound) return;
+    root.dataset.doorBound = "1";
+
+    var SCALE = 2000;
+    var DOORS = {
+      gemini: {
+        name: "Gemini CLI free tier — personal Google OAuth",
+        asof: "caps checked 2026-08-25",
+        daily: 1000, rpm: 60,
+        policy: "check current terms — no training-policy statement pinned in the source ledger",
+        note: "First-party Apache-2.0 CLI; the OAuth sign-in IS the free tier. Different surface, different rules: the API-key Gemini free tier no longer publishes a fixed grid — live per-project limits appear only inside AI Studio."
+      },
+      or50: {
+        name: "OpenRouter :free models — never bought credits",
+        asof: "caps checked 2026-08",
+        daily: 50, rpm: 20,
+        policy: "stated in writing (T1, checked 2026-08): training-capable upstreams route only if your privacy settings permit; a documented opt-out covers free models, and opting out can exclude the cheapest providers",
+        note: "20 requests/min always; 50/day until you have ever bought ≥$10 of credits. Multi-account evasion of the cap is explicitly blocked."
+      },
+      or1000: {
+        name: "OpenRouter :free models — has ≥$10 credits",
+        asof: "caps checked 2026-08",
+        daily: 1000, rpm: 20,
+        policy: "stated in writing (T1, checked 2026-08): training-capable upstreams route only if your privacy settings permit; a documented opt-out covers free models, and opting out can exclude the cheapest providers",
+        note: "A one-time $10 top-up raises the daily wall twenty-fold; the 20/min burst cap stays regardless. The :free models themselves remain $0 per request."
+      },
+      groq: {
+        name: "Groq free plan — gpt-oss-120b",
+        asof: "caps checked 2026-08",
+        daily: 1000, rpm: 30,
+        policy: "check current terms — no training-policy statement pinned in the source ledger",
+        note: "Org-level caps: 30 req/min · 1,000 req/day · 8K tokens/min · 200K tokens/day. Cached tokens don't count. Exceed a wall and you get HTTP 429 with a retry-after header. For agent work the 8K-token/min wall often bites before the request counts do."
+      },
+      local: {
+        name: "Ollama — fully local",
+        asof: "≥64k-context guidance checked 2026-08",
+        daily: null, rpm: null,
+        policy: "none needed — no provider sees your prompts, so vendor training terms never attach",
+        note: "No provider, no 429, no meter. The requirements move onto your machine: enough RAM/VRAM, and agent-grade local work wants models with ≥64k-token context. ollama launch opencode wires it into opencode for you."
+      }
+    };
+    var cur = "gemini";
+
+    var dayRange = document.getElementById("dl-day");
+    var dayNum = document.getElementById("dl-daynum");
+    var rpmRange = document.getElementById("dl-rpm");
+    var rpmVal = document.getElementById("dl-rpmval");
+    var ctxRange = document.getElementById("dl-ctx");
+    var ctxNum = document.getElementById("dl-ctxnum");
+    var fill = document.getElementById("dl-fill");
+    var marker = document.getElementById("dl-marker");
+    var markerLbl = document.getElementById("dl-markerlbl");
+    var nowall = document.getElementById("dl-nowall");
+    var doorLine = document.getElementById("dl-doorline");
+    var polLine = document.getElementById("dl-poline");
+    var dayLine = document.getElementById("dl-dayline");
+    var minLine = document.getElementById("dl-minline");
+    var tokLine = document.getElementById("dl-tokline");
+    var noteLine = document.getElementById("dl-note");
+
+    function fmt(n) { return n.toLocaleString("en-US"); }
+    function v(cls, txt) { return '<span class="dl-v dl-v-' + cls + '">' + txt + "</span> "; }
+
+    function hm(fracOfDay) {
+      var mins = Math.round(fracOfDay * 600);
+      var h = Math.floor(mins / 60);
+      var m = mins % 60;
+      return h + "h " + (m < 10 ? "0" + m : m) + "m";
+    }
+
+    function update() {
+      var d = DOORS[cur];
+      var day = parseInt(dayNum.value, 10);
+      if (!isFinite(day) || day < 1) day = 1;
+      if (day > 5000) day = 5000;
+      var rpm = parseInt(rpmRange.value, 10) || 1;
+      rpmVal.textContent = rpm;
+      if (parseInt(dayRange.value, 10) !== Math.min(day, SCALE)) dayRange.value = Math.min(day, SCALE);
+      var ctx = parseInt(ctxNum.value, 10);
+      if (!isFinite(ctx) || ctx < 100) ctx = 100;
+      if (ctx > 32000) ctx = 32000;
+      if (parseInt(ctxRange.value, 10) !== ctx) ctxRange.value = ctx;
+
+      fill.style.width = Math.min(day, SCALE) / SCALE * 100 + "%";
+      var fillColor = "var(--l3)";
+      var dayHtml;
+
+      if (d.daily === null) {
+        marker.style.display = "none";
+        nowall.hidden = false;
+        dayHtml = v("ok", "✓ NO WALL —") + fmt(day) +
+          " requests cost nothing but electricity and patience. There is no daily reset to wait for, because there is no meter.";
+      } else {
+        marker.style.display = "";
+        nowall.hidden = true;
+        var pct = d.daily / SCALE * 100;
+        marker.style.left = pct + "%";
+        markerLbl.textContent = "429 wall · " + fmt(d.daily) + "/day";
+        if (day > d.daily) {
+          fillColor = "var(--l1)";
+          dayHtml = v("bad", "✗ WALLED —") + "HTTP 429 starts at request " + fmt(d.daily) +
+            "; your other " + fmt(day - d.daily) + " fail until the daily reset. At a steady pace across a ten-hour day, that wall arrives " +
+            "about " + hm(d.daily / day) + " in.";
+        } else if (day >= d.daily * 0.85) {
+          fillColor = "var(--l0)";
+          dayHtml = v("mid", "~ CLOSE —") + fmt(day) + " of " + fmt(d.daily) +
+            "/day · one busy hour from the wall.";
+        } else {
+          dayHtml = v("ok", "✓ FITS —") + fmt(day) + " of " + fmt(d.daily) +
+            "/day · " + fmt(d.daily - day) + " requests of headroom.";
+        }
+      }
+      fill.style.background = fillColor;
+
+      var minHtml;
+      if (d.rpm === null) {
+        minHtml = v("ok", "—") + "no per-minute cap exists; throttling happens in silicon, not HTTP.";
+      } else if (rpm > d.rpm) {
+        minHtml = v("bad", "✗ BURST WALL —") + "cap is " + d.rpm +
+            "/min: request " + (d.rpm + 1) + " inside any single minute gets 429 even with daily headroom to burn.";
+      } else {
+        minHtml = v("ok", "✓ BURST OK —") + "busiest minute " + rpm + " vs " + d.rpm + "/min cap.";
+      }
+
+      var tokHtml = "";
+      var tokShow = cur === "groq";
+      if (tokShow) {
+        var tpm = rpm * ctx;
+        var tpd = Math.min(day, d.daily) * ctx;
+        if (tpm > 8000) {
+          var perMin = Math.max(1, Math.floor(8000 / ctx));
+          tokHtml = v("bad", "✗ TOKEN WALL TRIPS FIRST —") +
+            rpm + " requests × " + fmt(ctx) + " tokens = " + fmt(tpm) + "/min vs the 8K/min cap: at this context size the wall stands at " +
+            perMin + (perMin === 1 ? " request" : " requests") + "/min, so it trips long before the " + fmt(d.daily) +
+            "/day request count ever could." +
+            (tpd > 200000 ? " The 200K/day token budget follows about " + hm(Math.min(1, 200000 / tpd)) + " in." : "");
+        } else if (tpd > 200000 || day > d.daily) {
+          var fracTok = tpd > 200000 ? 200000 / tpd : Infinity;
+          var fracReq = day > d.daily ? d.daily / day : Infinity;
+          if (fracTok <= fracReq) {
+            tokHtml = v("bad", "✗ TOKENS/DAY TRIP FIRST —") +
+              fmt(day) + " requests × " + fmt(ctx) + " tokens ≈ " + fmt(tpd) + " against the 200K/day budget: it dies about " +
+              hm(fracTok) + " in, ahead of the " + fmt(d.daily) + "/day request wall.";
+          } else {
+            tokHtml = v("bad", "✗ REQUEST WALL TRIPS FIRST —") +
+              "at " + fmt(ctx) + " tokens/request your token ceilings outlast your request count: 429 arrives on volume alone, about " +
+              hm(fracReq) + " in.";
+          }
+        } else {
+          tokHtml = v("ok", "✓ NO TOKEN WALL —") +
+            "busiest minute burns " + fmt(tpm) + " of 8K tokens/min; a full day burns about " + fmt(tpd) +
+            " of 200K. Drag avg context toward 32K and watch this wall trip at tiny request counts.";
+        }
+      }
+
+      doorLine.innerHTML = "door: " + d.name + " · " + d.asof;
+      polLine.innerHTML = '<span class="dl-v">training policy:</span> ' + d.policy;
+      dayLine.innerHTML = dayHtml;
+      minLine.innerHTML = minHtml;
+      tokLine.hidden = !tokShow;
+      tokLine.innerHTML = tokHtml;
+      noteLine.textContent = d.note;
+    }
+
+    dayRange.addEventListener("input", function () {
+      dayNum.value = dayRange.value;
+      update();
+    });
+    dayNum.addEventListener("input", update);
+    rpmRange.addEventListener("input", update);
+    ctxRange.addEventListener("input", function () {
+      ctxNum.value = ctxRange.value;
+      update();
+    });
+    ctxNum.addEventListener("input", update);
+
+    root.addEventListener("click", function (ev) {
+      var t = ev.target;
+      var doorBtn = t && t.closest ? t.closest("[data-door]") : null;
+      if (doorBtn) {
+        cur = doorBtn.getAttribute("data-door");
+        var all = root.querySelectorAll("[data-door]");
+        for (var i = 0; i < all.length; i++) {
+          all[i].setAttribute("aria-pressed", all[i] === doorBtn ? "true" : "false");
+        }
+        update();
+        return;
+      }
+      var preBtn = t && t.closest ? t.closest("[data-preset]") : null;
+      if (preBtn) {
+        dayNum.value = preBtn.getAttribute("data-preset");
+        update();
+      }
+    });
+
+    update();
+  })();
+  </script>
+
+  <p>Three lessons the picker should have landed, independent of any vendor: neighboring
+  doors differ twenty-fold (50 versus 1,000/day) for the identical request; per-minute
+  walls bite independently of daily ones; and the local door deletes the wall entirely by
+  moving the constraint onto hardware you own. Each door's date stamp also admits the
+  quiet truth: these were the published numbers <em>on their check dates</em>.</p>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Pick ONE door tonight and take it end-to-end — practice beats planning. The four
+    doors are interchangeable at the concept level (endpoint, credential, model id), so
+    the skill built on any one transfers. The worst outcome is an afternoon comparing
+    doors instead of shipping your first agent session.</p>
+  </div>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p>Every number in this chapter expires. Limits are repriced monthly, and doors die
+    outright: GitHub Models — once a beloved free playground — was fully retired on
+    2026-07-30, redirects and all. Before betting a daily habit on any wall below,
+    re-stamp it: open the linked page, compare the number, update your notes.</p>
+  </div>
+
+  <h2>The four doors, with their published teeth</h2>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>door</th><th>published caps (as printed)</th><th>as-of</th><th>where it bites</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Gemini CLI free tier</td>
+          <td>60 req/min · 1,000 req/day via personal Google OAuth</td>
+          <td>2026-08-25</td>
+          <td>Daily reset; requires the OAuth sign-in</td>
+        </tr>
+        <tr>
+          <td>OpenRouter :free</td>
+          <td>20 req/min always; 50/day without ≥$10 lifetime credits, 1,000/day once crossed</td>
+          <td>2026-08</td>
+          <td>Credit threshold; multi-account evasion blocked</td>
+        </tr>
+        <tr>
+          <td>Groq free plan (gpt-oss-120b)</td>
+          <td>30 RPM · 1,000 RPD · 8K TPM · 200K TPD</td>
+          <td>2026-08</td>
+          <td>Org-level; token walls; cached tokens exempt</td>
+        </tr>
+        <tr>
+          <td>Gemini API (key) free tier</td>
+          <td>No public fixed grid anymore — live limits shown per project/model in AI Studio only</td>
+          <td>2026-08-18</td>
+          <td>You must check your own console before building</td>
+        </tr>
+        <tr>
+          <td>Mistral "Free mode"</td>
+          <td>RPS + tokens/min + tokens/month — shown per-org in the console, not on a page</td>
+          <td>2026-08-12</td>
+          <td>Numbers exist only inside YOUR console</td>
+        </tr>
+        <tr>
+          <td>Qwen Model Studio (new user)</td>
+          <td>~1M tokens per model, 90 days, Beijing/Singapore regions</td>
+          <td>2026-08-13</td>
+          <td>Quota expires; "Free Quota Only" mode hard-stops with HTTP 403 so bills stay impossible</td>
+        </tr>
+        <tr>
+          <td>DeepSeek API (paid, near-free)</td>
+          <td>V4-Flash $0.22/$0.66 per M tokens in/out; off-peak halved; cache-hit input $0.007/M</td>
+          <td>2026-08</td>
+          <td>Off-peak excludes 01–04 &amp; 06–10 UTC weekdays</td>
+        </tr>
+        <tr>
+          <td>Local (Ollama / LM Studio)</td>
+          <td>None published — and ≥64k-token-context models required for agent work</td>
+          <td>2026-08</td>
+          <td>Your RAM/VRAM is the ceiling</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Door 1 · Reuse a subscription you already pay for</h3>
+  <p>If any AI subscription touches your life, check whether its terms allow harness
+  reuse before buying anything. opencode documents zero-setup OAuth for ChatGPT
+  Plus/Pro, GitHub Copilot (device-flow), and GitLab Duo — sign in, and your existing
+  plan becomes the model budget. Even a $0 ChatGPT plan draws from a shared Codex
+  allowance pool, billed since April 2, 2026 in token-based credits. One boundary from
+  Chapter&nbsp;02: community proxies riding Claude Pro/Max subscriptions were removed in
+  opencode v1.3.0 because Anthropic prohibits it — reuse doors exist where the vendor
+  permits them, and vanish where it doesn't.</p>
+
+  <h3>Door 2 · Published free tiers, read honestly</h3>
+  <p>Gemini CLI's free tier remains the largest first-party allowance — 60 requests per
+  minute, 1,000 per day on models with a 1M-token context window, unlocked by a personal
+  Google OAuth click. OpenRouter's <code>:free</code> models publish their constants
+  openly (20/min; 50 or 1,000/day by credit history). Groq's free plan is the instructive
+  one: it caps <em>both</em> requests and tokens, at org level, and exempts cached tokens
+  — a reward for prompt-cache discipline you'll meet again in Chapter&nbsp;05. Two tiers
+  stopped publishing grids entirely: Google's API-key free tier now shows live limits only
+  inside AI Studio, Mistral's only in your console — so the modern ritual is "open the
+  console, screenshot YOUR numbers, date them." And Qwen's new-user quota (~1M tokens per
+  model, 90 days) can be locked in "Free Quota Only" mode, which hard-stops with HTTP 403
+  — a door that makes surprise bills structurally impossible.</p>
+
+  <h3>Door 3 · Cheap open-weight APIs and the off-peak trick</h3>
+  <p>Past the truly free doors sits a band so cheap that a month of daily practice rounds
+  to pocket change. DeepSeek's V4-Flash runs $0.22/$0.66 per million input/output tokens
+  — halved outside peak hours (everything except 01–04 and 06–10 UTC weekdays), with
+  cache-hit input at $0.007/M. Do the month math once: 8M tokens in, 2M out costs $3.08
+  at list, roughly $1.54 shifted off-peak, less still as cache hits accumulate. Kimi
+  prices K2.7 Code/K2.6 at $0.95/$4.00 per M with higher limits unlocking automatically
+  as cumulative spend grows. DeepSeek even exposes an Anthropic-format endpoint, so
+  Anthropic-flavored harnesses connect without translation. "Paid" here doesn't mean
+  expensive; it means the meter exists.</p>
+
+  <h3>Door 4 · Fully local: the wall moves in-house</h3>
+  <p>Ollama and LM Studio run open weights on your own machine — LM Studio documents a
+  provider at <code>127.0.0.1:1234/v1</code>, and <code>ollama launch
+  opencode</code> configures opencode automatically. Nothing leaves your machine; no rate
+  limit can exist because there is nobody to enforce one. The honest costs: your RAM/VRAM
+  sets the ceiling, and agent-grade work wants models with at least a 64k-token context
+  window — smaller-context models starve a loop holding files, diffs, and tool output at
+  once. Local is also the only door that survives airplanes.</p>
+
+  <h2>An honesty break: cheaper is not identical</h2>
+  <p>Open-weight models are closer to frontier quality than ever — and the price ladders
+  admit they are not identical. Kimi charges $3/$15 for its K3 flagship versus
+  $0.95/$4.00 for its K2 code models; DeepSeek's V4-Pro costs three times its V4-Flash.
+  Vendors price capability differences; pretend otherwise and you'll rediscover them
+  mid-project. Practitioner stance: treat cheap-door output as draft-until-proven — keep
+  the test-and-read-the-diff rituals doubled, not relaxed, while you evaluate whether a
+  door holds for your work. When it holds, practice reps cost pennies. When it doesn't,
+  your verification steps will catch it before a blog would have.</p>
+
+  <div class="callout co-risk">
+    <span class="c-tag">grey zone · risk-flagged</span>
+    <p>Some free doors train on what you send through them — documented, not rumor, and
+    the paper trails differ in quality. OpenRouter's written policy (T1): providers flag
+    per-endpoint whether they may train on your prompts, with separate opt-outs for paid
+    and free models — and opting out can route you away from the cheapest providers.
+    Contrast z.ai's GLM Coding Plan: community documentation (T3, community-reported — a
+    lead, not settled fact) describes terms permitting training on your data with no
+    meaningful opt-out, plus automated detection that throttles, suspends, then bans
+    non-coding use at three violations; z.ai's own pages offer no written opt-out to
+    point at. Working rule until you've read a provider's policy yourself: private code
+    goes through written-opt-out doors or local weights.</p>
+  </div>
+
+  <h2>Where this lands in your build</h2>
+  <p>The picker above is the hand-built prototype of Build&nbsp;1 — the
+  <strong>agent-cost-compass</strong>: same doors, same published walls, your code doing
+  the math. Tonight's door choice feeds it directly — write the door name, its as-of
+  stamp, and the harness version into your build log so every later chapter maps onto
+  real sessions.</p>
+
+  <h2>Receipts</h2>
+  <p>Tier key: T1 official docs or established practitioners · T2 vendor/press secondary ·
+  T3 lead only, never cited as fact alone.</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/google-gemini/gemini-cli</span>
+    <span class="as-of">checked 2026-08-25 · Apache-2.0; free tier 60 req/min + 1,000/day via personal Google OAuth; Gemini 3 models, 1M context</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://openrouter.ai/docs/api-reference/limits</span>
+    <span class="as-of">checked 2026-08 · :free = 20 RPM always; 50/day below $10 lifetime credits, 1,000/day at ≥$10; multi-account evasion blocked</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://console.groq.com/docs/rate-limits</span>
+    <span class="as-of">checked 2026-08 · free plan gpt-oss-120b: 30 RPM / 1K RPD / 8K TPM / 200K TPD; org-level; cached tokens exempt; 429 + retry-after</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://ai.google.dev/gemini-api/docs/rate-limits</span>
+    <span class="as-of">checked 2026-08-18 (snapshot — re-verify before print) · no public fixed RPM/RPD grid; live limits per project/model in AI Studio only</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://help.mistral.ai (rate-limit article)</span>
+    <span class="as-of">checked 2026-08-12 · "Free mode" default; limits = RPS + tokens/min + tokens/month, displayed per-org in console only</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://alibabacloud.com/help/en/model-studio/new-free-quota</span>
+    <span class="as-of">checked 2026-08-13 · ~1M tokens per model, 90 days, Beijing/Singapore; "Free Quota Only" mode hard-stops HTTP 403</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://api-docs.deepseek.com/quick_start/pricing</span>
+    <span class="as-of">checked 2026-08 · V4-Flash $0.22/$0.66 per M; off-peak halved (except 01–04 &amp; 06–10 UTC weekdays); cache-hit input $0.007/M; V4-Pro 3×; Anthropic-format endpoint</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://platform.kimi.ai/</span>
+    <span class="as-of">checked 2026-08 · K2.7 Code/K2.6 $0.95/$4.00 per M; K3 flagship $3/$15; limits auto-unlock with cumulative spend</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/providers</span>
+    <span class="as-of">checked 2026-08 · zero-setup ChatGPT Plus/Pro OAuth, Copilot device-flow, GitLab Duo; LM Studio at 127.0.0.1:1234/v1; Claude proxies removed v1.3.0</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://docs.ollama.com/integrations/opencode</span>
+    <span class="as-of">checked 2026-08 · ollama launch opencode auto-configures; ≥64k-token-context models required locally</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://help.openai.com/en/articles/11369540-using-codex</span>
+    <span class="as-of">post-Apr-2026 · Codex included across ChatGPT plans incl. Free/Go via one shared allowance pool; token-based credits since 2026-04-02</span>
+  </div>
+  <p class="as-of" style="margin:1.1rem 0 0;">receipt cluster · training-on-your-data — T1 written policy first, T3 community-reported alongside</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://openrouter.ai/docs/features/privacy-and-logging</span>
+    <span class="as-of">checked 2026-08 · per-provider train-on-prompts flags; separate opt-outs for paid AND free models; opting out may exclude cheapest providers</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t3">T3 lead only</span>
+    <span class="r-url">https://awesomeagents.ai/news/zai-coding-plan-bans-non-coding-use/</span>
+    <span class="as-of">Apr 2026 events · community-reported: z.ai ToS permits training on your data, no meaningful opt-out; throttle → suspend → ban at 3 violations — lead only, pairs with the T1 contrast above</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t3">T3 lead only</span>
+    <span class="r-url">https://moclaw.ai/blog/glm-coding-plan-rate-limits</span>
+    <span class="as-of">read 2026-08-14 · community writeup quoting z.ai policy pages directly (dual 5-hour/weekly ceilings; off-peak half points) — lead only, unverified against z.ai originals</span>
+  </div>
+  <p class="as-of" style="margin:1.1rem 0 0;">receipt cluster · the cautionary exhibit + paying-ahead numbers</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://docs.github.com/en/github-models/use-github-models/prototyping-with-ai-models</span>
+    <span class="as-of">retired 2026-07-30 · GitHub Models playground/catalog/BYOK gone; redirects to Azure AI Foundry or Copilot — proof this space moves</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://docs.anthropic.com/en/api/rate-limits</span>
+    <span class="as-of">checked 2026-08 · paid token buckets: per-model-class RPM + ITPM/OTPM (Start Opus 5: 1,000 RPM / 2M ITPM / 400K OTPM); monthly caps $500/$1k/$200k; cached-read input exempt</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself — one door, end to end, tonight</h2>
+    <ol>
+      <li><strong>Exact-click checkpoint: open the recommended door.</strong> Go to
+      <code>https://github.com/google-gemini/gemini-cli</code>, copy the install command
+      for your OS from its README, paste it into a terminal, and run the launcher
+      (<code>gemini</code>). When it offers auth, choose sign-in with Google and approve
+      the personal-account OAuth screen — that approval is the moment the 60/min ·
+      1,000/day tier attaches. Fully-local alternative: install Ollama, run
+      <code>ollama launch opencode</code>, pick a ≥64k-context model when asked.</li>
+      <li><strong>Run one real session, then probe the wall.</strong> In a small project
+      folder, give one bounded goal ("explain what this folder contains"), accept and
+      deny one permission each so you feel the gate. Then fire a quick burst of trivial
+      prompts and watch for any rate-limit message — note its exact wording and reset
+      hint. Compare what bit (minute wall vs day wall) against the picker above.</li>
+      <li><strong>Ship-sized task.</strong> Point the harness from Chapter&nbsp;02 at the
+      same door (opencode users: the providers page lists the exact provider entry;
+      Gemini CLI users are already wired). Log into your Build&nbsp;1 notes: door name,
+      the as-of date you verified, harness version, and one sentence on how the wall
+      felt at your real usage level.</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Your agent dies mid-afternoon with HTTP 429. Which ceilings might you have hit, and how do you tell them apart?</summary>
+      <p>At least three candidates: a daily request cap (resets on the provider's
+      midnight), a per-minute request cap (clears in seconds — retry and it works), or a
+      token-per-minute wall like Groq's 8K TPM (big contexts trip it at low request
+      counts). Providers return a retry-after header on 429; its magnitude names the
+      wall. Cached tokens being exempt is the tell of a token-bucket door.</p>
+    </details>
+    <details>
+      <summary>Why is OpenRouter's $10-credit rule not really "paying for the model"?</summary>
+      <p>The $10 is a one-time, refundable-in-practice trust deposit that flips the daily
+      wall from 50 to 1,000 requests; the :free models themselves stay $0 per request.
+      You paid to raise a limit, not to buy tokens — which is why the picker shows it as
+      the same door with the marker slid right.</p>
+    </details>
+    <details>
+      <summary>Name one situation where the local door wins outright despite weaker model quality — and its price.</summary>
+      <p>Air-gapped or confidential code, offline work, or unlimited destructive
+      experimentation where there is no shared pool to exhaust. The price: your hardware
+      sets throughput and context size, and agent-grade local work demands
+      ≥64k-token-context models or the loop starves.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>What changes when you eventually pay.</strong> The mental model doesn't —
+    walls just get taller and start carrying invoices. Paid access swaps request-count
+    walls for token buckets (Anthropic documents per-model RPM plus input/output
+    token-per-minute ceilings, cached reads exempt) and monthly spend caps ($500 Start /
+    $1k Build / $200k Scale). Vendor-reported averages — OpenAI cites roughly $100–200
+    per developer-month for Codex — deserve the same scrutiny as any vendor number.
+    The wall-reading habit is identical; only the currency changed.</p>
+    <p><strong>Team and organizational doors.</strong> Caps quietly become org-level the
+    moment a second person shares your key: Groq's free tables are org-wide, Qwen's
+    quota pools across users, and OpenRouter blocks the multi-account workaround
+    explicitly. Teams need someone who owns keys, budgets, and the rate-limit doc —
+    Build 3 (free-tier-atlas) turns exactly that skill into software.</p>
+    <p><strong>Where local wins outright.</strong> Compliance-bound repositories where
+    nothing may leave the building, offline environments, and workflows hammering
+    thousands of trial iterations a day — no shared pool exists to exhaust. Everywhere
+    else the calculus is honest: you trade convenience and peak quality for sovereignty
+    and a $0 meter that can never surprise you.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch02-the-harness-landscape.html">← ch02 · the harness landscape</a>
+    <a href="ch04-configuring-your-agent.html">ch04 · configuring your agent →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 03 · models without money · facts as of 2026-08-25</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>
