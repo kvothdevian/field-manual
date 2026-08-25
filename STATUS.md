@@ -40,3 +40,5 @@ Awaiting Aman's go before P2 chapter drafting begins.
 3. Gauntlet each piece: builder/critic subagents, blind A/B vs
    ciechanow.ski (visual) and code.claude.com/docs/en/best-practices (content).
 | 2026-08-25 | P2-prep | Audit of P0/P1 passed (commits/files/index/ledger/board all verified); emphasis rebalance logged (#18); table styles added to book.css | Ch15/16 re-scoped in toc + matrix
+| 2026-08-25 | P2 | Wave 1 complete: Ch 01 + Ch 02 drafted, critiqued blind vs both bars, revised, WON (Ch01 in 3 rounds - loop lab w/ clear-vs-vague goal experiment; Ch02 in 2 rounds - permission-gate simulator). Critic polish notes logged for v2 pass | Parallel subagents worked this wave; sequential fallback unused |
+| 2026-08-25 | P2 | Build 1 M1 done: standalone repo C:\Users\Aman\Projects\agent-cost-compass (Astro + GitHub Pages skeleton, stack decisions recorded in BUILD.md §5, 3 commits) | Aman hand-verification pending per review packet; M2 = seed prices + calculator

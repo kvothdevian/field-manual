@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 2 · The harness landscape — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l1">part I · tools &amp; access · $0 core · L1 coral</span>
+  <h1>Chapter 2: The harness landscape</h1>
+  <p class="lede">Promise: after this chapter you can pick a coding harness deliberately —
+  instead of copying whatever is trending — install opencode <em>or</em> Gemini CLI for
+  exactly $0, and explain what skills, plugins, MCP and LSP do before you touch any of them.</p>
+  <p class="as-of">facts checked as of 2026-08-25 · this landscape moves fast; the dates on every receipt matter</p>
+
+  <h2>First principles: what a harness decides <em>for</em> you</h2>
+  <p>A coding agent is two things wearing one trench coat: the <strong>model</strong> — the LLM
+  doing the reasoning — and the <strong>harness</strong>: the program wrapped around it that turns
+  a chat into somebody who can actually touch your project. Beginners assume the model is the
+  product. Practitioners know the harness quietly decides most of the experience. Before naming
+  a single tool, learn the three decisions every harness makes on your behalf.</p>
+
+  <h3>The tool loop</h3>
+  <p>The harness defines which tools the model may call — read files, edit files, run shell
+  commands, search the web — how results feed back into the conversation, how many iterations
+  are allowed, and when the agent must stop and report. Loop design is why two harnesses
+  driving the <em>identical</em> model can feel like different products: one pauses to show you
+  a diff after every edit, another barrels through twenty steps before surfacing anything.</p>
+
+  <div class="flow-stage">
+    <div class="flow-chain">
+      <div class="flow-step"><b>Your goal</b><small>stated once, in words</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>Harness plans</b><small>builds the prompt, picks tools</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>Model calls tools</b><small>reads, edits, runs commands</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>Permission gate</b><small>allow · ask · deny</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>You verify</b><small>diff shown, loop repeats or stops</small></div>
+    </div>
+    <span class="flow-stage-label">the harness loop — owned by the tool around the model, not the model itself</span>
+  </div>
+
+  <h3>The permission model</h3>
+  <p>Every serious harness implements some version of <strong>allow / ask / deny</strong>:
+  actions that always run, actions that prompt you first, and actions that never run. Where
+  those lines sit is a values decision disguised as a settings screen. A harness whose default
+  is "skip the permission prompts" is making a philosophical statement, not a technical
+  necessity — and you inherit it unless you push back.</p>
+
+  <h3>Context handling</h3>
+  <p>The harness decides what enters the model's attention automatically: memory files,
+  project instructions, skill descriptions, compiler warnings. It also decides what gets
+  compressed away when a session grows long, and whether past sessions can be resumed or
+  branched. This silently shapes output quality long before prompt-writing skill does —
+  Chapter&nbsp;5 goes deep on it.</p>
+
+  <h3>Four words you must be able to define</h3>
+  <p>You will meet these in every harness's feature list. Learn them tool-agnostically now:</p>
+  <ul>
+    <li><strong>Skill</strong> — a written instruction file the harness loads <em>on demand</em>,
+    teaching it a procedure ("how we deploy", "how we name things") only when relevant.</li>
+    <li><strong>Plugin</strong> — code you add that hooks the harness's own lifecycle events,
+    enforcing rules or adding tools the authors never imagined.</li>
+    <li><strong>MCP</strong> — the Model Context Protocol, an open standard that lets a harness
+    connect to external tool servers — databases, browsers, APIs — through one common socket.</li>
+    <li><strong>LSP</strong> — the Language Server Protocol: the machinery editors use for
+    errors and "go to definition". A harness can tap those diagnostics so the agent sees the
+    compiler's complaints directly.</li>
+  </ul>
+
+  <h3>Watch the gate decide: a permission simulator</h3>
+  <p>No install needed for this one. Set the three gates below the way you <em>believe</em> a
+  harness should behave, press <strong>run agent</strong>, and watch a three-step agent trace hit
+  them one call at a time. You can even flip a gate mid-run — the next call obeys whatever the
+  gates say <em>at that moment</em>. This is exactly what a harness's permission layer does for
+  you on every single session, whether you ever look at it or not.</p>
+
+  <div class="pgsim" id="pgsim">
+    <style>
+      .pgsim { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
+      .pgsim-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.4rem; }
+      .pgsim-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; padding: 0.6rem 0; border-top: 1px dashed var(--line-strong); }
+      .pgsim-tools { flex: 1 1 15rem; }
+      .pgsim-tool-name { display: block; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; }
+      .pgsim-tool-desc { display: block; font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+      .pgseg { display: flex; border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; background: var(--paper); }
+      .pgseg button { appearance: none; border: 0; border-left: 1.5px solid var(--line-strong); background: transparent; cursor: pointer; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--muted); padding: 0.4rem 0.85rem; min-height: 38px; }
+      .pgseg button:first-child { border-left: 0; }
+      .pgseg button:hover { color: var(--ink); }
+      .pgseg button[data-val="allow"] { --pgc: var(--l3); }
+      .pgseg button[data-val="ask"] { --pgc: var(--l0); }
+      .pgseg button[data-val="deny"] { --pgc: var(--l1); }
+      .pgseg button[aria-pressed="true"] { color: var(--ink); background: color-mix(in srgb, var(--pgc) 22%, var(--paper)); box-shadow: inset 0 0 0 2px var(--pgc); }
+      .pgsim-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.9rem; }
+      .pgbtn-main, .pgbtn-ghost, .pgbtn-mini { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; border-radius: 10px; min-height: 38px; }
+      .pgbtn-main { font-size: 0.82rem; padding: 0.5rem 1.2rem; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: var(--shadow-sm); }
+      .pgbtn-main:hover { translate: -2px -2px; box-shadow: var(--shadow-md); }
+      .pgbtn-main:disabled { opacity: 0.55; cursor: default; translate: none; box-shadow: var(--shadow-sm); }
+      .pgbtn-ghost { font-size: 0.78rem; padding: 0.5rem 1rem; border: 1.5px solid var(--line-strong); background: var(--paper-raised); color: var(--ink); }
+      .pgbtn-ghost:hover { border-color: var(--ink); }
+      .pgtrace { margin-top: 1rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; display: flex; flex-direction: column; gap: 0.45rem; }
+      .pgline { margin: 0; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.55; }
+      .pgline-muted { color: var(--muted); }
+      .pgtag { display: inline-block; margin-right: 0.5rem; padding: 0 0.45rem; border: 1.5px solid var(--pgc, var(--muted)); border-radius: 6px; font-weight: 700; background: color-mix(in srgb, var(--pgc, var(--muted)) 12%, var(--paper)); }
+      .pgtag-info { --pgc: var(--muted); }
+      .pgtag-silent { --pgc: var(--l3); }
+      .pgtag-pause { --pgc: var(--l0); }
+      .pgtag-blocked { --pgc: var(--l1); }
+      .pgask { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: 0; }
+      .pgbtn-mini { font-size: 0.74rem; padding: 0.35rem 0.9rem; }
+      .pgmini-yes { border: 2px solid var(--l3); background: color-mix(in srgb, var(--l3) 18%, var(--paper-raised)); color: var(--ink); }
+      .pgmini-no { border: 2px solid var(--l1); background: color-mix(in srgb, var(--l1) 18%, var(--paper-raised)); color: var(--ink); }
+      .pgbtn-mini:hover { box-shadow: var(--shadow-sm); translate: -1px -1px; }
+      @media (max-width: 640px) { .pgsim-row { flex-direction: column; align-items: flex-start; } }
+      @media (prefers-reduced-motion: reduce) {
+        .pgsim *, .pgsim *::before, .pgsim *::after { transition: none !important; animation: none !important; }
+        .pgbtn-main:hover, .pgbtn-mini:hover { translate: none; box-shadow: none; }
+      }
+    </style>
+    <span class="pgsim-tag">permission gate simulator · interactive · runs locally, nothing leaves this page</span>
+
+    <div class="pgsim-row">
+      <span class="pgsim-tools">
+        <span class="pgsim-tool-name">read_file("budget.csv")</span>
+        <span class="pgsim-tool-desc">pull a local file into the model's context</span>
+      </span>
+      <div class="pgseg" role="group" aria-label="Permission gate for read_file">
+        <button type="button" data-gate-btn="read" data-val="allow" aria-pressed="true">✓ allow</button>
+        <button type="button" data-gate-btn="read" data-val="ask" aria-pressed="false">? ask</button>
+        <button type="button" data-gate-btn="read" data-val="deny" aria-pressed="false">✕ deny</button>
+      </div>
+    </div>
+    <div class="pgsim-row">
+      <span class="pgsim-tools">
+        <span class="pgsim-tool-name">run_shell("python analyze.py")</span>
+        <span class="pgsim-tool-desc">execute a command on your machine</span>
+      </span>
+      <div class="pgseg" role="group" aria-label="Permission gate for run_shell">
+        <button type="button" data-gate-btn="shell" data-val="allow" aria-pressed="false">✓ allow</button>
+        <button type="button" data-gate-btn="shell" data-val="ask" aria-pressed="true">? ask</button>
+        <button type="button" data-gate-btn="shell" data-val="deny" aria-pressed="false">✕ deny</button>
+      </div>
+    </div>
+    <div class="pgsim-row">
+      <span class="pgsim-tools">
+        <span class="pgsim-tool-name">fetch_page("https://rates.example.org/current.json")</span>
+        <span class="pgsim-tool-desc">reach out to the network</span>
+      </span>
+      <div class="pgseg" role="group" aria-label="Permission gate for fetch_page">
+        <button type="button" data-gate-btn="fetch" data-val="allow" aria-pressed="false">✓ allow</button>
+        <button type="button" data-gate-btn="fetch" data-val="ask" aria-pressed="false">? ask</button>
+        <button type="button" data-gate-btn="fetch" data-val="deny" aria-pressed="true">✕ deny</button>
+      </div>
+    </div>
+
+    <div class="pgsim-actions">
+      <button type="button" id="pg-run" class="pgbtn-main">▶ run agent</button>
+      <button type="button" id="pg-reset" class="pgbtn-ghost">reset gates</button>
+    </div>
+
+    <div class="pgtrace" id="pg-trace" aria-live="polite">
+      <p class="pgline pgline-muted">trace idle — set the gates above, then press run agent.</p>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("pgsim");
+    if (!root || root.dataset.pgsimBound) return;
+    root.dataset.pgsimBound = "1";
+
+    var DEFAULTS = { read: "allow", shell: "ask", fetch: "deny" };
+    var gates = { read: "allow", shell: "ask", fetch: "deny" };
+
+    var trace = document.getElementById("pg-trace");
+    var runBtn = document.getElementById("pg-run");
+    var resetBtn = document.getElementById("pg-reset");
+
+    var STEPS = [
+      { tool: "read",
+        call: 'step 1 · read_file("budget.csv")',
+        want: "the agent wants a local file pulled into its context." },
+      { tool: "shell",
+        call: 'step 2 · run_shell("python analyze.py")',
+        want: "the agent wants to execute a command on your machine." },
+      { tool: "fetch",
+        call: 'step 3 · fetch_page("https://rates.example.org/current.json")',
+        want: "the agent wants to reach out to the network." }
+    ];
+
+    var reduce = false;
+    try { reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    var STEP_MS = reduce ? 0 : 750;
+
+    var timer = null;
+    var idx = 0;
+    var tally = { silent: 0, approved: 0, blocked: 0 };
+
+    function line(tagCls, tagText, html) {
+      trace.insertAdjacentHTML("beforeend",
+        '<p class="pgline"><span class="pgtag ' + tagCls + '">' + tagText + "</span>" + html + "</p>");
+    }
+
+    function finish() {
+      line("pgtag-info", "done",
+        "run finished · " + tally.silent + " ran silently · " + tally.approved +
+        " ran after asking you · " + tally.blocked + " never ran.");
+      runBtn.disabled = false;
+      runBtn.textContent = "▶ run again";
+    }
+
+    function nextStep() {
+      if (idx >= STEPS.length) { finish(); return; }
+      var s = STEPS[idx];
+      idx += 1;
+      line("pgtag-info", "call", s.call + " — " + s.want);
+      var g = gates[s.tool];
+      if (g === "allow") {
+        tally.silent += 1;
+        line("pgtag-silent", "silent",
+          "gate = allow · ran with no prompt and no diff shown to you; output went straight back into the model.");
+        timer = window.setTimeout(nextStep, STEP_MS);
+      } else if (g === "deny") {
+        tally.blocked += 1;
+        line("pgtag-blocked", "blocked",
+          "gate = deny · refused before anything ran; the refusal reason itself goes back for the model to route around.");
+        timer = window.setTimeout(nextStep, STEP_MS);
+      } else {
+        var wrap = document.createElement("div");
+        wrap.className = "pgaskwrap";
+        wrap.innerHTML =
+          '<p class="pgline"><span class="pgtag pgtag-pause">paused</span>gate = ask · the whole agent freezes here until you decide.</p>' +
+          '<p class="pgask"><button type="button" class="pgbtn-mini pgmini-yes">approve</button>' +
+          '<button type="button" class="pgbtn-mini pgmini-no">deny</button></p>';
+        trace.appendChild(wrap);
+      }
+    }
+
+    trace.addEventListener("click", function (ev) {
+      var t = ev.target;
+      var btn = t && t.closest ? t.closest(".pgbtn-mini") : null;
+      if (!btn || btn.disabled) return;
+      var wrap = btn.closest(".pgaskwrap") || btn.parentNode;
+      var all = wrap.querySelectorAll(".pgbtn-mini");
+      for (var i = 0; i < all.length; i++) all[i].disabled = true;
+      var p = document.createElement("p");
+      p.className = "pgline";
+      if (/\bpgmini-yes\b/.test(btn.className)) {
+        tally.approved += 1;
+        p.innerHTML = '<span class="pgtag pgtag-silent">you approved</span>ran with your name on it — the human-in-the-loop moment, made physical.';
+      } else {
+        tally.blocked += 1;
+        p.innerHTML = '<span class="pgtag pgtag-blocked">you denied</span>nothing ran; "user denied" goes back to the model as the tool result.';
+      }
+      wrap.appendChild(p);
+      timer = window.setTimeout(nextStep, STEP_MS);
+    });
+
+    root.addEventListener("click", function (ev) {
+      var t = ev.target;
+      var btn = t && t.closest ? t.closest("[data-gate-btn]") : null;
+      if (!btn) return;
+      var tool = btn.getAttribute("data-gate-btn");
+      gates[tool] = btn.getAttribute("data-val");
+      var group = btn.parentNode.querySelectorAll("[data-gate-btn]");
+      for (var i = 0; i < group.length; i++) {
+        group[i].setAttribute("aria-pressed", group[i] === btn ? "true" : "false");
+      }
+    });
+
+    function clearRun() {
+      if (timer) { window.clearTimeout(timer); timer = null; }
+      idx = 0;
+      tally = { silent: 0, approved: 0, blocked: 0 };
+      runBtn.disabled = false;
+      runBtn.textContent = "▶ run agent";
+      trace.innerHTML = "";
+    }
+
+    runBtn.addEventListener("click", function () {
+      clearRun();
+      runBtn.disabled = true;
+      line("pgtag-info", "start", "agent begins · 3 tool calls queued against your current gates.");
+      timer = window.setTimeout(nextStep, STEP_MS);
+    });
+
+    resetBtn.addEventListener("click", function () {
+      clearRun();
+      gates.read = DEFAULTS.read; gates.shell = DEFAULTS.shell; gates.fetch = DEFAULTS.fetch;
+      var rows = root.querySelectorAll("[data-gate-btn]");
+      for (var i = 0; i < rows.length; i++) {
+        var b = rows[i];
+        b.setAttribute("aria-pressed",
+          gates[b.getAttribute("data-gate-btn")] === b.getAttribute("data-val") ? "true" : "false");
+      }
+      trace.insertAdjacentHTML("beforeend",
+        '<p class="pgline pgline-muted">gates restored to defaults · trace cleared.</p>');
+    });
+  })();
+  </script>
+
+  <h2>The landscape, honestly compared</h2>
+  <p>Nine harnesses were alive and documented at writing time, plus one instructive casualty.
+  The table compares only what the sources below actually say — license, the genuine $0 path,
+  and the one thing each does that others don't. Nothing here is sponsored opinion; every cell
+  has a receipt.</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>harness</th><th>license</th><th>$0 entry</th><th>standout</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>opencode (Anomaly)</td>
+          <td>MIT</td>
+          <td>Free OSS binary; local models or free-key clouds; reuses ChatGPT / Copilot / GitLab Duo subs; optional paid Zen/Go</td>
+          <td>75+ providers; TUI/desktop/IDE; skills + plugins + LSP; plan/build agents</td>
+        </tr>
+        <tr>
+          <td>Claude Code (Anthropic)</td>
+          <td>Proprietary</td>
+          <td>No free tier; subscription or API credits</td>
+          <td>One engine across terminal/IDE/desktop/web; subagents, Agent SDK, routines</td>
+        </tr>
+        <tr>
+          <td>Codex CLI (OpenAI)</td>
+          <td>Apache-2.0</td>
+          <td>Free install; ChatGPT-plan sign-in or usage-based API</td>
+          <td>Same agent in CLI/IDE/app/Web cloud</td>
+        </tr>
+        <tr>
+          <td>Gemini CLI (Google)</td>
+          <td>Apache-2.0</td>
+          <td>Free tier: 60 req/min, 1,000 req/day with personal Google OAuth</td>
+          <td>Largest gratis allowance + 1M-token context</td>
+        </tr>
+        <tr>
+          <td>Cline</td>
+          <td>Apache-2.0 (JetBrains plugin closed)</td>
+          <td>Free OSS; BYO keys / OpenRouter / local</td>
+          <td>VS Code + JetBrains + headless CLI + Kanban board + SDK; Plan/Act toggle</td>
+        </tr>
+        <tr>
+          <td>Goose (Block → AAIF/Linux Foundation)</td>
+          <td>Apache-2.0</td>
+          <td>Free OSS; BYO keys, 15+ providers; sub reuse via ACP</td>
+          <td>Native desktop + CLI + embeddable Rust API; recipes, 70+ MCP extensions</td>
+        </tr>
+        <tr>
+          <td>Aider</td>
+          <td>Apache-2.0</td>
+          <td>Free OSS; BYO incl. Copilot auth, OpenRouter, Ollama</td>
+          <td>Git-native pair programming: auto commits, repo map, edit-format leaderboards</td>
+        </tr>
+        <tr>
+          <td>Cursor CLI</td>
+          <td>Proprietary · licensing unverified — check ToS before relying</td>
+          <td>Requires Cursor account; free-tier limits not confirmed on the CLI page</td>
+          <td>Editor-parity Agent/Plan/Ask in the shell; <code>&amp;</code> hands a task to the Cloud Agent</td>
+        </tr>
+        <tr>
+          <td>Pi (Mario Zechner)</td>
+          <td>MIT (<code>@mariozechner/pi-coding-agent</code>)</td>
+          <td>Free OSS; BYO keys via the pi-ai multi-provider layer</td>
+          <td>Minimalist 4-tool core (read/write/edit/bash); TS extensions; deliberately no baked-in subagents or plan mode</td>
+        </tr>
+        <tr>
+          <td>Roo Code — <strong>archived historical row</strong></td>
+          <td>Apache-2.0 — archived 2026-05-15</td>
+          <td>Extension shut down May 15, 2026; community successor ZooCode</td>
+          <td>Mode system — kept as a historical benchmark, not a recommendation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The two honest $0 doors</h3>
+  <p>Money talk, briefly, because access is an on-ramp — not the subject of this book. Two
+  doors get you working today for literally zero:</p>
+  <p><strong>Door one: Gemini CLI's free tier.</strong> An Apache-2.0 first-party CLI whose
+  personal-account OAuth unlocks 60 requests per minute and 1,000 per day, riding Gemini
+  models with a 1M-token context window — the largest gratis allowance in the table.</p>
+  <p><strong>Door two: opencode on local models.</strong> A free MIT binary that speaks to
+  locally-running runtimes — Ollama, LM Studio, llama.cpp — so nothing leaves your machine
+  and nothing bills you. The full map of free tiers, rate-limit math and subscription reuse
+  is Chapter&nbsp;3's job; grey-zone economics get one honest reference chapter (15). That is
+  all the cost discussion this chapter earns.</p>
+
+  <h2>Deep dive: opencode</h2>
+  <p>We go deep on exactly one harness — not because it "wins", but because its documentation
+  is the most transparent about the $0 path and the most configurable loop. It is MIT-licensed,
+  with roughly 201k stars and
+  26k forks at checking time.</p>
+
+  <h3>Surfaces</h3>
+  <p>The primary surface is a terminal UI (TUI), with a desktop app (beta), an IDE extension,
+  and additional entry points for CLI scripting, web, GitHub and GitLab   automation. Install channels: curl, npm, brew, scoop, chocolatey, pacman, docker.</p>
+
+  <h3>Models: seventy-five-plus doors</h3>
+  <p>opencode talks to 75+ LLM providers through the Vercel AI SDK and Models.dev, including
+  local runtimes. A curated list called OpenCode Zen and a low-cost "Go" plan exist, but nobody
+  is required to touch either.</p>
+
+  <h3>Two built-in agents: plan and build</h3>
+  <p>A <strong>build</strong> agent has full access; a <strong>plan</strong> agent is read-only.
+  You switch with the Tab key, so "think first, touch later" is one keystroke, not a prayer.
+  A <code>@general</code> subagent handles multistep searches without cluttering your main
+  thread.</p>
+
+  <h3>Skills and plugins</h3>
+  <p>Skills are <code>SKILL.md</code> files in <code>.opencode/skills</code> directories — and
+  they load from Claude-compatible <code>.claude</code>/<code>.agents</code> paths too, so
+  knowledge you write travels across harnesses. They're loaded on demand, with wildcard
+  allow/deny/ask permission rules available. Plugins are JavaScript/TypeScript files in
+  <code>.opencode/plugins</code> or npm packages; they hook events like
+  <code>tool.execute.*</code>, <code>session.*</code> and <code>lsp.*</code>, and custom tools
+  can override built-ins. The Bun runtime is auto-installed to run them.</p>
+
+  <h3>LSP: powerful, and off by default</h3>
+  <p>Thirty-plus built-in language servers can feed live diagnostics straight into the agent's
+  fix loop — yet the whole system ships disabled, flipped on with <code>lsp: true</code>. That
+  is a deliberate honesty marker: the docs themselves note that simply running lint/typecheck
+  CLIs can cost less than keeping servers synced in memory.</p>
+
+  <h3>Sessions and safety nets</h3>
+  <p>Multiple concurrent sessions (<code>/sessions</code>), fresh starts (<code>/new</code>),
+  git-backed <code>/undo</code> and <code>/redo</code>, and opt-in <code>/share</code> links for
+  showing a session to someone else. An independent write-up corroborates the multi-session,
+  privacy-first posture.</p>
+
+  <h3>Subscription reuse — and one grey flag</h3>
+  <p>If you already pay for AI anywhere, opencode can ride it with zero setup: sign in with
+  ChatGPT Plus/Pro OAuth, GitHub Copilot device-flow OAuth, or GitLab Duo OAuth.</p>
+
+  <div class="callout co-risk">
+    <span class="c-tag">grey zone · risk-flagged</span>
+    <p>Community plugins once proxied Claude Pro/Max subscriptions into opencode; they were
+    removed in v1.3.0 because Anthropic explicitly prohibits it — treat any revival of that
+    trick as a terms-of-service violation waiting to happen.</p>
+  </div>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Start with ONE harness and resist the urge to collect them. Switching later is cheap —
+    every harness has a loop, a permission gate and memory files, so the concepts transfer even
+    when the keybindings don't. Commit to the workflow, not the logo.</p>
+  </div>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p>This landscape moves fast and sometimes dies outright: Roo Code's extension was archived
+    on 2026-05-15. Check the as-of date on any comparison you read — including this one —
+    before betting a daily workflow on a row of a table.</p>
+  </div>
+
+  <h2>Where this lands in your build</h2>
+  <p>The first threaded project — <strong>agent-cost-compass</strong>, named Build&nbsp;1 in
+  the book's companion specs (<code>journey/builds/24-agent-cost-compass/BUILD.md</code>), a
+  weekend-scale build — gets driven entirely by whichever harness you install in the exercise
+  below. Write the harness name and version into your build log so later chapters' advice maps
+  onto real sessions.</p>
+
+  <h2>Receipts</h2>
+  <h3>First-principles sources</h3>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 practitioner</span>
+    <span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/how-coding-agents-work/</span>
+    <span class="as-of">checked 2026-08-25 · harness wraps the LLM with invisible prompts + callable tools — grounds this chapter's harness-vs-model definition above</span>
+  </div>
+  <h3>Comparison-table sources</h3>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/overview ; github.com/anthropics/claude-code</span>
+    <span class="as-of">checked 2026-08-25 · proprietary; repo hosts docs/issues only</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/openai/codex</span>
+    <span class="as-of">checked 2026-08-25 · Apache-2.0 Rust core; ChatGPT sign-in; ~118k stars</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/google-gemini/gemini-cli</span>
+    <span class="as-of">checked 2026-08-25 · free tier 60 rpm / 1,000 day; 1M context; MCP; checkpointing</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/cline/cline</span>
+    <span class="as-of">checked 2026-08-25 · JetBrains plugin closed-source</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/aaif-goose/goose</span>
+    <span class="as-of">checked 2026-08-25 · Block handed to AAIF/Linux Foundation</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://aider.chat/docs</span>
+    <span class="as-of">checked 2026-08-25 · git-native auto commits; repo map</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://cursor.com/docs/cli</span>
+    <span class="as-of">checked 2026-08-25 · licensing + free-tier limits UNVERIFIED — confirm against ToS</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://pi.dev ; mariozechner.at/posts/2025-11-30-pi-coding-agent/</span>
+    <span class="as-of">checked 2026-08-25 · 4-tool core by design</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/RooCodeInc/Roo-Code</span>
+    <span class="as-of">checked 2026-08-25 · ARCHIVED 2026-05-15; ZooCode named successor</span>
+  </div>
+
+  <h3>opencode deep-dive sources</h3>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs ; github.com/anomalyco/opencode</span>
+    <span class="as-of">checked 2026-08-25 · MIT; ~201k stars; surfaces + install channels</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/providers</span>
+    <span class="as-of">checked 2026-08-25 · 75+ providers; local runtimes; Zen/Go; ChatGPT/Copilot/GitLab Duo OAuth; Claude proxies removed v1.3.0</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/skills</span>
+    <span class="as-of">checked 2026-08-25 · SKILL.md; .claude/.agents compatible; wildcard permissions</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/plugins</span>
+    <span class="as-of">checked 2026-08-25 · event hooks; npm plugins execute at startup (supply-chain consideration)</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/lsp</span>
+    <span class="as-of">checked 2026-08-25 · 30+ servers, DISABLED by default; docs suggest lint CLIs as alternative</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://opencode.ai/docs/tui</span>
+    <span class="as-of">checked 2026-08-25 · /sessions, /new, git-backed /undo /redo, opt-in /share</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t2">T2 press</span>
+    <span class="r-url">https://www.infoq.com/news/2026/02/opencode-coding-agent/</span>
+    <span class="as-of">pub 2026-02-05 · independent corroboration; its star count is stale (95k → 201k)</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself</h2>
+    <ol>
+      <li><strong>Install ONE door.</strong> Door A: open
+      <code>https://opencode.ai/docs</code>, find Install, copy the one-line command for your OS
+      (curl, npm, brew, scoop, chocolatey, pacman and docker are all documented), paste it into a
+      terminal, then run the version check it suggests. Door B: open
+      <code>https://github.com/google-gemini/gemini-cli</code>, copy the install command, and when
+      prompted sign in with a personal Google account — that OAuth step is what unlocks the free
+      tier.</li>
+      <li><strong>Run one session.</strong> In a terminal, change into any small folder, launch
+      your harness, and give a trivial goal such as "explain what this folder contains". When a
+      permission prompt appears, deliberately try both paths once: deny one action, allow the
+      next. Notice what the harness asked about versus what it did silently — that gap is the
+      permission model from earlier, made physical.</li>
+      <li><strong>Make one config tweak.</strong> opencode users: create
+      <code>.opencode/skills/hello/SKILL.md</code> — start the file with the skill's name and a
+      one-line description, add a two-line instruction — restart, and invoke it. Alternatively set
+      <code>lsp: true</code> in your opencode config and restart. Before relaunching, predict what
+      will change; after, check your prediction.</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Name three decisions a harness makes for you before you've typed anything.</summary>
+      <p>The tool loop (which tools exist, how many steps, when to stop), the permission model
+      (what runs freely, what asks first, what's denied), and context handling (what loads
+      automatically, what gets compressed away, whether sessions persist).</p>
+    </details>
+    <details>
+      <summary>Which two harnesses get you working at genuinely $0 today, and through which door each?</summary>
+      <p>Gemini CLI — its free tier grants 60 requests/min and 1,000/day via personal Google
+      OAuth. opencode — a free MIT binary pointed at locally-running models (Ollama, LM Studio,
+      llama.cpp), so no keys and no billing at all.</p>
+    </details>
+    <details>
+      <summary>opencode ships 30+ LSP servers but disables them by default. Why is that defensible rather than lazy?</summary>
+      <p>Diagnostics are useful but not free: keeping language servers synced costs memory and
+      setup, and opencode's own docs note that running lint/typecheck CLIs directly can achieve
+      similar signal for less. Defaulting off puts the tradeoff in your hands instead of hiding
+      it.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>When to graduate to a second harness.</strong> Three honest triggers: a problem
+    has stalled and a differently-shaped loop shakes loose new ideas (like asking a second
+    colleague); you need parallel capacity and would rather isolate tasks in separate tools than
+    tangle them in one; or a specific strength matters that day — Aider's git-native auto-commits,
+    Codex CLI handing the same agent its cloud twin, Goose's embeddable Rust API. Owning two
+    harnesses isn't disloyalty; the workflow is the asset, and it ports.</p>
+    <p><strong>IDE versus terminal versus desktop.</strong> Editor-integrated agents (Cline,
+    opencode's extension, Gemini's VS Code companion) put diffs next to your code and feel
+    familiar fastest. Terminals script well, ssh into remote boxes, and chain into pipelines;
+    they reward fluency with fewer clicks per iteration. Desktop apps (Claude Code, Goose,
+    opencode's beta) split the difference with visual session management. Match the surface to
+    the task; none demands an exclusive marriage.</p>
+    <p><strong>Where each one breaks.</strong> opencode: breadth means more configuration before
+    the magic, and npm plugins execute code at startup — vet them like any dependency. Claude
+    Code: proprietary with no free tier, and its ecosystem assumes its own memory formats. Codex
+    CLI and Gemini CLI shine brightest inside their maker's accounts and models — less neutral
+    ground. Cline is happiest where VS Code or JetBrains live. Aider trades autonomy for a
+    pair-programming rhythm. Goose carries younger governance after the Block-to-AAIF handoff.
+    Cursor CLI's licensing and free limits were unverified at print time — check before
+    committing. Pi omits subagents and plan mode on purpose: ceremony is yours to build. And Roo
+    Code is the standing reminder that every row above has an expiry date.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch01-what-agentic-coding-is.html">← ch01 · what agentic coding actually is</a>
+    <a href="ch03-models-without-money.html">ch03 · models without money →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 02 · the harness landscape · facts as of 2026-08-25</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>
