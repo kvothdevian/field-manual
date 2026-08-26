@@ -32,6 +32,78 @@
       <p class="as-of">facts checked as of 2026-08-26</p>
     </div>
   </div>
+
+  <nav class="chapnav" aria-label="Jump to a section">
+    <a href="#ch06-s1">shapes</a>
+    <a href="#ch06-s2">picker</a>
+    <a href="#ch06-s3">specs</a>
+    <a href="#ch06-s4">tests</a>
+    <a href="#ch06-s5">evals</a>
+    <a href="#ch06-s6">reflexion</a>
+    <a href="#ch06-s7">gauntlet</a>
+    <a href="#ch06-s8">plan-first</a>
+    <a href="#ch06-s9">your build</a>
+    <a href="#ch06-exercises">exercises</a>
+  </nav>
+
+  <p class="sec-rule sec-no">inside this chapter</p>
+  <div class="inside-grid">
+    <div class="inside-card ic-l2">
+      <span class="toc-num">01</span>
+      <a href="#ch06-s1">Six shapes, one baseline</a>
+      <span class="ic-sum">The do-nothing baseline plus Anthropic's five workflow patterns — every added stage is a purchase that needs a reason.</span>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">02</span>
+      <a href="#ch06-s2">The pattern picker</a>
+      <span class="ic-sum">Assign four real chores a shape and read cost/latency/fragility scorecards — one assignment is deliberately wrong.</span>
+      <span class="ic-meta"><span>~5 min</span><span class="badge">lab</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">03</span>
+      <a href="#ch06-s3">Spec-driven development: rules before code</a>
+      <span class="ic-sum">Spec Kit's constitution → specify → plan → tasks pipeline; scale the spec's weight to the blast radius.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">04</span>
+      <a href="#ch06-s4">Tests as the steering wheel</a>
+      <span class="ic-sum">Failing-test-first is the cheapest control surface; tests written after the code encode the model's own misreadings.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">05</span>
+      <a href="#ch06-s5">Evals before iteration</a>
+      <span class="ic-sum">When no assertion can say "good enough": the eval ladder, and aligning an LLM judge on 25–50 human labels first.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">06</span>
+      <a href="#ch06-s6">Reflexion, with an expiry date</a>
+      <span class="ic-sum">Written reflection between attempts improves later trials; the 80→91% digits are historical, the habit isn't.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">07</span>
+      <a href="#ch06-s7">The gauntlet: the book's own engine</a>
+      <span class="ic-sum">Builder and critic split, fetched bars, blind binary verdicts — house craft, honestly labeled unvalidated.</span>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">08</span>
+      <a href="#ch06-s8">Plan-first mechanics</a>
+      <span class="ic-sum">Read-only plan mode, approval before edits, research delegated out — the cheapest pattern you own.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">09</span>
+      <a href="#ch06-s9">Where this lands in your build</a>
+      <span class="ic-sum">quiz-forge's batch gates are evaluator-optimizer with a human judge, calibrated on a small sample first.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+  </div>
+
   <p class="lede">After this chapter you can name the five workflow patterns, pick the
   simplest one that fits your task — and run the book's own quality engine, a gauntlet
   loop, on work of your own.</p>
@@ -48,7 +120,7 @@
     wearing a three-piece suit to dig a ditch.</p>
   </div>
 
-  <h2><span class="css-icon-loop" aria-hidden="true"></span> Six shapes, one baseline</h2>
+  <h2 id="ch06-s1"><span class="css-icon-loop" aria-hidden="true"></span> Six shapes, one baseline</h2>
   <p>Before the five named patterns, the zeroth option: <strong>do nothing
   clever.</strong> One direct prompt, one session, a clear stopping condition. If that
   works — and it works far more often than beginners expect — you are done. Every
@@ -73,7 +145,7 @@
     judgment where no test exists.</li>
   </ul>
 
-  <h2>The pattern picker</h2>
+  <h2 id="ch06-s2">The pattern picker</h2>
   <p>Four chores you will actually meet. Assign each a shape and read the scorecard:
   cost, latency, fragility, fit. The punchline repeats because reality repeats it —
   the simplest sufficient shape wins. One assignment below is deliberately,
@@ -328,7 +400,7 @@
     paid extra to create.</p>
   </div>
 
-  <h2>Spec-driven development: rules before code</h2>
+  <h2 id="ch06-s3">Spec-driven development: rules before code</h2>
   <p>When a task outgrows one sitting, the patterns need raw material: a spec.
   GitHub's Spec Kit turns that into a typed pipeline — <code>/speckit.constitution</code>
   records the project's non-negotiable principles, <code>specify</code> captures
@@ -343,7 +415,7 @@
   simplest-sufficient rule applies to process shapes too. Scale the spec's weight to
   the blast radius of getting it wrong.</p>
 
-  <h2>Tests as the steering wheel</h2>
+  <h2 id="ch06-s4">Tests as the steering wheel</h2>
   <p>The cheapest control surface for any pattern is a test the agent must satisfy.
   Willison's red-green guide reduces it to a one-line prompt: write a failing test
   first, confirm it fails, then make it pass. The confirmed failure is the point —
@@ -356,7 +428,7 @@
   reviewable specification, and audit suites for hermeticity — tests that fake their
   inputs verify nothing about the world.</p>
 
-  <h2>Evals before iteration</h2>
+  <h2 id="ch06-s5">Evals before iteration</h2>
   <p>When no unit test can express "good enough," you need an eval, and Hamel
   Husain's field guide is the on-ramp: climb the ladder from unit assertions to
   human or LLM judging to A/B comparison — and know that missing evals are the
@@ -368,7 +440,7 @@
     <p>An unaligned judge doesn't optimize quality; it optimizes noise, loudly.</p>
   </div>
 
-  <h2>Reflexion, with an expiry date</h2>
+  <h2 id="ch06-s6">Reflexion, with an expiry date</h2>
   <p>One peer-reviewed cousin belongs in your toolkit: Reflexion showed agents that
   verbally reflect on a failure — a short written post-mortem held in an episodic
   buffer — improve on later trials, lifting HumanEval pass@1 from 80% to 91% at
@@ -376,7 +448,7 @@
   years. The durable export is cheaper than the benchmark — between attempts, write
   down what failed and why instead of blindly retrying.</p>
 
-  <h2>The gauntlet: the book's own engine</h2>
+  <h2 id="ch06-s7">The gauntlet: the book's own engine</h2>
   <p>Honest labeling first: the gauntlet is this book's house pattern, and it has
   no quantitative validation — no study benchmarks it. Its nearest studied anchors
   are the evaluator-optimizer pattern above, Reflexion's reflection loop, and
@@ -417,21 +489,21 @@
   Chapter 01 survived a three-round fight before the critic picked ours blind.
   That chapter is the receipt.</p>
 
-  <h2>Plan-first mechanics</h2>
+  <h2 id="ch06-s8">Plan-first mechanics</h2>
   <p>Under every pattern sits one harness habit: think before edits. Official
   workflow docs prescribe the shape — a read-only plan mode where the agent explores
   and proposes, you approve before any file changes, and research is delegated to
   subagents so your main context stays clean for decisions. Planning is the cheapest
   pattern you own: it spends tokens to save rewrites.</p>
 
-  <h2>Where this lands in your build</h2>
+  <h2 id="ch06-s9">Where this lands in your build</h2>
   <p>quiz-forge, the two-week build, gates AI-generated quiz questions through
   human-review batch gates: the agent produces a batch, you judge the batch against
   the spec's bar, and each batch lives or dies whole. That is the evaluator-optimizer
   pattern with a human judge — and per the evals discipline, you will calibrate your
   own judging on a small aligned sample before trusting your gut at volume.</p>
 
-  <h2>Receipts</h2>
+  <h2 id="ch06-s10">Receipts</h2>
   <p>Tier key: T1 official docs/specs or established practitioners · T2 vendor blogs
   and secondary press (flagged) · T3 lead only, never cited as fact.</p>
   <div class="receipt">
@@ -490,8 +562,8 @@
     <span class="as-of">checked 2025-06-12 · dispersed decisions + unshared context make multi-agent collaboration fragile; actions carry implicit decisions — opinionated position piece, canonical counterpoint</span>
   </div>
 
-  <section class="exercise">
-    <h2>Try it yourself</h2>
+  <section class="exercise" id="ch06-exercises">
+    <h2 id="ch06-s11">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Open
       anthropic.com/research/building-effective-agents, scroll to "Building effective
@@ -510,7 +582,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch06-s12">Self-check</h2>
     <details>
       <summary>Name the baseline plus the five workflow patterns.</summary>
       <p>Baseline: one direct prompt, no structure. Then chaining (fixed substeps in
@@ -535,7 +607,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch06-s13">Beyond this build</h2>
     <p><strong>Scaling to teams.</strong> Personal patterns harden into team
     conventions: a private constitution becomes a team charter, batch gates become
     review queues, and the gauntlet's named bars become the org's published

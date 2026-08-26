@@ -32,6 +32,14 @@
       <p class="as-of">facts checked as of 2026-08-26</p>
     </div>
   </div>
+  <nav class="chapnav" aria-label="Jump within chapter 12">
+    <a href="#ch12-s1">gates</a>
+    <a href="#ch12-s2">reviewers</a>
+    <a href="#ch12-s3">bots</a>
+    <a href="#ch12-s4">calendar</a>
+    <a href="#ch12-s5">in your builds</a>
+    <a href="#ch12-s7">exercises</a>
+  </nav>
   <p class="lede">Promise: after this chapter you can wrap your agent workflow in gates
   that keep a project healthy for months — bloat becomes something the pipeline
   catches, not something you notice too late.</p>
@@ -46,7 +54,43 @@
   stale breadcrumbs and bloated memory files. Willpower will not fix it —
   vigilance fails by week three. Plumbing will.</p>
 
-  <h2>A gate is a check that runs so you don't have to remember</h2>
+  <div class="inside-grid" aria-label="Inside this chapter">
+    <a class="inside-card ic-l4" href="#ch12-s1">
+      <span class="ic-num" aria-hidden="true">1</span>
+      <h3>A gate is a check that runs so you don't have to remember</h3>
+      <p class="ic-sum">Automatic, binary, fast: five gate families staged cheapest-first, plus a paste-sized build workflow.</p>
+      <span class="ic-meta">~5 min</span>
+    </a>
+    <a class="inside-card ic-l4" href="#ch12-s2">
+      <span class="ic-num" aria-hidden="true">2</span>
+      <h3>Reviewers that never tire — but must be bounded</h3>
+      <p class="ic-sum">@claude and Codex cloud review PRs under turn caps and least privilege; accountability stays human.</p>
+      <span class="ic-meta">~4 min</span>
+    </a>
+    <a class="inside-card ic-l4" href="#ch12-s3">
+      <span class="ic-num" aria-hidden="true">3</span>
+      <h3>Bots that file the chores</h3>
+      <p class="ic-sum">Dependabot and Renovate file upgrade PRs on schedule — one bot per ecosystem, workflows included.</p>
+      <span class="ic-meta">~3 min</span>
+    </a>
+    <a class="inside-card ic-l4" href="#ch12-s4">
+      <span class="ic-num" aria-hidden="true">4</span>
+      <h3>The pipeline on a calendar</h3>
+      <p class="ic-sum">Six simulated weeks with gates on/off — same incidents both runs, wildly different debt boards.</p>
+      <span class="ic-meta">~5 min <span class="ic-lab">lab</span></span>
+    </a>
+    <a class="inside-card ic-l4" href="#ch12-s5">
+      <span class="ic-num" aria-hidden="true">5</span>
+      <h3>Where this lands in your builds</h3>
+      <p class="ic-sum">Both companion builds already live behind §9: PR-per-milestone, conventional prefixes, reviewed diffs.</p>
+      <span class="ic-meta">~2 min</span>
+    </a>
+  </div>
+
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;1</span>
+    <h2 id="ch12-s1">A gate is a check that runs so you don't have to remember</h2>
+  </div>
   <p>Tool-agnostically, a delivery pipeline is one idea: every change enters the
   project through the same doorway — a branch turned into a pull request — and
   the doorway is rigged with <strong>gates</strong>: automated checks that run on
@@ -118,7 +162,10 @@ jobs:
       - run: npm ci
       - run: npm run build</code></pre>
 
-  <h2>Reviewers that never tire — but must be bounded</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;2</span>
+    <h2 id="ch12-s2">Reviewers that never tire — but must be bounded</h2>
+  </div>
   <p>The review gate no longer has to be you-alone. Anthropic ships an official
   Claude Code GitHub Action: mention <code>@claude</code> in a pull request and
   a bounded agent investigates the diff, asks questions, and can push fixes;
@@ -139,7 +186,10 @@ jobs:
   keep the judgment calls. Bound its turns, restrict its permissions, read its
   findings, and it compounds your attention instead of replacing it.</p>
 
-  <h2>Bots that file the chores</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;3</span>
+    <h2 id="ch12-s3">Bots that file the chores</h2>
+  </div>
   <p>Currency gates are solved problems; adopt them rather than hand-roll them.
   GitHub's Dependabot reads a <code>dependabot.yml</code> and files upgrade PRs
   on a schedule — and it covers more than libraries: the
@@ -161,7 +211,10 @@ updates:
   and maintained with public docs. Pick one bot per ecosystem and stick with
   it; Chapter 12's Beyond section names the fight you start if you run two.</p>
 
-  <h2>The pipeline on a calendar</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;4</span>
+    <h2 id="ch12-s4">The pipeline on a calendar</h2>
+  </div>
   <p>Merge-time gates cannot catch what time breaks. Drift needs a clock:
   a scheduled job (a cron trigger in Actions, or any scheduler) that wakes up
   weekly and hands an agent a comparison task — docs against routes, README
@@ -480,7 +533,10 @@ updates:
     warning at a time.</p>
   </div>
 
-  <h2>Where this lands in your builds</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;5</span>
+    <h2 id="ch12-s5">Where this lands in your builds</h2>
+  </div>
   <p>Both companion builds already live behind this doorway: ncert-quiz-forge
   enforces its content lint in CI and works in small PR-per-milestone increments
   per BUILD.md §9; free-tier-atlas keeps the same §9 discipline — one PR per
@@ -490,7 +546,10 @@ updates:
   <code>content:</code>) so the changelog, the search index, and eventually a
   release-notes agent can read history mechanically.</p>
 
-  <h2>Receipts</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;6</span>
+    <h2 id="ch12-s6">Receipts</h2>
+  </div>
   <p>Every factual claim above traces to a source card below. Tier key:
   T1 official docs or established practitioners · T2 vendor secondary ·
   T3 lead only, never cited as fact.</p>
@@ -541,7 +600,7 @@ updates:
   </div>
 
   <section class="exercise">
-    <h2>Try it yourself</h2>
+    <h2 id="ch12-s7">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> In any GitHub repo you own,
       click <em>Add file → Create new file</em>, name it
@@ -564,7 +623,7 @@ updates:
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch12-s8">Self-check</h2>
     <details>
       <summary>Why is "build must pass" always the first gate?</summary>
       <p>Highest ratio of caught-to-cost. It is nearly free to install and
@@ -592,7 +651,7 @@ updates:
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch12-s9">Beyond this build</h2>
     <p><strong>Monorepo scale.</strong> One giant gate-suite per PR stops
     scaling fast: every typo would rebuild everything. The standard move is
     path-scoped pipelines — checks fire only for packages the diff touches.

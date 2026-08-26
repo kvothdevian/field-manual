@@ -32,11 +32,103 @@
       <p class="as-of">facts checked as of 2026-08-26 · every hosting number below carries its own check date — they expire quietly</p>
     </div>
   </div>
+  <nav class="chapnav" aria-label="On this page">
+    <a href="#ch13-s1">ritual</a>
+    <a href="#ch13-s2">wall finder</a>
+    <a href="#ch13-s3">four hosts</a>
+    <a href="#ch13-s4">preview deploys</a>
+    <a href="#ch13-s5">legal wall</a>
+    <a href="#ch13-s6">deploy</a>
+    <a href="#ch13-s7">release notes</a>
+    <a href="#ch13-s8">your build</a>
+    <a href="#ch13-s9">receipts</a>
+    <a href="#ch13-s10">exercises</a>
+    <a href="#ch13-s11">self-check</a>
+    <a href="#ch13-s12">beyond</a>
+  </nav>
   <p class="lede">Promise: after this chapter you can put your project on a real
   public URL today — today, not someday — at literally zero cost, and name the
   exact wall your traffic will hit first on whichever host you pick.</p>
 
-  <h2>The whole ritual, before any vendor</h2>
+  <nav aria-label="Inside this chapter">
+    <div class="inside-grid">
+      <article class="inside-card ic-l4">
+        <span class="chip">s1</span>
+        <a href="#ch13-s1">The whole ritual, before any vendor</a>
+        <p>Static folder → git repo → one-time host connect; afterwards shipping costs one command forever.</p>
+        <span class="chip">~4 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s2</span>
+        <a href="#ch13-s2">Feel the walls: the wall finder</a>
+        <p>Dial visitors and builds against four hosts' published caps and watch which wall trips first.</p>
+        <span class="chip">~6 min</span>
+        <span class="chip">lab · wall finder</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s3</span>
+        <a href="#ch13-s3">The four hosts, verbatim, dated</a>
+        <p>The caps printed plainly with their check dates, so you can audit the finder against them.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s4</span>
+        <a href="#ch13-s4">Preview deploys: review the real thing, not a screenshot</a>
+        <p>Every branch gets its own URL before merge — click the actual change on an actual phone.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s5</span>
+        <a href="#ch13-s5">One host's wall is made of law</a>
+        <p>GitHub's terms bar commercial hosting on Pages — a wall no dial measures, discovered by email.</p>
+        <span class="chip">~4 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s6</span>
+        <a href="#ch13-s6">Deploy = one command, after setup</a>
+        <p>Setup is an afternoon; deployment collapses to git push — no custom scripts before push ten.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s7</span>
+        <a href="#ch13-s7">Let the agent write the release notes</a>
+        <p>Hand over merged commits and house style; the agent drafts, you verify against the diff, then it ships.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s8</span>
+        <a href="#ch13-s8">Where this lands in your build</a>
+        <p>How the compass picked Pages and the quiz forge picked Cloudflare — and the dated line your BUILD.md owes.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s9</span>
+        <a href="#ch13-s9">Receipts</a>
+        <p>Tiered, dated sources behind every cap in the chapter, cross-chapter rows flagged.</p>
+        <span class="chip">~2 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s10</span>
+        <a href="#ch13-s10">Try it yourself — ship something today</a>
+        <p>Hello-public-world on a real URL tonight, break the finder on purpose, stamp your BUILD.md.</p>
+        <span class="chip">~30 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s11</span>
+        <a href="#ch13-s11">Self-check</a>
+        <p>Cloudflare vs Netlify at 2,000 pushes; Pages' invisible wall; when paid hosting earns itself.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s12</span>
+        <a href="#ch13-s12">Beyond this build</a>
+        <p>Custom domains, analytics-lite, and the moment static hosting stops being enough.</p>
+        <span class="chip">~4 min</span>
+      </article>
+    </div>
+  </nav>
+
+  <h2 id="ch13-s1">The whole ritual, before any vendor</h2>
   <p>Shipping sounds like infrastructure. It is three boring steps, and every
   free host on earth is just a different brand of the same three:</p>
   <ul class="rail">
@@ -65,7 +157,7 @@
   no dashboard will ever warn you about. One is arithmetic. The other is law.
   Both can take your site down.</p>
 
-  <h2>Feel the walls: the wall finder</h2>
+  <h2 id="ch13-s2">Feel the walls: the wall finder</h2>
   <p>Pick a host, drag the two dials — visitors per month and builds per
   month — and the finder marks which published limit trips first, printing
   that host's fine-print line with the date it was checked. Every cap in it
@@ -372,7 +464,7 @@
   no traffic cap, the finder says so plainly — unpinned means unverified, and
   unverified is exactly when you go read the source yourself.</p>
 
-  <h2>The four hosts, verbatim, dated</h2>
+  <h2 id="ch13-s3">The four hosts, verbatim, dated</h2>
   <p>The finder's caps, printed plainly so you can check the finder against
   them:</p>
 
@@ -410,7 +502,7 @@
     </table>
   </div>
 
-  <h2>Preview deploys: review the real thing, not a screenshot</h2>
+  <h2 id="ch13-s4">Preview deploys: review the real thing, not a screenshot</h2>
   <p>The single best habit free hosting buys you costs nothing on every host
   above: <strong>every branch gets its own URL before anyone merges it</strong>.
   Push a fix to a branch and the host quietly builds it at a private address —
@@ -423,7 +515,7 @@
   merge → production rebuild. It converts "trust me, it works" into "here is
   the link," and it is worth choosing a host for all by itself.</p>
 
-  <h2>One host's wall is made of law</h2>
+  <h2 id="ch13-s5">One host's wall is made of law</h2>
   <p>Now read the boundary honestly, because it is the one beginners actually
   hit. GitHub's terms for additional products — effective April 27, 2026 — do
   not allow GitHub Pages to be used as a free hosting service for a commercial
@@ -445,7 +537,7 @@
     that kind.</p>
   </div>
 
-  <h2>Deploy = one command, after setup</h2>
+  <h2 id="ch13-s6">Deploy = one command, after setup</h2>
   <p>This book practices what it preaches on its own timeline: local git only
   through Phase&nbsp;4, then a single push to GitHub and Pages flips on — a
   decision recorded, dated, and revisitable. Your projects deserve the same
@@ -456,7 +548,7 @@
   deploy scripts before your tenth push; the plain ritual is the skill, and
   it transfers unchanged between all four hosts above.</p>
 
-  <h2>Let the agent write the release notes</h2>
+  <h2 id="ch13-s7">Let the agent write the release notes</h2>
   <p>Shipping is not only uploading; it is telling humans what changed. This
   is a chore agents are genuinely good at: hand one your merged commits or a
   tag diff and ask for notes in your house style — what changed, who noticed,
@@ -467,7 +559,7 @@
   verbatim: the agent drafts, you verify against the actual diff, then it
   ships. Notes nobody vetted are rumors with formatting.</p>
 
-  <h2>Where this lands in your build</h2>
+  <h2 id="ch13-s8">Where this lands in your build</h2>
   <p>Both threaded builds already made this exact decision, in writing, and
   their reasoning is the template for yours. The <strong>agent-cost-compass</strong>
   targets GitHub Pages: it is free static hosting co-located with the GitHub
@@ -500,7 +592,7 @@
     truths.</p>
   </div>
 
-  <h2>Receipts</h2>
+  <h2 id="ch13-s9">Receipts</h2>
   <p>Tier key: T1 official docs or established practitioners · T2 vendor/press
   secondary · T3 lead only, never cited as fact alone. Cross-chapter rows are
   flagged as such.</p>
@@ -552,7 +644,7 @@
   </div>
 
   <section class="exercise">
-    <h2>Try it yourself — ship something today</h2>
+    <h2 id="ch13-s10">Try it yourself — ship something today</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Create a new public repo on
       your forge containing one <code>index.html</code> that says "hello, public
@@ -573,7 +665,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch13-s11">Self-check</h2>
     <details>
       <summary>You push to production 2,000 times in a month. What breaks on Cloudflare versus Netlify?</summary>
       <p>Cloudflare: the published 500-builds/month cap — pushes 501 onward
@@ -601,7 +693,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch13-s12">Beyond this build</h2>
     <p><strong>Custom domains.</strong> The <code>*.host.example</code> URL is
     training wheels; a domain you own outlives every host. Our pinned rows
     confirm the path: GitHub Pages documents custom domains, and Netlify's

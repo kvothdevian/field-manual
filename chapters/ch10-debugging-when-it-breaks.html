@@ -32,6 +32,15 @@
       <p class="as-of">facts checked as of 2026-08-26</p>
     </div>
   </div>
+  <nav class="chapnav" aria-label="Jump within chapter 10">
+    <a href="#ch10-s1">reproduce</a>
+    <a href="#ch10-s2">escape hatches</a>
+    <a href="#ch10-s3">bisect</a>
+    <a href="#ch10-s4">wreckage</a>
+    <a href="#ch10-s5">evidence</a>
+    <a href="#ch10-s6">in your build</a>
+    <a href="#ch10-s8">exercises</a>
+  </nav>
   <p class="lede">Promise: after this chapter you can drive a disciplined debug —
   reproduce, hypothesize, bisect — instead of watching an agent thrash, and you
   know exactly when to pull the plug.</p>
@@ -44,7 +53,49 @@
   cut the search space in half, and reach for the escape hatches early. This
   chapter drills that script until it is muscle memory.</p>
 
-  <h2>Reproduce before you explain</h2>
+  <div class="inside-grid" aria-label="Inside this chapter">
+    <a class="inside-card ic-l3" href="#ch10-s1">
+      <span class="ic-num" aria-hidden="true">1</span>
+      <h3>Reproduce before you explain</h3>
+      <p class="ic-sum">Repro recipe first, failing test second — fix the root cause; suppression just moves the bomb.</p>
+      <span class="ic-meta">~4 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch10-s2">
+      <span class="ic-num" aria-hidden="true">2</span>
+      <h3>Escape hatches, straight from the docs</h3>
+      <p class="ic-sum">/rewind, clear after two missed corrections, hook-enforced caps — plus one-log, fast-loop ground rules.</p>
+      <span class="ic-meta">~4 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch10-s3">
+      <span class="ic-num" aria-hidden="true">3</span>
+      <h3>Bisect: halving beats walking</h3>
+      <p class="ic-sum">Play the sixteen-commit race: midpoint tests finish in four moves, linear walks drag past eight.</p>
+      <span class="ic-meta">~5 min <span class="ic-lab">lab</span></span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch10-s4">
+      <span class="ic-num" aria-hidden="true">4</span>
+      <h3>Reading the wreckage</h3>
+      <p class="ic-sum">Trace timelines with Errors/Console/Network tabs, stack traces read backward, logs greppable in one file.</p>
+      <span class="ic-meta">~3 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch10-s5">
+      <span class="ic-num" aria-hidden="true">5</span>
+      <h3>Evidence, not assurances</h3>
+      <p class="ic-sum">Pace a real thrash loop yourself, then pull the cheapest hatch early — repro first, drama last.</p>
+      <span class="ic-meta">~5 min <span class="ic-lab">lab</span></span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch10-s6">
+      <span class="ic-num" aria-hidden="true">6</span>
+      <h3>Where this lands in your build</h3>
+      <p class="ic-sum">A pinned-case verifier committed beside the feature: breakage gets replayed, not remembered.</p>
+      <span class="ic-meta">~2 min</span>
+    </a>
+  </div>
+
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;1</span>
+    <h2 id="ch10-s1">Reproduce before you explain</h2>
+  </div>
   <p>A bug you cannot summon on demand is a bug you cannot prove dead. Before
   any theory, before any edit, get a <strong>repro recipe</strong>: the exact
   input, the exact click or command, the expected result versus the actual one,
@@ -75,7 +126,10 @@
     string is searchable, greppable, and comparable after the next attempt.</p>
   </div>
 
-  <h2>Escape hatches, straight from the docs</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;2</span>
+    <h2 id="ch10-s2">Escape hatches, straight from the docs</h2>
+  </div>
   <p>Runaway correction loops are so predictable that harness manuals document
   the exits officially. Know them by name:</p>
   <ul>
@@ -104,7 +158,10 @@
     <p>A slow loop and a murky log are how two-minute bugs become two-hour sessions.</p>
   </div>
 
-  <h2>Bisect: halving beats walking</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;3</span>
+    <h2 id="ch10-s3">Bisect: halving beats walking</h2>
+  </div>
   <p>Oldest trick in the book, and it survives agents perfectly. When you have
   an ordered history — commits, config edits, deployed changes — and something
   flipped from working to broken somewhere along it, do not walk the list. Test
@@ -293,7 +350,10 @@
   Note the prerequisite, though: every test needed a clean yes/no answer. Bools
   come from oracles, oracles come from failing tests — the disciplines chain.</p>
 
-  <h2><span class="css-icon-bug" aria-hidden="true"></span> Reading the wreckage</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;4</span>
+    <h2 id="ch10-s4"><span class="css-icon-bug" aria-hidden="true"></span> Reading the wreckage</h2>
+  </div>
   <p>When the failure lives in a browser, the crime scene photographs itself —
   if someone remembers to shoot. Playwright's trace viewer records every action
   on a timeline with <strong>Errors, Console, and Network tabs</strong> attached,
@@ -309,7 +369,10 @@
   And keep Ronacher's one-file rule: when every session logs to one place, the
   question "what did we actually do before it broke" has an answer you can grep.</p>
 
-  <h2>Evidence, not assurances</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;5</span>
+    <h2 id="ch10-s5">Evidence, not assurances</h2>
+  </div>
   <p>An agent saying "fixed!" is weather forecasting; an agent showing the test
   going green is meteorology with instruments. Willison's bar for agentic work
   is that the agent must <strong>exercise what it builds</strong> — boot the
@@ -553,7 +616,10 @@
     restart, not a reason for a third attempt in the same direction.</p>
   </div>
 
-  <h2>Where this lands in your build</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;6</span>
+    <h2 id="ch10-s6">Where this lands in your build</h2>
+  </div>
   <p>This is not hypothetical for the threaded builds: when the compass
   calculator printed $0.26/M blended while the hand-math disagreed, the
   reproduce-first move already existed — <code>npm run verify</code> replays
@@ -562,7 +628,10 @@
   in every build: a pinned-case verifier committed alongside the feature means
   breakage gets replayed, not remembered.</p>
 
-  <h2>Receipts</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;7</span>
+    <h2 id="ch10-s7">Receipts</h2>
+  </div>
   <p>Every factual claim above traces to a ledger-vetted source card. Tier key:
   T1 official docs or established practitioners · T2 vendor/single-author
   secondary · T3 lead only.</p>
@@ -608,7 +677,7 @@
   </div>
 
   <section class="exercise">
-    <h2>Try it yourself</h2>
+    <h2 id="ch10-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Run the bisect race above to
       completion with BOTH strategies, noting your move counts. Then open
@@ -631,7 +700,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch10-s9">Self-check</h2>
     <details>
       <summary>Why is a suppressed error usually worse than a crashing one?</summary>
       <p>A crash announces itself at the scene — stack trace, line number,
@@ -661,7 +730,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch10-s10">Beyond this build</h2>
     <p><strong>Production incidents.</strong> The same skeleton scales up:
     practitioners running fleets of production agents describe normalizing
     trajectories (each run becomes a comparable record), isolating the earliest

@@ -114,14 +114,72 @@ progress board columns.
   route text (stroke off). Rail dots keep their paper fill (they mask the
   spine — structural, not decorative).
 
+### Added contracts — chapter-home pass (all HTML+CSS only, tokens only,
+### both themes via vars, no blue; definitions OWNED by the chapter-home
+### agent in book.css — later chapters consume these classes, never redefine)
+
+- **chapnav** — sticky in-chapter jump bar placed directly after
+  `chapter-banner`: mono lowercase pill links (ink border, 999px radius,
+  ≥38px targets), pills never wrap (`white-space:nowrap` + container
+  `overflow-x:auto`), sticks at `top:64px` (108px ≤640px where the site
+  header wraps to two rows), z-index 40 (above content, below site-head's
+  50), paper bg at 95% opacity via color-mix. No active state (no JS).
+  Print: hidden. DO keep labels short and lowercase; DON'T add JS tracking.
+- **inside-grid / inside-card** (+ `.ic-l0..l5` set a consumed `--route`) —
+  "inside this chapter" landing grid under the banner: 3/2/1 columns at
+  900/600px; each card is one `<a>` = numeral chip (`§N`, route-tinted) +
+  h3 title + one-line honest summary + meta row (`~N min` label plus an
+  optional `lab` badge — dot+label per shape+label law). Hover lift =
+  shadow-md translate, killed under reduced-motion; min-height 44px.
+  DO derive summaries from the section's real content and badge only
+  sections with a live widget; DON'T use cards for anything but section
+  links or restyle them per chapter.
+- **sec-rule** — main-flow section opener: `<div class="sec-rule"><span
+  class="sec-rule-label">§N</span><h2 id="chNN-sN">…</h2></div>` — mono
+  overline label + 3rem top margin, deliberately NOT a heavy divider.
+  DO skip it on h2s inside boxed `.exercise/.selfcheck/.beyond` (bare id
+  there); DON'T color the § label with a route (sections aren't phases).
+- **section ids** — every chapter h2 gets `id="chNN-s1", -s2 …`
+  (collision-safe for book.html concatenation); CSS gives `h2[id]` a
+  scroll-margin that clears both stacked sticky bars (122px / 168px ≤640px).
+  Chapnav mirrors the full inside-map: every h2 section gets a pill, with
+  `exercises` present among the closers.
+
+### Added contracts — chapter-home pass (all HTML+CSS only, tokens only,
+### both themes via vars, no blue, no new motion)
+
+- **chapnav** — sticky in-chapter jump bar of mono lowercase pills (1.5px ink
+  ring, radius 999px, paper-raised bg, ≥38px tap targets) on a 95%-paper
+  translucent strip with hairline bottom border; overflows horizontally.
+  Sticks only ≥1000px (`top: 4.2rem`) where the site-head is a single ~66px
+  row; below that it stays in flow. DO one per chapter, right after the
+  banner; DON'T hardcode a smaller `top` (half-hides under wrapped head),
+  DON'T put non-section links in it.
+- **inside-grid / inside-card** (+ `.ic-l0..l5` set consumed `--route`) —
+  3-up grid (2 cols ≤900px, 1 col ≤600px) of route-topped link cards:
+  display-font bold title link, mono `.ic-meta` row, global `.badge` reuse.
+  DO one destination per card; DON'T nest cards/grids; missing variant = ink
+  top rule (never claims a phase).
+- **sec-rule** (+ `.sec-no`) — dashed section opener, exact usage:
+  `<div class="sec-rule"><span class="sec-no">§n</span><h2>…</h2></div>`.
+  DO one at each h2 section start; DON'T wrap h3s or put anything besides the
+  number span and one h2 inside it.
+- **Print** — `.chapnav` and `.inside-grid` are hidden in print (continuous
+  reading); sec-rule prints as-is (a dashed rule is structure, not furniture).
+
 ## Review log
 
 | Date | What | Why |
 |---|---|---|
+| 2026-08-26 | Added chapter-home contracts (chapnav, inside-grid/inside-card, sec-rule, section-id scheme) to book.css; applied to ch01–ch04 (ids on every h2, sticky jump bar, landing grid, §-openers on main-flow h2s) | chapter-home pass per Aman — kill endless-scroll feel |
+| 2026-08-26 | Tension logged: spec said chapnav ends at a final "exercises" pill, but cards must cover every h2 — resolved by mirroring the full map in the nav (exercises pill present; self-check/beyond pills follow for coverage). Boxed-section h2s get bare ids without §-openers so `.exercise > :first-child` margins stay intact | chapter-home pass — coordination note for later chapters |
 | 2026-08-26 | Added 7 component contracts + print block to book.css (chapter-banner, stat-strip, pull-fact, rail, css-icon set, flow-stage-v, part-divider) | visual-density pass per Aman |
 | 2026-08-26 | Tension logged: `.flow-stage` hardcodes an `--l0` saffron tint, so `.flow-stage-v` inherits saffron even for non-L0 parts | visual-density pass per Aman — "color routes never decorates" wants per-part tints; existing pages must not change behavior, so parameterizing `--route` is deferred, not done |
 | 2026-08-26 | Guardrail noted: oversized banner/stat numerals could drift into decorative type; kept because they encode real data (chapter number, metrics), banner numeral aria-hidden | visual-density pass per Aman |
 | 2026-08-26 | `.css-icon-rocket` excluded from the icon set | visual-density pass per Aman — rocket is decorative, not a structural metaphor used in prose ("diagrams are diagrams") |
+| 2026-08-26 | Added chapter-home component family (chapnav, inside-grid/inside-card + ic-l0..l5, sec-rule/sec-no) + reduced-motion & print guards to book.css | chapter-home pass per Aman |
+| 2026-08-26 | chapnav sticks only ≥1000px: below that the site-head wraps to variable height and any hardcoded `top` risks half-overlap; in-flow fallback chosen over guessy offsets, z-index 40 < head 50 as backstop | chapter-home pass per Aman |
+| 2026-08-26 | Stability scan at defs time: 0/16 chapters carried the new classes yet (siblings mid-write); 0 duplicate `chNN-sN` ids in every file; braces balanced; hex confined to token blocks + one pre-existing var() fallback (book.css:229) | chapter-home pass per Aman |
 
 ## Do / Don't
 

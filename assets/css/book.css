@@ -581,3 +581,62 @@ html {
   .brand > span:last-child{display:none}
   .search-box input{width:min(150px,42vw);font-size:16px}
 }
+
+/* ==========================================================================
+   chapter home - in-chapter navigation + landing cards
+   contracts: DESIGN.md "chapter-home pass". tokens only; no blue.
+   ========================================================================== */
+.chapnav{
+  display:flex; gap:.5rem; align-items:center;
+  overflow-x:auto; padding:.5rem .2rem;
+  border-bottom:1px solid var(--line);
+  background:color-mix(in srgb, var(--paper) 95%, transparent);
+  margin:1rem 0 1.4rem;
+}
+@media (min-width:1000px){
+  .chapnav{position:sticky; top:72px; z-index:40}
+}
+.chapnav a{
+  flex-shrink:0; white-space:nowrap;
+  font-family:var(--font-mono); font-size:.72rem;
+  color:var(--ink); text-decoration:none;
+  border:1.5px solid var(--ink); border-radius:999px;
+  background:var(--paper-raised); padding:.35rem .8rem; min-height:38px;
+  display:inline-flex; align-items:center;
+}
+.chapnav a:hover{translate:-1px -1px; box-shadow:var(--shadow-sm)}
+
+.inside-grid{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1rem; margin:1.6rem 0 2.2rem;
+}
+@media (max-width:900px){.inside-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.inside-grid{grid-template-columns:1fr}}
+.inside-card{
+  --route:var(--muted);
+  display:flex; flex-direction:column; gap:.45rem;
+  border:1.5px solid var(--line-strong);
+  border-top:3px solid var(--route,var(--muted));
+  border-radius:12px; background:var(--paper-raised);
+  padding:1rem 1.1rem; min-height:44px;
+}
+.inside-card:hover{translate:-1px -1px; box-shadow:var(--shadow-md)}
+.ic-l0{--route:var(--l0)} .ic-l1{--route:var(--l1)} .ic-l2{--route:var(--l2)}
+.ic-l3{--route:var(--l3)} .ic-l4{--route:var(--l4)} .ic-l5{--route:var(--l5)}
+.inside-card h3,.inside-card a{margin:0;font-family:var(--font-display);font-weight:700;font-size:.95rem}
+.inside-card p{margin:0;color:var(--muted);font-size:.84rem}
+.inside-card .ic-meta{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:auto}
+
+.sec-rule{margin-top:3rem;padding-top:.4rem;border-top:1px dashed var(--line-strong)}
+.sec-rule-label,.sec-no{
+  display:block; font-family:var(--font-mono); font-size:.68rem;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--muted);
+}
+h2[id]{scroll-margin-top:76px}
+
+@media print{
+  .chapnav,.inside-grid{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .chapnav a:hover,.inside-card:hover{translate:none;box-shadow:none}
+}

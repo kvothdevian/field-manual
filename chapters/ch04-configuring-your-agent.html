@@ -35,7 +35,73 @@
       <p class="as-of">facts checked as of 2026-08-25 · config surfaces move fast; receipts carry the dates</p>
     </div>
   </div>
-  <h2>Fixing the same thing twice is a configuration problem</h2>
+
+  <nav class="chapnav" aria-label="In this chapter">
+    <a href="#ch04-s1">why config</a>
+    <a href="#ch04-s2">instructions loader</a>
+    <a href="#ch04-s3">names you'll meet</a>
+    <a href="#ch04-s4">your build</a>
+    <a href="#ch04-s5">receipts</a>
+    <a href="#ch04-s6">exercises</a>
+    <a href="#ch04-s7">self-check</a>
+    <a href="#ch04-s8">beyond</a>
+  </nav>
+
+  <div class="inside-grid">
+    <a class="inside-card ic-l1" href="#ch04-s1">
+      <span class="ic-num" aria-hidden="true">§1</span>
+      <h3>Fixing it twice is a configuration problem</h3>
+      <p class="ic-sum">Memory persuades, skills load on demand, guardrails compel — the three layers, and why config compounds.</p>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s2">
+      <span class="ic-num" aria-hidden="true">§2</span>
+      <h3>Watch instructions load</h3>
+      <p class="ic-sum">Create and delete AGENTS.md files in a mock monorepo; watch nearest-wins strike through overridden rules live.</p>
+      <span class="ic-meta"><span>~4 min</span><span class="ic-lab">lab</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s3">
+      <span class="ic-num" aria-hidden="true">§3</span>
+      <h3>The names you will meet</h3>
+      <p class="ic-sum">AGENTS.md vs CLAUDE.md hierarchies, SKILL.md economics, hooks, and deny-beats-ask-beats-allow.</p>
+      <span class="ic-meta"><span>~6 min</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s4">
+      <span class="ic-num" aria-hidden="true">§4</span>
+      <h3>Where this lands in your build</h3>
+      <p class="ic-sum">Build 1's AGENTS.md opens at five seeded lines and grows only through the dated promotion rule.</p>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s5">
+      <span class="ic-num" aria-hidden="true">§5</span>
+      <h3>Receipts</h3>
+      <p class="ic-sum">Standards pages and harness manuals, including Claude Code's load cap and the fail-open hook caveat.</p>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s6">
+      <span class="ic-num" aria-hidden="true">§6</span>
+      <h3>Try it yourself</h3>
+      <p class="ic-sum">Write a five-placeholder AGENTS.md, verify it echoes back, then plant a contradiction and grade the result.</p>
+      <span class="ic-meta"><span>~20 min</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s7">
+      <span class="ic-num" aria-hidden="true">§7</span>
+      <h3>Self-check</h3>
+      <p class="ic-sum">Which layer blocks generated-file edits, who wins nearest-wins ties, five lines vs two hundred.</p>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </a>
+    <a class="inside-card ic-l1" href="#ch04-s8">
+      <span class="ic-num" aria-hidden="true">§8</span>
+      <h3>Beyond this build</h3>
+      <p class="ic-sum">Same anatomy under different names, monorepo nesting patterns, and diagnosing config cargo cult.</p>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </a>
+  </div>
+
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§1</span>
+    <h2 id="ch04-s1">Fixing the same thing twice is a configuration problem</h2>
+  </div>
   <p>Here is the quiet tragedy of an unconfigured agent: every session starts blank. The loop
   has no memory of yesterday except what you leave on disk. So when the agent uses the wrong
   test command, edits a generated file, or writes commit messages in a style you hate, and you
@@ -62,7 +128,10 @@
     pays every future session, across every project that inherits it.</p>
   </aside>
 
-  <h2>Watch instructions load: the nested-files simulator</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§2</span>
+    <h2 id="ch04-s2">Watch instructions load: the nested-files simulator</h2>
+  </div>
   <p>Instruction files nest. There is usually a global one for your whole machine, one per
   repository root, and optionally deeper ones per package or subfolder. When the agent works
   on a file, most harnesses walk from that file's folder upward, loading every instruction
@@ -356,7 +425,10 @@
     rereads is a liability wearing a productivity costume.</p>
   </div>
 
-  <h2>The names you will meet</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§3</span>
+    <h2 id="ch04-s3">The names you will meet</h2>
+  </div>
   <p><strong>AGENTS.md</strong> is the cross-harness attempt at one standard: an open,
   tool-agnostic instruction-file format stewarded under the Linux Foundation, with nested files
   resolving nearest-wins exactly as the simulator showed, adopted by Codex, Cursor, opencode,
@@ -405,7 +477,10 @@
   approach read-only before any disk write, and git worktrees give each parallel session an
   isolated checkout — two agents, two branches, zero trampled edits.</p>
 
-  <h2>Where this lands in your build</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§4</span>
+    <h2 id="ch04-s4">Where this lands in your build</h2>
+  </div>
   <p>Build 1 — the agent-cost-compass — gets its own AGENTS.md at Milestone 2, alongside the
   calculator core, and ours is this chapter's living example. It opens as five lines, seeded
   directly from the build spec's known pitfalls:</p>
@@ -418,7 +493,10 @@
   mistake, each dated. The build log records what got added and why, which doubles as the
   quarterly-review checklist the config-rot warning demands.</p>
 
-  <h2>Receipts</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§5</span>
+    <h2 id="ch04-s5">Receipts</h2>
+  </div>
   <p>Tier key: T1 official docs or established practitioners · T2 vendor secondary ·
   T3 lead only, never cited as fact.</p>
   <div class="receipt">
@@ -463,7 +541,7 @@
   </div>
 
   <section class="exercise">
-    <h2>Try it yourself</h2>
+    <h2 id="ch04-s6">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint: write your first AGENTS.md tonight.</strong> Open
       your editor at the root of any project you care about. Create a file named exactly
@@ -494,7 +572,7 @@ last reviewed: 2026-08-&lt;day&gt; by &lt;your name&gt;</code></pre>
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch04-s7">Self-check</h2>
     <details>
       <summary>Your AGENTS.md says "never edit generated files," yet the agent keeps editing
       them. Which layer do you reach for, and why?</summary>
@@ -521,7 +599,7 @@ last reviewed: 2026-08-&lt;day&gt; by &lt;your name&gt;</code></pre>
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch04-s8">Beyond this build</h2>
     <p><strong>Naming differs; anatomy doesn't.</strong> Every harness implements the same three
     layers under different labels. The AGENTS.md standard is read natively by Codex, Cursor,
     Copilot coding agent, Gemini CLI and opencode, so it is the best default for portable

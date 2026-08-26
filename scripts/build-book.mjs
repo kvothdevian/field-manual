@@ -28,6 +28,9 @@ function inner(file) {
   const m = html.match(/<main[\s>]*>([\s\S]*)<\/main>/i);
   if (!m) throw new Error("no <main> in " + file);
   return m[1]
+    .replace(/<nav class="chapnav"[\s\S]*?<\/nav>\s*/gi, "")
+    .replace(/<nav[^>]*aria-label="Inside this chapter"[^>]*>[\s\S]*?<\/nav>\s*/gi, "")
+    .replace(/<div class="inside-grid"[\s\S]*?<\/div>\s*(?=<h2|<div class="(callout|flow-stage|stat-strip|part-divider)|<section|<aside)/gi, "")
     .replace(/<nav class="pager"[\s\S]*?<\/nav>\s*/gi, "")
     .replace(/<script[^>]*src=["'][^"']*["']><\/script>\s*/gi, "");
 }

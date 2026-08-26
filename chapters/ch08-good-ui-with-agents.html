@@ -32,6 +32,57 @@
       <p class="as-of">facts checked as of 2026-08-26 · every claim traces to the book's source ledger</p>
     </div>
   </div>
+
+  <nav class="chapnav" aria-label="Jump to a section">
+    <a href="#ch08-s1">tokens</a>
+    <a href="#ch08-s2">contracts</a>
+    <a href="#ch08-s3">a11y floor</a>
+    <a href="#ch08-s4">screenshot loop</a>
+    <a href="#ch08-s5">your build</a>
+    <a href="#ch08-s6">visual bar</a>
+    <a href="#ch08-exercises">exercises</a>
+  </nav>
+
+  <p class="sec-rule sec-no">inside this chapter</p>
+  <div class="inside-grid">
+    <div class="inside-card ic-l3">
+      <span class="toc-num">01</span>
+      <a href="#ch08-s1">Constraint layer one: design tokens</a>
+      <span class="ic-sum">Named values make off-palette choices unwritable — and the token format is a draft report, so verify importers.</span>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </div>
+    <div class="inside-card ic-l3">
+      <span class="toc-num">02</span>
+      <a href="#ch08-s2">Constraint layer two: component contracts</a>
+      <span class="ic-sum">shadcn's AI-readable source and utility-class lattices make the compliant path the path of least resistance.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l3">
+      <span class="toc-num">03</span>
+      <a href="#ch08-s3">Constraint layer three: the accessibility floor</a>
+      <span class="ic-sum">Contrast is arithmetic — 4.5:1 / 3:1 / 7:1 computed live in the lab, banned blue included to fail publicly.</span>
+      <span class="ic-meta"><span>~6 min</span><span class="badge">lab</span></span>
+    </div>
+    <div class="inside-card ic-l3">
+      <span class="toc-num">04</span>
+      <a href="#ch08-s4">The screenshot loop, prescribed</a>
+      <span class="ic-sum">Screenshot → compare → fix against named acceptance criteria; chrome-devtools-mcp and playwright-mcp give it eyes.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l3">
+      <span class="toc-num">05</span>
+      <a href="#ch08-s5">Where this lands in your build</a>
+      <span class="ic-sum">quiz-forge binds its UI to journey/design.md verbatim — tokens ship before the screens they style.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l3">
+      <span class="toc-num">06</span>
+      <a href="#ch08-s6">The visual bar this book is judged against</a>
+      <span class="ic-sum">Ciechanowski essays as the blind-judged exemplar — and DESIGN.md itself built the way this chapter teaches.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+  </div>
+
   <p class="lede">Promise: after this chapter you can get non-generic, accessible UI out of
   an agent — by feeding it constraints (tokens, component contracts, a screenshot loop)
   instead of vibes.</p>
@@ -55,7 +106,7 @@
     median ships.</p>
   </div>
 
-  <h2>Constraint layer one: design tokens</h2>
+  <h2 id="ch08-s1">Constraint layer one: design tokens</h2>
   <p>A design token is a named value — a color, a radius, a spacing step — stored as data,
   separate from any stylesheet. For an agent it works as a machine-readable guardrail: the
   model doesn't have to interpret adjectives like "warm," it resolves
@@ -79,7 +130,7 @@
   <p>Hand a file shaped like that to an agent before line one and "make it fit the brand"
   stops being a mood board and becomes a lookup.</p>
 
-  <h2>Constraint layer two: component contracts</h2>
+  <h2 id="ch08-s2">Constraint layer two: component contracts</h2>
   <p>Tokens pin the raw materials; component contracts pin the assembled parts. The
   shadcn/ui docs state the quiet part out loud: open code you copy into your own repo,
   written to be predictable "for your team and LLMs" — an explicit AI-readiness claim, not
@@ -94,7 +145,7 @@
   resistance</em>. An agent greedy for the shortest output will take the lattice you built
   if inventing freehand costs more tokens than obeying.</p>
 
-  <h2>Constraint layer three: the accessibility floor</h2>
+  <h2 id="ch08-s3">Constraint layer three: the accessibility floor</h2>
   <p>WCAG 2.2's quick reference is the floor, not the ceiling. Two rows matter most day to
   day, both from Success Criterion 1.4.3 (Contrast, Minimum): text needs <strong>4.5:1</strong>,
   large text — at least 24px regular or roughly 18.66px bold — needs <strong>3:1</strong>;
@@ -435,7 +486,7 @@ ratio = (L_lighter + 0.05) / (L_darker + 0.05)</code></pre>
     these tokens, the flow must survive 360px. Then the loop converges — or you stop it.</p>
   </div>
 
-  <h2>The screenshot loop, prescribed</h2>
+  <h2 id="ch08-s4">The screenshot loop, prescribed</h2>
   <p>Constraints tell the agent what <em>good</em> means; the loop lets it <em>check</em>.
   Anthropic's Claude Code best practices prescribe this formally: hand the agent a design
   mock or screenshot, let it take screenshots of its own result, compare against the
@@ -471,7 +522,7 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
     churn.</p>
   </div>
 
-  <h2>Where this lands in your build</h2>
+  <h2 id="ch08-s5">Where this lands in your build</h2>
   <p>Your current threaded build — <strong>ncert-quiz-forge</strong>, Build 2 in the
   companion specs — never asks its agents what the brand looks like, because the answer is
   already machine-readable. Its BUILD.md binds the UI to the journey site's
@@ -495,7 +546,7 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   governs is milestone M4, gated behind human-reviewed content batches. The tokens ship
   before the screens they style — that ordering is the whole technique.</p>
 
-  <h2>The visual bar this book is judged against</h2>
+  <h2 id="ch08-s6">The visual bar this book is judged against</h2>
   <p>A book about building beautiful things with agents owes you its own standard operating
   procedure. Ours is written down: every piece of this book runs a gauntlet in which a
   critic with fresh context fetches Bartosz Ciechanowski's essays and compares them, blind
@@ -510,7 +561,7 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   of the constraints it teaches since Chapter 01. The banned blue you measured today is
   banned in the very CSS delivering this sentence.</p>
 
-  <h2>Receipts</h2>
+  <h2 id="ch08-s7">Receipts</h2>
   <p>Every factual claim above traces to a ledger row. Tier key: T1 official docs, specs,
   repos, or established practitioners · T2 vendor/press secondary · T3 lead only.</p>
   <div class="receipt">
@@ -559,8 +610,8 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
     <span class="as-of">checked 2024-12-17 · this book's blind-judged visual bar · noted honestly: no colophon documenting tooling</span>
   </div>
 
-  <section class="exercise">
-    <h2>Try it yourself</h2>
+  <section class="exercise" id="ch08-exercises">
+    <h2 id="ch08-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> In the lab above, pick plum
       (<code>#8E5BA6</code>) on paper and read the number before the verdict — predict
@@ -580,7 +631,7 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch08-s9">Self-check</h2>
     <details>
       <summary>Why does an unconstrained agent produce generic UI — is the model bad at design?</summary>
       <p>The opposite: it's good at patterns. With no local conventions, generation regresses
@@ -605,7 +656,7 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch08-s10">Beyond this build</h2>
     <p><strong>Mobile-first checks.</strong> The screenshot loop earns its keep twice on
     phones: drive the viewport down before judging anything, because layouts that survive
     360px force hierarchy decisions that desktop hides. Both browser tools above can resize

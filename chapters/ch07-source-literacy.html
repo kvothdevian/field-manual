@@ -32,6 +32,78 @@
       <p class="as-of">receipts dated individually · 4 of this chapter's 11 ledger rows were verified by direct fetch, the rest rest on documented chains - the fetched four are the METR pair, LiveCodeBench, and the Claude best-practices page · every claim traces to the book's source ledger</p>
     </div>
   </div>
+
+  <nav class="chapnav" aria-label="Jump to a section">
+    <a href="#ch07-s1">coroner</a>
+    <a href="#ch07-s2">metr</a>
+    <a href="#ch07-s3">vendor studies</a>
+    <a href="#ch07-s4">gamed benchmarks</a>
+    <a href="#ch07-s5">devin arc</a>
+    <a href="#ch07-s6">memorization</a>
+    <a href="#ch07-s7">autopsy</a>
+    <a href="#ch07-s8">ledger machine</a>
+    <a href="#ch07-s9">your build</a>
+    <a href="#ch07-exercises">exercises</a>
+  </nav>
+
+  <p class="sec-rule sec-no">inside this chapter</p>
+  <div class="inside-grid">
+    <div class="inside-card ic-l2">
+      <span class="toc-num">01</span>
+      <a href="#ch07-s1">Read a claim like a coroner</a>
+      <span class="ic-sum">Five wounds kill most AI claims — controls, measurer, funding, contamination, scope — plus the T1/T2/T3 tiers.</span>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">02</span>
+      <a href="#ch07-s2">The METR study, both acts</a>
+      <span class="ic-sum">Felt 20% faster, measured 19% slower — then an honest public walk-back worth more than never having blinked.</span>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">03</span>
+      <a href="#ch07-s3">Anatomy of a vendor study</a>
+      <span class="ic-sum">The Copilot "55% faster" figure fails every checklist row — same question as METR, opposite rigor.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">04</span>
+      <a href="#ch07-s4">How benchmarks get gamed</a>
+      <span class="ic-sum">Leakage (SWE-Bench+), contamination (LiveCodeBench), governance (FrontierMath) — three documented failure modes.</span>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">05</span>
+      <a href="#ch07-s5">The Devin arc: death of a claim in public</a>
+      <span class="ic-sum">Launch video to walk-back in one month — and the T3-with-T1-corroboration pattern worth stealing.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">06</span>
+      <a href="#ch07-s6">Memorization is not skill</a>
+      <span class="ic-sum">Claude models localize SWE-bench files 3–6× better — recall, not skill; a flagged preprint, honestly marked.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">07</span>
+      <a href="#ch07-s7">The claim autopsy</a>
+      <span class="ic-sum">Commit verdicts on eight real evidence cards before any reveal; the ledger grades them all at once.</span>
+      <span class="ic-meta"><span>~6 min</span><span class="badge">lab</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">08</span>
+      <a href="#ch07-s8">The machine this book runs on</a>
+      <span class="ic-sum">The ~160-row source ledger behind every receipt — including the day it caught and dated its own error.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">09</span>
+      <a href="#ch07-s9">Where this lands in your build</a>
+      <span class="ic-sum">Anything your agent asserts gets claim, source, tier, date — minutes to adopt, defensible afterward.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+  </div>
+
   <p class="lede">Promise: after this chapter you can stress-test any AI-productivity claim
   in about ten minutes — using the same three-tier system every receipt in this book
   was graded by.</p>
@@ -43,7 +115,7 @@
   benchmark get gamed three ways, follow one claim from launch video to public
   walk-back, and meet the machine that grades this book's own sources.</p>
 
-  <h2>Read a claim like a coroner</h2>
+  <h2 id="ch07-s1">Read a claim like a coroner</h2>
   <p>Most AI claims die from one of five wounds, and you can check for all five faster
   than you can read the press release:</p>
   <ul>
@@ -71,7 +143,7 @@
   aggregators, presumed marketing · <strong>T3</strong> forums and social posts,
   leads only, never cited as fact without corroboration.</p>
 
-  <h2>The METR study, both acts</h2>
+  <h2 id="ch07-s2">The METR study, both acts</h2>
   <p>You met this result in Chapter 01 as a warning about trusting your sense of
   speed. Here it is whole, because the second act matters more than the first.
   In July 2025 the independent nonprofit METR ran a randomized controlled trial:
@@ -93,7 +165,7 @@
     worth more than one that has never blinked.</p>
   </div>
 
-  <h2>Anatomy of a vendor study</h2>
+  <h2 id="ch07-s3">Anatomy of a vendor study</h2>
   <p>Now the counter-example this book keeps returning to. In December 2022, GitHub
   published research quantifying Copilot's impact: developers completed a task
   <strong>55% faster</strong>. Run the checklist. Who measured? The participants
@@ -104,7 +176,7 @@
   as stated, was never established. The contrast with METR's design is the entire
   lesson: same question, opposite rigor.</p>
 
-  <h2>How benchmarks get gamed</h2>
+  <h2 id="ch07-s4">How benchmarks get gamed</h2>
   <p>Benchmark scores look like measurements and behave like marketing. Three
   documented failure modes:</p>
   <p><strong>Gaming by leakage.</strong> The academic SWE-Bench+ audit re-examined
@@ -125,7 +197,7 @@
   plainly, and built a holdout set. TechCrunch covered it, quoting named actors.
   Notice what fixed it: disclosure, dates, and a locked drawer of unseen problems.</p>
 
-  <h2>The Devin arc: death of a claim in public</h2>
+  <h2 id="ch07-s5">The Devin arc: death of a claim in public</h2>
   <p>In March 2024, the startup Cognition launched Devin, "the first AI software
   engineer," with videos showing it completing real jobs on Upwork. Watch what
   happened next. Within a month, The Pragmatic Engineer documented that the framing
@@ -140,7 +212,7 @@
   walks it. When you hear an extraordinary demo claim, search for exactly this
   pairing before believing or repeating it.</p>
 
-  <h2>Memorization is not skill</h2>
+  <h2 id="ch07-s6">Memorization is not skill</h2>
   <p>A December 2025 University of Waterloo-group preprint ran a clever test: give
   models file-localization tasks drawn from SWE-Bench-Verified alongside equivalent
   tasks from fresh, comparable benchmarks. Claude models located the SWE-bench files
@@ -157,7 +229,7 @@
     governance — months after the celebration graphs shipped.</p>
   </div>
 
-  <h2>The claim autopsy</h2>
+  <h2 id="ch07-s7">The claim autopsy</h2>
   <p>Three real claims from this chapter, eight pieces of real evidence. For every
   card, commit the call you'd defend — <em>earn belief</em>, <em>fails scrutiny</em>,
   <em>wrong frame</em>, or <em>insufficient alone</em>. Nothing gets graded until all
@@ -585,7 +657,7 @@
   })();
   </script>
 
-  <h2>The machine this book runs on</h2>
+  <h2 id="ch07-s8">The machine this book runs on</h2>
   <p>Everything above is a technique. Here it is running as infrastructure. Before
   any chapter of this book was drafted, a research wave built a <strong>source
   ledger</strong>: six parallel research agents produced roughly 160 rows covering
@@ -615,7 +687,7 @@
     not the conflicted ones; they are the quietly conflicted ones.</p>
   </div>
 
-  <h2>Where this lands in your build</h2>
+  <h2 id="ch07-s9">Where this lands in your build</h2>
   <p>Your builds inherit the ledger discipline directly. When the agent-cost-compass
   quotes a price, when a chapter quotes a limit, the number arrives with a URL, a
   tier, and a date — because every number in a project someone else will verify is a
@@ -623,7 +695,7 @@
   asserts facts: claim, source, tier, date. It costs minutes and converts "the agent
   said so" into something you can defend.</p>
 
-  <h2>Receipts</h2>
+  <h2 id="ch07-s10">Receipts</h2>
   <p>Every factual claim above traces to a ledger row below. Tier key: T1 official
   docs, specs, research, or established practitioners · T2 vendor/press secondary ·
   T3 lead only, never cited as fact alone.</p>
@@ -689,8 +761,8 @@
     <span class="as-of">wave complete 2026-08-25 · six parallel agents, ~160 rows, all 16 chapters + Appendix A; DeepSeek pricing row corrected 2026-08-25 during Build 1 review — live page confirmed $0.22/$0.66 are off-peak rates</span>
   </div>
 
-  <section class="exercise">
-    <h2>Try it yourself</h2>
+  <section class="exercise" id="ch07-exercises">
+    <h2 id="ch07-s11">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Open the GitHub blog post on
       Copilot's impact and find two things in under three minutes: how many
@@ -709,7 +781,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch07-s12">Self-check</h2>
     <details>
       <summary>Why does the Copilot 55% study fail as evidence even if everyone in it was honest?</summary>
       <p>Honesty is not validity. The design lacks a control group, relies on
@@ -734,7 +806,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch07-s13">Beyond this build</h2>
     <p><strong>Evaluating model comparisons.</strong> Vendor battle-cards, arena
     leaderboards, and "beats GPT-x" charts are claims — run the same checklist.
     Who submitted the prompts, does the eval predate training, is there a held-out

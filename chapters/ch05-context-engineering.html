@@ -35,7 +35,65 @@
       approximations, proportionate to published measurements — your harness's real counts differ</p>
     </div>
   </div>
-  <h2>Context is a budget, not a bucket</h2>
+
+  <nav class="chapnav" aria-label="Jump to a section">
+    <a href="#ch05-s1">budget</a>
+    <a href="#ch05-s2">length costs</a>
+    <a href="#ch05-s3">what loads</a>
+    <a href="#ch05-s4">/compact</a>
+    <a href="#ch05-s5">memory</a>
+    <a href="#ch05-s6">subagents</a>
+    <a href="#ch05-s7">your build</a>
+    <a href="#ch05-exercises">exercises</a>
+  </nav>
+
+  <p class="sec-rule sec-no">inside this chapter</p>
+  <div class="inside-grid">
+    <div class="inside-card ic-l2">
+      <span class="toc-num">01</span>
+      <a href="#ch05-s1">Context is a budget, not a bucket</a>
+      <span class="ic-sum">Attention is finite and degrades with volume — the craft is keeping signal density high, not fitting more in.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">02</span>
+      <a href="#ch05-s2">The evidence that length costs accuracy</a>
+      <span class="ic-sum">Eighteen SOTA models degrade non-uniformly as input grows; a bigger window is storage, not immunity.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">03</span>
+      <a href="#ch05-s3">What actually enters your context</a>
+      <span class="ic-sum">Standing rent vs working history, itemized — then toggle ingredients in the sandbox and watch sharpness sag.</span>
+      <span class="ic-meta"><span>~6 min</span><span class="badge">lab</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">04</span>
+      <a href="#ch05-s4">Compaction: what /compact actually does</a>
+      <span class="ic-sum">History collapses to a summary while standing rent re-presents every pass — you cannot compact away a fat MCP server.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">05</span>
+      <a href="#ch05-s5">Memory that crosses sessions</a>
+      <span class="ic-sum">MEMORY.md and per-repo auto-memory persist conclusions — write conclusions, not transcripts.</span>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">06</span>
+      <a href="#ch05-s6">Subagents: the pressure valve, honestly sold</a>
+      <span class="ic-sum">A subagent reads 6,100 tok in its own window; the parent pays 420 — delegate breadth, keep judgment.</span>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </div>
+    <div class="inside-card ic-l2">
+      <span class="toc-num">07</span>
+      <a href="#ch05-s7">Where this lands in your build</a>
+      <span class="ic-sum">The compass repo stays deliberately tiny: little standing rent, short histories, rare compaction.</span>
+      <span class="ic-meta"><span>~1 min</span></span>
+    </div>
+  </div>
+
+  <h2 id="ch05-s1">Context is a budget, not a bucket</h2>
   <p>Chapter 01 established that the agent re-reads its entire transcript on every pass of the
   loop. That transcript — the context window — is not a warehouse where stuff accumulates
   harmlessly. Treat it as a <strong>finite attention budget</strong>. Anthropic's engineering
@@ -55,7 +113,7 @@
     four.</p>
   </aside>
 
-  <h2>The evidence that length costs accuracy</h2>
+  <h2 id="ch05-s2">The evidence that length costs accuracy</h2>
   <p>Why budget at all? Because measured performance degrades with input length — even on
   trivial tasks. A 2025 study from Chroma Research tested eighteen state-of-the-art LLMs and
   found accuracy falls non-uniformly as context grows, with distracting material compounding
@@ -66,7 +124,7 @@
   <em>hold</em> everything and still attend to it worse. Degradation starts long before the
   wall.</p>
 
-  <h2>What actually enters your context</h2>
+  <h2 id="ch05-s3">What actually enters your context</h2>
   <p>Before you typed a single word today, your agent's window already held: a system prompt
   the harness authors wrote, your memory and instruction files, one-line descriptions of every
   installed skill, and — the sleeper — the API schemas of every connected MCP server, because
@@ -311,7 +369,7 @@
   floor. Now uncheck github and look at the floor line drop. That gap is the entire argument
   of the next section.</p>
 
-  <h2>Compaction: what /compact actually does</h2>
+  <h2 id="ch05-s4">Compaction: what /compact actually does</h2>
   <p>When history crowds the window, harnesses offer compaction. The documented semantics:
   <code>/compact</code> replaces the whole conversation with a structured summary, then
   rebuilds a fresh context around it — your instruction files re-read from disk, so your rules
@@ -328,7 +386,7 @@
   you are not using. The cure for bloated rent is eviction at the config layer (Chapter 04's
   tools), not compression at the session layer.</p>
 
-  <h2>Memory that crosses sessions</h2>
+  <h2 id="ch05-s5">Memory that crosses sessions</h2>
   <p>Compaction saves a session; memory saves <em>you</em>. Documented behavior in Claude
   Code: an index file (<code>MEMORY.md</code>) loads into context every session, and richer
   auto-memory directories persist per repository — shared across git worktrees, scoped to
@@ -338,7 +396,7 @@
   "Tests: <code>npm test</code>, never <code>tsc</code> alone" earns its ninety tokens every
   day. Yesterday's error dump does not.</p>
 
-  <h2>Subagents: the pressure valve, honestly sold</h2>
+  <h2 id="ch05-s6">Subagents: the pressure valve, honestly sold</h2>
   <p>The third lever attacks the deepest problem: research-heavy steps that flood history
   with material you need once. The documented mechanics quantify the win precisely — in
   Claude Code's example, a subagent reads 6,100 tokens of files inside its <em>own</em> window
@@ -381,11 +439,11 @@
     rescuing a bloated thread.</p>
   </div>
 
-  <h2>Where this lands in your build</h2>
+  <h2 id="ch05-s7">Where this lands in your build</h2>
   <p>The agent-cost-compass repo stays deliberately tiny — a handful of files — so its
   sessions stay cheap: little standing rent, short histories, rare compaction.</p>
 
-  <h2>Receipts</h2>
+  <h2 id="ch05-s8">Receipts</h2>
   <div class="receipt">
     <span class="tier tier-t2">T2 vendor blog</span>
     <span class="r-url">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</span>
@@ -445,8 +503,8 @@
     <span class="as-of">pub 2026-02-22 · head-to-head: 68-tok skill description vs ~3.6k-tok MCP schema — reproducible measurement, borrowed from Ch 09 ledger rows</span>
   </div>
 
-  <section class="exercise">
-    <h2>Try it yourself</h2>
+  <section class="exercise" id="ch05-exercises">
+    <h2 id="ch05-s9">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> In the sandbox above: tick every box
       including the github server, press <em>work a few turns</em> eight times, and read the
@@ -465,7 +523,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch05-s10">Self-check</h2>
     <details>
       <summary>Your session feels dull and you ran /compact twice. Why might it still be dull?</summary>
       <p>Because compaction only collapses history. If most of your load is standing rent — a
@@ -487,7 +545,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch05-s11">Beyond this build</h2>
     <p><strong>Long-horizon projects.</strong> Multi-day epics — migrations, spec-driven
     builds (Chapter 06) — outlast any window. The pattern: keep a running notes file on disk
     (findings, decisions, open questions), let compaction eat the transcript, and re-anchor

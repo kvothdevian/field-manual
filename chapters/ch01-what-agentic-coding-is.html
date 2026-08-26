@@ -35,6 +35,83 @@
       <p class="as-of">facts checked as of 2026-08-25</p>
     </div>
   </div>
+
+  <nav class="chapnav" aria-label="In this chapter">
+    <a href="#ch01-s1">loop</a>
+    <a href="#ch01-s2">when to skip</a>
+    <a href="#ch01-s3">failure modes</a>
+    <a href="#ch01-s4">speed</a>
+    <a href="#ch01-s5">vibe vs agentic</a>
+    <a href="#ch01-s6">your build</a>
+    <a href="#ch01-s7">receipts</a>
+    <a href="#ch01-s8">exercises</a>
+    <a href="#ch01-s9">self-check</a>
+    <a href="#ch01-s10">beyond</a>
+  </nav>
+
+  <div class="inside-grid">
+    <a class="inside-card ic-l0" href="#ch01-s1">
+      <span class="ic-num" aria-hidden="true">§1</span>
+      <h3>Three parts, one machine</h3>
+      <p class="ic-sum">Model predicts, harness acts, loop repeats — run the pass-by-pass simulator and watch a clear goal stop where a vague one wanders.</p>
+      <span class="ic-meta"><span>~6 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s2">
+      <span class="ic-num" aria-hidden="true">§2</span>
+      <h3>When to skip the agent entirely</h3>
+      <p class="ic-sum">Workflows vs agents, four honest "say no" cases, and why autonomy amplifies whatever it touches.</p>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s3">
+      <span class="ic-num" aria-hidden="true">§3</span>
+      <h3>Three classic failure modes</h3>
+      <p class="ic-sum">Kitchen-sink sessions, trust-then-verify gaps, infinite wander — learn them by name and fix each in one line.</p>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s4">
+      <span class="ic-num" aria-hidden="true">§4</span>
+      <h3>An honest word about speed</h3>
+      <p class="ic-sum">METR's randomized trial: predicted +24%, believed +20%, measured −19%. Your feeling of speed is not data.</p>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s5">
+      <span class="ic-num" aria-hidden="true">§5</span>
+      <h3>Vibe coding vs agentic engineering</h3>
+      <p class="ic-sum">Never commit what you can't explain — how the vocabulary settled on "agentic engineering."</p>
+      <span class="ic-meta"><span>~3 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s6">
+      <span class="ic-num" aria-hidden="true">§6</span>
+      <h3>Where this lands in your build</h3>
+      <p class="ic-sum">Chapter 01 compressed into one bounded build afternoon: the inner loop types, the outer loop keeps you honest.</p>
+      <span class="ic-meta"><span>~1 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s7">
+      <span class="ic-num" aria-hidden="true">§7</span>
+      <h3>Receipts</h3>
+      <p class="ic-sum">Every claim above traced to tiered sources — T1 anchors first, leads marked T3 and never cited alone.</p>
+      <span class="ic-meta"><span>~2 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s8">
+      <span class="ic-num" aria-hidden="true">§8</span>
+      <h3>Try it yourself</h3>
+      <p class="ic-sum">Sort real chores into workflow-vs-agent columns, amputate the verify step on paper, draft your first falsifiable stopping condition.</p>
+      <span class="ic-meta"><span>~15 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s9">
+      <span class="ic-num" aria-hidden="true">§9</span>
+      <h3>Self-check</h3>
+      <p class="ic-sum">Flip-to-reveal answers: model vs harness in one breath, the three failure modes, interrogating a 40% speed claim.</p>
+      <span class="ic-meta"><span>~5 min</span></span>
+    </a>
+    <a class="inside-card ic-l0" href="#ch01-s10">
+      <span class="ic-num" aria-hidden="true">§10</span>
+      <h3>Beyond this build</h3>
+      <p class="ic-sum">Where the loop pattern ports outside coding, how harnesses differ in surface only, where agents break down.</p>
+      <span class="ic-meta"><span>~4 min</span></span>
+    </a>
+  </div>
+
   <p>The hype flattened the language. "The AI built my app" can mean four
   different things: a chatbot answered while a human typed every change, an
   autocomplete guessed lines, a scripted pipeline transformed text, or an agent
@@ -42,7 +119,10 @@
   are not shades of the same thing. This chapter builds the mental model
   everything else in this book sits on.</p>
 
-  <h2>Three parts, one machine</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§1</span>
+    <h2 id="ch01-s1">Three parts, one machine</h2>
+  </div>
   <p>Strip the marketing and every coding agent has three pieces.</p>
   <p>The <strong>model</strong> is the language model itself — a system that
   predicts likely text, one token at a time. It has no hands. It cannot open a
@@ -330,7 +410,10 @@
     wander.</p>
   </div>
 
-  <h2>What makes it agentic — and when to skip it entirely</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§2</span>
+    <h2 id="ch01-s2">What makes it agentic — and when to skip it entirely</h2>
+  </div>
   <p>An agentic coding session differs from chatting with a bot in three
   concrete ways: the agent reads your actual files, runs real commands, and
   iterates on its own output without waiting for you between steps. Official
@@ -369,7 +452,10 @@
     an optional extra.</p>
   </div>
 
-  <h2>Three classic failure modes</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§3</span>
+    <h2 id="ch01-s3">Three classic failure modes</h2>
+  </div>
   <p>These recur so reliably across teams and harnesses that learning to spot
   them by name is worth the price of this chapter.</p>
   <p><strong>Failure one: the kitchen-sink session.</strong> Five features go
@@ -394,7 +480,10 @@
   small mistakes into big ones. Both recur across field notes; both are habits,
   not bugs.</p>
 
-  <h2>An honest word about speed</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§4</span>
+    <h2 id="ch01-s4">An honest word about speed</h2>
+  </div>
   <p>Before you assume agents make everyone faster, meet the most uncomfortable
   result in the field. In 2025 the independent nonprofit METR ran a randomized
   controlled trial: experienced open-source developers, real issues in repos
@@ -420,7 +509,10 @@
     <p>The durable lesson stands anyway: your feeling of speed is not data.</p>
   </aside>
 
-  <h2>Vibe coding vs agentic engineering: pick your words carefully</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§5</span>
+    <h2 id="ch01-s5">Vibe coding vs agentic engineering: pick your words carefully</h2>
+  </div>
   <p>In February 2025 Andrej Karpathy described a new style he called vibe
   coding. The definition this book relies on is anchored not on the fragile
   original post but on Simon Willison's definitional essay, which documents
@@ -440,7 +532,10 @@
   of agents with oversight and no compromise on quality. That is the term this
   book uses, and the standard it holds you to: orchestrate, supervise, verify.</p>
 
-  <h2>Where this lands in your build</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§6</span>
+    <h2 id="ch01-s6">Where this lands in your build</h2>
+  </div>
   <p>The book's threaded projects start in the next chapter with a harness
   choice, and the first build — a small agent-cost-compass that turns pricing
   pages into a decision table — is deliberately tiny. One bounded question, one
@@ -448,7 +543,10 @@
   merges. That is Chapter 01 compressed into an afternoon: the inner loop does
   the typing, the outer loop keeps you honest.</p>
 
-  <h2>Receipts</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label" aria-hidden="true">§7</span>
+    <h2 id="ch01-s7">Receipts</h2>
+  </div>
   <p>Every factual claim above traces to a source card below. Tier key:
   T1 official docs or established practitioners · T2 vendor/press secondary ·
   T3 lead only, never cited as fact alone.</p>
@@ -530,7 +628,7 @@
   </div>
 
   <section class="exercise">
-    <h2>Try it yourself</h2>
+    <h2 id="ch01-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Open
       anthropic.com/research/building-effective-agents, scroll to the
@@ -552,7 +650,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch01-s9">Self-check</h2>
     <details>
       <summary>In one breath: what is the difference between the model and the harness?</summary>
       <p>The model predicts text and can do nothing else. The harness is the
@@ -577,7 +675,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch01-s10">Beyond this build</h2>
     <p><strong>Where else the pattern applies.</strong> The loop — model, tools,
     stopping condition, verification — is not coding-specific. Data cleanup,
     research digests, ops triage, spreadsheet wrangling: anywhere a machine can

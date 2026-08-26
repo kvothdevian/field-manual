@@ -32,10 +32,71 @@
       <p class="as-of">facts checked as of 2026-08-26</p>
     </div>
   </div>
+      <p class="as-of">facts checked as of 2026-08-26</p>
+    </div>
+  </div>
+  <nav class="chapnav" aria-label="Jump within chapter 11">
+    <a href="#ch11-s1">brownfield</a>
+    <a href="#ch11-s2">understand first</a>
+    <a href="#ch11-s3">repo maps</a>
+    <a href="#ch11-s4">vocabulary</a>
+    <a href="#ch11-s5">legibility</a>
+    <a href="#ch11-s6">specs</a>
+    <a href="#ch11-s7">in your builds</a>
+    <a href="#ch11-s9">exercises</a>
+  </nav>
   <p class="lede">Promise: after this chapter you can point an agent at a big,
   unfamiliar codebase and get safe, surgical changes instead of collateral damage.</p>
 
-  <h2>The repo you didn't write</h2>
+  <div class="inside-grid" aria-label="Inside this chapter">
+    <a class="inside-card ic-l3" href="#ch11-s1">
+      <span class="ic-num" aria-hidden="true">1</span>
+      <h3>The repo you didn't write</h3>
+      <p class="ic-sum">Branch before you brief: the zero-cost baseline every other brownfield safety move leans on.</p>
+      <span class="ic-meta">~4 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch11-s2">
+      <span class="ic-num" aria-hidden="true">2</span>
+      <h3>Understand before you edit</h3>
+      <p class="ic-sum">Explore → plan → implement → commit with a verify-first precondition; infinite exploration timeboxed.</p>
+      <span class="ic-meta">~5 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch11-s3">
+      <span class="ic-num" aria-hidden="true">3</span>
+      <h3>Maps of big repos: ranked sketches</h3>
+      <p class="ic-sum">Aider's graph-ranked map under a token-budget slider — watch what the agent knows vs misses per change.</p>
+      <span class="ic-meta">~5 min <span class="ic-lab">lab</span></span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch11-s4">
+      <span class="ic-num" aria-hidden="true">4</span>
+      <h3>A vocabulary for touching nothing</h3>
+      <p class="ic-sum">Fowler's behavior-preserving moves decompose risky edits into steps an agent can execute mechanically.</p>
+      <span class="ic-meta">~2 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch11-s5">
+      <span class="ic-num" aria-hidden="true">5</span>
+      <h3>Make the codebase legible to machines</h3>
+      <p class="ic-sum">Local reasoning and grep-ability over cleverness; find the exemplar module and point the agent at it.</p>
+      <span class="ic-meta">~3 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch11-s6">
+      <span class="ic-num" aria-hidden="true">6</span>
+      <h3>Specs on inherited ground</h3>
+      <p class="ic-sum">Spec Kit's existing-projects track; EPAM's compounding case read with the vendor badge in view.</p>
+      <span class="ic-meta">~4 min</span>
+    </a>
+    <a class="inside-card ic-l3" href="#ch11-s7">
+      <span class="ic-num" aria-hidden="true">7</span>
+      <h3>Where this lands in your builds</h3>
+      <p class="ic-sum">Compass stayed small by design; quiz-forge maps NCERT's structure instead of "fixing" it.</p>
+      <span class="ic-meta">~2 min</span>
+    </a>
+  </div>
+
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;1</span>
+    <h2 id="ch11-s1">The repo you didn't write</h2>
+  </div>
   <p>Every technique so far in Part III assumed canvas you controlled. Real
   careers are spent somewhere else: inside codebases that existed before you
   arrived, with years of decisions folded into filenames, half-documented
@@ -70,7 +131,10 @@
     reversible only because of that baseline.</p>
   </div>
 
-  <h2>Understand before you edit</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;2</span>
+    <h2 id="ch11-s2">Understand before you edit</h2>
+  </div>
   <p>The tool-agnostic discipline has four phases, and the documentation
   leads with a precondition rather than a step: give the agent a way to
   verify its work — a test command, a build, a script whose exit code
@@ -110,7 +174,10 @@
     <span class="flow-stage-label">understand-before-edit · exploration ends when the plan can be written, not when curiosity runs out</span>
   </div>
 
-  <h2><span class="css-icon-stack" aria-hidden="true"></span> Maps of big repos: ranked sketches</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;3</span>
+    <h2 id="ch11-s3"><span class="css-icon-stack" aria-hidden="true"></span> Maps of big repos: ranked sketches</h2>
+  </div>
   <p>If the whole repo cannot fit in context, what does? Every serious answer
   is some version of a <strong>repo map</strong>: a compressed outline of many
   files at once, spending its small token budget where visibility pays most.
@@ -405,7 +472,10 @@
     If the plan doesn't say where behavior is pinned, the edit isn't ready.</p>
   </div>
 
-  <h2>A vocabulary for touching nothing</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;4</span>
+    <h2 id="ch11-s4">A vocabulary for touching nothing</h2>
+  </div>
   <p>Brownfield safety has a shared vocabulary older than agents: the
   refactoring catalog. Fowler's refactoring.com catalogues named,
   behavior-preserving moves — Extract Function, Inline Variable, Move Method
@@ -417,7 +487,10 @@
   execute mechanically — and gives you a review lens: every step should be
   individually verifiable as does-the-same-thing.</p>
 
-  <h2>Make the codebase legible to machines</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;5</span>
+    <h2 id="ch11-s5">Make the codebase legible to machines</h2>
+  </div>
   <p>Some codebases are simply easier for agents to work in, and the
   properties are knowable in advance. Ronacher's field analysis of agent
   ergonomics highlights local reasoning — files that make sense without
@@ -445,7 +518,10 @@
     are cheap; errors downstream are diffs.</p>
   </div>
 
-  <h2>Specs on inherited ground</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;6</span>
+    <h2 id="ch11-s6">Specs on inherited ground</h2>
+  </div>
   <p>Spec-driven development (Chapter 06) sounds like a greenfield luxury —
   write intent first, generate from it — but its tooling has an explicit
   track for established code. Spec Kit's official guide for existing projects
@@ -469,7 +545,10 @@
   badge in view: EPAM is a consultancy, the venue is vendor-adjacent, and it
   reports a single-project sample. Directionally useful, not proof.</p>
 
-  <h2>Where this lands in your builds</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;7</span>
+    <h2 id="ch11-s7">Where this lands in your builds</h2>
+  </div>
   <p>The agent-cost-compass stayed small <strong>by design</strong>: one
   bounded question, one session, a handful of files — greenfield conditions
   all the way down, which is why brownfield skills could wait until now.
@@ -482,7 +561,10 @@
   its own conventions, numbering, and edge cases that we must map and
   respect rather than "fix." Same discipline, foreign territory: understand
   the structure before generating against it.</p>
-  <h2>Receipts</h2>
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;8</span>
+    <h2 id="ch11-s8">Receipts</h2>
+  </div>
   <p>Every claim above traces to a source card below. Tier key:
   T1 official docs or established practitioners · T2 vendor/press secondary ·
   T3 lead only, never cited as fact alone.</p>
@@ -533,7 +615,7 @@
   </div>
 
   <section class="exercise">
-    <h2>Try it yourself</h2>
+    <h2 id="ch11-s9">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Open
       aider.chat/docs/repomap.html and find two things in under five minutes:
@@ -561,7 +643,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch11-s10">Self-check</h2>
     <details>
       <summary>Why do entry points and hub files survive a shrinking map budget first?</summary>
       <p>Because the map is graph-ranked: files referenced from many places
@@ -590,7 +672,7 @@
   </section>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch11-s11">Beyond this build</h2>
     <p><strong>Legacy migrations.</strong> The same arc scales up: map the
     neighborhood, then migrate module-by-module, each step
     behavior-preserving. Migrations

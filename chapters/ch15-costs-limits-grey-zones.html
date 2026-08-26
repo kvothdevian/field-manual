@@ -32,10 +32,88 @@
       <p class="as-of">facts checked as of 2026-08-26 · every rate number below expires — re-stamp before betting a habit on it</p>
     </div>
   </div>
+  <nav class="chapnav" aria-label="On this page">
+    <a href="#gzlab">triage lab</a>
+    <a href="#ch15-s1">the walls</a>
+    <a href="#ch15-s2">the meters</a>
+    <a href="#ch15-s3">hidden price</a>
+    <a href="#ch15-s4">what you own</a>
+    <a href="#ch15-s5">your build</a>
+    <a href="#ch15-s6">exercises</a>
+    <a href="#ch15-s7">self-check</a>
+    <a href="#ch15-s8">receipts</a>
+    <a href="#ch15-s9">beyond</a>
+  </nav>
   <p class="lede">Promise: one honest reference. Read any provider's rate-limit page like
   an engineer, cap your worst-month spend in advance, name what free tiers charge in
   data, and price a grey-zone shortcut before taking it — compact enough to consult,
   framed so you rarely need most of it.</p>
+
+  <nav aria-label="Inside this chapter">
+    <div class="inside-grid">
+      <article class="inside-card ic-l4">
+        <span class="chip">intro</span>
+        <a href="#gzlab">Grey-zone triage</a>
+        <p>Guess stability and legality for five real tactics, then flip for graded truths from the ledger.</p>
+        <span class="chip">~6 min</span>
+        <span class="chip">lab · grey-zone triage</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s1</span>
+        <a href="#ch15-s1">The walls, with receipts</a>
+        <p>Anthropic's grid decoded: burst RPM, input/output TPM, spend caps — cached reads widen throughput free.</p>
+        <span class="chip">~4 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s2</span>
+        <a href="#ch15-s2">The meters: shared pools and a number to distrust politely</a>
+        <p>Codex bills token credits from one shared pool; the $100–200 figure is vendor-reported — order-of-magnitude only.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s3</span>
+        <a href="#ch15-s3">The hidden price: what free tiers charge in data</a>
+        <p>Some doors are cheap because your prompts are the payment; written opt-outs beat silence.</p>
+        <span class="chip">~5 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s4</span>
+        <a href="#ch15-s4">What you own when the output ships</a>
+        <p>Human authorship is required for copyright — keep evidence of your editorial hand.</p>
+        <span class="chip">~2 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s5</span>
+        <a href="#ch15-s5">Where this lands in your build</a>
+        <p>The agent-cost-compass exists because these numbers move; every constant enters as a stamped row.</p>
+        <span class="chip">~2 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s6</span>
+        <a href="#ch15-s6">Try it yourself</a>
+        <p>Copy a tier's four numbers with today's date, trip a 429 on purpose, add one compass row.</p>
+        <span class="chip">~20 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s7</span>
+        <a href="#ch15-s7">Self-check</a>
+        <p>Cached-read architecture; two reasons to doubt vendor figures; why six quiet months prove nothing.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s8</span>
+        <a href="#ch15-s8">Receipts</a>
+        <p>Rate grids, terms pages, privacy docs as T1 rows — plus paired, labeled T3 leads, never fact alone.</p>
+        <span class="chip">~3 min</span>
+      </article>
+      <article class="inside-card ic-l4">
+        <span class="chip">s9</span>
+        <a href="#ch15-s9">Beyond this build</a>
+        <p>When $20 beats hours of optimization, procurement reality past a second teammate, ethics in one paragraph.</p>
+        <span class="chip">~4 min</span>
+      </article>
+    </div>
+  </nav>
 
   <p>This is the book's only money-forward chapter by design — every other chapter stays
   about craft. Everything providers throw at you reduces to <strong>three dials and one
@@ -386,7 +464,7 @@
     anything undocumented falls under the countdown warning below.</p>
   </div>
 
-  <h2>The walls, with receipts</h2>
+  <h2 id="ch15-s1">The walls, with receipts</h2>
   <p>Anthropic's published grid is the canonical token-bucket read: paid access buys
   taller walls, not the absence of walls — per-model-class RPM plus input/output
   tokens-per-minute ceilings (Start-tier Opus 5: 1,000 RPM / 2M ITPM / 400K OTPM) and
@@ -396,7 +474,7 @@
   find the four numbers (burst RPM, input TPM, output TPM, spend cap), write them down,
   stamp the date.</p>
 
-  <h2>The meters: shared pools and a number to distrust politely</h2>
+  <h2 id="ch15-s2">The meters: shared pools and a number to distrust politely</h2>
   <p>Codex shows where subscription meters are heading: included across ChatGPT plans
   from Free to Pro, all drawing <strong>one shared allowance pool</strong>, billed since
   2026-04-02 in token credits, not per-message. OpenAI cites roughly
@@ -405,7 +483,7 @@
   product. Treat it as order-of-magnitude — professional agentic usage costs more than
   pizza money — then verify against your own <code>/status</code>.</p>
 
-  <h2>The hidden price: what free tiers charge in data</h2>
+  <h2 id="ch15-s3">The hidden price: what free tiers charge in data</h2>
   <p>OpenRouter prints the trade in writing: <code>:free</code> models run 50 requests/day
   (1,000/day once you hold ≥$10 lifetime credits); prompts are not logged by default;
   providers that may train on your prompts route only if your privacy settings permit —
@@ -425,7 +503,7 @@
   Until you've read a policy yourself: private code goes through written-opt-out doors
   or local weights.</p>
 
-  <h2>What you own when the output ships</h2>
+  <h2 id="ch15-s4">What you own when the output ships</h2>
   <p>One line from the US Copyright Office (AI report, Part 2, 2025-01-29): <strong>human
   authorship is required</strong>. Purely machine-generated material is not copyrightable;
   work you selected, arranged, or modified can be. Keep evidence of your editorial hand —
@@ -445,7 +523,7 @@
     let anything undocumented become load-bearing.</p>
   </div>
 
-  <h2>Where this lands in your build</h2>
+  <h2 id="ch15-s5">Where this lands in your build</h2>
   <p>The agent-cost-compass exists <strong>because these numbers move</strong>. Vendors
   reprice without notice; tiers appear and vanish between printings of any static page —
   including this one. So the compass is this chapter's living artifact, not its copy:
@@ -453,7 +531,7 @@
   the compass's whole job is surfacing drift in minutes instead of mid-session.</p>
 
   <section class="exercise">
-    <h2>Try it yourself</h2>
+    <h2 id="ch15-s6">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Open
       <code>https://docs.anthropic.com/en/api/rate-limits</code>, find the tier nearest
@@ -468,7 +546,7 @@
   </section>
 
   <section class="selfcheck">
-    <h2>Self-check</h2>
+    <h2 id="ch15-s7">Self-check</h2>
     <details>
       <summary>Why does the cached-read exemption change how you architect prompts?</summary>
       <p>Cached reads don't count toward Anthropic's input-token ceiling, so repeated
@@ -489,7 +567,7 @@
     </details>
   </section>
 
-  <h2>Receipts</h2>
+  <h2 id="ch15-s8">Receipts</h2>
   <p>Tier key: T1 official docs/specs or established practitioners · T2 vendor secondary ·
   T3 lead only, never cited as fact alone.</p>
   <div class="receipt">
@@ -570,7 +648,7 @@
   </div>
 
   <section class="beyond">
-    <h2>Beyond this build</h2>
+    <h2 id="ch15-s9">Beyond this build</h2>
     <p><strong>When spending $20 beats hours of optimization.</strong> Your evening is the
     expensive token. If a month of a modest subscription costs less than the hours you'd
     burn routing around walls, buy the month and ship instead. Do that math hourly before
