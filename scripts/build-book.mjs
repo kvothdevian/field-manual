@@ -1,51 +1,64 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
 const ROOT = new URL("..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
-const ORDER = [
-  ["01", "What agentic coding actually is", "chapters/ch01-what-agentic-coding-is.html"],
-  ["02", "The harness landscape", "chapters/ch02-the-harness-landscape.html"],
-  ["03", "Models without money", "chapters/ch03-models-without-money.html"],
-  ["04", "Configuring your agent properly", "chapters/ch04-configuring-your-agent.html"],
-  ["05", "Context engineering", "chapters/ch05-context-engineering.html"],
-  ["06", "Patterns that ship", "chapters/ch06-patterns-that-ship.html"],
-  ["07", "Source literacy for agent builders", "chapters/ch07-source-literacy.html"],
-  ["08", "Good UI with agents", "chapters/ch08-good-ui-with-agents.html"],
-  ["09", "Testing what agents build", "chapters/ch09-testing-what-agents-build.html"],
-  ["10", "Debugging when it breaks", "chapters/ch10-debugging-when-it-breaks.html"],
-  ["11", "Brownfield reality", "chapters/ch11-brownfield-reality.html"],
-  ["12", "Pipelines that prevent bloat", "chapters/ch12-pipelines-that-prevent-bloat.html"],
-  ["13", "Shipping for $0", "chapters/ch13-shipping-for-$0.html"],
-  ["14", "Security & secrets", "chapters/ch14-security-secrets.html"],
-  ["15", "Costs, limits & grey zones", "chapters/ch15-costs-limits-grey-zones.html"],
-  ["16", "Your daily agentic workflow", "chapters/ch16-your-daily-agentic-workflow.html"],
-];
-
+const CH = join(ROOT, "chapters");
 const css = readFileSync(ROOT + "assets/css/book.css", "utf8");
 const boot = `<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>`;
 
-function inner(file) {
-  const html = readFileSync(ROOT + file, "utf8");
-  const m = html.match(/<main[\s>]*>([\s\S]*)<\/main>/i);
-  if (!m) throw new Error("no <main> in " + file);
-  return m[1]
-    .replace(/<nav class="chapnav"[\s\S]*?<\/nav>\s*/gi, "")
-    .replace(/<nav[^>]*aria-label="Inside this chapter"[^>]*>[\s\S]*?<\/nav>\s*/gi, "")
-    .replace(/<div class="inside-grid"[\s\S]*?<\/div>\s*(?=<h2|<div class="(callout|flow-stage|stat-strip|part-divider)|<section|<aside)/gi, "")
-    .replace(/<nav class="pager"[\s\S]*?<\/nav>\s*/gi, "")
-    .replace(/<script[^>]*src=["'][^"']*["']><\/script>\s*/gi, "");
+// discover chapter pages (each chapter is now one independent page: chapters/chNN/index.html)
+// for singular edition we split each chapter back into its h2-anchored sections
+const sections = [];
+for (const dir of readdirSync(CH).filter(d => /^ch\d{2}$/.test(d)).sort()) {
+  const nn = dir.slice(2);
+  const chapterPath = join(CH, dir, "index.html");
+  let chTitle = `Chapter ${nn}`;
+  let mainHtml = "";
+  try {
+    const home = readFileSync(chapterPath, "utf8");
+    const t = home.match(/<title>(.*?) — The Agentic/i);
+    if (t) chTitle = t[1].trim();
+    const m = home.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
+    mainHtml = m ? m[1] : "";
+  } catch {}
+  // split mainHtml into sections by <h2 id="chNN-sN">
+  const h2Re = new RegExp(`<h2 id="ch${nn}-s\\d+"[^>]*>[\\s\\S]*?</h2>`, "g");
+  const h2s = [...mainHtml.matchAll(h2Re)];
+  if (h2s.length === 0) {
+    sections.push({ file: chapterPath, nn, chTitle, inner: mainHtml });
+  } else {
+    for (let i = 0; i < h2s.length; i++) {
+      const start = h2s[i].index;
+      const end = i + 1 < h2s.length ? h2s[i + 1].index : mainHtml.length;
+      const chunk = mainHtml.slice(start, end);
+      sections.push({ file: chapterPath, nn, chTitle, inner: chunk });
+    }
+  }
 }
 
-let built = 0;
+function inner(entry) {
+  if (entry.inner !== undefined) {
+    return entry.inner
+      .replace(/<nav class="chapnav"[\s\S]*?<\/nav>\s*/gi, "")
+      .replace(/<div class="inside-grid"[\s\S]*?<\/div>\s*/gi, "")
+      .replace(/<nav class="pager"[\s\S]*?<\/nav>\s*/gi, "");
+  }
+  const html = readFileSync(entry.file, "utf8");
+  const m = html.match(/<main[\s>]*>([\s\S]*)<\/main>/i);
+  return m[1]
+    .replace(/^\s*<p class="as-of">[\s\S]*?<\/p>/i, "")
+    .replace(/<nav class="pager"[\s\S]*?<\/nav>\s*/gi, "");
+}
+
 let toc = "";
 let body = "";
-for (const [num, title, file] of ORDER) {
-  let html;
-  try { html = inner(file); } catch { continue; }
-  const id = "ch" + num;
-  toc += `<a class="toc-title" href="#${id}">${num} · ${title}</a>`;
-  body += `<section class="book-part" id="${id}" data-chapter="${num}">${html}</section>`;
-  built++;
-}
+sections.forEach((s, i) => {
+  const id = `b${String(i + 1).padStart(2, "0")}`;
+  const raw = inner(s);
+  const secTitle = (raw.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i)?.[1] ?? "").replace(/<[^>]+>/g, "").trim();
+  toc += `<a class="toc-title" href="#${id}">${s.nn} · ${secTitle}</a>`;
+  body += `<section class="book-part" id="${id}" data-chapter="${s.chTitle}">${raw}</section>`;
+});
 
 const out = `<!DOCTYPE html>
 <html lang="en">
@@ -58,11 +71,11 @@ ${boot}
 ${css}
 .book-cover{max-width:1080px;margin:0 auto;padding:4rem clamp(1rem,4vw,3rem) 2rem;}
 .book-toc{max-width:1080px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem) 1rem;display:flex;flex-direction:column;gap:.35rem;}
-.book-toc .toc-title{text-decoration:none;font-size:.95rem;border-left:3px solid var(--line-strong);padding-left:.7rem;}
+.book-toc .toc-title{text-decoration:none;font-size:.9rem;border-left:3px solid var(--line-strong);padding-left:.7rem;}
 .book-toc .toc-title:hover{border-color:var(--l0);}
 main.book-body{max-width:900px;}
 .book-part{padding-top:3rem;border-top:6px solid var(--line-strong);margin-top:3rem;}
-.book-part::before{content:attr(data-chapter);display:inline-block;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:1rem;}
+.book-part::before{content:attr(data-chapter);display:block;font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:1rem;}
 </style>
 </head>
 <body>
@@ -72,7 +85,7 @@ main.book-body{max-width:900px;}
   <div class="head-tools"><button class="theme-btn" type="button"></button></div>
 </header>
 <main class="book-cover" id="cover">
-  <p class="as-of">अ Man Learns Things · compiled ${new Date().toISOString().slice(0, 10)} · ${built} chapters</p>
+  <p class="as-of">अ Man Learns Things · compiled ${new Date().toISOString().slice(0, 10)} · ${sections.length} sections</p>
   <h1>The Agentic Coding<br>Field Manual</h1>
   <p class="lede">One file. Everything offline. Master the modern agentic workflow —
   prompting patterns that survive production, UI craft, testing discipline,
@@ -86,4 +99,4 @@ main.book-body{max-width:900px;}
 </html>
 `;
 writeFileSync(ROOT + "book.html", out, "utf8");
-console.log(`book.html compiled: ${built}/${ORDER.length} chapters, ${(out.length / 1024).toFixed(0)} KB`);
+console.log(`book.html compiled: ${sections.length} sections from ${new Set(sections.map(s => s.nn)).size} chapters, ${(out.length / 1024).toFixed(0)} KB`);

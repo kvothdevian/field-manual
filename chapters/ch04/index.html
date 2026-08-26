@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 04 · Configuring your agent properly — The Agentic Coding Field Manual</title>
+<title>· Configuring your agent properly — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch04-s1">01 fixing the same thing twice </a><a href="#ch04-s2">02 watch instructions load: the</a><a href="#ch04-s3">03 the names you will meet</a><a href="#ch04-s4">04 where this lands in your bui</a><a href="#ch04-s5">05 receipts</a><a href="#ch04-s6">06 try it yourself</a><a href="#ch04-s7">07 self-check</a><a href="#ch04-s8">08 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l1">
     <div class="banner-num" aria-hidden="true">04</div>
     <div class="banner-meta">
@@ -35,17 +25,6 @@
       <p class="as-of">facts checked as of 2026-08-25 · config surfaces move fast; receipts carry the dates</p>
     </div>
   </div>
-
-  <nav class="chapnav" aria-label="In this chapter">
-    <a href="#ch04-s1">why config</a>
-    <a href="#ch04-s2">instructions loader</a>
-    <a href="#ch04-s3">names you'll meet</a>
-    <a href="#ch04-s4">your build</a>
-    <a href="#ch04-s5">receipts</a>
-    <a href="#ch04-s6">exercises</a>
-    <a href="#ch04-s7">self-check</a>
-    <a href="#ch04-s8">beyond</a>
-  </nav>
 
   <div class="inside-grid">
     <a class="inside-card ic-l1" href="#ch04-s1">
@@ -97,11 +76,9 @@
       <span class="ic-meta"><span>~4 min</span></span>
     </a>
   </div>
+  <p class="as-of">8 sections · pick any card, or start with §1.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§1</span>
-    <h2 id="ch04-s1">Fixing the same thing twice is a configuration problem</h2>
-  </div>
+<h2 id="ch04-s1">Fixing the same thing twice is a configuration problem</h2>
   <p>Here is the quiet tragedy of an unconfigured agent: every session starts blank. The loop
   has no memory of yesterday except what you leave on disk. So when the agent uses the wrong
   test command, edits a generated file, or writes commit messages in a style you hate, and you
@@ -128,10 +105,9 @@
     pays every future session, across every project that inherits it.</p>
   </aside>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§2</span>
-    <h2 id="ch04-s2">Watch instructions load: the nested-files simulator</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch04-s2">Watch instructions load: the nested-files simulator</h2>
   <p>Instruction files nest. There is usually a global one for your whole machine, one per
   repository root, and optionally deeper ones per package or subfolder. When the agent works
   on a file, most harnesses walk from that file's folder upward, loading every instruction
@@ -425,10 +401,9 @@
     rereads is a liability wearing a productivity costume.</p>
   </div>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§3</span>
-    <h2 id="ch04-s3">The names you will meet</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch04-s3">The names you will meet</h2>
   <p><strong>AGENTS.md</strong> is the cross-harness attempt at one standard: an open,
   tool-agnostic instruction-file format stewarded under the Linux Foundation, with nested files
   resolving nearest-wins exactly as the simulator showed, adopted by Codex, Cursor, opencode,
@@ -477,10 +452,9 @@
   approach read-only before any disk write, and git worktrees give each parallel session an
   isolated checkout — two agents, two branches, zero trampled edits.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§4</span>
-    <h2 id="ch04-s4">Where this lands in your build</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch04-s4">Where this lands in your build</h2>
   <p>Build 1 — the agent-cost-compass — gets its own AGENTS.md at Milestone 2, alongside the
   calculator core, and ours is this chapter's living example. It opens as five lines, seeded
   directly from the build spec's known pitfalls:</p>
@@ -493,10 +467,9 @@
   mistake, each dated. The build log records what got added and why, which doubles as the
   quarterly-review checklist the config-rot warning demands.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§5</span>
-    <h2 id="ch04-s5">Receipts</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch04-s5">Receipts</h2>
   <p>Tier key: T1 official docs or established practitioners · T2 vendor secondary ·
   T3 lead only, never cited as fact.</p>
   <div class="receipt">
@@ -541,7 +514,10 @@
   </div>
 
   <section class="exercise">
-    <h2 id="ch04-s6">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch04-s6">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint: write your first AGENTS.md tonight.</strong> Open
       your editor at the root of any project you care about. Create a file named exactly
@@ -572,7 +548,10 @@ last reviewed: 2026-08-&lt;day&gt; by &lt;your name&gt;</code></pre>
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch04-s7">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch04-s7">Self-check</h2>
     <details>
       <summary>Your AGENTS.md says "never edit generated files," yet the agent keeps editing
       them. Which layer do you reach for, and why?</summary>
@@ -599,7 +578,10 @@ last reviewed: 2026-08-&lt;day&gt; by &lt;your name&gt;</code></pre>
   </section>
 
   <section class="beyond">
-    <h2 id="ch04-s8">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch04-s8">Beyond this build</h2>
     <p><strong>Naming differs; anatomy doesn't.</strong> Every harness implements the same three
     layers under different labels. The AGENTS.md standard is read natively by Codex, Cursor,
     Copilot coding agent, Gemini CLI and opencode, so it is the best default for portable
@@ -621,18 +603,8 @@ last reviewed: 2026-08-&lt;day&gt; by &lt;your name&gt;</code></pre>
     and fossils stop being evidence when they outnumber the living.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch03-models-without-money.html">← ch03 · models without money</a>
-    <a href="ch05-context-engineering.html">ch05 · context engineering →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 04 · configuring your agent properly · facts as of 2026-08-25</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

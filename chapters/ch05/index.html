@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 05 · Context engineering — The Agentic Coding Field Manual</title>
+<title>· Context engineering — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch05-s1">01 context is a budget, not a b</a><a href="#ch05-s2">02 the evidence that length cos</a><a href="#ch05-s3">03 what actually enters your co</a><a href="#ch05-s4">04 compaction: what /compact ac</a><a href="#ch05-s5">05 memory that crosses sessions</a><a href="#ch05-s6">06 subagents: the pressure valv</a><a href="#ch05-s7">07 where this lands in your bui</a><a href="#ch05-s8">08 receipts</a><a href="#ch05-s9">09 try it yourself</a><a href="#ch05-s10">10 self-check</a><a href="#ch05-s11">11 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l2">
     <div class="banner-num" aria-hidden="true">05</div>
     <div class="banner-meta">
@@ -36,18 +26,8 @@
     </div>
   </div>
 
-  <nav class="chapnav" aria-label="Jump to a section">
-    <a href="#ch05-s1">budget</a>
-    <a href="#ch05-s2">length costs</a>
-    <a href="#ch05-s3">what loads</a>
-    <a href="#ch05-s4">/compact</a>
-    <a href="#ch05-s5">memory</a>
-    <a href="#ch05-s6">subagents</a>
-    <a href="#ch05-s7">your build</a>
-    <a href="#ch05-exercises">exercises</a>
-  </nav>
-
   <p class="sec-rule sec-no">inside this chapter</p>
+
   <div class="inside-grid">
     <div class="inside-card ic-l2">
       <span class="toc-num">01</span>
@@ -92,8 +72,9 @@
       <span class="ic-meta"><span>~1 min</span></span>
     </div>
   </div>
+  <p class="as-of">11 sections · pick any card, or start with §1.</p>
 
-  <h2 id="ch05-s1">Context is a budget, not a bucket</h2>
+<h2 id="ch05-s1">Context is a budget, not a bucket</h2>
   <p>Chapter 01 established that the agent re-reads its entire transcript on every pass of the
   loop. That transcript — the context window — is not a warehouse where stuff accumulates
   harmlessly. Treat it as a <strong>finite attention budget</strong>. Anthropic's engineering
@@ -113,7 +94,9 @@
     four.</p>
   </aside>
 
-  <h2 id="ch05-s2">The evidence that length costs accuracy</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch05-s2">The evidence that length costs accuracy</h2>
   <p>Why budget at all? Because measured performance degrades with input length — even on
   trivial tasks. A 2025 study from Chroma Research tested eighteen state-of-the-art LLMs and
   found accuracy falls non-uniformly as context grows, with distracting material compounding
@@ -124,7 +107,9 @@
   <em>hold</em> everything and still attend to it worse. Degradation starts long before the
   wall.</p>
 
-  <h2 id="ch05-s3">What actually enters your context</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch05-s3">What actually enters your context</h2>
   <p>Before you typed a single word today, your agent's window already held: a system prompt
   the harness authors wrote, your memory and instruction files, one-line descriptions of every
   installed skill, and — the sleeper — the API schemas of every connected MCP server, because
@@ -369,7 +354,9 @@
   floor. Now uncheck github and look at the floor line drop. That gap is the entire argument
   of the next section.</p>
 
-  <h2 id="ch05-s4">Compaction: what /compact actually does</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch05-s4">Compaction: what /compact actually does</h2>
   <p>When history crowds the window, harnesses offer compaction. The documented semantics:
   <code>/compact</code> replaces the whole conversation with a structured summary, then
   rebuilds a fresh context around it — your instruction files re-read from disk, so your rules
@@ -386,7 +373,9 @@
   you are not using. The cure for bloated rent is eviction at the config layer (Chapter 04's
   tools), not compression at the session layer.</p>
 
-  <h2 id="ch05-s5">Memory that crosses sessions</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch05-s5">Memory that crosses sessions</h2>
   <p>Compaction saves a session; memory saves <em>you</em>. Documented behavior in Claude
   Code: an index file (<code>MEMORY.md</code>) loads into context every session, and richer
   auto-memory directories persist per repository — shared across git worktrees, scoped to
@@ -396,7 +385,9 @@
   "Tests: <code>npm test</code>, never <code>tsc</code> alone" earns its ninety tokens every
   day. Yesterday's error dump does not.</p>
 
-  <h2 id="ch05-s6">Subagents: the pressure valve, honestly sold</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch05-s6">Subagents: the pressure valve, honestly sold</h2>
   <p>The third lever attacks the deepest problem: research-heavy steps that flood history
   with material you need once. The documented mechanics quantify the win precisely — in
   Claude Code's example, a subagent reads 6,100 tokens of files inside its <em>own</em> window
@@ -439,11 +430,15 @@
     rescuing a bloated thread.</p>
   </div>
 
-  <h2 id="ch05-s7">Where this lands in your build</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch05-s7">Where this lands in your build</h2>
   <p>The agent-cost-compass repo stays deliberately tiny — a handful of files — so its
   sessions stay cheap: little standing rent, short histories, rare compaction.</p>
 
-  <h2 id="ch05-s8">Receipts</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch05-s8">Receipts</h2>
   <div class="receipt">
     <span class="tier tier-t2">T2 vendor blog</span>
     <span class="r-url">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</span>
@@ -504,7 +499,10 @@
   </div>
 
   <section class="exercise" id="ch05-exercises">
-    <h2 id="ch05-s9">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+
+<h2 id="ch05-s9">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> In the sandbox above: tick every box
       including the github server, press <em>work a few turns</em> eight times, and read the
@@ -523,7 +521,10 @@
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch05-s10">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
+
+<h2 id="ch05-s10">Self-check</h2>
     <details>
       <summary>Your session feels dull and you ran /compact twice. Why might it still be dull?</summary>
       <p>Because compaction only collapses history. If most of your load is standing rent — a
@@ -545,7 +546,10 @@
   </section>
 
   <section class="beyond">
-    <h2 id="ch05-s11">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§11</span></div>
+
+<h2 id="ch05-s11">Beyond this build</h2>
     <p><strong>Long-horizon projects.</strong> Multi-day epics — migrations, spec-driven
     builds (Chapter 06) — outlast any window. The pattern: keep a running notes file on disk
     (findings, decisions, open questions), let compaction eat the transcript, and re-anchor
@@ -563,18 +567,8 @@
     is not failure; it is the cheapest compaction there is.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch04-configuring-your-agent.html">← ch04 · configuring your agent properly</a>
-    <a href="ch06-patterns-that-ship.html">ch06 · patterns that ship →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 05 · context engineering · facts as of 2026-08-25</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

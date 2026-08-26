@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 01 · What agentic coding actually is — The Agentic Coding Field Manual</title>
+<title>· What agentic coding actually is — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch01-s1">01 three parts, one machine</a><a href="#ch01-s2">02 what makes it agentic — and </a><a href="#ch01-s3">03 three classic failure modes</a><a href="#ch01-s4">04 an honest word about speed</a><a href="#ch01-s5">05 vibe coding vs agentic engin</a><a href="#ch01-s6">06 where this lands in your bui</a><a href="#ch01-s7">07 receipts</a><a href="#ch01-s8">08 try it yourself</a><a href="#ch01-s9">09 self-check</a><a href="#ch01-s10">10 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l0">
     <div class="banner-num" aria-hidden="true">01</div>
     <div class="banner-meta">
@@ -36,18 +26,12 @@
     </div>
   </div>
 
-  <nav class="chapnav" aria-label="In this chapter">
-    <a href="#ch01-s1">loop</a>
-    <a href="#ch01-s2">when to skip</a>
-    <a href="#ch01-s3">failure modes</a>
-    <a href="#ch01-s4">speed</a>
-    <a href="#ch01-s5">vibe vs agentic</a>
-    <a href="#ch01-s6">your build</a>
-    <a href="#ch01-s7">receipts</a>
-    <a href="#ch01-s8">exercises</a>
-    <a href="#ch01-s9">self-check</a>
-    <a href="#ch01-s10">beyond</a>
-  </nav>
+  <p>The hype flattened the language. "The AI built my app" can mean four
+  different things: a chatbot answered while a human typed every change, an
+  autocomplete guessed lines, a scripted pipeline transformed text, or an agent
+  genuinely acted — read the repo, ran the tests, edited files, retried. Those
+  are not shades of the same thing. This chapter builds the mental model
+  everything else in this book sits on.</p>
 
   <div class="inside-grid">
     <a class="inside-card ic-l0" href="#ch01-s1">
@@ -111,18 +95,9 @@
       <span class="ic-meta"><span>~4 min</span></span>
     </a>
   </div>
+  <p class="as-of">10 sections · pick any card, or start with §1.</p>
 
-  <p>The hype flattened the language. "The AI built my app" can mean four
-  different things: a chatbot answered while a human typed every change, an
-  autocomplete guessed lines, a scripted pipeline transformed text, or an agent
-  genuinely acted — read the repo, ran the tests, edited files, retried. Those
-  are not shades of the same thing. This chapter builds the mental model
-  everything else in this book sits on.</p>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§1</span>
-    <h2 id="ch01-s1">Three parts, one machine</h2>
-  </div>
+<h2 id="ch01-s1">Three parts, one machine</h2>
   <p>Strip the marketing and every coding agent has three pieces.</p>
   <p>The <strong>model</strong> is the language model itself — a system that
   predicts likely text, one token at a time. It has no hands. It cannot open a
@@ -410,10 +385,9 @@
     wander.</p>
   </div>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§2</span>
-    <h2 id="ch01-s2">What makes it agentic — and when to skip it entirely</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch01-s2">What makes it agentic — and when to skip it entirely</h2>
   <p>An agentic coding session differs from chatting with a bot in three
   concrete ways: the agent reads your actual files, runs real commands, and
   iterates on its own output without waiting for you between steps. Official
@@ -452,10 +426,9 @@
     an optional extra.</p>
   </div>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§3</span>
-    <h2 id="ch01-s3">Three classic failure modes</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch01-s3">Three classic failure modes</h2>
   <p>These recur so reliably across teams and harnesses that learning to spot
   them by name is worth the price of this chapter.</p>
   <p><strong>Failure one: the kitchen-sink session.</strong> Five features go
@@ -480,10 +453,9 @@
   small mistakes into big ones. Both recur across field notes; both are habits,
   not bugs.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§4</span>
-    <h2 id="ch01-s4">An honest word about speed</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch01-s4">An honest word about speed</h2>
   <p>Before you assume agents make everyone faster, meet the most uncomfortable
   result in the field. In 2025 the independent nonprofit METR ran a randomized
   controlled trial: experienced open-source developers, real issues in repos
@@ -509,10 +481,9 @@
     <p>The durable lesson stands anyway: your feeling of speed is not data.</p>
   </aside>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§5</span>
-    <h2 id="ch01-s5">Vibe coding vs agentic engineering: pick your words carefully</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch01-s5">Vibe coding vs agentic engineering: pick your words carefully</h2>
   <p>In February 2025 Andrej Karpathy described a new style he called vibe
   coding. The definition this book relies on is anchored not on the fragile
   original post but on Simon Willison's definitional essay, which documents
@@ -532,10 +503,9 @@
   of agents with oversight and no compromise on quality. That is the term this
   book uses, and the standard it holds you to: orchestrate, supervise, verify.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§6</span>
-    <h2 id="ch01-s6">Where this lands in your build</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch01-s6">Where this lands in your build</h2>
   <p>The book's threaded projects start in the next chapter with a harness
   choice, and the first build — a small agent-cost-compass that turns pricing
   pages into a decision table — is deliberately tiny. One bounded question, one
@@ -543,10 +513,9 @@
   merges. That is Chapter 01 compressed into an afternoon: the inner loop does
   the typing, the outer loop keeps you honest.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§7</span>
-    <h2 id="ch01-s7">Receipts</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch01-s7">Receipts</h2>
   <p>Every factual claim above traces to a source card below. Tier key:
   T1 official docs or established practitioners · T2 vendor/press secondary ·
   T3 lead only, never cited as fact alone.</p>
@@ -628,7 +597,10 @@
   </div>
 
   <section class="exercise">
-    <h2 id="ch01-s8">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch01-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Open
       anthropic.com/research/building-effective-agents, scroll to the
@@ -650,7 +622,10 @@
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch01-s9">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+
+<h2 id="ch01-s9">Self-check</h2>
     <details>
       <summary>In one breath: what is the difference between the model and the harness?</summary>
       <p>The model predicts text and can do nothing else. The harness is the
@@ -675,7 +650,10 @@
   </section>
 
   <section class="beyond">
-    <h2 id="ch01-s10">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
+
+<h2 id="ch01-s10">Beyond this build</h2>
     <p><strong>Where else the pattern applies.</strong> The loop — model, tools,
     stopping condition, verification — is not coding-specific. Data cleanup,
     research digests, ops triage, spreadsheet wrangling: anywhere a machine can
@@ -695,18 +673,8 @@
     to delegate it — to an agent or to anyone.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="../toc.html">← contents</a>
-    <a href="ch02-the-harness-landscape.html">next: the harness landscape →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 01 · part 0 · orientation</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

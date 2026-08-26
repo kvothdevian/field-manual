@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 09 · Testing what agents build — The Agentic Coding Field Manual</title>
+<title>· Testing what agents build — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch09-s1">01 verification is an ordering </a><a href="#ch09-s2">02 the experiment: same feature</a><a href="#ch09-s3">03 browser evidence for ui: the</a><a href="#ch09-s4">04 evals-lite: grading what ass</a><a href="#ch09-s5">05 two practitioner moves worth</a><a href="#ch09-s6">06 where this lands in your bui</a><a href="#ch09-s7">07 receipts</a><a href="#ch09-s8">08 try it yourself</a><a href="#ch09-s9">09 self-check</a><a href="#ch09-s10">10 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l3">
     <span class="banner-num" aria-hidden="true">09</span>
     <div class="banner-meta">
@@ -32,15 +22,7 @@
       <p class="as-of">facts checked as of 2026-08-26 · every claim below traces to the book's source ledger</p>
     </div>
   </div>
-  <nav class="chapnav" aria-label="Jump within chapter 09">
-    <a href="#ch09-s1">ordering</a>
-    <a href="#ch09-s2">the experiment</a>
-    <a href="#ch09-s3">browser evidence</a>
-    <a href="#ch09-s4">evals-lite</a>
-    <a href="#ch09-s5">practitioner moves</a>
-    <a href="#ch09-s6">in your build</a>
-    <a href="#ch09-s8">exercises</a>
-  </nav>
+
   <p class="lede">Promise: after this chapter you can verify agent output like a skeptical
   QA lead — ordering tests so they can actually fail, demanding browser evidence for UI,
   and running review gates you can execute without reading a line of code.</p>
@@ -51,6 +33,11 @@
   assuming nothing works until evidence says so. Three skills make up the habit — put
   the test in the right <em>order</em>, collect <em>evidence</em> instead of assurances,
   and build <em>gates</em> shallow enough that anyone can operate them.</p>
+
+  
+
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;1</span>
 
   <div class="inside-grid" aria-label="Inside this chapter">
     <a class="inside-card ic-l3" href="#ch09-s1">
@@ -90,11 +77,9 @@
       <span class="ic-meta">~3 min</span>
     </a>
   </div>
+  <p class="as-of">10 sections · pick any card, or start with §1.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;1</span>
-    <h2 id="ch09-s1">Verification is an ordering problem</h2>
-  </div>
+<h2 id="ch09-s1">Verification is an ordering problem</h2>
   <p>A test is an instruction to the loop. Chapter&nbsp;06 introduced tests as the
   steering wheel; what it could only name in passing, this chapter makes you
   <em>feel</em>: the wheel only steers if it was bolted on before the car moved.
@@ -124,8 +109,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;2</span>
-    <h2 id="ch09-s2">The experiment: same feature, two orders</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch09-s2">The experiment: same feature, two orders</h2>
   <p>Judge the ordering argument yourself. Below, two teams build the identical tiny
   feature: a page that divides two inputs and shows the result. Unknown to both, one
   of three defects rides along — a division-by-zero leaking raw <em>Infinity</em>,
@@ -465,8 +452,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;3</span>
-    <h2 id="ch09-s3"><span class="css-icon-gate" aria-hidden="true"></span> Browser evidence for UI: the trace as a review gate</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch09-s3"><span class="css-icon-gate" aria-hidden="true"></span> Browser evidence for UI: the trace as a review gate</h2>
   <p>Unit tests argue about logic; interfaces need evidence a human can eyeball. For
   UI work, the strongest non-coder-reviewable artifact in current practice is the
   browser trace: Playwright's trace viewer records a screenshot, DOM snapshot,
@@ -509,8 +498,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;4</span>
-    <h2 id="ch09-s4">Evals-lite: grading what assertions can't</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch09-s4">Evals-lite: grading what assertions can't</h2>
   <p>Some qualities refuse to become booleans — "is this summary faithful," "does
   this reply sound right." The lightweight version of an eval, per Anthropic's
   engineering team, needs exactly three parts: a <strong>task</strong>, one or more
@@ -524,8 +515,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;5</span>
-    <h2 id="ch09-s5">Two practitioner moves worth stealing</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch09-s5">Two practitioner moves worth stealing</h2>
   <p>The <strong>conformance-suite trick</strong>: when several implementations must
   agree, write the shared passing suite <em>first</em> — every implementation, human
   or agent, then earns green by conforming to it. Willison documents the pattern with
@@ -538,8 +531,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;6</span>
-    <h2 id="ch09-s6">Where this lands in your build</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch09-s6">Where this lands in your build</h2>
   <p>The compass build already runs this chapter in miniature. Its
   <code>npm run verify</code> is nine pinned assertions — hand-checked pricing
   calculations, including deliberately asymmetric cases — and the milestone log
@@ -555,8 +550,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;7</span>
-    <h2 id="ch09-s7">Receipts</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch09-s7">Receipts</h2>
   <p>Tier key: T1 official docs or established practitioners · T2 vendor blog or
   secondary · T3 lead only, never cited alone. Every card below is a source-ledger
   row.</p>
@@ -620,7 +617,10 @@
   </div>
 
   <section class="exercise">
-    <h2 id="ch09-s8">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch09-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Play four rounds of the lab above.
       Before each round, predict which defect the shuffle holds and which track will
@@ -639,7 +639,10 @@
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch09-s9">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+
+<h2 id="ch09-s9">Self-check</h2>
     <details>
       <summary>Why does Track A's suite stay green while the page is wrong?</summary>
       <p>The tests were written after the code and read back off it, so they encode
@@ -666,7 +669,10 @@
   </section>
 
   <section class="beyond">
-    <h2 id="ch09-s10">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
+
+<h2 id="ch09-s10">Beyond this build</h2>
     <p><strong>Pipelines.</strong> A test only steers while someone runs it. Chapter&nbsp;12
     promotes these checks to CI gates — run automatically on every proposed change,
     blocking merges — which is where the compass <code>verify</code> script and the
@@ -686,18 +692,8 @@
     substitute for it.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch08-good-ui-with-agents.html">← ch08 · good UI with agents</a>
-    <a href="ch10-debugging-when-it-breaks.html">ch10 · debugging when it breaks →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 09 · testing what agents build · facts as of 2026-08-26</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

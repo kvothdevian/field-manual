@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 12 · Pipelines that prevent bloat — The Agentic Coding Field Manual</title>
+<title>· Pipelines that prevent bloat — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch12-s1">01 a gate is a check that runs </a><a href="#ch12-s2">02 reviewers that never tire — </a><a href="#ch12-s3">03 bots that file the chores</a><a href="#ch12-s4">04 the pipeline on a calendar</a><a href="#ch12-s5">05 where this lands in your bui</a><a href="#ch12-s6">06 receipts</a><a href="#ch12-s7">07 try it yourself</a><a href="#ch12-s8">08 self-check</a><a href="#ch12-s9">09 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l4">
     <span class="banner-num" aria-hidden="true">12</span>
     <div class="banner-meta">
@@ -32,14 +22,7 @@
       <p class="as-of">facts checked as of 2026-08-26</p>
     </div>
   </div>
-  <nav class="chapnav" aria-label="Jump within chapter 12">
-    <a href="#ch12-s1">gates</a>
-    <a href="#ch12-s2">reviewers</a>
-    <a href="#ch12-s3">bots</a>
-    <a href="#ch12-s4">calendar</a>
-    <a href="#ch12-s5">in your builds</a>
-    <a href="#ch12-s7">exercises</a>
-  </nav>
+
   <p class="lede">Promise: after this chapter you can wrap your agent workflow in gates
   that keep a project healthy for months — bloat becomes something the pipeline
   catches, not something you notice too late.</p>
@@ -53,6 +36,11 @@
   inherits yesterday's drift as today's facts. You met this in Chapter 01 as
   stale breadcrumbs and bloated memory files. Willpower will not fix it —
   vigilance fails by week three. Plumbing will.</p>
+
+  
+
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;1</span>
 
   <div class="inside-grid" aria-label="Inside this chapter">
     <a class="inside-card ic-l4" href="#ch12-s1">
@@ -86,11 +74,9 @@
       <span class="ic-meta">~2 min</span>
     </a>
   </div>
+  <p class="as-of">9 sections · pick any card, or start with §1.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;1</span>
-    <h2 id="ch12-s1">A gate is a check that runs so you don't have to remember</h2>
-  </div>
+<h2 id="ch12-s1">A gate is a check that runs so you don't have to remember</h2>
   <p>Tool-agnostically, a delivery pipeline is one idea: every change enters the
   project through the same doorway — a branch turned into a pull request — and
   the doorway is rigged with <strong>gates</strong>: automated checks that run on
@@ -164,8 +150,10 @@ jobs:
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;2</span>
-    <h2 id="ch12-s2">Reviewers that never tire — but must be bounded</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch12-s2">Reviewers that never tire — but must be bounded</h2>
   <p>The review gate no longer has to be you-alone. Anthropic ships an official
   Claude Code GitHub Action: mention <code>@claude</code> in a pull request and
   a bounded agent investigates the diff, asks questions, and can push fixes;
@@ -188,8 +176,10 @@ jobs:
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;3</span>
-    <h2 id="ch12-s3">Bots that file the chores</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch12-s3">Bots that file the chores</h2>
   <p>Currency gates are solved problems; adopt them rather than hand-roll them.
   GitHub's Dependabot reads a <code>dependabot.yml</code> and files upgrade PRs
   on a schedule — and it covers more than libraries: the
@@ -213,8 +203,10 @@ updates:
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;4</span>
-    <h2 id="ch12-s4">The pipeline on a calendar</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch12-s4">The pipeline on a calendar</h2>
   <p>Merge-time gates cannot catch what time breaks. Drift needs a clock:
   a scheduled job (a cron trigger in Actions, or any scheduler) that wakes up
   weekly and hands an agent a comparison task — docs against routes, README
@@ -535,8 +527,10 @@ updates:
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;5</span>
-    <h2 id="ch12-s5">Where this lands in your builds</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch12-s5">Where this lands in your builds</h2>
   <p>Both companion builds already live behind this doorway: ncert-quiz-forge
   enforces its content lint in CI and works in small PR-per-milestone increments
   per BUILD.md §9; free-tier-atlas keeps the same §9 discipline — one PR per
@@ -548,8 +542,10 @@ updates:
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;6</span>
-    <h2 id="ch12-s6">Receipts</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch12-s6">Receipts</h2>
   <p>Every factual claim above traces to a source card below. Tier key:
   T1 official docs or established practitioners · T2 vendor secondary ·
   T3 lead only, never cited as fact.</p>
@@ -600,7 +596,10 @@ updates:
   </div>
 
   <section class="exercise">
-    <h2 id="ch12-s7">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch12-s7">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> In any GitHub repo you own,
       click <em>Add file → Create new file</em>, name it
@@ -623,7 +622,10 @@ updates:
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch12-s8">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch12-s8">Self-check</h2>
     <details>
       <summary>Why is "build must pass" always the first gate?</summary>
       <p>Highest ratio of caught-to-cost. It is nearly free to install and
@@ -651,7 +653,10 @@ updates:
   </section>
 
   <section class="beyond">
-    <h2 id="ch12-s9">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+
+<h2 id="ch12-s9">Beyond this build</h2>
     <p><strong>Monorepo scale.</strong> One giant gate-suite per PR stops
     scaling fast: every typo would rebuild everything. The standard move is
     path-scoped pipelines — checks fire only for packages the diff touches.
@@ -676,18 +681,8 @@ updates:
     stays human; the pipeline just makes the evidence arrive on time.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch11-brownfield-reality.html">← previous: brownfield reality</a>
-    <a href="ch13-shipping-for-$0.html">next: shipping for $0 →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 12 · part IV · shipping &amp; staying sane</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

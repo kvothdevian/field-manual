@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 08 · Good UI with agents — The Agentic Coding Field Manual</title>
+<title>· Good UI with agents — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch08-s1">01 constraint layer one: design</a><a href="#ch08-s2">02 constraint layer two: compon</a><a href="#ch08-s3">03 constraint layer three: the </a><a href="#ch08-s4">04 the screenshot loop, prescri</a><a href="#ch08-s5">05 where this lands in your bui</a><a href="#ch08-s6">06 the visual bar this book is </a><a href="#ch08-s7">07 receipts</a><a href="#ch08-s8">08 try it yourself</a><a href="#ch08-s9">09 self-check</a><a href="#ch08-s10">10 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l3">
     <span class="banner-num" aria-hidden="true">08</span>
     <div class="banner-meta">
@@ -33,17 +23,32 @@
     </div>
   </div>
 
-  <nav class="chapnav" aria-label="Jump to a section">
-    <a href="#ch08-s1">tokens</a>
-    <a href="#ch08-s2">contracts</a>
-    <a href="#ch08-s3">a11y floor</a>
-    <a href="#ch08-s4">screenshot loop</a>
-    <a href="#ch08-s5">your build</a>
-    <a href="#ch08-s6">visual bar</a>
-    <a href="#ch08-exercises">exercises</a>
-  </nav>
-
   <p class="sec-rule sec-no">inside this chapter</p>
+  
+
+  <p class="lede">Promise: after this chapter you can get non-generic, accessible UI out of
+  an agent — by feeding it constraints (tokens, component contracts, a screenshot loop)
+  instead of vibes.</p>
+
+  <p>Ask three agents, on three days, for "a clean modern landing page," and watch them
+  converge: white canvas, placeholder-grey captions you can barely read, one deeply
+  familiar shade of blue, soft blur shadows, generously rounded everything. The models
+  aren't coordinating. With no local constraints, a language model regresses to the median
+  of everything it has ever seen — and the median of the training data is precisely the
+  generic interface you didn't want.</p>
+  <p>The inverse observation is the good news. Simon Willison's first-person account from
+  the March 2026 Pragmatic Summit records that inside a codebase with established
+  conventions, agents follow the existing patterns "almost to a tee." Hold the two facts
+  together and the whole chapter falls out: the pattern-following machinery <em>is</em> the
+  product. Give it patterns and imitation becomes leverage. Give it nothing and the median
+  ships. So we supply patterns — three constraint layers any agent can consume, plus the
+  accessibility floor that converts "looks fine" into a measurement.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>Give it patterns and imitation becomes leverage. Give it nothing and the
+    median ships.</p>
+  </div>
+
   <div class="inside-grid">
     <div class="inside-card ic-l3">
       <span class="toc-num">01</span>
@@ -82,31 +87,9 @@
       <span class="ic-meta"><span>~3 min</span></span>
     </div>
   </div>
+  <p class="as-of">10 sections · pick any card, or start with §1.</p>
 
-  <p class="lede">Promise: after this chapter you can get non-generic, accessible UI out of
-  an agent — by feeding it constraints (tokens, component contracts, a screenshot loop)
-  instead of vibes.</p>
-
-  <p>Ask three agents, on three days, for "a clean modern landing page," and watch them
-  converge: white canvas, placeholder-grey captions you can barely read, one deeply
-  familiar shade of blue, soft blur shadows, generously rounded everything. The models
-  aren't coordinating. With no local constraints, a language model regresses to the median
-  of everything it has ever seen — and the median of the training data is precisely the
-  generic interface you didn't want.</p>
-  <p>The inverse observation is the good news. Simon Willison's first-person account from
-  the March 2026 Pragmatic Summit records that inside a codebase with established
-  conventions, agents follow the existing patterns "almost to a tee." Hold the two facts
-  together and the whole chapter falls out: the pattern-following machinery <em>is</em> the
-  product. Give it patterns and imitation becomes leverage. Give it nothing and the median
-  ships. So we supply patterns — three constraint layers any agent can consume, plus the
-  accessibility floor that converts "looks fine" into a measurement.</p>
-
-  <div class="pull-fact pf-l3">
-    <p>Give it patterns and imitation becomes leverage. Give it nothing and the
-    median ships.</p>
-  </div>
-
-  <h2 id="ch08-s1">Constraint layer one: design tokens</h2>
+<h2 id="ch08-s1">Constraint layer one: design tokens</h2>
   <p>A design token is a named value — a color, a radius, a spacing step — stored as data,
   separate from any stylesheet. For an agent it works as a machine-readable guardrail: the
   model doesn't have to interpret adjectives like "warm," it resolves
@@ -130,7 +113,9 @@
   <p>Hand a file shaped like that to an agent before line one and "make it fit the brand"
   stops being a mood board and becomes a lookup.</p>
 
-  <h2 id="ch08-s2">Constraint layer two: component contracts</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch08-s2">Constraint layer two: component contracts</h2>
   <p>Tokens pin the raw materials; component contracts pin the assembled parts. The
   shadcn/ui docs state the quiet part out loud: open code you copy into your own repo,
   written to be predictable "for your team and LLMs" — an explicit AI-readiness claim, not
@@ -145,7 +130,9 @@
   resistance</em>. An agent greedy for the shortest output will take the lattice you built
   if inventing freehand costs more tokens than obeying.</p>
 
-  <h2 id="ch08-s3">Constraint layer three: the accessibility floor</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch08-s3">Constraint layer three: the accessibility floor</h2>
   <p>WCAG 2.2's quick reference is the floor, not the ceiling. Two rows matter most day to
   day, both from Success Criterion 1.4.3 (Contrast, Minimum): text needs <strong>4.5:1</strong>,
   large text — at least 24px regular or roughly 18.66px bold — needs <strong>3:1</strong>;
@@ -486,7 +473,9 @@ ratio = (L_lighter + 0.05) / (L_darker + 0.05)</code></pre>
     these tokens, the flow must survive 360px. Then the loop converges — or you stop it.</p>
   </div>
 
-  <h2 id="ch08-s4">The screenshot loop, prescribed</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch08-s4">The screenshot loop, prescribed</h2>
   <p>Constraints tell the agent what <em>good</em> means; the loop lets it <em>check</em>.
   Anthropic's Claude Code best practices prescribe this formally: hand the agent a design
   mock or screenshot, let it take screenshots of its own result, compare against the
@@ -522,7 +511,9 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
     churn.</p>
   </div>
 
-  <h2 id="ch08-s5">Where this lands in your build</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch08-s5">Where this lands in your build</h2>
   <p>Your current threaded build — <strong>ncert-quiz-forge</strong>, Build 2 in the
   companion specs — never asks its agents what the brand looks like, because the answer is
   already machine-readable. Its BUILD.md binds the UI to the journey site's
@@ -546,7 +537,9 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   governs is milestone M4, gated behind human-reviewed content batches. The tokens ship
   before the screens they style — that ordering is the whole technique.</p>
 
-  <h2 id="ch08-s6">The visual bar this book is judged against</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch08-s6">The visual bar this book is judged against</h2>
   <p>A book about building beautiful things with agents owes you its own standard operating
   procedure. Ours is written down: every piece of this book runs a gauntlet in which a
   critic with fresh context fetches Bartosz Ciechanowski's essays and compares them, blind
@@ -561,7 +554,9 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   of the constraints it teaches since Chapter 01. The banned blue you measured today is
   banned in the very CSS delivering this sentence.</p>
 
-  <h2 id="ch08-s7">Receipts</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch08-s7">Receipts</h2>
   <p>Every factual claim above traces to a ledger row. Tier key: T1 official docs, specs,
   repos, or established practitioners · T2 vendor/press secondary · T3 lead only.</p>
   <div class="receipt">
@@ -611,7 +606,10 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   </div>
 
   <section class="exercise" id="ch08-exercises">
-    <h2 id="ch08-s8">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch08-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> In the lab above, pick plum
       (<code>#8E5BA6</code>) on paper and read the number before the verdict — predict
@@ -631,7 +629,10 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch08-s9">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+
+<h2 id="ch08-s9">Self-check</h2>
     <details>
       <summary>Why does an unconstrained agent produce generic UI — is the model bad at design?</summary>
       <p>The opposite: it's good at patterns. With no local conventions, generation regresses
@@ -656,7 +657,10 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
   </section>
 
   <section class="beyond">
-    <h2 id="ch08-s10">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
+
+<h2 id="ch08-s10">Beyond this build</h2>
     <p><strong>Mobile-first checks.</strong> The screenshot loop earns its keep twice on
     phones: drive the viewport down before judging anything, because layouts that survive
     360px force hierarchy decisions that desktop hides. Both browser tools above can resize
@@ -676,18 +680,8 @@ agent → second screenshot taken · radius snapped to 12px, focus ring
     new generic.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch07-source-literacy.html">← ch07 · source literacy for agent builders</a>
-    <a href="ch09-testing-what-agents-build.html">ch09 · testing what agents build →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 08 · good ui with agents · facts as of 2026-08-26</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

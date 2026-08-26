@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 2 · The harness landscape — The Agentic Coding Field Manual</title>
+<title>: The harness landscape — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch02-s1">01 first principles: what a har</a><a href="#ch02-s2">02 the landscape, honestly comp</a><a href="#ch02-s3">03 deep dive: opencode</a><a href="#ch02-s4">04 where this lands in your bui</a><a href="#ch02-s5">05 receipts</a><a href="#ch02-s6">06 try it yourself</a><a href="#ch02-s7">07 self-check</a><a href="#ch02-s8">08 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l1">
     <div class="banner-num" aria-hidden="true">02</div>
     <div class="banner-meta">
@@ -35,17 +25,6 @@
       <p class="as-of">facts checked as of 2026-08-25 · this landscape moves fast; the dates on every receipt matter</p>
     </div>
   </div>
-
-  <nav class="chapnav" aria-label="In this chapter">
-    <a href="#ch02-s1">first principles</a>
-    <a href="#ch02-s2">landscape</a>
-    <a href="#ch02-s3">opencode</a>
-    <a href="#ch02-s4">your build</a>
-    <a href="#ch02-s5">receipts</a>
-    <a href="#ch02-s6">exercises</a>
-    <a href="#ch02-s7">self-check</a>
-    <a href="#ch02-s8">beyond</a>
-  </nav>
 
   <div class="inside-grid">
     <a class="inside-card ic-l1" href="#ch02-s1">
@@ -97,11 +76,9 @@
       <span class="ic-meta"><span>~4 min</span></span>
     </a>
   </div>
+  <p class="as-of">8 sections · pick any card, or start with §1.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§1</span>
-    <h2 id="ch02-s1">First principles: what a harness decides <em>for</em> you</h2>
-  </div>
+<h2 id="ch02-s1">First principles: what a harness decides <em>for</em> you</h2>
   <p>A coding agent is two things wearing one trench coat: the <strong>model</strong> — the LLM
   doing the reasoning — and the <strong>harness</strong>: the program wrapped around it that turns
   a chat into somebody who can actually touch your project. Beginners assume the model is the
@@ -394,10 +371,9 @@
   })();
   </script>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§2</span>
-    <h2 id="ch02-s2">The landscape, honestly compared</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch02-s2">The landscape, honestly compared</h2>
   <p>Nine harnesses were alive and documented at writing time, plus one instructive casualty.
   The table compares only what the sources below actually say — license, the genuine $0 path,
   and the one thing each does that others don't. Nothing here is sponsored opinion; every cell
@@ -485,10 +461,9 @@
   is Chapter&nbsp;3's job; grey-zone economics get one honest reference chapter (15). That is
   all the cost discussion this chapter earns.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§3</span>
-    <h2 id="ch02-s3">Deep dive: opencode</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch02-s3">Deep dive: opencode</h2>
   <p>We go deep on exactly one harness — not because it "wins", but because its documentation
   is the most transparent about the $0 path and the most configurable loop. It is MIT-licensed,
   with roughly 201k stars and
@@ -555,10 +530,9 @@
     before betting a daily workflow on a row of a table.</p>
   </div>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§4</span>
-    <h2 id="ch02-s4">Where this lands in your build</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch02-s4">Where this lands in your build</h2>
   <p>The first threaded project — <strong>agent-cost-compass</strong>, named Build&nbsp;1 in
   the book's companion specs (<code>journey/builds/24-agent-cost-compass/BUILD.md</code>), a
   weekend-scale build — gets driven entirely by whichever harness you install in the exercise
@@ -570,10 +544,9 @@
     memory files, so the concepts transfer even when the keybindings don't.</p>
   </aside>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label" aria-hidden="true">§5</span>
-    <h2 id="ch02-s5">Receipts</h2>
-  </div>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch02-s5">Receipts</h2>
   <h3>First-principles sources</h3>
   <div class="receipt">
     <span class="tier tier-t1">T1 practitioner</span>
@@ -665,7 +638,10 @@
   </div>
 
   <section class="exercise">
-    <h2 id="ch02-s6">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch02-s6">Try it yourself</h2>
     <ol>
       <li><strong>Install ONE door.</strong> Door A: open
       <code>https://opencode.ai/docs</code>, find Install, copy the one-line command for your OS
@@ -688,7 +664,10 @@
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch02-s7">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch02-s7">Self-check</h2>
     <details>
       <summary>Name three decisions a harness makes for you before you've typed anything.</summary>
       <p>The tool loop (which tools exist, how many steps, when to stop), the permission model
@@ -711,7 +690,10 @@
   </section>
 
   <section class="beyond">
-    <h2 id="ch02-s8">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch02-s8">Beyond this build</h2>
     <p><strong>When to graduate to a second harness.</strong> Three honest triggers: a problem
     has stalled and a differently-shaped loop shakes loose new ideas (like asking a second
     colleague); you need parallel capacity and would rather isolate tasks in separate tools than
@@ -735,18 +717,8 @@
     Code is the standing reminder that every row above has an expiry date.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch01-what-agentic-coding-is.html">← ch01 · what agentic coding actually is</a>
-    <a href="ch03-models-without-money.html">ch03 · models without money →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 02 · the harness landscape · facts as of 2026-08-25</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

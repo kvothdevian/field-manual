@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 10 · Debugging when it breaks — The Agentic Coding Field Manual</title>
+<title>· Debugging when it breaks — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch10-s1">01 reproduce before you explain</a><a href="#ch10-s2">02 escape hatches, straight fro</a><a href="#ch10-s3">03 bisect: halving beats walkin</a><a href="#ch10-s4">04 reading the wreckage</a><a href="#ch10-s5">05 evidence, not assurances</a><a href="#ch10-s6">06 where this lands in your bui</a><a href="#ch10-s7">07 receipts</a><a href="#ch10-s8">08 try it yourself</a><a href="#ch10-s9">09 self-check</a><a href="#ch10-s10">10 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l3">
     <span class="banner-num" aria-hidden="true">10</span>
     <div class="banner-meta">
@@ -32,15 +22,7 @@
       <p class="as-of">facts checked as of 2026-08-26</p>
     </div>
   </div>
-  <nav class="chapnav" aria-label="Jump within chapter 10">
-    <a href="#ch10-s1">reproduce</a>
-    <a href="#ch10-s2">escape hatches</a>
-    <a href="#ch10-s3">bisect</a>
-    <a href="#ch10-s4">wreckage</a>
-    <a href="#ch10-s5">evidence</a>
-    <a href="#ch10-s6">in your build</a>
-    <a href="#ch10-s8">exercises</a>
-  </nav>
+
   <p class="lede">Promise: after this chapter you can drive a disciplined debug —
   reproduce, hypothesize, bisect — instead of watching an agent thrash, and you
   know exactly when to pull the plug.</p>
@@ -52,6 +34,11 @@
   becomes landfill. Practitioner: capture the symptom, force it into a proof,
   cut the search space in half, and reach for the escape hatches early. This
   chapter drills that script until it is muscle memory.</p>
+
+  
+
+  <div class="sec-rule">
+    <span class="sec-rule-label">&sect;1</span>
 
   <div class="inside-grid" aria-label="Inside this chapter">
     <a class="inside-card ic-l3" href="#ch10-s1">
@@ -91,11 +78,9 @@
       <span class="ic-meta">~2 min</span>
     </a>
   </div>
+  <p class="as-of">10 sections · pick any card, or start with §1.</p>
 
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;1</span>
-    <h2 id="ch10-s1">Reproduce before you explain</h2>
-  </div>
+<h2 id="ch10-s1">Reproduce before you explain</h2>
   <p>A bug you cannot summon on demand is a bug you cannot prove dead. Before
   any theory, before any edit, get a <strong>repro recipe</strong>: the exact
   input, the exact click or command, the expected result versus the actual one,
@@ -128,8 +113,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;2</span>
-    <h2 id="ch10-s2">Escape hatches, straight from the docs</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch10-s2">Escape hatches, straight from the docs</h2>
   <p>Runaway correction loops are so predictable that harness manuals document
   the exits officially. Know them by name:</p>
   <ul>
@@ -160,8 +147,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;3</span>
-    <h2 id="ch10-s3">Bisect: halving beats walking</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch10-s3">Bisect: halving beats walking</h2>
   <p>Oldest trick in the book, and it survives agents perfectly. When you have
   an ordered history — commits, config edits, deployed changes — and something
   flipped from working to broken somewhere along it, do not walk the list. Test
@@ -352,8 +341,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;4</span>
-    <h2 id="ch10-s4"><span class="css-icon-bug" aria-hidden="true"></span> Reading the wreckage</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch10-s4"><span class="css-icon-bug" aria-hidden="true"></span> Reading the wreckage</h2>
   <p>When the failure lives in a browser, the crime scene photographs itself —
   if someone remembers to shoot. Playwright's trace viewer records every action
   on a timeline with <strong>Errors, Console, and Network tabs</strong> attached,
@@ -371,8 +362,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;5</span>
-    <h2 id="ch10-s5">Evidence, not assurances</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch10-s5">Evidence, not assurances</h2>
   <p>An agent saying "fixed!" is weather forecasting; an agent showing the test
   going green is meteorology with instruments. Willison's bar for agentic work
   is that the agent must <strong>exercise what it builds</strong> — boot the
@@ -618,8 +611,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;6</span>
-    <h2 id="ch10-s6">Where this lands in your build</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch10-s6">Where this lands in your build</h2>
   <p>This is not hypothetical for the threaded builds: when the compass
   calculator printed $0.26/M blended while the hand-math disagreed, the
   reproduce-first move already existed — <code>npm run verify</code> replays
@@ -630,8 +625,10 @@
 
   <div class="sec-rule">
     <span class="sec-rule-label">&sect;7</span>
-    <h2 id="ch10-s7">Receipts</h2>
-  </div>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch10-s7">Receipts</h2>
   <p>Every factual claim above traces to a ledger-vetted source card. Tier key:
   T1 official docs or established practitioners · T2 vendor/single-author
   secondary · T3 lead only.</p>
@@ -677,7 +674,10 @@
   </div>
 
   <section class="exercise">
-    <h2 id="ch10-s8">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch10-s8">Try it yourself</h2>
     <ol>
       <li><strong>Exact-click checkpoint.</strong> Run the bisect race above to
       completion with BOTH strategies, noting your move counts. Then open
@@ -700,7 +700,10 @@
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch10-s9">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+
+<h2 id="ch10-s9">Self-check</h2>
     <details>
       <summary>Why is a suppressed error usually worse than a crashing one?</summary>
       <p>A crash announces itself at the scene — stack trace, line number,
@@ -730,7 +733,10 @@
   </section>
 
   <section class="beyond">
-    <h2 id="ch10-s10">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
+
+<h2 id="ch10-s10">Beyond this build</h2>
     <p><strong>Production incidents.</strong> The same skeleton scales up:
     practitioners running fleets of production agents describe normalizing
     trajectories (each run becomes a comparable record), isolating the earliest
@@ -752,18 +758,8 @@
     point.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch09-testing-what-agents-build.html">← ch09 · testing what agents build</a>
-    <a href="ch11-brownfield-reality.html">ch11 · brownfield reality →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 10 · debugging when it breaks · facts as of 2026-08-26</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>

@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chapter 14 · Security &amp; secrets — The Agentic Coding Field Manual</title>
+<title>· Security &amp; secrets — The Agentic Coding Field Manual</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../assets/css/book.css">
+<link rel="stylesheet" href="../../assets/css/book.css">
 </head>
 <body>
-<header class="site-head">
-  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site">
-    <a href="../toc.html">contents</a>
-    <a href="../progress.html">progress</a>
-  </nav>
-  <div class="head-tools">
-    <div class="search-box">
-      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
-      <div class="search-results" id="search-results"></div>
-    </div>
-    <button class="theme-btn" type="button"></button>
-  </div>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
 </header>
+<main><nav class="chapnav" aria-label="Sections"><a href="#ch14-s1">01 the trifecta assembly lab</a><a href="#ch14-s2">02 three real machines, disasse</a><a href="#ch14-s3">03 locking the three doors</a><a href="#ch14-s4">04 where this lands in your bui</a><a href="#ch14-s5">05 receipts</a><a href="#ch14-s6">06 try it yourself</a><a href="#ch14-s7">07 self-check</a><a href="#ch14-s8">08 beyond this build</a></nav>
 
-<main>
   <div class="chapter-banner banner-l4">
     <span class="banner-num" aria-hidden="true">14</span>
     <div class="banner-meta">
@@ -32,74 +22,10 @@
       <p class="as-of">facts checked as of 2026-08-26 · incident dates ride on each receipt</p>
     </div>
   </div>
-  <nav class="chapnav" aria-label="On this page">
-    <a href="#ch14-s1">trifecta lab</a>
-    <a href="#ch14-s2">real machines</a>
-    <a href="#ch14-s3">three doors</a>
-    <a href="#ch14-s4">your build</a>
-    <a href="#ch14-s5">receipts</a>
-    <a href="#ch14-s6">exercises</a>
-    <a href="#ch14-s7">self-check</a>
-    <a href="#ch14-s8">beyond</a>
-  </nav>
+
   <p class="lede">After this chapter you can name the three ingredients behind most
   agent exploits, check your own setup against them tonight, and lock the three doors
   that matter: secrets, untrusted content, and every way out.</p>
-
-  <nav aria-label="Inside this chapter">
-    <div class="inside-grid">
-      <article class="inside-card ic-l4">
-        <span class="chip">s1</span>
-        <a href="#ch14-s1">The trifecta assembly lab</a>
-        <p>Flip private/untrusted/out switches, load three real cases, and reproduce history on the rig.</p>
-        <span class="chip">~6 min</span>
-        <span class="chip">lab · trifecta rig</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s2</span>
-        <a href="#ch14-s2">Three real machines, disassembled</a>
-        <p>The Postmark BCC backdoor and the nx compromise — neither headline attack needed prompt injection.</p>
-        <span class="chip">~5 min</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s3</span>
-        <a href="#ch14-s3">Locking the three doors</a>
-        <p>Starve one leg: secrets in .env, fetched pages as testimony not orders, deny beats ask beats allow.</p>
-        <span class="chip">~6 min</span>
-        <span class="chip">lab · deny bench</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s4</span>
-        <a href="#ch14-s4">Where this lands in your build</a>
-        <p>Both builds pass tonight's audit: placeholder env files only, zero real keys ever in context.</p>
-        <span class="chip">~2 min</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s5</span>
-        <a href="#ch14-s5">Receipts</a>
-        <p>Willison's trifecta essay, OWASP Top 10, incident IOCs, permission docs — each dated.</p>
-        <span class="chip">~3 min</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s6</span>
-        <a href="#ch14-s6">Try it yourself</a>
-        <p>Run the trifecta audit tonight, paste the deny rule and watch the refusal, threat-model one side project.</p>
-        <span class="chip">~25 min</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s7</span>
-        <a href="#ch14-s7">Self-check</a>
-        <p>Name the legs; why supply-chain attacks skip injection; why hard denies live in rules, not hooks.</p>
-        <span class="chip">~3 min</span>
-      </article>
-      <article class="inside-card ic-l4">
-        <span class="chip">s8</span>
-        <a href="#ch14-s8">Beyond this build</a>
-        <p>Pin and quarantine dependencies, report fast with IOCs, and audit weekend toys like production.</p>
-        <span class="chip">~4 min</span>
-      </article>
-    </div>
-  </nav>
 
   <p>Agents earn their keep by combining abilities no earlier tool combined: they read
   whatever the project contains, act on the machine, and reach the network when a task
@@ -138,7 +64,10 @@
   toward a newer 2026 edition with agentic-security initiatives underway, and prompt
   injection ranks near the top of every edition.</p>
 
-  <h2 id="ch14-s1">The trifecta assembly lab</h2>
+  <div class="inside-grid"><div class="inside-card ic-l4"><span class="chip">01</span><a href="#ch14-s1">The trifecta assembly lab</a></div><div class="inside-card ic-l4"><span class="chip">02</span><a href="#ch14-s2">Three real machines, disassembled</a></div><div class="inside-card ic-l4"><span class="chip">03</span><a href="#ch14-s3">Locking the three doors</a></div><div class="inside-card ic-l4"><span class="chip">04</span><a href="#ch14-s4">Where this lands in your build</a></div><div class="inside-card ic-l4"><span class="chip">05</span><a href="#ch14-s5">Receipts</a></div><div class="inside-card ic-l4"><span class="chip">06</span><a href="#ch14-s6">Try it yourself</a></div><div class="inside-card ic-l4"><span class="chip">07</span><a href="#ch14-s7">Self-check</a></div><div class="inside-card ic-l4"><span class="chip">08</span><a href="#ch14-s8">Beyond this build</a></div></div>
+  <p class="as-of">facts checked as of 2026-08-26 · incident dates ride on each receipt</p>
+
+<h2 id="ch14-s1">The trifecta assembly lab</h2>
   <p>Before the war stories, assemble the machine yourself. The rig holds the three
   switches. Load a real case from the deck, predict which legs it required, then flip
   switches until the exploit-light agrees with history — and let the inert
@@ -410,7 +339,9 @@
   })();
   </script>
 
-  <h2 id="ch14-s2">Three real machines, disassembled</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
+
+<h2 id="ch14-s2">Three real machines, disassembled</h2>
   <p><strong>Case A, in full.</strong> In September 2025 researchers at Koi Security
   documented the first malicious MCP server found in the wild: an npm package
   impersonating the official Postmark email server. From version 1.0.16 onward it
@@ -436,7 +367,9 @@
   everyday hazard, but the supply chain proved the bloodier courier. Hold that
   thought while locking doors.</p>
 
-  <h2 id="ch14-s3"><span class="css-icon-shield" aria-hidden="true"></span> Locking the three doors</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
+
+<h2 id="ch14-s3"><span class="css-icon-shield" aria-hidden="true"></span> Locking the three doors</h2>
   <p>The defense is almost disappointingly mechanical: starve any one leg and every
   attack above collapses. Three doors, three locks.</p>
   <p><strong>Door 1 — secrets.</strong> Live credentials belong in gitignored
@@ -669,12 +602,16 @@
     disposable sandboxes.</p>
   </div>
 
-  <h2 id="ch14-s4">Where this lands in your build</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
+
+<h2 id="ch14-s4">Where this lands in your build</h2>
   <p>Both threaded builds already pass tonight's audit: secrets exist only as
   <code>.env.example</code> placeholders, and zero real keys have entered either repo
   or any agent context so far — keep that streak unbroken.</p>
 
-  <h2 id="ch14-s5">Receipts</h2>
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
+
+<h2 id="ch14-s5">Receipts</h2>
   <p>Tier key: T1 official docs or established practitioners · T2 vendor blogs and
   aggregators (flagged as such) · T3 lead only, never cited as fact.</p>
   <div class="receipt">
@@ -724,7 +661,10 @@
   </div>
 
   <section class="exercise">
-    <h2 id="ch14-s6">Try it yourself</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
+
+<h2 id="ch14-s6">Try it yourself</h2>
     <ol>
       <li><strong>Run the trifecta audit tonight.</strong> From each project root,
       list secret-bearing files (PowerShell:
@@ -746,7 +686,10 @@
   </section>
 
   <section class="selfcheck">
-    <h2 id="ch14-s7">Self-check</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
+
+<h2 id="ch14-s7">Self-check</h2>
     <details>
       <summary>Name the trifecta legs — and why removing any one collapses the exploit.</summary>
       <p>Private data in reach, untrusted content flowing in, a channel out. Data
@@ -771,7 +714,10 @@
   </section>
 
   <section class="beyond">
-    <h2 id="ch14-s8">Beyond this build</h2>
+
+  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+
+<h2 id="ch14-s8">Beyond this build</h2>
     <p><strong>Supply-chain hygiene rituals.</strong> Pin versions and commit
     lockfiles so a surprise bump is visible. Quarantine every new npm package or MCP
     server: read what it claims, check the repo's age and maintainers, search it
@@ -792,18 +738,8 @@
     and the habit generalizes to every agent you will ever configure.</p>
   </section>
 
-  <nav class="pager" aria-label="Chapter navigation">
-    <a href="ch13-shipping-for-$0.html">← ch13 · shipping for $0</a>
-    <a href="ch15-costs-limits-grey-zones.html">ch15 · costs, limits &amp; grey zones →</a>
-  </nav>
 </main>
-
-<footer class="site-foot">
-  <span>the agentic coding field manual</span>
-  <span>chapter 14 · part IV · security &amp; secrets · facts as of 2026-08-26</span>
-</footer>
-<script src="../assets/search-index.js"></script>
-<script src="../assets/js/search.js"></script>
-<script src="../assets/js/theme.js"></script>
+<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
 </body>
 </html>
