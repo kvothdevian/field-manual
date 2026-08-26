@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 12 · Pipelines that prevent bloat — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../assets/css/book.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="../index.html"><span class="roundel deva">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site">
+    <a href="../toc.html">contents</a>
+    <a href="../progress.html">progress</a>
+  </nav>
+  <div class="head-tools">
+    <div class="search-box">
+      <input type="search" placeholder="search the book ( / )" aria-label="Search the book">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <button class="theme-btn" type="button"></button>
+  </div>
+</header>
+
+<main>
+  <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
+  <h1>Chapter 12 · Pipelines that prevent bloat</h1>
+  <p class="lede">Promise: after this chapter you can wrap your agent workflow in gates
+  that keep a project healthy for months — bloat becomes something the pipeline
+  catches, not something you notice too late.</p>
+  <p class="as-of">facts checked as of 2026-08-26</p>
+
+  <p>Every project rots by default, and "bloat" is bigger than file size. Builds
+  break. Dependencies fall behind and collect vulnerabilities. Links die. The
+  README describes a program that no longer exists. The spec promises a page the
+  code never shipped. None of this arrives as an alarm; it arrives as a slow tax
+  on every future session — and coding agents quietly raise the rate. An agent
+  never feels embarrassed by the stale README, so it trusts it; the next session
+  inherits yesterday's drift as today's facts. You met this in Chapter 01 as
+  stale breadcrumbs and bloated memory files. Willpower will not fix it —
+  vigilance fails by week three. Plumbing will.</p>
+
+  <h2>A gate is a check that runs so you don't have to remember</h2>
+  <p>Tool-agnostically, a delivery pipeline is one idea: every change enters the
+  project through the same doorway — a branch turned into a pull request — and
+  the doorway is rigged with <strong>gates</strong>: automated checks that run on
+  arrival. A good gate has three properties. It is <strong>automatic</strong>
+  (no willpower involved), <strong>binary</strong> (exit code, not vibes — the
+  verify ritual from Chapter 01, industrialized), and <strong>fast</strong>
+  (feedback while the change is still fresh in anyone's head). Five families of
+  gate cover nearly everything that rots:</p>
+  <ul>
+    <li><strong>Correctness</strong> — does it build, do tests pass. Catches the
+    most common agent failure: plausible code nobody ever ran.</li>
+    <li><strong>Hygiene</strong> — link checkers, formatters. Catches decay
+    nobody commits but everybody creates.</li>
+    <li><strong>Review</strong> — a human, or a bounded agent, reading the diff
+    before it merges.</li>
+    <li><strong>Currency</strong> — dependency bots filing upgrade chores as
+    tickets-with-diffs attached.</li>
+    <li><strong>Drift</strong> — scheduled jobs that compare documentation and
+    specs against reality, on a calendar instead of at merge time.</li>
+  </ul>
+
+  <div class="flow-stage">
+    <div class="flow-chain">
+      <div class="flow-step"><b>branch</b><small>never brief an agent on main</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>pull request</b><small>small diffs · conventional commits</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>gates run</b><small>build · links · review · bumps</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><b>merge</b><small>only when all green</small></div>
+      <span class="pivot">all green?</span>
+      <div class="flow-step"><b>weekly sweep</b><small>docs-sync · triage · upgrades</small></div>
+    </div>
+    <span class="flow-stage-label">the doorway · PR-time gates catch what a change breaks · calendar gates catch what time breaks</span>
+  </div>
+
+  <div class="callout co-tip">
+    <span class="c-tag">tip</span>
+    <p>Add the cheapest gate first: <strong>the build must pass</strong>. It is
+    a few lines of CI config, costs almost nothing to maintain, and intercepts
+    the single most frequent way agents ship damage — code that looks done and
+    was never executed. Stage the rest by rising cost: link check, dependency
+    bot, scheduled sync, and agent review last, because it is the expensive,
+    nuanced one. A pipeline you grow one cheap gate at a time survives; one you
+    try to install wholesale usually doesn't.</p>
+  </div>
+
+  <p>The thesis gate is paste-sized too. Save this generic template as
+  <code>.github/workflows/build.yml</code> and every pull request runs the
+  build — swap the two <code>run:</code> steps for whatever "it builds" means
+  in your stack:</p>
+  <pre><code># .github/workflows/build.yml · generic-template · cheapest gate first
+name: build
+on: pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run build</code></pre>
+
+  <h2>Reviewers that never tire — but must be bounded</h2>
+  <p>The review gate no longer has to be you-alone. Anthropic ships an official
+  Claude Code GitHub Action: mention <code>@claude</code> in a pull request and
+  a bounded agent investigates the diff, asks questions, and can push fixes;
+  an automation mode lets it act on triggers such as new issues, and a
+  <code>--max-turns</code> setting caps how many agentic turns each invocation
+  gets — which is exactly what it sounds like, a spending limit on autonomy.
+  Authentication rides in GitHub secrets; the action is MIT-licensed, works
+  with Bedrock/Vertex/Foundry backends, and its repo carries a security guide
+  whose three headings are worth memorizing: access control (who can summon
+  the agent), least-privilege permissions (what it may touch), and verified
+  commits (signed, so its output is attributable). OpenAI's answer lives in the
+  cloud: Codex cloud tasks — delegable with <code>@codex</code>, runnable in
+  parallel, with first-class PR-review flows — driven by the same agent as the
+  Apache-2.0 Codex CLI, signed in with a ChatGPT plan or an API key.</p>
+  <p>The honest caveat comes from Chapter 01 and never expires: accountability
+  stays human. An agent reviewer is a tireless first pass that catches the
+  mechanical sins — scope creep, missed call sites, untested paths — while you
+  keep the judgment calls. Bound its turns, restrict its permissions, read its
+  findings, and it compounds your attention instead of replacing it.</p>
+
+  <h2>Bots that file the chores</h2>
+  <p>Currency gates are solved problems; adopt them rather than hand-roll them.
+  GitHub's Dependabot reads a <code>dependabot.yml</code> and files upgrade PRs
+  on a schedule — and it covers more than libraries: the
+  <code>github-actions</code> ecosystem updates the pinned workflows themselves,
+  closing the loop where your pipeline's own skeleton ages:</p>
+  <pre><code># .github/dependabot.yml — two ecosystems, one chore queue
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"</code></pre>
+  <p>Renovate is the multi-platform alternative — GitHub, GitLab and others —
+  with fine-grained scheduling and shareable config presets; it is AGPL-3.0
+  and maintained with public docs. Pick one bot per ecosystem and stick with
+  it; Chapter 12's Beyond section names the fight you start if you run two.</p>
+
+  <h2>The pipeline on a calendar</h2>
+  <p>Merge-time gates cannot catch what time breaks. Drift needs a clock:
+  a scheduled job (a cron trigger in Actions, or any scheduler) that wakes up
+  weekly and hands an agent a comparison task — docs against routes, README
+  setup steps against scripts, spec against shipped behavior — and opens a
+  small PR with the deltas. Anthropic's official solutions guide publishes
+  exactly these recipes: recurring docs-sync, issue triage, and scheduled
+  maintenance jobs run by the same action that reviews your PRs. This is the
+  gate aimed at the bloat that hurts agents most: a stale README doesn't just
+  embarrass humans, it actively programs the next session wrong.</p>
+
+  <p>That is the whole toolbox. Now choose your safety net and watch six weeks
+  happen to the same little project twice — once naked, once defended.</p>
+
+  <div class="incubator" id="bloat-lab">
+    <style>
+      .incubator { border:2px solid var(--ink); border-radius:14px; background:var(--paper-raised); box-shadow:var(--shadow-lg); padding:1.15rem 1.3rem; margin:1.4rem 0; }
+      .incubator * { box-sizing:border-box; }
+      .bi-tag { display:block; font-family:var(--font-mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--l4); margin-bottom:0.5rem; }
+      .bi-intro { margin:0 0 0.8rem; font-size:0.92rem; }
+      .bi-gates { display:flex; flex-wrap:wrap; gap:0.55rem; }
+      .bi-gate { appearance:none; cursor:pointer; text-align:left; font-family:inherit; color:var(--ink); background:var(--paper); border:2px solid var(--line-strong); border-radius:10px; padding:0.45rem 0.7rem; min-height:44px; box-shadow:3px 3px 0 var(--line-strong); }
+      .bi-gate:hover { border-color:var(--ink); }
+      .bi-gate b { display:block; font-size:0.8rem; }
+      .bi-gate span { display:block; font-family:var(--font-mono); font-size:0.66rem; color:var(--muted); margin-top:0.15rem; }
+      .bi-gate[aria-pressed="true"] { border-color:var(--ink); box-shadow:inset 0 0 0 2px var(--l4), 3px 3px 0 var(--line-strong); background:color-mix(in srgb, var(--l4) 12%, var(--paper)); }
+      .bi-gate[aria-pressed="true"] b::before { content:"▣ "; color:var(--l4); }
+      .bi-gate[aria-pressed="false"] b::before { content:"▢ "; color:var(--muted); }
+      .bi-bar { display:flex; flex-wrap:wrap; align-items:center; gap:0.6rem; margin-top:0.85rem; border-top:2px dashed var(--line-strong); padding-top:0.8rem; }
+      .bi-btn { appearance:none; cursor:pointer; font-family:var(--font-mono); font-weight:700; font-size:0.76rem; min-height:38px; padding:0.35rem 0.95rem; border-radius:10px; border:1.5px solid var(--line-strong); background:var(--paper-raised); color:var(--ink); }
+      .bi-btn:hover { border-color:var(--ink); }
+      .bi-btn:disabled { opacity:0.45; cursor:not-allowed; }
+      .bi-chip { font-family:var(--font-mono); font-size:0.72rem; font-weight:700; padding:0.3rem 0.7rem; border:1.5px solid var(--line-strong); border-radius:999px; background:var(--paper); }
+      .bi-presets { display:flex; flex-wrap:wrap; gap:0.4rem; }
+      .bi-strip { display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:0.5rem; margin-top:0.9rem; }
+      @media (max-width:860px) { .bi-strip { grid-template-columns:repeat(3, minmax(0,1fr)); } }
+      @media (max-width:560px) { .bi-strip { grid-template-columns:repeat(2, minmax(0,1fr)); } }
+      .bi-week { border:1.5px solid var(--line-strong); border-radius:10px; background:var(--paper); padding:0.45rem 0.5rem; min-height:5rem; }
+      .bi-week[data-future="true"] { border-style:dashed; opacity:0.65; }
+      .bi-wh { font-family:var(--font-mono); font-size:0.66rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.35rem; }
+      .bi-ev { border-left:3px solid var(--l1); background:color-mix(in srgb, var(--l1) 10%, var(--paper-raised)); border-radius:0 8px 8px 0; padding:0.35rem 0.5rem; margin-bottom:0.35rem; font-size:0.74rem; line-height:1.45; }
+      .bi-ev b { display:block; font-size:0.75rem; }
+      .bi-ev small { display:block; color:var(--muted); font-size:0.7rem; }
+      .bi-ev.caught { border-left-color:var(--l3); background:color-mix(in srgb, var(--l3) 12%, var(--paper-raised)); }
+      .bi-mark { font-family:var(--font-mono); font-weight:700; font-size:0.64rem; letter-spacing:0.05em; display:block; margin-top:0.2rem; }
+      .bi-ev .bi-mark { color:var(--l1); }
+      .bi-ev.caught .bi-mark { color:var(--l3); }
+      .bi-empty { font-family:var(--font-mono); font-size:0.68rem; color:var(--muted); }
+      .bi-debt { margin-top:0.9rem; border:1.5px solid var(--line-strong); border-radius:10px; background:var(--paper); padding:0.6rem 0.8rem; }
+      .bi-debt h4 { margin:0 0 0.4rem; font-size:0.86rem; }
+      .bi-debt ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.3rem; }
+      .bi-debt li { font-size:0.78rem; border-left:3px solid var(--l1); background:color-mix(in srgb, var(--l1) 8%, var(--paper-raised)); border-radius:0 8px 8px 0; padding:0.3rem 0.55rem; }
+      .bi-debt li i { font-style:normal; font-family:var(--font-mono); font-size:0.68rem; color:var(--muted); }
+      .bi-verdict { display:none; margin-top:0.9rem; border-top:2px solid var(--ink); padding-top:0.8rem; }
+      .bi-verdict h4 { margin:0 0 0.35rem; font-size:1.02rem; }
+      .bi-tally { font-family:var(--font-mono); font-size:0.78rem; font-weight:700; margin:0 0 0.4rem; }
+      .bi-lesson { margin:0; font-size:0.88rem; line-height:1.6; }
+      .incubator button:focus-visible { outline:3px solid var(--ink); outline-offset:2px; }
+      @media (prefers-reduced-motion: reduce) { .incubator *, .incubator *::before, .incubator *::after { transition:none !important; animation:none !important; } }
+    </style>
+    <span class="bi-tag">widget · bloat incubator · simulated six-week project · incident pools hand-authored, illustrative · runs locally, nothing leaves this page</span>
+    <p class="bi-intro">Choose the defenses this project's pipeline will run, then
+    live the six weeks. Enabled gates catch their incidents at the door; disabled
+    ones let them land and pile up as debt future-you pays. Same six weeks every
+    run — flip gates, reset, and compare verdicts.</p>
+    <div class="bi-gates" role="group" aria-label="Pipeline defenses on or off">
+      <button type="button" class="bi-gate" data-gate="ci" aria-pressed="false"><b>build check in CI</b><span>every PR · fails loud · ~4 sim-min/wk</span></button>
+      <button type="button" class="bi-gate" data-gate="links" aria-pressed="false"><b>link checker</b><span>crawls docs + pages · ~2 sim-min/wk</span></button>
+      <button type="button" class="bi-gate" data-gate="review" aria-pressed="false"><b>agent code review on PRs</b><span>@-mentioned, turn-capped · ~14 sim-min/wk</span></button>
+      <button type="button" class="bi-gate" data-gate="deps" aria-pressed="false"><b>dependency bot</b><span>bump PRs on schedule · ~2 sim-min/wk</span></button>
+      <button type="button" class="bi-gate" data-gate="sync" aria-pressed="false"><b>scheduled docs-sync job</b><span>diffs docs vs reality · ~9 sim-min/wk</span></button>
+    </div>
+    <div class="bi-bar">
+      <button type="button" class="bi-btn" id="bi-run">run next week ▸</button>
+      <button type="button" class="bi-btn" id="bi-reset">reset</button>
+      <span class="bi-presets">
+        <button type="button" class="bi-btn" data-preset="bare">preset · bare repo</button>
+        <button type="button" class="bi-btn" data-preset="starter">preset · cheap starter</button>
+        <button type="button" class="bi-btn" data-preset="full">preset · full net</button>
+      </span>
+      <span class="bi-chip" id="bi-clock">week 0 of 6 · overhead 0 sim-min</span>
+    </div>
+    <div class="bi-strip" id="bi-strip" aria-label="Six simulated weeks of incidents"></div>
+    <div class="bi-debt" aria-live="polite">
+      <h4>Open debt — landed incidents awaiting future-you</h4>
+      <ul id="bi-debt-list"><li style="border:none;background:none;"><i>nothing landed yet.</i></li></ul>
+    </div>
+    <div class="bi-verdict" id="bi-verdict" aria-live="polite">
+      <h4>Six-week verdict</h4>
+      <p class="bi-tally" id="bi-tally"></p>
+      <p class="bi-lesson" id="bi-lesson"></p>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var root = document.getElementById("bloat-lab");
+    if (!root || root.dataset.biBound) return;
+    root.dataset.biBound = "1";
+
+    var GATES = { ci: 4, links: 2, review: 14, deps: 2, sync: 9 };
+    var GATE_NAMES = {
+      ci: "build check in CI", links: "link checker",
+      review: "agent code review", deps: "dependency bot",
+      sync: "scheduled docs-sync job"
+    };
+    var GATE_FOR = { build: "ci", link: "links", review: "review", deps: "deps", readme: "sync", drift: "sync" };
+
+    var SCENARIOS = {
+      a: [
+        { w: 1, t: "build", title: "agent PR renames an export", body: "three call sites still import the old name — the suite was never run.", dmg: 50 },
+        { w: 3, t: "deps", title: "CVE lands on a pinned dependency", body: "the fix shipped two versions upstream — nobody noticed the pin aging.", dmg: 45 },
+        { w: 6, t: "review", title: "agent diff quietly triples scope", body: "a 'one-line fix' arrives carrying a rewrite of the auth helper.", dmg: 70 }
+      ],
+      b: [
+        { w: 2, t: "review", title: "agent 'tidies' formatting across 40 files", body: "the real two-line change hides inside an unreviewable diff.", dmg: 65 },
+        { w: 2, t: "link", title: "referenced tutorial's host dies", body: "the learning path in the docs now dead-ends at a parked domain.", dmg: 20 },
+        { w: 4, t: "deps", title: "pinned GitHub Action hits deprecation", body: "the workflow's own skeleton aged out under it.", dmg: 30 },
+        { w: 5, t: "build", title: "renamed env var breaks the CI-only path", body: "worked on every laptop; the pipeline had different wiring.", dmg: 55 },
+        { w: 6, t: "drift", title: "spec gains a feature the page never got", body: "planning doc promised it; the UI never heard.", dmg: 35 }
+      ]
+    };
+
+    var on = { ci: false, links: false, review: false, deps: false, sync: false };
+    var week = 0, landed = [], caught = [], overhead = 0, scenario = "a";
+
+    var runBtn = document.getElementById("bi-run");
+    var resetBtn = document.getElementById("bi-reset");
+    var clockEl = document.getElementById("bi-clock");
+    var stripEl = document.getElementById("bi-strip");
+    var debtList = document.getElementById("bi-debt-list");
+    var verdictEl = document.getElementById("bi-verdict");
+    var tallyEl = document.getElementById("bi-tally");
+    var lessonEl = document.getElementById("bi-lesson");
+
+    function gateBtn(id) { return root.querySelector('[data-gate="' + id + '"]'); }
+
+    function paintGates() {
+      for (var g in GATES) gateBtn(g).setAttribute("aria-pressed", on[g] ? "true" : "false");
+    }
+
+    function paintClock() {
+      clockEl.textContent = "week " + week + " of 6 · overhead " + overhead + " sim-min";
+      runBtn.disabled = week >= 6;
+      if (week >= 6) runBtn.textContent = "six weeks done";
+      else runBtn.textContent = "run next week ▸";
+    }
+
+    function buildStrip() {
+      stripEl.innerHTML = "";
+      for (var i = 1; i <= 6; i++) {
+        var col = document.createElement("div");
+        col.className = "bi-week";
+        col.setAttribute("data-future", i > week ? "true" : "false");
+        var h = document.createElement("span");
+        h.className = "bi-wh";
+        h.textContent = "week " + i;
+        col.appendChild(h);
+        stripEl.appendChild(col);
+      }
+    }
+
+    function weekCol(w) { return stripEl.children[w - 1]; }
+
+    function renderDebt() {
+      debtList.innerHTML = "";
+      if (!landed.length) {
+        var li = document.createElement("li");
+        li.style.cssText = "border:none;background:none;";
+        var i = document.createElement("i");
+        i.textContent = "nothing landed yet.";
+        li.appendChild(i);
+        debtList.appendChild(li);
+        return;
+      }
+      for (var j = 0; j < landed.length; j++) {
+        var ev = landed[j];
+        var item = document.createElement("li");
+        var b = document.createElement("b");
+        b.textContent = "wk" + ev.w + " · " + ev.title;
+        var meta = document.createElement("i");
+        meta.textContent = " — " + ev.dmg + " sim-min of repair debt";
+        item.appendChild(b);
+        item.appendChild(meta);
+        debtList.appendChild(item);
+      }
+    }
+
+    function place(ev, isCaught) {
+      var col = weekCol(ev.w);
+      var card = document.createElement("div");
+      card.className = "bi-ev" + (isCaught ? " caught" : "");
+      var t = document.createElement("b");
+      t.textContent = ev.title;
+      var s = document.createElement("small");
+      s.textContent = ev.body;
+      var m = document.createElement("span");
+      m.className = "bi-mark";
+      m.textContent = isCaught
+        ? "✓ caught at the door — " + GATE_NAMES[GATE_FOR[ev.t]] + " · +" + ev.dmg + " sim-min saved"
+        : "✕ landed · debt + " + ev.dmg + " sim-min";
+      card.appendChild(t); card.appendChild(s); card.appendChild(m);
+      col.appendChild(card);
+    }
+
+    function runWeek() {
+      if (week >= 6) return;
+      week += 1;
+      for (var g in GATES) { if (on[g]) overhead += GATES[g]; }
+      var events = SCENARIOS[scenario];
+      var landedThisWeek = 0;
+      for (var i = 0; i < events.length; i++) {
+        var ev = events[i];
+        if (ev.w !== week) continue;
+        var gate = GATE_FOR[ev.t];
+        if (on[gate]) { caught.push(ev); place(ev, true); }
+        else { landed.push(ev); place(ev, false); landedThisWeek++; }
+      }
+      weekCol(week).setAttribute("data-future", "false");
+      if (!landedThisWeek && !onAnyRelevant(week)) {
+        var q = document.createElement("span");
+        q.className = "bi-empty";
+        q.textContent = "quiet week — nothing happened. (they exist.)";
+        weekCol(week).appendChild(q);
+      }
+      renderDebt();
+      paintClock();
+      if (week === 6) finish();
+    }
+
+    function onAnyRelevant(w) {
+      var events = SCENARIOS[scenario], n = 0;
+      for (var i = 0; i < events.length; i++) if (events[i].w === w) n++;
+      return n > 0;
+    }
+
+    function finish() {
+      var debt = 0, saved = 0, i;
+      for (i = 0; i < landed.length; i++) debt += landed[i].dmg;
+      for (i = 0; i < caught.length; i++) saved += caught[i].dmg;
+      var nOn = 0; for (var g in GATES) { if (on[g]) nOn++; }
+      tallyEl.textContent = landed.length + " landed · " + caught.length +
+        " caught · repair debt " + debt + " sim-min · damage prevented " + saved +
+        " sim-min · automation overhead " + overhead + " sim-min.";
+      var lesson;
+      if (nOn === 0) {
+        lesson = "Nothing was watching, so everything landed. This is 'noticing too late' as a lifestyle: " + debt + " sim-minutes of repair work waiting, none of it announced in advance.";
+      } else if (nOn === 5) {
+        lesson = saved > overhead
+          ? "The full net paid for itself: " + saved + " sim-min prevented against " + overhead + " of overhead. Notice the catches were boring — a green tick per week is what success looks like in a pipeline."
+          : "A quiet stretch: this season, the net cost more than it caught — " + overhead + " sim-min of overhead for " + saved + " sim-min prevented — and you couldn't have known in advance which weeks would stay calm. Nobody can; that uncertainty is the product you're buying. Real projects swing between seasons like these, which is exactly why gates go in cheapest-first and are judged over the long run, never on one six-week sample.";
+      } else if (on.ci && nOn === 1) {
+        lesson = "The cheapest gate alone intercepted the most common failure mode and nothing else. Compare its overhead below to the full net's — this is the starting point every pipeline grows from.";
+      } else {
+        lesson = "Each enabled gate covered exactly the rot it watches for — and each disabled one let its incidents straight through. Flip the gates that hurt most, reset, and run the same six weeks again.";
+      }
+      lessonEl.textContent = lesson + " Reset and reconfigure anytime — the six weeks replay identically, so comparisons are fair.";
+      verdictEl.style.display = "block";
+    }
+
+    function reset() {
+      week = 0; landed = []; caught = []; overhead = 0;
+      verdictEl.style.display = "none";
+      buildStrip(); renderDebt(); paintClock();
+    }
+
+    root.addEventListener("click", function (ev) {
+      var t = ev.target || ev.srcElement;
+      if (!t || !t.closest) return;
+      var gate = t.closest("[data-gate]");
+      if (gate) {
+        var id = gate.getAttribute("data-gate");
+        if (week > 0) return;
+        on[id] = !on[id];
+        paintGates();
+        return;
+      }
+      var pre = t.closest("[data-preset]");
+      if (pre) {
+        if (week > 0) return;
+        var kind = pre.getAttribute("data-preset");
+        on.ci = kind !== "bare";
+        on.deps = kind === "starter" || kind === "full";
+        on.links = kind === "full";
+        on.review = kind === "full";
+        on.sync = kind === "full";
+        paintGates();
+        return;
+      }
+      if (t.id === "bi-run") runWeek();
+      if (t.id === "bi-reset") reset();
+    });
+
+    paintGates();
+    buildStrip();
+    renderDebt();
+    paintClock();
+  })();
+  </script>
+
+  <p>Three things to notice before you go. First, the asymmetry: catches are
+  tiny and boring — one green tick per week — while lands are invisible until
+  they compound into a debt board. Second, the runs are identical, only the
+  safety net differs; that is precisely how you should evaluate gates on real
+  work, same project, with and without. Third, overhead is real even when it
+  pays: automation spends minutes every single week whether or not anything
+  breaks, which is why the cheapest-first ordering in the tip above exists.</p>
+
+  <div class="callout co-warn">
+    <span class="c-tag">warning</span>
+    <p>A gate nobody reads trains bypass habits. A red build that stays red
+    gets click-past, a reviewer who nitpicks formatting gets muted, a bot that
+    files ten noisy PRs a week teaches the team to close without reading — and
+    then the one PR that mattered sails through on trained reflexes. Keep the
+    gate list short, every signal loud and actionable, and delete gates that
+    cry wolf. A pipeline's authority is spent exactly like yours: one ignored
+    warning at a time.</p>
+  </div>
+
+  <h2>Where this lands in your builds</h2>
+  <p>Both companion builds already live behind this doorway: ncert-quiz-forge
+  enforces its content lint in CI and works in small PR-per-milestone increments
+  per BUILD.md §9; free-tier-atlas keeps the same §9 discipline — one PR per
+  milestone, migrations individually reviewed — so a six-week build never grows
+   an unreviewable diff. Both repos speak conventional-style prefixes
+  (<code>feat:</code>, <code>fix:</code>; our house adds
+  <code>content:</code>) so the changelog, the search index, and eventually a
+  release-notes agent can read history mechanically.</p>
+
+  <h2>Receipts</h2>
+  <p>Every factual claim above traces to a source card below. Tier key:
+  T1 official docs or established practitioners · T2 vendor secondary ·
+  T3 lead only, never cited as fact.</p>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://code.claude.com/docs/en/github-actions</span>
+    <span class="as-of">checked 2026-08 (v2.1.229+) · official Claude Code GitHub Action: @claude mentions, automation mode, --max-turns cost caps, secret-based auth</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/anthropics/claude-code-action</span>
+    <span class="as-of">checked 2026-08 · canonical action repo · MIT license, ~8.7k stars, Bedrock/Vertex/Foundry auth options, examples directory</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/anthropics/claude-code-action/blob/main/docs/security.md</span>
+    <span class="as-of">checked 2026 · security guidance: access control, least-privilege permissions, commit signing</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://developers.openai.com/codex/cloud</span>
+    <span class="as-of">checked 2026-08 · Codex cloud: parallel tasks, @codex delegation, PR review flows</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/openai/codex</span>
+    <span class="as-of">checked 2026-08 · Codex CLI Apache-2.0; ChatGPT-plan sign-in vs API key</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot</span>
+    <span class="as-of">checked 2026-08 · Dependabot updates pinned GitHub Actions via dependabot.yml (package-ecosystem: github-actions); copy-paste config in docs</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://docs.renovatebot.com/</span>
+    <span class="as-of">checked 2026-08 (v44.41.1) · Renovate: multi-platform dependency automation, scheduling + presets, AGPL-3.0</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax</span>
+    <span class="as-of">checked 2026-08-26 · GitHub Actions workflow syntax (.github/workflows, name/on/jobs/steps) behind the build-gate template; actions/checkout@v7 and actions/setup-node@v7 confirmed current majors</span>
+  </div>
+  <div class="receipt">
+    <span class="tier tier-t1">T1 official</span>
+    <span class="r-url">https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md</span>
+    <span class="as-of">checked 2026 · agent-run recurring job recipes: docs-sync, triage, scheduled maintenance</span>
+  </div>
+
+  <section class="exercise">
+    <h2>Try it yourself</h2>
+    <ol>
+      <li><strong>Exact-click checkpoint.</strong> In any GitHub repo you own,
+      click <em>Add file → Create new file</em>, name it
+      <code>.github/dependabot.yml</code>, paste the eleven-line config above,
+      and commit to main. Return the following Monday: Dependabot will have
+      filed its first chore PRs — your first currency gate, installed in one
+      paste.</li>
+      <li><strong>Break it on purpose.</strong> Run the incubator twice on
+      scenario A: once bare, once with only the CI build check on. Before the
+      second run, write down which week you expect the gate to pay for its own
+      overhead. Check the prediction against the verdict — then explain to
+      yourself why the other weeks' overhead wasn't wasted.</li>
+      <li><strong>Ship-sized task.</strong> Give one real project its first
+      gate this week: a build check. Branch, commit a
+      <code>ci:</code>-prefixed workflow file in the smallest PR the platform
+      allows, and watch it run. Then deliberately push a commit that breaks the
+      build and confirm the door actually slams — an untested gate is a rumor,
+      not a gate.</li>
+    </ol>
+  </section>
+
+  <section class="selfcheck">
+    <h2>Self-check</h2>
+    <details>
+      <summary>Why is "build must pass" always the first gate?</summary>
+      <p>Highest ratio of caught-to-cost. It is nearly free to install and
+      maintain, and it catches the most frequent agent failure — plausible
+      code that was never executed. Every other gate costs more per week and
+      catches rarer rot, so the ordering is strict: earn trust with the cheap
+      binary gate before paying for nuanced ones.</p>
+    </details>
+    <details>
+      <summary>What distinguishes PR-time gates from calendar gates?</summary>
+      <p>PR-time gates (build, links, agent review, dependency bumps) judge a
+      <em>change</em> at the only moment reverting it is cheap. Calendar gates
+      (docs-sync, scheduled maintenance) judge <em>time's effect</em> — hosts
+      dying, specs drifting, READMEs aging — which no merge can trigger because
+      no single change caused it. Healthy pipelines run both.</p>
+    </details>
+    <details>
+      <summary>Name two ways a pipeline itself becomes the bloat it fights.</summary>
+      <p>Unread signals: a chronically-red gate or noisy bot trains the team to
+      bypass checks, so real failures sail through. And runaway autonomy: an
+      agent reviewer or recurring job without a turn/spend cap (the
+      <code>--max-turns</code> problem) burns budget every run regardless of
+      whether anything needed doing. Few gates, loud signals, hard bounds.</p>
+    </details>
+  </section>
+
+  <section class="beyond">
+    <h2>Beyond this build</h2>
+    <p><strong>Monorepo scale.</strong> One giant gate-suite per PR stops
+    scaling fast: every typo would rebuild everything. The standard move is
+    path-scoped pipelines — checks fire only for packages the diff touches.
+    Same principle as repo maps (Chapter 11): spend verification budget where
+    the change landed.</p>
+    <p><strong>When bots fight each other.</strong> Run Dependabot and Renovate
+    on the same manifest and they will race: dueling bump PRs, lockfile
+    conflicts, rebases eating an afternoon. Assign exactly one bot per
+    ecosystem and mute or evict the other; duplication is not redundancy, it
+    is two machines generating review debt for each other.</p>
+    <p><strong>From solo ritual to team contract.</strong> Everything here
+    scales upward unchanged: required status checks turn your personal verify
+    ritual into policy, CODEOWNERS route specific paths to specific humans,
+    and agent reviewers become the tireless first pass ahead of human review.
+    What does not scale down again is the culture — a team that treats green
+    checks as bureaucracy will get the bureaucracy it deserves.</p>
+    <p><strong>Where it breaks down.</strong> Flaky gates train bypasses
+    faster than no gates at all. No gate can judge taste — a pipeline proves
+    the build passes, not that the product is good. And an agent reviewer,
+    however bounded, inherits blind spots from its context: it verifies what
+    it can see. The Chapter 01 rule survives automation intact — accountability
+    stays human; the pipeline just makes the evidence arrive on time.</p>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="ch11-brownfield-reality.html">← previous: brownfield reality</a>
+    <a href="ch13-shipping-for-$0.html">next: shipping for $0 →</a>
+  </nav>
+</main>
+
+<footer class="site-foot">
+  <span>the agentic coding field manual</span>
+  <span>chapter 12 · part IV · shipping &amp; staying sane</span>
+</footer>
+<script src="../assets/search-index.js"></script>
+<script src="../assets/js/search.js"></script>
+<script src="../assets/js/theme.js"></script>
+</body>
+</html>
