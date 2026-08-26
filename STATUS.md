@@ -4,7 +4,7 @@
 > DECISIONS.md first, then continues. Update this file AND progress.html at
 > every milestone — they must always agree.
 
-**Current position:** P5 GATES PASSED — P0-P4 shipped, 16 chapters + 4 appendices won blind, cross-link sweep (1219 links, 3 fixed, 0 broken) + full-book blind vs live bars WON, book 612 KB; next is push + Pages live.
+**Current position:** P5 DONE — 16 chapters + 4 appendices won blind, 1219 links clean, both blinds WON, deployed at https://kvothdevian.github.io/field-manual/ (building), book 612 KB.
 
 ## Phase board
 
@@ -15,7 +15,7 @@
 | P2 | Foundations chapters (1–4) gauntleted + Build 1 agent-cost-compass via BUILD.md kickoff | **DONE** | 4/4 won blind |
 | P3 | Craft chapters (5–11) gauntleted + Build 2 ncert-quiz-forge | **DONE** | 7/7 won blind |
 | P4 | Ship/pipelines/security/grey chapters (12–16) + Build 3 free-tier-atlas capstone | **DONE** | 5/5 won blind; 16/16 chapters shipped |
-| P5 | Integration: Appendices A-D, cross-links, full-book blind judging vs A+B bars, push + Pages live | **GATES PASSED — ready to push** | 4 appendices won; sweep 1219/3/0; blind WON vs both bars; deploy next |
+| P5 | Integration: Appendices A-D, cross-links, full-book blind judging vs A+B bars, push + Pages live | **DONE** | 4/4 won, 1219 clean, both WON, live at https://kvothdevian.github.io/field-manual/ |
 
 ## Milestone log
 
@@ -52,6 +52,9 @@
 | 2026-08-26 | P4 | **P4 PHASE COMPLETE** - all 16 chapters shipped; three builds code-complete locally | Next: P5
 | 2026-08-26 | P4-post | Compaction: 167 section pages merged into 16 independent chapter pages (home → chapter), redirects removed, search 26 pages, book 163 sections 610KB | Per Aman
 | 2026-08-26 | P5 | **P5 STARTED** - STATUS/progress updated, 4 appendix gauntlets fanned out vs A+B bars | Live at progress.html |
+| 2026-08-26 | P5 | Appendices A-D WON gauntlets vs A+B bars (A 9 cards+filter, B 163 rows, C 60 terms, D heatmap) | 30 pages indexed |
+| 2026-08-26 | P5 | Cross-link sweep 1219 checked / 3 fixed / 0 broken; blind judging WON vs ciechanow.ski (SVG luminance fix) + WON vs anthropic (Before/After fix) | Minimal patches ch04/ch08 |
+| 2026-08-26 | P5 | **DEPLOYED** - pushed to https://github.com/kvothdevian/field-manual, Pages building at https://kvothdevian.github.io/field-manual/ (master /) | 610-612KB book html |
 | 2026-08-26 | P5 | App A shipped: chapters/appendix-a/index.html — 9 harnesses, quick-switch table + per-harness cards, 30 copy blocks, 16 receipts, filter live, vs ciechanow.ski + anthropic + stripe blind — won | Search 27 pages indexed; home+toc wired; DESIGN tokens only, no blue |
 | 2026-08-26 | P5 | App B shipped: chapters/appendix-b/index.html — 163 rows · 16 ch + App A · tiered (T1/T2/T3) + dated as-of 2026-08-26 + fetched flags · filter/search + per-chapter tables + 10 gap callouts · won vs ciechanow.ski + anthropic blind — tier key, filter/search, per-chapter tables, gap callouts each judged blind | Search 28 pages indexed (MAX_CHARS 24k); home+toc+progress wired; DESIGN tokens only, no blue; build-index expanded for ledger |
 | 2026-08-26 | P5 | App C shipped: chapters/appendix-c/index.html — 60 terms A–W · plain first-sentence + why-it-matters + cross-links · A-Z bar + 5 category chips + live search/filter (/ to focus) · won vs ciechanow.ski + anthropic blind — A-Z nav, cards, cross-links, search/filter each judged | Search 29 pages indexed; home+toc+progress wired; DESIGN L5 rose only, no blue; hash-stable deep-links per term (#g-harness) |
