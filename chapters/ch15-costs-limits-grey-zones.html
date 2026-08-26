@@ -24,18 +24,23 @@
 </header>
 
 <main>
-  <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
-  <h1>Chapter 15: Costs, limits &amp; grey zones</h1>
+  <div class="chapter-banner banner-l4">
+    <span class="banner-num" aria-hidden="true">15</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
+      <h1>Chapter 15: Costs, limits &amp; grey zones</h1>
+      <p class="as-of">facts checked as of 2026-08-26 · every rate number below expires — re-stamp before betting a habit on it</p>
+    </div>
+  </div>
   <p class="lede">Promise: one honest reference. Read any provider's rate-limit page like
   an engineer, cap your worst-month spend in advance, name what free tiers charge in
   data, and price a grey-zone shortcut before taking it — compact enough to consult,
   framed so you rarely need most of it.</p>
-  <p class="as-of">facts checked as of 2026-08-26 · every rate number below expires — re-stamp before betting a habit on it</p>
 
   <p>This is the book's only money-forward chapter by design — every other chapter stays
   about craft. Everything providers throw at you reduces to <strong>three dials and one
   hidden price</strong>:</p>
-  <ul>
+  <ul class="rail">
     <li><strong>Burst.</strong> Requests per minute — a token bucket. Drain it faster
     than it refills and you get HTTP 429 with a <code>retry-after</code> header whose
     size names the wall: seconds = minute-wall, hours = rolling window, midnight = daily.</li>
@@ -47,8 +52,14 @@
     training rights over your prompts. A written opt-out beats silence; silence beats a
     forum post.</li>
   </ul>
-  <p>Grey zones are the same arithmetic on shortcuts: risk = probability × consequence —
-  suspension, credential loss, silently worse output. Not morality — pricing. The widget
+  <div class="pull-fact pf-l4">
+    <p>Grey zones are the same arithmetic on shortcuts:
+    <strong>risk = probability × consequence</strong> — suspension, credential
+    loss, silently worse output. Not morality — pricing; score = calibration,
+    not morality.</p>
+  </div>
+
+  <p>The widget
   below makes you practice that pricing before revealing graded answers.</p>
 
   <div class="gzlab" id="gzlab">

@@ -24,12 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
-  <h1>Chapter 10 · Debugging when it breaks</h1>
+  <div class="chapter-banner banner-l3">
+    <span class="banner-num" aria-hidden="true">10</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+      <h1>Chapter 10 · Debugging when it breaks</h1>
+      <p class="as-of">facts checked as of 2026-08-26</p>
+    </div>
+  </div>
   <p class="lede">Promise: after this chapter you can drive a disciplined debug —
   reproduce, hypothesize, bisect — instead of watching an agent thrash, and you
   know exactly when to pull the plug.</p>
-  <p class="as-of">facts checked as of 2026-08-26</p>
 
   <p>Breakage is not the exception in agentic work; it is Tuesday. The difference
   between a beginner and a practitioner is not that practitioners break less —
@@ -56,6 +61,10 @@
   because the proof is executable. And it hands every later tool, including
   bisection below, the automatic good/bad oracle they need. Agents will not do
   this unprompted; demanding the failing test is your move.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>A bug you cannot summon on demand is a bug you cannot prove dead.</p>
+  </div>
 
   <div class="callout co-tip">
     <span class="c-tag">tip</span>
@@ -90,6 +99,10 @@
   commands that fail loudly; and when context compaction hits a long session,
   <strong>abort and restart</strong> rather than nursing a degraded one. A slow
   loop and a murky log are how two-minute bugs become two-hour sessions.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>A slow loop and a murky log are how two-minute bugs become two-hour sessions.</p>
+  </div>
 
   <h2>Bisect: halving beats walking</h2>
   <p>Oldest trick in the book, and it survives agents perfectly. When you have
@@ -280,7 +293,7 @@
   Note the prerequisite, though: every test needed a clean yes/no answer. Bools
   come from oracles, oracles come from failing tests — the disciplines chain.</p>
 
-  <h2>Reading the wreckage</h2>
+  <h2><span class="css-icon-bug" aria-hidden="true"></span> Reading the wreckage</h2>
   <p>When the failure lives in a browser, the crime scene photographs itself —
   if someone remembers to shoot. Playwright's trace viewer records every action
   on a timeline with <strong>Errors, Console, and Network tabs</strong> attached,

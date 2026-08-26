@@ -24,12 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
-  <h1>Chapter 12 · Pipelines that prevent bloat</h1>
+  <div class="chapter-banner banner-l4">
+    <span class="banner-num" aria-hidden="true">12</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
+      <h1>Chapter 12 · Pipelines that prevent bloat</h1>
+      <p class="as-of">facts checked as of 2026-08-26</p>
+    </div>
+  </div>
   <p class="lede">Promise: after this chapter you can wrap your agent workflow in gates
   that keep a project healthy for months — bloat becomes something the pipeline
   catches, not something you notice too late.</p>
-  <p class="as-of">facts checked as of 2026-08-26</p>
 
   <p>Every project rots by default, and "bloat" is bigger than file size. Builds
   break. Dependencies fall behind and collect vulnerabilities. Links die. The
@@ -49,21 +54,21 @@
   (no willpower involved), <strong>binary</strong> (exit code, not vibes — the
   verify ritual from Chapter 01, industrialized), and <strong>fast</strong>
   (feedback while the change is still fresh in anyone's head). Five families of
-  gate cover nearly everything that rots:</p>
-  <ul>
+  gate cover nearly everything that rots, staged by rising cost of adoption:</p>
+  <ul class="rail">
     <li><strong>Correctness</strong> — does it build, do tests pass. Catches the
     most common agent failure: plausible code nobody ever ran.</li>
     <li><strong>Hygiene</strong> — link checkers, formatters. Catches decay
     nobody commits but everybody creates.</li>
-    <li><strong>Review</strong> — a human, or a bounded agent, reading the diff
-    before it merges.</li>
     <li><strong>Currency</strong> — dependency bots filing upgrade chores as
     tickets-with-diffs attached.</li>
     <li><strong>Drift</strong> — scheduled jobs that compare documentation and
     specs against reality, on a calendar instead of at merge time.</li>
+    <li><strong>Review</strong> — a human, or a bounded agent, reading the diff
+    before it merges. Last: the expensive, nuanced gate.</li>
   </ul>
 
-  <div class="flow-stage">
+  <div class="flow-stage" style="--stage-route:var(--l4);">
     <div class="flow-chain">
       <div class="flow-step"><b>branch</b><small>never brief an agent on main</small></div>
       <span class="flow-arrow">→</span>
@@ -85,8 +90,12 @@
     the single most frequent way agents ship damage — code that looks done and
     was never executed. Stage the rest by rising cost: link check, dependency
     bot, scheduled sync, and agent review last, because it is the expensive,
-    nuanced one. A pipeline you grow one cheap gate at a time survives; one you
-    try to install wholesale usually doesn't.</p>
+    nuanced one.</p>
+  </div>
+
+  <div class="pull-fact pf-l4">
+    <p>A pipeline you grow one cheap gate at a time survives; one you try to
+    install wholesale usually doesn't.</p>
   </div>
 
   <p>The thesis gate is paste-sized too. Save this generic template as

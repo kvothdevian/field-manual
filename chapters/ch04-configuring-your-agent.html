@@ -24,13 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l1">part I · tools &amp; access · $0 core · L1 coral</span>
-  <h1>Chapter 04 · Configuring your agent properly</h1>
-  <p class="lede">Promise: after this chapter you can write a memory file your agent re-reads
-  every session, add skills that load only when needed, and bolt on guardrails the model
-  cannot talk its way past — so the same mistake stops costing you every single morning.</p>
-  <p class="as-of">facts checked as of 2026-08-25 · config surfaces move fast; receipts carry the dates</p>
-
+  <div class="chapter-banner banner-l1">
+    <div class="banner-num" aria-hidden="true">04</div>
+    <div class="banner-meta">
+      <span class="part-plate p-l1">part I · tools &amp; access · $0 core · L1 coral</span>
+      <h1>Chapter 04 · Configuring your agent properly</h1>
+      <p class="lede">Promise: after this chapter you can write a memory file your agent re-reads
+      every session, add skills that load only when needed, and bolt on guardrails the model
+      cannot talk its way past — so the same mistake stops costing you every single morning.</p>
+      <p class="as-of">facts checked as of 2026-08-25 · config surfaces move fast; receipts carry the dates</p>
+    </div>
+  </div>
   <h2>Fixing the same thing twice is a configuration problem</h2>
   <p>Here is the quiet tragedy of an unconfigured agent: every session starts blank. The loop
   has no memory of yesterday except what you leave on disk. So when the agent uses the wrong
@@ -52,6 +56,11 @@
   memory file pays every future session, across every project that inherits it. Configuration
   is the only part of your agent setup that grows more valuable the longer you use it — which
   is why this chapter comes before the fancy patterns.</p>
+
+  <aside class="pull-fact pf-l1">
+    <p>A fix typed into chat pays once; the same fix written into a memory file
+    pays every future session, across every project that inherits it.</p>
+  </aside>
 
   <h2>Watch instructions load: the nested-files simulator</h2>
   <p>Instruction files nest. There is usually a global one for your whole machine, one per
@@ -369,7 +378,7 @@
   Playbooks you want always-available go in memory; procedures you want available-on-demand
   become skills.</p>
 
-  <h3>Hooks and permissions: guardrails the model cannot argue with</h3>
+  <h3><span class="css-icon-shield" aria-hidden="true"></span> Hooks and permissions: guardrails the model cannot argue with</h3>
   <p>Prose persuades; exit codes compel. Hooks run your shell commands at lifecycle points —
   before a tool executes, after each edit lands, when a session ends — and a hook that exits
   with code 2 blocks the underlying action outright. The model cannot negotiate with an exit
@@ -382,6 +391,11 @@
   convincingly the model justifies the read; a glob like <code>Bash(git push *)</code> forces
   every push to stop for a human. Set the denies first — they are the floor that survives even
   a bad day.</p>
+
+  <aside class="pull-fact pf-l1">
+    <p>Permission rules evaluate in a strict order: deny beats ask beats allow.
+    Set the denies first — they are the floor that survives even a bad day.</p>
+  </aside>
 
   <h3>Two modes worth flipping deliberately</h3>
   <p>One flip earns its keep specifically during configuration work: turn opencode's

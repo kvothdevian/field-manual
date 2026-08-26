@@ -76,6 +76,53 @@ per view) · receipt card with tier badge T1/T2/T3 · callouts tip/warning/
 grey-zone-risk · exercise / selfcheck / beyond blocks · flow-stage diagram ·
 progress board columns.
 
+### Added contracts — visual-density pass (all HTML+CSS only, tokens only,
+### both themes via vars, no motion added so reduced-motion is safe)
+
+- **chapter-banner** (+ `.banner-l0..l5` set a consumed `--route`) — chapter
+  lockup: huge outlined numeral (text-stroke route tint + layered offset
+  shadow, @supports fallback = flat low-alpha fill), part-plate, title, 6px
+  left route rule. DO mark `.banner-num` aria-hidden and keep the real title
+  in an h1; DON'T tint the title text or use for non-chapter headers; missing
+  variant falls back to muted (never claims a phase).
+- **stat-strip / .stat** — inline flex row of big JetBrains Mono figures with
+  uppercase caps labels; dividers are `border-left` on siblings (stacks to
+  border-top ≤640px). DO put units in the label, not the number; DON'T color
+  numbers by status or by route — figures stay ink.
+- **pull-fact** (+ optional `.pf-l0..l5` accent) — key takeaway: 3px ink
+  frame, paper-raised bg, lg print shadow, oversized em-dash pseudo-element.
+  DO one per section max; DON'T nest boxes inside it or swap the dash for
+  emoji; accent variants only widen/recolor the left border (work-card rule).
+- **rail** — vertical timeline: dotted `--line-strong` spine (`ul::before`),
+  node dots as `li::before` circles (ink ring, paper-raised fill masks the
+  spine). DO pair every dot with a text label (shape+label); DON'T recolor
+  dots to encode status without a label, DON'T number nodes.
+- **css-icon-loop / -shield / -gate / -stack / -bug** — 1em pure-CSS
+  pictograms from borders/pseudo-elements/box-shadows, always `currentColor`.
+  Structural metaphors already present in prose ONLY. DON'T add new beasts
+  (`.css-icon-rocket` explicitly rejected as decorative), DON'T paint them in
+  route colors, DON'T scale past ~1.4em.
+- **flow-stage-v** — vertical flow-stage variant: chains stack and arrows
+  rotate ↓ at any viewport. DO use for long hand-off sequences; DON'T mix
+  horizontal and vertical chains within one stage boundary.
+- **part-divider** (+ `.pd-l0..l5`) — full-column band between major
+  sections: route color at 8% alpha bg (color-mix over paper) + matching 2.5px
+  bottom border + centered mono uppercase label. DO let the label carry the
+  meaning; DON'T use as navigation or sprinkle tints on body sections.
+- **Print safety** — banner/stat/pull/divider/rail drop backgrounds and
+  shadows to borders + text in `@media print`; banner numeral prints as solid
+  route text (stroke off). Rail dots keep their paper fill (they mask the
+  spine — structural, not decorative).
+
+## Review log
+
+| Date | What | Why |
+|---|---|---|
+| 2026-08-26 | Added 7 component contracts + print block to book.css (chapter-banner, stat-strip, pull-fact, rail, css-icon set, flow-stage-v, part-divider) | visual-density pass per Aman |
+| 2026-08-26 | Tension logged: `.flow-stage` hardcodes an `--l0` saffron tint, so `.flow-stage-v` inherits saffron even for non-L0 parts | visual-density pass per Aman — "color routes never decorates" wants per-part tints; existing pages must not change behavior, so parameterizing `--route` is deferred, not done |
+| 2026-08-26 | Guardrail noted: oversized banner/stat numerals could drift into decorative type; kept because they encode real data (chapter number, metrics), banner numeral aria-hidden | visual-density pass per Aman |
+| 2026-08-26 | `.css-icon-rocket` excluded from the icon set | visual-density pass per Aman — rocket is decorative, not a structural metaphor used in prose ("diagrams are diagrams") |
+
 ## Do / Don't
 
 DO: semantic HTML · visible `:focus-visible` outlines (3px ink) · tap targets

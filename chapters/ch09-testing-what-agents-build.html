@@ -24,12 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
-  <h1>Chapter 09 · Testing what agents build</h1>
+  <div class="chapter-banner banner-l3">
+    <span class="banner-num" aria-hidden="true">09</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+      <h1>Chapter 09 · Testing what agents build</h1>
+      <p class="as-of">facts checked as of 2026-08-26 · every claim below traces to the book's source ledger</p>
+    </div>
+  </div>
   <p class="lede">Promise: after this chapter you can verify agent output like a skeptical
   QA lead — ordering tests so they can actually fail, demanding browser evidence for UI,
   and running review gates you can execute without reading a line of code.</p>
-  <p class="as-of">facts checked as of 2026-08-26 · every claim below traces to the book's source ledger</p>
 
   <p>Agent output arrives pre-green. The diff looks clean, the demo works on the happy
   path, the summary says <em>done</em>. The trust-then-verify gap from Chapter&nbsp;01
@@ -61,6 +66,10 @@
   agents must exercise what they build and show the evidence, not declare success —
   and the corollary for you is that "it passed" is a claim, while a captured command
   and its output are a fact.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>"It passed" is a claim, while a captured command and its output are a fact.</p>
+  </div>
 
   <h2>The experiment: same feature, two orders</h2>
   <p>Judge the ordering argument yourself. Below, two teams build the identical tiny
@@ -377,7 +386,12 @@
   slower on paper and catches every defect at step one, because the red run happens
   <em>before</em> the code exists and names the violation in the spec's own words.
   That asymmetry is the whole chapter: verification time buys nothing without
-  sensitivity, and sensitivity comes from order.</p>
+  sensitivity, and   sensitivity comes from order.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>Verification time buys nothing without sensitivity, and sensitivity comes
+    from order.</p>
+  </div>
 
   <div class="callout co-tip">
     <span class="c-tag">tip</span>
@@ -395,7 +409,7 @@
     is "none," you are looking at Track&nbsp;A.</p>
   </div>
 
-  <h2>Browser evidence for UI: the trace as a review gate</h2>
+  <h2><span class="css-icon-gate" aria-hidden="true"></span> Browser evidence for UI: the trace as a review gate</h2>
   <p>Unit tests argue about logic; interfaces need evidence a human can eyeball. For
   UI work, the strongest non-coder-reviewable artifact in current practice is the
   browser trace: Playwright's trace viewer records a screenshot, DOM snapshot,
@@ -412,10 +426,12 @@
       .tracebox code { font-family: var(--font-mono); font-size: 0.78rem; }
     </style>
     <span class="tracebox-tag">operate the gate · two commands · per playwright.dev/docs/trace-viewer</span>
-    <p><strong>Record a trace:</strong> run <code>npx playwright test --trace on</code> — or set
-    <code>trace: 'on'</code> in your Playwright Test configuration.</p>
-    <p><strong>Open it:</strong> run <code>npx playwright show-trace path/to/trace.zip</code>,
-    or drag the zip file into trace.playwright.dev.</p>
+    <ul class="rail">
+      <li><strong>Record a trace:</strong> run <code>npx playwright test --trace on</code> — or set
+      <code>trace: 'on'</code> in your Playwright Test configuration.</li>
+      <li><strong>Open it:</strong> run <code>npx playwright show-trace path/to/trace.zip</code>,
+      or drag the zip file into trace.playwright.dev.</li>
+    </ul>
   </div>
 
   <p>Getting that evidence through an agent involves one genuine tradeoff, and

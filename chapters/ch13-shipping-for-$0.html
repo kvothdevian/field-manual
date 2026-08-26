@@ -24,17 +24,22 @@
 </header>
 
 <main>
-  <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
-  <h1>Chapter 13 · Shipping for $0</h1>
+  <div class="chapter-banner banner-l4">
+    <span class="banner-num" aria-hidden="true">13</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
+      <h1>Chapter 13 · Shipping for $0</h1>
+      <p class="as-of">facts checked as of 2026-08-26 · every hosting number below carries its own check date — they expire quietly</p>
+    </div>
+  </div>
   <p class="lede">Promise: after this chapter you can put your project on a real
   public URL today — today, not someday — at literally zero cost, and name the
   exact wall your traffic will hit first on whichever host you pick.</p>
-  <p class="as-of">facts checked as of 2026-08-26 · every hosting number below carries its own check date — they expire quietly</p>
 
   <h2>The whole ritual, before any vendor</h2>
   <p>Shipping sounds like infrastructure. It is three boring steps, and every
   free host on earth is just a different brand of the same three:</p>
-  <ol>
+  <ul class="rail">
     <li><strong>Produce a static output.</strong> A folder of HTML, CSS, and JS
     that any web server could serve as-is. Plain hand-written pages qualify;
     so does whatever build step your generator runs. If double-clicking
@@ -46,7 +51,7 @@
     import screen, accept defaults, and the host builds the folder and hands
     you a URL on its own domain. From then on, deploying <em>is</em> one
     command: push. The host notices, rebuilds, and the public URL updates.</li>
-  </ol>
+  </ul>
   <p>That last sentence is the entire payoff: setup is an afternoon;
   afterwards, shipping costs one command forever. Most hosts also offer a
   small command-line uploader for folder-in-hand deploys — a second flavor of
@@ -432,9 +437,13 @@
   outside the written terms even though every dial still reads zero.
   Enforcement is
   sporadic and unpredictable, which is precisely why "they never enforce it"
-  is not a plan. The deeper lesson generalizes: <strong>some walls are
-  legal, not numeric</strong>, and no monitoring tool you will ever install
-  watches that kind.</p>
+  is not a plan.</p>
+
+  <div class="pull-fact pf-l4">
+    <p>The deeper lesson generalizes: <strong>some walls are legal, not
+    numeric</strong> — and no monitoring tool you will ever install watches
+    that kind.</p>
+  </div>
 
   <h2>Deploy = one command, after setup</h2>
   <p>This book practices what it preaches on its own timeline: local git only

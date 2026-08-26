@@ -24,11 +24,16 @@
 </header>
 
 <main>
-  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
-  <h1>Chapter 11 · Brownfield reality</h1>
+  <div class="chapter-banner banner-l3">
+    <span class="banner-num" aria-hidden="true">11</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+      <h1>Chapter 11 · Brownfield reality</h1>
+      <p class="as-of">facts checked as of 2026-08-26</p>
+    </div>
+  </div>
   <p class="lede">Promise: after this chapter you can point an agent at a big,
   unfamiliar codebase and get safe, surgical changes instead of collateral damage.</p>
-  <p class="as-of">facts checked as of 2026-08-26</p>
 
   <h2>The repo you didn't write</h2>
   <p>Every technique so far in Part III assumed canvas you controlled. Real
@@ -60,6 +65,11 @@
   characterization tests around the code you're about to change, so the
   suite — not your memory — judges whether behavior moved.</p>
 
+  <div class="pull-fact pf-l3">
+    <p>Branch before you brief: every other safety move in this chapter is
+    reversible only because of that baseline.</p>
+  </div>
+
   <h2>Understand before you edit</h2>
   <p>The tool-agnostic discipline has four phases, and the documentation
   leads with a precondition rather than a step: give the agent a way to
@@ -86,7 +96,7 @@
   looks like diligence), so timebox it: exploration ends when you can state
   the plan, not when curiosity runs out.</p>
 
-  <div class="flow-stage">
+  <div class="flow-stage" style="--stage-route: var(--l3)">
     <div class="flow-chain">
       <div class="flow-step"><b>explore</b><small>read-only · find files, tests, couplings</small></div>
       <span class="flow-arrow">→</span>
@@ -100,7 +110,7 @@
     <span class="flow-stage-label">understand-before-edit · exploration ends when the plan can be written, not when curiosity runs out</span>
   </div>
 
-  <h2>Maps of big repos: ranked sketches</h2>
+  <h2><span class="css-icon-stack" aria-hidden="true"></span> Maps of big repos: ranked sketches</h2>
   <p>If the whole repo cannot fit in context, what does? Every serious answer
   is some version of a <strong>repo map</strong>: a compressed outline of many
   files at once, spending its small token budget where visibility pays most.
@@ -380,6 +390,11 @@
   half this mock repo. That ratio is the honest baseline for real work: the
   agent always flies part-blind; your job is deciding <em>which</em>
   blindness matters for the change at hand.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>The agent always flies part-blind; your job is deciding which blindness
+    matters for the change at hand.</p>
+  </div>
 
   <div class="callout co-warn">
     <span class="c-tag">warning</span>

@@ -24,12 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l2">part II · prompting craft · L2 olive</span>
-  <h1>Chapter 06 · Patterns that ship</h1>
+  <div class="chapter-banner banner-l2">
+    <span class="banner-num" aria-hidden="true">06</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l2">part II · prompting craft · L2 olive</span>
+      <h1>Chapter 06 · Patterns that ship</h1>
+      <p class="as-of">facts checked as of 2026-08-26</p>
+    </div>
+  </div>
   <p class="lede">After this chapter you can name the five workflow patterns, pick the
   simplest one that fits your task — and run the book's own quality engine, a gauntlet
   loop, on work of your own.</p>
-  <p class="as-of">facts checked as of 2026-08-26</p>
 
   <p>Chapter 01 gave you one loop: goal, passes, stopping condition, verify. This
   chapter is about shapes — the recurring structures practitioners wrap around that
@@ -38,7 +43,12 @@
   agentic work isn't caused by a too-weak pattern. It's caused by wearing a
   three-piece suit to dig a ditch.</p>
 
-  <h2>Six shapes, one baseline</h2>
+  <div class="pull-fact pf-l2">
+    <p>Most bad agentic work isn't caused by a too-weak pattern. It's caused by
+    wearing a three-piece suit to dig a ditch.</p>
+  </div>
+
+  <h2><span class="css-icon-loop" aria-hidden="true"></span> Six shapes, one baseline</h2>
   <p>Before the five named patterns, the zeroth option: <strong>do nothing
   clever.</strong> One direct prompt, one session, a clear stopping condition. If that
   works — and it works far more often than beginners expect — you are done. Every
@@ -352,7 +362,11 @@
   human or LLM judging to A/B comparison — and know that missing evals are the
   single most common stall point in AI projects. One discipline matters above all:
   if a model acts as judge, align it against human labels on 25–50 examples first.
-  An unaligned judge doesn't optimize quality; it optimizes noise, loudly.</p>
+  An unaligned   judge doesn't optimize quality; it optimizes noise, loudly.</p>
+
+  <div class="pull-fact pf-l2">
+    <p>An unaligned judge doesn't optimize quality; it optimizes noise, loudly.</p>
+  </div>
 
   <h2>Reflexion, with an expiry date</h2>
   <p>One peer-reviewed cousin belongs in your toolkit: Reflexion showed agents that
@@ -369,7 +383,7 @@
   Hamel's judge-alignment discipline. We present it as practitioner craft, with the
   book itself as the running evidence.</p>
   <p>Mechanics, exactly as this project runs them:</p>
-  <ul>
+  <ul class="rail">
     <li><strong>Builder and critic are separate agents with fresh contexts.</strong>
     The critic never inherits the builder's rationalizations — empty transcript,
     clean eyes.</li>
@@ -384,7 +398,7 @@
     Never exit on a round count — "three strikes" exits are how losing entries ship.</li>
   </ul>
 
-  <div class="flow-stage">
+  <div class="flow-stage" style="--stage-route: var(--l2)">
     <div class="flow-chain">
       <div class="flow-step"><b>build</b><small>builder drafts, fresh context</small></div>
       <div class="flow-arrow">→</div>

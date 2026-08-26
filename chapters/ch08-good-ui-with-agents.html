@@ -24,12 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l3">part III · building real things · L3 jade</span>
-  <h1>Chapter 08 · Good UI with agents</h1>
+  <div class="chapter-banner banner-l3">
+    <span class="banner-num" aria-hidden="true">08</span>
+    <div class="banner-meta">
+      <span class="part-plate p-l3">part III · building real things · L3 jade</span>
+      <h1>Chapter 08 · Good UI with agents</h1>
+      <p class="as-of">facts checked as of 2026-08-26 · every claim traces to the book's source ledger</p>
+    </div>
+  </div>
   <p class="lede">Promise: after this chapter you can get non-generic, accessible UI out of
   an agent — by feeding it constraints (tokens, component contracts, a screenshot loop)
   instead of vibes.</p>
-  <p class="as-of">facts checked as of 2026-08-26 · every claim traces to the book's source ledger</p>
 
   <p>Ask three agents, on three days, for "a clean modern landing page," and watch them
   converge: white canvas, placeholder-grey captions you can barely read, one deeply
@@ -44,6 +49,11 @@
   product. Give it patterns and imitation becomes leverage. Give it nothing and the median
   ships. So we supply patterns — three constraint layers any agent can consume, plus the
   accessibility floor that converts "looks fine" into a measurement.</p>
+
+  <div class="pull-fact pf-l3">
+    <p>Give it patterns and imitation becomes leverage. Give it nothing and the
+    median ships.</p>
+  </div>
 
   <h2>Constraint layer one: design tokens</h2>
   <p>A design token is a named value — a color, a radius, a spacing step — stored as data,
@@ -440,7 +450,7 @@ ratio = (L_lighter + 0.05) / (L_darker + 0.05)</code></pre>
   the MCP-versus-CLI tradeoff rather than hiding it. Screenshots judge aesthetics;
   accessibility trees judge structure — serious UI loops use both.</p>
 
-  <div class="flow-stage">
+  <div class="flow-stage" style="--stage-route: var(--l3)">
     <pre><code>you   → build the quiz card from journey/design.md · done = every
         token rule passes at a 360px viewport
 agent → screenshot taken · three diffs vs the token sheet:

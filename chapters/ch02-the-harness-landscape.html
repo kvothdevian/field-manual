@@ -24,13 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l1">part I · tools &amp; access · $0 core · L1 coral</span>
-  <h1>Chapter 2: The harness landscape</h1>
-  <p class="lede">Promise: after this chapter you can pick a coding harness deliberately —
-  instead of copying whatever is trending — install opencode <em>or</em> Gemini CLI for
-  exactly $0, and explain what skills, plugins, MCP and LSP do before you touch any of them.</p>
-  <p class="as-of">facts checked as of 2026-08-25 · this landscape moves fast; the dates on every receipt matter</p>
-
+  <div class="chapter-banner banner-l1">
+    <div class="banner-num" aria-hidden="true">02</div>
+    <div class="banner-meta">
+      <span class="part-plate p-l1">part I · tools &amp; access · $0 core · L1 coral</span>
+      <h1>Chapter 2: The harness landscape</h1>
+      <p class="lede">Promise: after this chapter you can pick a coding harness deliberately —
+      instead of copying whatever is trending — install opencode <em>or</em> Gemini CLI for
+      exactly $0, and explain what skills, plugins, MCP and LSP do before you touch any of them.</p>
+      <p class="as-of">facts checked as of 2026-08-25 · this landscape moves fast; the dates on every receipt matter</p>
+    </div>
+  </div>
   <h2>First principles: what a harness decides <em>for</em> you</h2>
   <p>A coding agent is two things wearing one trench coat: the <strong>model</strong> — the LLM
   doing the reasoning — and the <strong>harness</strong>: the program wrapped around it that turns
@@ -38,14 +42,14 @@
   product. Practitioners know the harness quietly decides most of the experience. Before naming
   a single tool, learn the three decisions every harness makes on your behalf.</p>
 
-  <h3>The tool loop</h3>
+  <h3><span class="css-icon-loop" aria-hidden="true"></span> The tool loop</h3>
   <p>The harness defines which tools the model may call — read files, edit files, run shell
   commands, search the web — how results feed back into the conversation, how many iterations
   are allowed, and when the agent must stop and report. Loop design is why two harnesses
   driving the <em>identical</em> model can feel like different products: one pauses to show you
   a diff after every edit, another barrels through twenty steps before surfacing anything.</p>
 
-  <div class="flow-stage">
+  <div class="flow-stage" style="--stage-route:var(--l1);">
     <div class="flow-chain">
       <div class="flow-step"><b>Your goal</b><small>stated once, in words</small></div>
       <span class="flow-arrow">→</span>
@@ -88,7 +92,12 @@
     compiler's complaints directly.</li>
   </ul>
 
-  <h3>Watch the gate decide: a permission simulator</h3>
+  <aside class="pull-fact pf-l1">
+    <p>Beginners assume the model is the product. Practitioners know the harness
+    quietly decides most of the experience.</p>
+  </aside>
+
+  <h3><span class="css-icon-gate" aria-hidden="true"></span> Watch the gate decide: a permission simulator</h3>
   <p>No install needed for this one. Set the three gates below the way you <em>believe</em> a
   harness should behave, press <strong>run agent</strong>, and watch a three-step agent trace hit
   them one call at a time. You can even flip a gate mid-run — the next call obeys whatever the
@@ -480,6 +489,11 @@
   weekend-scale build — gets driven entirely by whichever harness you install in the exercise
   below. Write the harness name and version into your build log so later chapters' advice maps
   onto real sessions.</p>
+
+  <aside class="pull-fact pf-l1">
+    <p>Switching later is cheap — every harness has a loop, a permission gate and
+    memory files, so the concepts transfer even when the keybindings don't.</p>
+  </aside>
 
   <h2>Receipts</h2>
   <h3>First-principles sources</h3>

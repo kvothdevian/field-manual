@@ -24,13 +24,17 @@
 </header>
 
 <main>
-  <span class="part-plate p-l2">part II · prompting craft · L2 olive</span>
-  <h1>Chapter 05 · Context engineering</h1>
-  <p class="lede">Promise: after this chapter you can keep an agent session sharp for hours —
-  by managing what enters context, what gets compacted, and what carries across sessions.</p>
-  <p class="as-of">facts checked as of 2026-08-25 · all token figures here are teaching
-  approximations, proportionate to published measurements — your harness's real counts differ</p>
-
+  <div class="chapter-banner banner-l2">
+    <div class="banner-num" aria-hidden="true">05</div>
+    <div class="banner-meta">
+      <span class="part-plate p-l2">part II · prompting craft · L2 olive</span>
+      <h1>Chapter 05 · Context engineering</h1>
+      <p class="lede">Promise: after this chapter you can keep an agent session sharp for hours —
+      by managing what enters context, what gets compacted, and what carries across sessions.</p>
+      <p class="as-of">facts checked as of 2026-08-25 · all token figures here are teaching
+      approximations, proportionate to published measurements — your harness's real counts differ</p>
+    </div>
+  </div>
   <h2>Context is a budget, not a bucket</h2>
   <p>Chapter 01 established that the agent re-reads its entire transcript on every pass of the
   loop. That transcript — the context window — is not a warehouse where stuff accumulates
@@ -44,6 +48,12 @@
   outside the window), and <strong>sub-agent architectures</strong> (do heavy reading in a
   separate window, bring back a summary). This chapter is those three levers, plus the
   discipline that comes before all of them: deciding what you let in at all.</p>
+
+  <aside class="pull-fact pf-l2">
+    <p>The craft is not "fit more in." It is keeping signal density high enough
+    that the right facts win the model's attention on pass forty, not just pass
+    four.</p>
+  </aside>
 
   <h2>The evidence that length costs accuracy</h2>
   <p>Why budget at all? Because measured performance degrades with input length — even on
@@ -344,6 +354,16 @@
   subagent's decisions get reviewed anyway), keep <strong>judgment</strong> (architecture,
   tradeoffs, anything irreversible) in one thread where one trace carries every implicit
   decision. Isolation is a pressure valve, not a philosophy.</p>
+
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">6,100</span><span class="stat-label">tok read · inside the subagent's own window</span></div>
+    <div class="stat"><span class="stat-num">420</span><span class="stat-label">tok summary · all the parent session pays</span></div>
+    <div class="stat"><span class="stat-num">≈5,000</span><span class="stat-label">tok cap · invoked skill bodies re-entered post-/compact</span></div>
+  </div>
+
+  <aside class="pull-fact pf-l2">
+    <p>You cannot compact your way out of a fat MCP server.</p>
+  </aside>
 
   <div class="callout co-tip">
     <span class="c-tag">tip</span>

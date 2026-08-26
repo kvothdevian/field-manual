@@ -6,6 +6,58 @@
 <title>The Agentic Coding Field Manual — अ Man Learns Things</title>
 <script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
 <link rel="stylesheet" href="assets/css/book.css">
+<style>
+/* ---- homepage hub styles (scoped to hub-* / con-* classes) ---- */
+.constellation{display:flex;align-items:flex-start;margin:2rem 0 .2rem;max-width:100%}
+.con-node{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0}
+.con-sq{width:18px;height:18px;border-radius:5px;border:2px solid;display:block}
+.sq-l0{border-color:var(--l0);background:color-mix(in srgb,var(--l0) 26%,var(--paper-raised))}
+.sq-l1{border-color:var(--l1);background:color-mix(in srgb,var(--l1) 26%,var(--paper-raised))}
+.sq-l2{border-color:var(--l2);background:color-mix(in srgb,var(--l2) 26%,var(--paper-raised))}
+.sq-l3{border-color:var(--l3);background:color-mix(in srgb,var(--l3) 26%,var(--paper-raised))}
+.sq-l4{border-color:var(--l4);background:color-mix(in srgb,var(--l4) 26%,var(--paper-raised))}
+.sq-l5{border-color:var(--l5);background:color-mix(in srgb,var(--l5) 26%,var(--paper-raised))}
+.con-label{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.06em;color:var(--muted)}
+.con-line{height:2px;background:var(--line-strong);margin-top:9px;min-width:8px}
+.con-edge{flex:.4}.con-mid{flex:1}
+
+.hub-index>header{margin-bottom:.4rem}
+.hub-part{margin:2.2rem 0 0}
+.hub-part h3,.hub-index h2{margin:0 0 .2rem}
+.hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0 0}
+.hub-card{
+  display:flex;flex-direction:column;gap:.45rem;min-height:44px;
+  border:1.5px solid var(--line-strong);border-top-width:6px;border-radius:12px;
+  background:var(--paper-raised);padding:1rem 1.05rem;
+  box-shadow:var(--shadow-sm);text-decoration:none;color:var(--ink);
+}
+a.hub-card:hover,a.hub-card:focus-visible{translate:-2px -2px;box-shadow:var(--shadow-md)}
+.hc-l0{border-top-color:var(--l0)}.hc-l1{border-top-color:var(--l1)}
+.hc-l2{border-top-color:var(--l2)}.hc-l3{border-top-color:var(--l3)}
+.hc-l4{border-top-color:var(--l4)}.hc-l5{border-top-color:var(--l5)}
+.hub-num{font-family:var(--font-mono);font-weight:700;font-size:.78rem;
+  border:1.5px solid var(--ink);border-radius:8px;padding:.15rem .55rem;
+  background:var(--paper);width:max-content}
+.hub-title{font-family:var(--font-display);font-weight:800;font-size:1.02rem;line-height:1.25}
+.hub-desc{margin:0;color:var(--muted);font-size:.86rem}
+.hub-card .badge{align-self:flex-start;margin-top:auto}
+.hub-planned{border-style:dashed}
+
+.hub-stats{display:flex;flex-wrap:wrap;gap:.55rem;margin:2.6rem 0 0;padding:0}
+.hub-builds{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:1rem 0 0}
+.hub-builds .build-card{margin:0}
+
+@media (max-width:900px){
+  .hub-grid{grid-template-columns:repeat(2,1fr)}
+  .hub-builds{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .hub-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  a.hub-card:hover,a.hub-card:focus-visible{translate:none;box-shadow:var(--shadow-sm)}
+}
+</style>
 </head>
 <body>
 <header class="site-head">
@@ -24,74 +76,269 @@
 </header>
 
 <main>
-  <p class="as-of">अ Man Learns Things · a field manual · scaffold v1</p>
+  <p class="as-of">अ Man Learns Things · a field manual · v1</p>
   <h1>The Agentic Coding<br>Field Manual</h1>
-  <p class="lede">Master the modern agentic workflow — prompting patterns that
-  survive production, UI craft, testing discipline, daily habits — with coding
-  agents like opencode, Claude Code, Codex and Gemini CLI. $0-first tools,
-  receipts behind every claim. Written for people who learn by building, not by
-  reading theory.</p>
+  <p class="lede">Master the agentic workflow — prompting patterns that survive production,
+  UI craft, testing discipline, daily habits — with opencode, Claude Code, Codex and
+  Gemini CLI. $0-first tools, receipts behind every claim.</p>
 
   <div class="btn-row">
-    <a class="btn btn-primary" href="toc.html">Open the contents</a>
+    <a class="btn btn-primary" href="#index">Open the index</a>
     <a class="btn" href="progress.html">Watch it being built</a>
   </div>
 
-  <p>
-    <span class="chip">16 chapters</span>
-    <span class="chip">3 real builds</span>
-    <span class="chip">$0-first tools</span>
-    <span class="chip">blind-critic quality gates</span>
-  </p>
+  <div class="constellation" role="img" aria-label="Route map of the whole book: six parts on six colors — orientation, tools and access, prompting craft, building real things, shipping, appendices.">
+    <div class="con-node"><span class="con-sq sq-l0"></span><span class="con-label">orientation</span></div>
+    <span class="con-line con-edge" aria-hidden="true"></span>
+    <div class="con-node"><span class="con-sq sq-l1"></span><span class="con-label">tools</span></div>
+    <span class="con-line con-mid" aria-hidden="true"></span>
+    <div class="con-node"><span class="con-sq sq-l2"></span><span class="con-label">craft</span></div>
+    <span class="con-line con-mid" aria-hidden="true"></span>
+    <div class="con-node"><span class="con-sq sq-l3"></span><span class="con-label">building</span></div>
+    <span class="con-line con-mid" aria-hidden="true"></span>
+    <div class="con-node"><span class="con-sq sq-l4"></span><span class="con-label">shipping</span></div>
+    <span class="con-line con-mid" aria-hidden="true"></span>
+    <div class="con-node"><span class="con-sq sq-l5"></span><span class="con-label">appendix</span></div>
+    <span class="con-line con-edge" aria-hidden="true"></span>
+  </div>
 
-  <h2>The method that wrote this book</h2>
-  <p>Every chapter is ground through the same loop you'll learn inside it:
-  a builder agent makes a piece, a separate critic with fresh context compares
-  ours against the real reference blind, picks a winner, names the biggest gap,
-  and sends it back. The loop only stops when ours wins.</p>
+  <section class="hub-index" id="index" aria-labelledby="index-h">
+    <h2 id="index-h">The index</h2>
+    <p class="lede">Everything in the book, reachable from here. Cards become pages as
+    phases land.</p>
 
-  <div class="flow-stage">
-    <div class="flow-chain">
-      <div class="flow-step"><b>builder</b><small>writes the piece</small></div>
-      <span class="flow-arrow" aria-hidden="true">→</span>
-      <div class="flow-step"><b>critic</b><small>fresh context, harsh, binary</small></div>
-      <span class="pivot">blind A/B vs bar</span>
-      <span class="flow-arrow" aria-hidden="true">→</span>
-      <div class="flow-step"><b>biggest gap</b><small>named, sent back</small></div>
+    <section class="hub-part" aria-labelledby="hp-l0">
+      <h3><span class="part-plate p-l0" id="hp-l0">part 0 · orientation · L0 saffron</span></h3>
+      <div class="hub-grid">
+        <a class="hub-card hc-l0" href="chapters/ch01-what-agentic-coding-is.html">
+          <span class="hub-num">01</span>
+          <span class="hub-title">What agentic coding actually is</span>
+          <p class="hub-desc">Harness vs model vs loop, real failure modes, and when NOT
+          to reach for an agent.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-part" aria-labelledby="hp-l1">
+      <h3><span class="part-plate p-l1" id="hp-l1">part I · tools &amp; access · L1 coral</span></h3>
+      <div class="hub-grid">
+        <a class="hub-card hc-l1" href="chapters/ch02-the-harness-landscape.html">
+          <span class="hub-num">02</span>
+          <span class="hub-title">The harness landscape</span>
+          <p class="hub-desc">opencode deep-dive plus rival harnesses compared on what
+          matters at $0.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l1" href="chapters/ch03-models-without-money.html">
+          <span class="hub-num">03</span>
+          <span class="hub-title">Models without money</span>
+          <p class="hub-desc">Four $0 doors into frontier-class models, from subscription
+          reuse to fully local.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l1" href="chapters/ch04-configuring-your-agent.html">
+          <span class="hub-num">04</span>
+          <span class="hub-title">Configuring your agent properly</span>
+          <p class="hub-desc">Memory files, skills and guardrails as compounding leverage
+          on any harness.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-part" aria-labelledby="hp-l2">
+      <h3><span class="part-plate p-l2" id="hp-l2">part II · prompting craft · L2 olive</span></h3>
+      <div class="hub-grid">
+        <a class="hub-card hc-l2" href="chapters/ch05-context-engineering.html">
+          <span class="hub-num">05</span>
+          <span class="hub-title">Context engineering</span>
+          <p class="hub-desc">What enters context, compaction, cross-session memory and
+          fighting context rot.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l2" href="chapters/ch06-patterns-that-ship.html">
+          <span class="hub-num">06</span>
+          <span class="hub-title">Patterns that ship</span>
+          <p class="hub-desc">Plan-first specs, gauntlet loops, TDD with agents,
+          subagent fan-out, verification loops.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l2" href="chapters/ch07-source-literacy.html">
+          <span class="hub-num">07</span>
+          <span class="hub-title">Source literacy for agent builders</span>
+          <p class="hub-desc">Reliable vs gamed sources — verify every benchmark claim
+          yourself in minutes.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-part" aria-labelledby="hp-l3">
+      <h3><span class="part-plate p-l3" id="hp-l3">part III · building real things · L3 jade</span></h3>
+      <div class="hub-grid">
+        <a class="hub-card hc-l3" href="chapters/ch08-good-ui-with-agents.html">
+          <span class="hub-num">08</span>
+          <span class="hub-title">Good UI with agents</span>
+          <p class="hub-desc">Design tokens, screenshot-compare loops, component
+          contracts, accessibility by default.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l3" href="chapters/ch09-testing-what-agents-build.html">
+          <span class="hub-num">09</span>
+          <span class="hub-title">Testing what agents build</span>
+          <p class="hub-desc">Test strategy for agent output, browser automation, review
+          gates a non-coder can run.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l3" href="chapters/ch10-debugging-when-it-breaks.html">
+          <span class="hub-num">10</span>
+          <span class="hub-title">Debugging when it breaks</span>
+          <p class="hub-desc">Systematic debugging with agents: bisection, logs, escape
+          hatches when loops spin.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l3" href="chapters/ch11-brownfield-reality.html">
+          <span class="hub-num">11</span>
+          <span class="hub-title">Brownfield reality</span>
+          <p class="hub-desc">Understand-before-edit, safe refactors, mapping large
+          unfamiliar codebases.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-part" aria-labelledby="hp-l4">
+      <h3><span class="part-plate p-l4" id="hp-l4">part IV · shipping &amp; staying sane · L4 plum</span></h3>
+      <div class="hub-grid">
+        <a class="hub-card hc-l4" href="chapters/ch12-pipelines-that-prevent-bloat.html">
+          <span class="hub-num">12</span>
+          <span class="hub-title">Pipelines that prevent bloat</span>
+          <p class="hub-desc">Branching discipline, CI gates, agent code review,
+          dependency hygiene, refactor loops.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l4" href="chapters/ch13-shipping-for-$0.html">
+          <span class="hub-num">13</span>
+          <span class="hub-title">Shipping for $0</span>
+          <p class="hub-desc">GitHub Pages, Cloudflare Pages, Vercel free paths, preview
+          deploys, release notes.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l4" href="chapters/ch14-security-secrets.html">
+          <span class="hub-num">14</span>
+          <span class="hub-title">Security &amp; secrets</span>
+          <p class="hub-desc">Prompt injection, secret leakage, malicious MCP servers,
+          permission deny lists.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l4" href="chapters/ch15-costs-limits-grey-zones.html">
+          <span class="hub-num">15</span>
+          <span class="hub-title">Costs, limits &amp; grey zones</span>
+          <p class="hub-desc">Rate-limit math, spend caps, free-tier tradeoffs and ToS
+          boundaries — honestly.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+        <a class="hub-card hc-l4" href="chapters/ch16-your-daily-agentic-workflow.html">
+          <span class="hub-num">16</span>
+          <span class="hub-title">Your daily agentic workflow</span>
+          <p class="hub-desc">Session rituals, memory upkeep, parallel worktrees, review
+          rhythm — daily competence.</p>
+          <span class="badge badge-shipped">v1 · won its gauntlet</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="hub-part" aria-labelledby="hp-l5">
+      <h3><span class="part-plate p-l5" id="hp-l5">appendices · reference shelf · L5 rose</span></h3>
+      <div class="hub-grid">
+        <article class="hub-card hc-l5 hub-planned">
+          <span class="hub-num">A</span>
+          <span class="hub-title">Tool cheat sheet</span>
+          <p class="hub-desc">One-page-per-harness command and config reference.</p>
+          <span class="badge badge-planned">planned</span>
+        </article>
+        <article class="hub-card hc-l5 hub-planned">
+          <span class="hub-num">B</span>
+          <span class="hub-title">The source ledger</span>
+          <p class="hub-desc">Every source cited in the book, tiered and dated.</p>
+          <span class="badge badge-planned">planned</span>
+        </article>
+        <article class="hub-card hc-l5 hub-planned">
+          <span class="hub-num">C</span>
+          <span class="hub-title">Glossary</span>
+          <p class="hub-desc">Harness, context window, MCP, hook, skill — plain
+          definitions.</p>
+          <span class="badge badge-planned">planned</span>
+        </article>
+        <article class="hub-card hc-l5 hub-planned">
+          <span class="hub-num">D</span>
+          <span class="hub-title">Coverage matrix</span>
+          <p class="hub-desc">Dimensions × chapters — proof of exhaustiveness, living
+          document.</p>
+          <span class="badge badge-planned">planned</span>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <section aria-label="The book in numbers">
+    <h2>The book in numbers</h2>
+    <p class="hub-stats">
+      <span class="chip">16 chapters</span>
+      <span class="chip">7 interactive labs</span>
+      <span class="chip">~160 sourced receipts</span>
+      <span class="chip">3 real builds</span>
+      <span class="chip">$0 tools</span>
+    </p>
+  </section>
+
+  <section aria-labelledby="builds-h">
+    <h2 id="builds-h">Three real builds carry the book</h2>
+    <p>You won't practice on toys — three projects from Aman's own build specs get
+    constructed chapter by chapter, each $0-native, each shipped.</p>
+
+    <div class="hub-builds">
+      <div class="build-card bc-l0">
+        <span class="part-plate p-l0">build 1 · weekend</span>
+        <h3>Agent Cost Compass</h3>
+        <p>Paste your agent's token pattern, see what a run costs across ~20 LLM
+        providers. Your first agent build — configured, prompted, verified, shipped.</p>
+      </div>
+      <div class="build-card bc-l2">
+        <span class="part-plate p-l2">build 2 · two-week</span>
+        <h3>NCERT Quiz Forge</h3>
+        <p>Quizzes + spaced repetition for NCERT textbooks. Where UI craft, testing
+        discipline and human-review gates get learned for real.</p>
+      </div>
+      <div class="build-card bc-l3">
+        <span class="part-plate p-l3">build 3 · six-week capstone</span>
+        <h3>Free-Tier Atlas</h3>
+        <p>The IMDb of free tiers — change-tracking, watchlists, community submissions.
+        Pipelines, anti-bloat ops and honest grey zones, at capstone scale.</p>
+      </div>
     </div>
-    <span class="flow-stage-label">loop until ours wins — never a round count</span>
-  </div>
+  </section>
 
-  <h2>Three real builds carry the book</h2>
-  <p>You won't practice on toys. Three projects from Aman's own build specs get
-  constructed chapter by chapter as the book teaches — each one $0-native,
-  each one shipped.</p>
+  <section aria-labelledby="method-h">
+    <h2 id="method-h">The method that wrote this book</h2>
+    <p>Every chapter is ground through the same loop you'll learn inside it: a builder
+    makes a piece, a critic with fresh context compares ours against the reference blind,
+    names the biggest gap, and sends it back — until ours wins. Every chapter then closes
+    with <em>Beyond this build</em>: where else the pattern applies, and where it breaks.</p>
 
-  <div class="build-card bc-l0">
-    <span class="part-plate p-l0">build 1 · weekend</span>
-    <h3>Agent Cost Compass</h3>
-    <p>Paste your agent's token pattern, see what a run costs across ~20 LLM
-    providers. Your first agent build — configured, prompted, verified, shipped.</p>
-  </div>
-  <div class="build-card bc-l2">
-    <span class="part-plate p-l2">build 2 · two-week</span>
-    <h3>NCERT Quiz Forge</h3>
-    <p>Quizzes + spaced repetition for NCERT textbooks. Where UI craft, testing
-    discipline and human-review gates get learned for real.</p>
-  </div>
-  <div class="build-card bc-l3">
-    <span class="part-plate p-l3">build 3 · six-week capstone</span>
-    <h3>Free-Tier Atlas</h3>
-    <p>The IMDb of free tiers — change-tracking, watchlists, community submissions.
-    Pipelines, anti-bloat ops and honest grey zones, at capstone scale.</p>
-  </div>
-
-  <h2>Generalized, not project-bound</h2>
-  <p>Every chapter teaches the technique tool-agnostically first, demonstrates it
-  on the build, then closes with <em>Beyond this build</em>: where else the
-  pattern applies, which other tools it works with, and where it breaks.
-  The <a href="docs/coverage-matrix.html">coverage matrix</a> in <code>docs/</code>
-  guarantees nothing gets dropped because a project didn't happen to need it.</p>
+    <div class="flow-stage">
+      <div class="flow-chain">
+        <div class="flow-step"><b>builder</b><small>writes the piece</small></div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div class="flow-step"><b>critic</b><small>fresh context, harsh, binary</small></div>
+        <span class="pivot">blind A/B vs bar</span>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div class="flow-step"><b>biggest gap</b><small>named, sent back</small></div>
+      </div>
+      <span class="flow-stage-label">loop until ours wins — never a round count</span>
+    </div>
+  </section>
 </main>
 
 <footer class="site-foot">
