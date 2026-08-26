@@ -143,6 +143,21 @@
     c ≤ 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ^ 2.4
 L  = 0.2126·R + 0.7152·G + 0.0722·B
 ratio = (L_lighter + 0.05) / (L_darker + 0.05)</code></pre>
+  <figure aria-label="Luminance curve — why 4.5:1 is a cliff, not a slope" style="margin:1rem 0;border:1.5px solid var(--line-strong);border-radius:12px;background:var(--paper-raised);padding:.85rem 1rem">
+    <svg viewBox="0 0 320 88" role="img" aria-label="Nonlinear luminance curve: input channel vs linear light" style="width:100%;height:auto;display:block">
+      <line x1="32" y1="72" x2="308" y2="72" stroke="var(--line-strong)" stroke-width="1.2"/>
+      <line x1="32" y1="72" x2="32" y2="8" stroke="var(--line-strong)" stroke-width="1.2"/>
+      <text x="32" y="84" font-family="JetBrains Mono, monospace" font-size="6" fill="var(--muted)">0 input</text>
+      <text x="268" y="84" font-family="JetBrains Mono, monospace" font-size="6" fill="var(--muted)">1.0 input</text>
+      <text x="4" y="14" font-family="JetBrains Mono, monospace" font-size="6" fill="var(--muted)">linear</text>
+      <path d="M32 72 C 92 72, 132 68, 178 46, 228 18, 308 8" fill="none" stroke="var(--ink)" stroke-width="1.8"/>
+      <line x1="178" y1="46" x2="178" y2="72" stroke="var(--l1)" stroke-dasharray="3 3" stroke-width="1"/>
+      <circle cx="178" cy="46" r="3" fill="var(--l1)" stroke="var(--paper-raised)" stroke-width="1.2"/>
+      <text x="184" y="42" font-family="JetBrains Mono, monospace" font-size="6" fill="var(--l1)">0.03928 knee</text>
+      <text x="184" y="52" font-family="JetBrains Mono, monospace" font-size="5.5" fill="var(--muted)">below: ÷12.92 · above: ^2.4</text>
+    </svg>
+    <figcaption style="font-family:var(--font-mono);font-size:.66rem;color:var(--muted);margin-top:.45rem">The sRGB → linear curve is not straight — that knee is why "looks similar" can still fail 4.5:1. Same formula the lab recomputes live.</figcaption>
+  </figure>
 
   <h3>The contrast &amp; constraint lab</h3>
   <p>Every number below is computed live in your browser from exactly that formula —

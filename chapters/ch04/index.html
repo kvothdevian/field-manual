@@ -105,6 +105,16 @@
     pays every future session, across every project that inherits it.</p>
   </aside>
 
+  <div class="table-scroll" aria-label="Before/after — from chat patch to verifiable config">
+    <table>
+      <thead><tr><th>Before (chat only)</th><th>After (verifiable)</th><th>Check the agent can run</th></tr></thead>
+      <tbody>
+        <tr><td>"use our test command"</td><td><code>AGENTS.md: test: pnpm -w test</code> — nearest-wins</td><td><code>pnpm -w test</code> → exit 0</td></tr>
+        <tr><td>"don't edit generated files"</td><td><code>Deny: Read(./.env) · Edit(src/generated/**)</code></td><td>hook exit 2 blocks write</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
 
 <h2 id="ch04-s2">Watch instructions load: the nested-files simulator</h2>

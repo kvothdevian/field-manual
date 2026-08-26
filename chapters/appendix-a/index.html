@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appendix A — Tool cheat sheet — The Agentic Coding Field Manual</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/book.css">
+<style>
+/* Appendix A scoped — tokens only, no blue, L5 rose is the appendix route */
+:root{--app-accent:var(--l5)}
+[data-theme="dark"]{--app-accent:var(--l5)}
+.apx-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:1rem 0 0}
+.apx-filter{flex:1 1 18rem;min-width:14rem}
+.apx-filter input{width:100%;min-height:42px;border:2px solid var(--ink);border-radius:999px;background:var(--paper-raised);color:var(--ink);font-family:var(--font-mono);font-size:.78rem;padding:.45rem .95rem}
+.apx-filter input:focus{outline:3px solid var(--ink);outline-offset:2px}
+.apx-meta{font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+.harness-card{
+  border:1.5px solid var(--line-strong);border-top-width:6px;border-top-color:var(--app-accent);
+  border-radius:14px;background:var(--paper-raised);padding:1.15rem 1.25rem;margin:1.4rem 0;
+  box-shadow:var(--shadow-sm);
+}
+.harness-card:target{outline:3px solid var(--ink);outline-offset:2px}
+.hc-head{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .8rem;margin:0 0 .35rem}
+.hc-name{font-family:var(--font-display);font-weight:800;font-size:1.05rem;margin:0}
+.hc-sub{font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+.hc-badges{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-left:auto}
+.badge-license{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:999px;padding:.12rem .5rem;background:var(--paper);color:var(--ink)}
+.badge-zero{font-family:var(--font-mono);font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1.5px solid currentColor;border-radius:999px;padding:.12rem .5rem}
+.badge-zero.is-free{color:var(--l3)}.badge-zero.is-paid{color:var(--l1)}.badge-zero.is-hybrid{color:var(--l0)}
+.hc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin:.9rem 0}
+@media(max-width:760px){.hc-grid{grid-template-columns:1fr}}
+.hc-col{border:1.5px solid var(--line);border-radius:10px;background:var(--paper);padding:.75rem .85rem;min-width:0}
+.hc-col h4{margin:0 0 .3rem;font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.hc-col code{overflow-wrap:anywhere}
+.copy-wrap{position:relative}
+.copy-wrap pre{margin:.45rem 0 0;padding-right:3.2rem}
+.copy-btn{
+  position:absolute;top:.45rem;right:.45rem;min-width:38px;min-height:32px;
+  border:1.5px solid var(--ink);border-radius:8px;background:var(--paper-raised);color:var(--ink);
+  font-family:var(--font-mono);font-size:.68rem;font-weight:700;cursor:pointer;padding:.2rem .55rem;
+}
+.copy-btn:hover{translate:-1px -1px;box-shadow:var(--shadow-sm)}
+.copy-btn.copied{border-color:var(--l3);color:var(--l3)}
+.hc-table{width:100%;font-size:.82rem}
+.hc-table th{font-size:.62rem}
+.hc-table td code{font-size:.78em}
+.zero-box{border-left:4px solid var(--app-accent);background:color-mix(in srgb,var(--app-accent) 7%,var(--paper));border-radius:0 8px 8px 0;padding:.6rem .8rem;margin:.6rem 0;font-size:.84rem}
+.zero-box strong{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.04em}
+.qs-wrap{border:1.5px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--paper-raised);box-shadow:var(--shadow-sm);margin:1rem 0}
+.qs-head{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;padding:.75rem .9rem;border-bottom:1.5px solid var(--line-strong);background:color-mix(in srgb,var(--app-accent) 8%,var(--paper))}
+.qs-head b{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase}
+.qs-head span{font-family:var(--font-mono);font-size:.68rem;color:var(--muted)}
+.qs-legend{display:flex;flex-wrap:wrap;gap:.4rem;margin-left:auto}
+.qs-legend i{font-style:normal;font-family:var(--font-mono);font-size:.62rem;border:1.5px solid var(--line-strong);border-radius:999px;padding:.1rem .45rem;background:var(--paper)}
+.table-scroll table.qs{font-size:.8rem}
+table.qs th{position:sticky;top:0;background:var(--paper-raised);z-index:1}
+table.qs td:first-child{font-family:var(--font-display);font-weight:700;white-space:nowrap}
+.qs tr.is-hidden{display:none}
+.pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin:1rem 0}
+@media(max-width:760px){.pick-grid{grid-template-columns:1fr}}
+.pick-card{border:1.5px solid var(--line-strong);border-radius:12px;background:var(--paper);padding:.85rem .95rem}
+.pick-card h4{margin:0 0 .2rem;font-size:.92rem}
+.pick-card p{margin:0;color:var(--muted);font-size:.84rem}
+.kbd{font-family:var(--font-mono);font-size:.74em;border:1.5px solid var(--line-strong);border-bottom-width:2.5px;border-radius:6px;background:var(--paper-raised);padding:.05rem .35rem}
+@media print{
+  .chapnav,.apx-actions,.copy-btn,.qs-head input{display:none !important}
+  .harness-card{break-inside:avoid;box-shadow:none}
+  pre{white-space:pre-wrap;word-break:break-word}
+}
+@media (prefers-reduced-motion:reduce){
+  .copy-btn:hover{translate:none;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<header class="site-head" style="position:static">
+  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
+  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+</header>
+<main>
+<nav class="chapnav" aria-label="Sections">
+  <a href="#app-a-s1">quick switch</a>
+  <a href="#app-a-opencode">opencode</a>
+  <a href="#app-a-claude">claude code</a>
+  <a href="#app-a-codex">codex cli</a>
+  <a href="#app-a-gemini">gemini cli</a>
+  <a href="#app-a-cline">cline</a>
+  <a href="#app-a-goose">goose</a>
+  <a href="#app-a-aider">aider</a>
+  <a href="#app-a-cursor">cursor cli</a>
+  <a href="#app-a-pi">pi</a>
+  <a href="#app-a-pick">60-sec pick</a>
+  <a href="#app-a-receipts">receipts</a>
+</nav>
+
+<div class="chapter-banner banner-l5">
+  <div class="banner-num" aria-hidden="true">A</div>
+  <div class="banner-meta">
+    <span class="part-plate p-l5">appendices · reference shelf · L5 rose</span>
+    <h1>Appendix A · Tool cheat sheet</h1>
+    <p class="lede">Nine harnesses, one page each — commands you paste, config you edit, model wiring you trust, the honest $0 path. Keep this open beside your terminal.</p>
+    <p class="as-of">facts checked as of 2026-08-26 · every cell receipted · standalone: no chapter required to use this</p>
+  </div>
+</div>
+
+<div class="inside-grid">
+  <a class="inside-card ic-l5" href="#app-a-opencode"><span class="ic-num" aria-hidden="true">§</span><h3>opencode</h3><p class="ic-sum">MIT · 75+ providers · TUI/desktop/IDE · skills+plugins+LSP · $0 via local or sub reuse</p><span class="ic-meta"><span>~2 min</span><span class="chip">copy ready</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-claude"><span class="ic-num" aria-hidden="true">§</span><h3>Claude Code</h3><p class="ic-sum">proprietary · the reference implementation — plan mode, subagents, hooks, best-practices bar itself</p><span class="ic-meta"><span>~2 min</span><span class="chip">no free tier</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-codex"><span class="ic-num" aria-hidden="true">§</span><h3>Codex CLI</h3><p class="ic-sum">Apache-2.0 · ChatGPT sign-in · same agent in CLI/IDE/cloud · $0 install + sub</p><span class="ic-meta"><span>~1 min</span><span class="chip">npm</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-gemini"><span class="ic-num" aria-hidden="true">§</span><h3>Gemini CLI</h3><p class="ic-sum">Apache-2.0 · 60 req/min · 1 000 req/day free · 1M context · the honest $0 door</p><span class="ic-meta"><span>~1 min</span><span class="chip">$0</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-cline"><span class="ic-num" aria-hidden="true">§</span><h3>Cline</h3><p class="ic-sum">Apache-2.0 · VS Code + JetBrains + CLI + Kanban · Plan/Act toggle</p><span class="ic-meta"><span>~1 min</span><span class="chip">BYO keys</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-goose"><span class="ic-num" aria-hidden="true">§</span><h3>Goose</h3><p class="ic-sum">Apache-2.0 · desktop+CLI+Rust API · recipes · 70+ MCP · AAIF/Linux Foundation</p><span class="ic-meta"><span>~1 min</span><span class="chip">BYO keys</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-aider"><span class="ic-num" aria-hidden="true">§</span><h3>Aider</h3><p class="ic-sum">Apache-2.0 · git-native pair programming · auto-commits · repo map · most deliberate</p><span class="ic-meta"><span>~1 min</span><span class="chip">pip</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-cursor"><span class="ic-num" aria-hidden="true">§</span><h3>Cursor CLI</h3><p class="ic-sum">proprietary · Agent/Plan/Ask in the shell · &amp; to Cloud Agent · licensing unverified</p><span class="ic-meta"><span>~1 min</span><span class="chip">verify ToS</span></span></a>
+  <a class="inside-card ic-l5" href="#app-a-pi"><span class="ic-num" aria-hidden="true">§</span><h3>Pi</h3><p class="ic-sum">MIT · 4-tool minimalist core · TS extensions · no subagents by design</p><span class="ic-meta"><span>~1 min</span><span class="chip">minimal</span></span></a>
+</div>
+<div class="stat-strip" aria-label="Appendix in numbers">
+  <div class="stat"><span class="stat-num">9</span><span class="stat-label">harnesses</span></div>
+  <div class="stat"><span class="stat-num">30</span><span class="stat-label">copy blocks</span></div>
+  <div class="stat"><span class="stat-num">16</span><span class="stat-label">receipts · 2026-08-26</span></div>
+  <div class="stat"><span class="stat-num">$0</span><span class="stat-label">two honest doors labeled</span></div>
+</div>
+
+<aside class="pull-fact pf-l5">
+  <p>Switching harnesses later is cheap — every one has a loop, a permission gate and memory files. Commit to the <em>workflow</em>, not the logo.</p>
+</aside>
+
+<p class="as-of">9 harnesses · quick switch below, then one card per harness. Every <code>copy</code> button puts the exact block on your clipboard.</p>
+
+<div class="apx-actions">
+  <div class="apx-filter"><input id="qs-filter" type="search" placeholder="filter harnesses — try  “free tier”, “MCP”, “npm”, “local”" aria-label="Filter harness table"></div>
+  <span class="apx-meta" id="qs-count">9 shown · type to narrow</span>
+  <a class="btn" href="#app-a-pick">60-sec pick ↓</a>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ quick switch</span></div>
+<h2 id="app-a-s1">Quick switch — at-a-glance</h2>
+<div class="qs-wrap" id="qs-wrap">
+  <div class="qs-head">
+    <b>harness</b><span>→ install · config file · model wiring · $0 entry · permission gate · standout</span>
+    <span class="qs-legend"><i>MIT</i><i>Apache-2.0</i><i>proprietary</i></span>
+  </div>
+  <div class="table-scroll">
+    <table class="qs">
+      <thead>
+        <tr><th>harness</th><th>install (copy-ready)</th><th>config</th><th>model wiring</th><th>$0 path</th><th>permission gate</th><th>standout</th></tr>
+      </thead>
+      <tbody id="qs-body">
+        <tr data-keys="opencode mit free oss local providers skills plugins lsp tui curl npm brew">
+          <td>opencode</td>
+          <td><code>curl -fsSL https://opencode.ai/install | bash</code></td>
+          <td><code>opencode.json</code> · <code>.opencode/skills/*/SKILL.md</code> · <code>.opencode/plugins/</code></td>
+          <td>75+ via Vercel AI SDK; local Ollama / LM Studio / llama.cpp + Cloud</td>
+          <td><b>yes</b> — local models; or ChatGPT / Copilot / GitLab Duo sub reuse</td>
+          <td>wildcard allow / ask / deny in skills; plan (read-only) vs build</td>
+          <td>most providers; TUI/desktop/IDE; <code>lsp: true</code> opt-in</td>
+        </tr>
+        <tr data-keys="claude code anthropic proprietary claude-code plan mode subagents hooks">
+          <td>Claude Code</td>
+          <td><code>npm i -g @anthropic-ai/claude-code</code></td>
+          <td><code>CLAUDE.md</code> · <code>.claude/settings.json</code> · <code>.claude/skills/</code> · <code>.claude/agents/</code></td>
+          <td>Anthropic API; subscription</td>
+          <td><b>no</b> — subscription or metered API</td>
+          <td>plan mode (read-only) / auto / manual; per-tool allowlists; hooks deterministic</td>
+          <td>reference bar: explore→plan→implement; subagents, Agent SDK, routines</td>
+        </tr>
+        <tr data-keys="codex cli openai apache chatgpt sign-in cloud">
+          <td>Codex CLI</td>
+          <td><code>npm i -g @openai/codex</code></td>
+          <td><code>~/.codex/config.toml</code></td>
+          <td>OpenAI models; ChatGPT Plus/Pro OAuth or API key</td>
+          <td><b>install free</b> — needs ChatGPT sub or API billing</td>
+          <td>approval modes; shared config across CLI / IDE / app / web</td>
+          <td>same agent in terminal, IDE &amp; cloud</td>
+        </tr>
+        <tr data-keys="gemini cli google apache free tier 60 1000 1m context oauth">
+          <td>Gemini CLI</td>
+          <td><code>npm i -g @google/gemini-cli</code></td>
+          <td><code>~/.gemini/settings.json</code> · <code>.gemini/</code> project</td>
+          <td>Gemini models via Google OAuth or API key</td>
+          <td><b>yes — 60 req/min, 1 000 req/day free</b></td>
+          <td>allowlist + sandbox; checkpointing</td>
+          <td>largest free allowance + 1M context</td>
+        </tr>
+        <tr data-keys="cline vscode jetbrains kanban plan act">
+          <td>Cline</td>
+          <td>VS Code / JetBrains marketplace “Cline”</td>
+          <td><code>.clinerules</code> · provider keys in extension settings</td>
+          <td>BYO keys / OpenRouter / local</td>
+          <td><b>yes — OSS</b> (bring your own model)</td>
+          <td>Plan / Act toggle; per-tool approvals</td>
+          <td>Kanban board + headless CLI + SDK</td>
+        </tr>
+        <tr data-keys="goose block aaif linux foundation desktop rust recipes mcp">
+          <td>Goose</td>
+          <td><code>curl -fsSL https://block.github.io/goose/install.sh | bash</code></td>
+          <td><code>~/.config/goose/</code> · recipes · <code>mcp</code> servers</td>
+          <td>15+ providers; sub reuse via ACP</td>
+          <td><b>yes — OSS</b> (bring your own model)</td>
+          <td>extensions (70+ MCP); recipe allowlists</td>
+          <td>desktop + CLI + Rust API; recipes</td>
+        </tr>
+        <tr data-keys="aider git pair programming pip commits repo map">
+          <td>Aider</td>
+          <td><code>pip install aider-chat</code></td>
+          <td><code>.aider.conf.yml</code> · <code>.aider.*</code> · env keys</td>
+          <td>Copilot OAuth / OpenRouter / Ollama / any API</td>
+          <td><b>yes — OSS</b> (bring your own model)</td>
+          <td>git-native: proposes diff, you approve; auto-commits optional</td>
+          <td>repo map + edit-format leaderboards</td>
+        </tr>
+        <tr data-keys="cursor cli proprietary unverified agent ask plan cloud">
+          <td>Cursor CLI</td>
+          <td><code>cursor-agent</code> (ships with Cursor)</td>
+          <td><code>.cursor/</code> · <code>.cursorrules</code></td>
+          <td>Cursor account models</td>
+          <td><b>unverified</b> — check ToS</td>
+          <td>Agent / Plan / Ask; <code>&amp;</code> → Cloud Agent</td>
+          <td>editor-parity in the shell</td>
+        </tr>
+        <tr data-keys="pi mario zechner minimalist 4-tool pi-ai minimal">
+          <td>Pi</td>
+          <td><code>npm i -g @mariozechner/pi-coding-agent</code></td>
+          <td><code>pi.json</code> · <code>.pi/extensions/</code> (.ts)</td>
+          <td>pi-ai multi-provider BYO keys</td>
+          <td><b>yes — OSS</b> (bring your own model)</td>
+          <td>4 tools only; extensions add tools explicitly</td>
+          <td>minimalist by design — no hidden subagents</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p class="as-of">Tip: paste confidence test after install — if the command below exits 0, you're wired. Rows filter live above; no data leaves the page.</p>
+
+<!-- ===== harness cards ===== -->
+
+<div class="sec-rule"><span class="sec-no">§ opencode</span></div>
+<h2 id="app-a-opencode">opencode — the $0 switchboard</h2>
+<div class="harness-card" id="card-opencode">
+  <div class="hc-head">
+    <h3 class="hc-name">opencode</h3>
+    <span class="hc-sub">Anomaly · MIT · ~201k ★ · TUI · desktop (beta) · IDE</span>
+    <span class="hc-badges"><span class="badge-license">MIT</span><span class="badge-zero is-free">$0 via local or sub reuse</span></span>
+  </div>
+  <p>Free OSS binary that speaks to 75+ providers through the Vercel AI SDK + Models.dev, plus local runtimes. Plan (read-only, <span class="kbd">Tab</span>) and Build agents; skills load on demand; plugins hook lifecycle; LSP with 30+ servers ships <em>off</em> — <code>lsp: true</code> opts in.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install — pick one channel</h4>
+      <div class="copy-wrap"><pre><code>curl -fsSL https://opencode.ai/install | bash
+# verify
+opencode --version</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <div class="copy-wrap"><pre><code>npm i -g opencode-ai
+# or: brew install anomalyco/tap/opencode
+# or: scoop / choco / pacman / docker — see opencode.ai/docs</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>launch</h4>
+      <div class="copy-wrap"><pre><code>opencode              # TUI in current repo
+opencode run "explain what this folder contains"
+opencode --help       # lists /sessions /new /undo /redo /share</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config files</h4>
+      <div class="copy-wrap"><pre><code>opencode.json                 # project or ~/.config/opencode/opencode.json
+.opencode/skills/hello/SKILL.md   # skills load on demand; also reads .claude/.agents compat paths
+.opencode/plugins/*.ts            # hooks: tool.execute.* / session.* / lsp.*
+# lsp opt-in (docs note lint CLIs can be cheaper):
+{ "lsp": true }</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>model wiring</h4>
+      <div class="copy-wrap"><pre><code># local — no keys, no billing
+opencode  # → pick ollama / lmstudio / llama.cpp provider in setup
+
+# cloud — free-key clouds or reuse what you pay for elsewhere
+# ChatGPT Plus/Pro OAuth · GitHub Copilot device-flow · GitLab Duo OAuth
+# optional paid: OpenCode Zen / Go — never required</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+  </div>
+  <div class="table-scroll"><table class="hc-table">
+    <thead><tr><th>action</th><th>command / where</th><th>what to check</th></tr></thead>
+    <tbody>
+      <tr><td>switch agent</td><td><span class="kbd">Tab</span> in TUI — plan (read-only) ↔ build</td><td>status bar shows mode; plan refuses edits</td></tr>
+      <tr><td>sessions</td><td><code>/sessions</code> · <code>/new</code> · <code>/undo</code> <code>/redo</code> (git-backed)</td><td><code>git log</code> after undo shows reversal</td></tr>
+      <tr><td>share</td><td><code>/share</code> (opt-in link)</td><td>link appears only after you run it — not automatic</td></tr>
+      <tr><td>skill invoke</td><td>type skill name or <code>/skill</code></td><td>skill file appears in transcript header</td></tr>
+      <tr><td>permissions</td><td>wildcard <code>allow / ask / deny</code> in skill frontmatter</td><td>deny test: blocked tool returns denial reason</td></tr>
+    </tbody>
+  </table></div>
+  <div class="zero-box"><strong>$0 path</strong> — point opencode at Ollama/LM Studio locally → $0 forever; or sign in with an existing ChatGPT / Copilot / GitLab Duo sub you already pay for. Zen/Go are optional. Grey flag: community Claude Pro/Max proxies were removed in v1.3.0 — any revival is a ToS violation.</div>
+  <div class="callout co-warn"><span class="c-tag">warning</span><p>Plugins are code that runs at startup — vet npm plugins like any dependency. LSP off-by-default is load-bearing: measure lint-CLI cost before enabling <code>lsp: true</code>.</p></div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ claude code</span></div>
+<h2 id="app-a-claude">Claude Code — the reference bar</h2>
+<div class="harness-card" id="card-claude">
+  <div class="hc-head">
+    <h3 class="hc-name">Claude Code</h3>
+    <span class="hc-sub">Anthropic · proprietary · terminal / IDE / desktop / web</span>
+    <span class="hc-badges"><span class="badge-license">proprietary</span><span class="badge-zero is-paid">no free tier</span></span>
+  </div>
+  <p>This is the harness whose best-practices page is the book's content bar. Two constraints drive its advice: context fills fast and performance degrades as it fills — so explore → plan → implement, manage context aggressively, and give Claude a deterministic check it can run.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install &amp; launch</h4>
+      <div class="copy-wrap"><pre><code>npm i -g @anthropic-ai/claude-code
+claude --version
+claude                          # in a repo
+claude --permission-mode plan   # start read-only
+claude -p "explain what this project does"  # non-interactive</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>verify loop (the bar's core)</h4>
+      <div class="copy-wrap"><pre><code># give it a check it can iterate against — never "looks done"
+# prompt template:
+# "write a validateEmail function. cases: user@example.com true,
+#  invalid false, user@.com false. run the tests after implementing"</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config files</h4>
+      <div class="copy-wrap"><pre><code>CLAUDE.md                     # loaded every session — keep short or it gets ignored
+.claude/settings.json         # permissions, hooks, sandbox
+.claude/skills/*/SKILL.md     # domain knowledge, loaded on demand
+.claude/agents/*.md           # subagents — own context window
+# check loaded: /context  ·  propose cuts: /doctor</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>gating escalation ladder</h4>
+      <div class="copy-wrap"><pre><code># cheapest → most deterministic
+# 1. in one prompt:  "run the check and iterate until it passes"
+# 2. across session: /goal — evaluator re-checks every turn
+# 3. stop hook:      blocks turn end until script passes (8-block cap)
+# 4. subagent review: fresh context refutes the result</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+  </div>
+  <div class="table-scroll"><table class="hc-table">
+    <thead><tr><th>pattern</th><th>command / ritual</th><th>when</th></tr></thead>
+    <tbody>
+      <tr><td>explore→plan→implement</td><td><span class="kbd">Shift+Tab</span> plan mode → <code>/plan</code> → <span class="kbd">Ctrl+G</span> edit plan → approve → implement → commit</td><td>multi-file or unfamiliar code; skip for one-line fixes</td></tr>
+      <tr><td>context hygiene</td><td><code>/clear</code> between unrelated tasks; <code>/compact Focus on API changes</code>; <code>/btw</code> for side questions</td><td>context &gt; 50% or after two failed corrections</td></tr>
+      <tr><td>permissions</td><td><code>/permissions</code> allowlist; <code>/sandbox</code>; auto vs manual mode</td><td>Pro/Max/Team start in auto (classifier); others start manual</td></tr>
+      <tr><td>subagent research</td><td><code>use subagents to investigate X</code> — isolated context window</td><td>any investigation that would bloat main transcript</td></tr>
+      <tr><td>adversarial review</td><td><code>/code-review</code> skill or manual: "review diff against PLAN.md in a subagent"</td><td>before merge; tell reviewer to flag correctness only</td></tr>
+      <tr><td>resume</td><td><code>claude --continue</code> · <code>claude --resume</code> · <code>/rename</code> + <code>/rewind</code> (Esc Esc)</td><td>multi-sitting work; each workstream = own persistent session</td></tr>
+    </tbody>
+  </table></div>
+  <div class="zero-box"><strong>$0 path</strong> — none honest. Requires active Anthropic subscription or metered API credits. Do not chase community proxies — treat any as ToS breach.</div>
+  <div class="callout co-tip"><span class="c-tag">tip</span><p>Run <code>/init</code> for a starter CLAUDE.md, then prune. If Claude keeps ignoring a rule, the file is too long. Checks belong in hooks, not prose — hooks are deterministic, prose is advisory.</p></div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ codex cli</span></div>
+<h2 id="app-a-codex">Codex CLI — OpenAI's open shell</h2>
+<div class="harness-card" id="card-codex">
+  <div class="hc-head">
+    <h3 class="hc-name">Codex CLI</h3>
+    <span class="hc-sub">OpenAI · Apache-2.0 · CLI · IDE · app · Web cloud</span>
+    <span class="hc-badges"><span class="badge-license">Apache-2.0</span><span class="badge-zero is-hybrid">install free · sub or API to run</span></span>
+  </div>
+  <p>Same agent routed through every surface — terminal, editor, desktop app and OpenAI's cloud. Open-source core, ~118k ★.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install</h4>
+      <div class="copy-wrap"><pre><code>npm i -g @openai/codex
+codex --version
+codex              # sign in with ChatGPT Plus/Pro or API key</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>config</h4>
+      <div class="copy-wrap"><pre><code>~/.codex/config.toml        # auth, model, approval mode
+# sign-in: ChatGPT OAuth (Plus/Pro) or OPENAI_API_KEY</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>model wiring</h4>
+      <p>ChatGPT-plan sign-in rides your existing sub; or drop an <code>OPENAI_API_KEY</code> for metered API. Models are OpenAI-hosted.</p>
+      <h4>why this one</h4>
+      <p>Hand the same session to cloud when you leave the desk — continuity across CLI → IDE → web without re-explaining.</p>
+    </div>
+  </div>
+  <div class="zero-box"><strong>$0 path</strong> — binary is free; execution needs a paid ChatGPT sub or API billing. No standalone free tier.</div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ gemini cli</span></div>
+<h2 id="app-a-gemini">Gemini CLI — the free door</h2>
+<div class="harness-card" id="card-gemini">
+  <div class="hc-head">
+    <h3 class="hc-name">Gemini CLI</h3>
+    <span class="hc-sub">Google · Apache-2.0 · 1M context · checkpointing · MCP</span>
+    <span class="hc-badges"><span class="badge-license">Apache-2.0</span><span class="badge-zero is-free">60/min · 1 000/day free</span></span>
+  </div>
+  <p>The honest $0 harness. Personal Google OAuth unlocks the gratis tier on Gemini models — largest free allowance in the landscape, with a million-token window.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install &amp; auth</h4>
+      <div class="copy-wrap"><pre><code>npm i -g @google/gemini-cli
+gemini --version
+gemini                 # first run → personal Google OAuth
+# quota: 60 req/min, 1 000 req/day on free OAuth</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>common commands</h4>
+      <div class="copy-wrap"><pre><code>gemini --help
+/checkpoint            # save/restore — MCP + checkpointing are first-class
+/permissions           # allowlist edits</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config</h4>
+      <div class="copy-wrap"><pre><code>~/.gemini/settings.json
+.gemini/               # project settings
+# model override via settings or GEMINI_API_KEY</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <div class="zero-box"><strong>$0 path</strong> — sign in with a personal Google account — OAuth is the unlock. No billing, no keys for the gratis tier. Keep requests inside 60/min &amp; 1 000/day.</div>
+      <h4>when to reach for it</h4>
+      <p>First harness for a student, or second harness when your paid quota is tapped. Huge context + checkpointing reward long explorations.</p>
+    </div>
+  </div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ cline</span></div>
+<h2 id="app-a-cline">Cline — editor-native + board</h2>
+<div class="harness-card" id="card-cline">
+  <div class="hc-head">
+    <h3 class="hc-name">Cline</h3>
+    <span class="hc-sub">Apache-2.0 (JetBrains plugin closed) · VS Code · JetBrains · CLI · Kanban</span>
+    <span class="hc-badges"><span class="badge-license">Apache-2.0</span><span class="badge-zero is-free">OSS · BYO keys</span></span>
+  </div>
+  <p>Closest to your editor: diffs beside your file, Kanban for parallel concerns, Plan/Act toggle to separate reading from writing. Headless CLI and SDK for scripting.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install</h4>
+      <div class="copy-wrap"><pre><code># VS Code: Extensions → "Cline"
+# JetBrains: Marketplace → "Cline" (closed-source plugin)
+# CLI headless:
+npx cline --help</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>mode toggle</h4>
+      <div class="copy-wrap"><pre><code>Plan  — read-only, explore
+Act   — edits + commands (prompts per tool)
+# flip mid-session — like opencode's Tab between plan/build</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config &amp; model wiring</h4>
+      <div class="copy-wrap"><pre><code>.clinerules                 # project instructions
+Provider: API key / OpenRouter / local model
+# set in extension settings → Providers</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <div class="zero-box"><strong>$0 path</strong> — extension is free; BYO keys / OpenRouter / local runtime. No vendor free lunch beyond what your model provider offers.</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ goose</span></div>
+<h2 id="app-a-goose">Goose — desktop + recipes</h2>
+<div class="harness-card" id="card-goose">
+  <div class="hc-head">
+    <h3 class="hc-name">Goose</h3>
+    <span class="hc-sub">Block → AAIF / Linux Foundation · Apache-2.0 · desktop + CLI + Rust API</span>
+    <span class="hc-badges"><span class="badge-license">Apache-2.0</span><span class="badge-zero is-free">OSS · BYO keys</span></span>
+  </div>
+  <p>Desktop-native harness with 70+ MCP extensions and scriptable "recipes". Governed as an AAIF / Linux Foundation project after the Block handoff. Embeddable via Rust API.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install</h4>
+      <div class="copy-wrap"><pre><code>curl -fsSL https://block.github.io/goose/install.sh | bash
+# or: brew install block-goose-cli
+goose --version</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>run</h4>
+      <div class="copy-wrap"><pre><code>goose session start           # or: goose run recipe.yaml
+goose configure               # pick provider + keys
+goose mcp add <name> <url>    # add MCP extension</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config</h4>
+      <div class="copy-wrap"><pre><code>~/.config/goose/
+~/.config/goose/recipes/      # reusable workflows ("recipes")
+# provider setup via `goose configure` — 15+ providers
+# ACP layer can reuse chat subs on some providers</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <div class="zero-box"><strong>$0 path</strong> — binary free; BYO keys; 15+ providers; chat-sub reuse via ACP where supported.</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ aider</span></div>
+<h2 id="app-a-aider">Aider — git-native pair programming</h2>
+<div class="harness-card" id="card-aider">
+  <div class="hc-head">
+    <h3 class="hc-name">Aider</h3>
+    <span class="hc-sub">Apache-2.0 · pair programmer · auto-commits · repo map</span>
+    <span class="hc-badges"><span class="badge-license">Apache-2.0</span><span class="badge-zero is-free">OSS · BYO keys</span></span>
+  </div>
+  <p>The most deliberate harness: edits land as git commits you review, with a "repo map" that feeds relevant context without dumping every file.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install</h4>
+      <div class="copy-wrap"><pre><code>pip install aider-chat
+# or: pipx install aider-chat
+aider --version
+# needs git repo: git init if none</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>run</h4>
+      <div class="copy-wrap"><pre><code>aider                           # auto-detects git repo
+aider --model ollama/qwen2.5-coder:7b   # local via Ollama
+aider --model openrouter/anthropic/claude-3.5-sonnet
+# Copilot auth: aider --model github/copilot-claude</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config &amp; model wiring</h4>
+      <div class="copy-wrap"><pre><code>.aider.conf.yml              # per-project
+~/.aider.conf.yml            # global
+.env  → OPENAI_API_KEY etc.  # keys via env
+# edit format leaderboards choose fastest model for your stack</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>verify</h4>
+      <div class="copy-wrap"><pre><code>git log --oneline -5       # aider auto-commits — read them
+git diff HEAD~1             # the real verification gate
+# toggle auto-commits off: aider --no-auto-commits</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <div class="zero-box"><strong>$0 path</strong> — OSS binary + Ollama local, OpenRouter free models, or Copilot auth reuse. No hosted free lunch — you supply the model.</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ cursor cli</span></div>
+<h2 id="app-a-cursor">Cursor CLI — editor parity in the shell</h2>
+<div class="harness-card" id="card-cursor">
+  <div class="hc-head">
+    <h3 class="hc-name">Cursor CLI</h3>
+    <span class="hc-sub">Cursor · proprietary · licensing unverified at print</span>
+    <span class="hc-badges"><span class="badge-license">proprietary</span><span class="badge-zero is-paid">unverified · check ToS</span></span>
+  </div>
+  <p>Brings Cursor's Agent / Plan / Ask modes out of the editor into the terminal. <code>&amp;</code> hands a task to the Cursor Cloud Agent.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install</h4>
+      <div class="copy-wrap"><pre><code># ships with Cursor editor — no standalone npm
+cursor-agent --version
+cursor-agent                 # Agent mode in your repo</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>modes</h4>
+      <div class="copy-wrap"><pre><code>Agent  — full autonomy (like opencode build)
+Plan   — read-only proposal
+Ask    — Q&A, no edits
+&amp;      — hand off to Cursor Cloud Agent</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>config</h4>
+      <div class="copy-wrap"><pre><code>.cursor/
+.cursorrules                # project rules (like CLAUDE.md)
+# auth: Cursor account required</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <div class="callout co-risk" style="margin:.6rem 0 0"><span class="c-tag">grey zone · risk-flagged</span><p>Licensing + free-tier limits were <em>unverified on the official CLI page</em> at 2026-08-25. Treat this row as a pointer — confirm in current ToS before betting a daily workflow.</p></div>
+    </div>
+  </div>
+  <div class="zero-box"><strong>$0 path</strong> — requires Cursor account; free-tier existence not confirmed on CLI docs at last check. Verify live.</div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ pi</span></div>
+<h2 id="app-a-pi">Pi — the anti-harness</h2>
+<div class="harness-card" id="card-pi">
+  <div class="hc-head">
+    <h3 class="hc-name">Pi</h3>
+    <span class="hc-sub">Mario Zechner · MIT · @mariozechner/pi-coding-agent · 4 tools</span>
+    <span class="hc-badges"><span class="badge-license">MIT</span><span class="badge-zero is-free">OSS · BYO keys</span></span>
+  </div>
+  <p>Deliberately minimal: four built-ins — <code>read</code>, <code>write</code>, <code>edit</code>, <code>bash</code>. No baked-in subagents, no plan mode. You add ceremony via TypeScript extensions in <code>.pi/extensions/</code>.</p>
+  <div class="hc-grid">
+    <div class="hc-col">
+      <h4>install &amp; run</h4>
+      <div class="copy-wrap"><pre><code>npm i -g @mariozechner/pi-coding-agent
+pi --version
+pi                          # in any repo — 4 tools, nothing hidden</code></pre><button class="copy-btn" data-copy>copy</button></div>
+      <h4>extend</h4>
+      <div class="copy-wrap"><pre><code>.pi/extensions/*.ts         # you write the subagent/plan logic you want
+pi.json                     # provider + model map (pi-ai layer)</code></pre><button class="copy-btn" data-copy>copy</button></div>
+    </div>
+    <div class="hc-col">
+      <h4>model wiring</h4>
+      <p><code>pi-ai</code> multi-provider layer — BYO keys for any supported provider. No magic model pool; you choose and pay (or point local).</p>
+      <h4>when to reach for it</h4>
+      <p>When "75 providers" feels like liability, when you want to <em>build</em> the loop yourself, or as a second harness to shake loose a stalled design (the "second colleague" effect from Ch02 Beyond).</p>
+      <div class="zero-box"><strong>$0 path</strong> — OSS install; model still BYO (keys or local). Minimalism saves tokens, not dollars.</div>
+    </div>
+  </div>
+  <div class="callout co-tip"><span class="c-tag">tip</span><p>Pi omits ceremony on purpose — read it as a thesis: every feature you add should earn its token cost. That lens is useful even when your daily driver is a heavier harness.</p></div>
+</div>
+
+<div class="sec-rule"><span class="sec-no">§ 60-second pick</span></div>
+<h2 id="app-a-pick">Pick in 60 seconds</h2>
+<div class="pick-grid">
+  <div class="pick-card">
+    <span class="part-plate p-l5" style="font-size:.62rem">if you want $0 today</span>
+    <h4>Gemini CLI <span style="color:var(--muted);font-weight:400">or</span> opencode + Ollama</h4>
+    <p><code>gemini</code> — sign in, 1 000 req/day free, zero config. <code>opencode + Ollama</code> — nothing leaves the machine, unlimited but you host the model.</p>
+  </div>
+  <div class="pick-card">
+    <span class="part-plate p-l5" style="font-size:.62rem">if you live in your editor</span>
+    <h4>Cline <span style="color:var(--muted);font-weight:400">or</span> Cursor CLI</h4>
+    <p>Cline — Kanban + Plan/Act beside your code. Cursor CLI — editor-parity Agent/Plan/Ask in the shell, <code>&amp;</code> to cloud.</p>
+  </div>
+  <div class="pick-card">
+    <span class="part-plate p-l5" style="font-size:.62rem">if you want commits you trust</span>
+    <h4>Aider <span style="color:var(--muted);font-weight:400">or</span> Pi</h4>
+    <p>Aider — every edit is a commit you read. Pi — four tools, no hidden moves; you build the ceremony that remains.</p>
+  </div>
+</div>
+<div class="flow-stage" style="--stage-route:var(--l5)">
+  <div class="flow-chain">
+    <div class="flow-step"><b>install one</b><small>copy the block above, verify with <code>--version</code></small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><b>wire one model</b><small>OAuth or local or key — don't collect providers</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><b>write its name into your build log</b><small>harness + version, so later advice maps</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step"><b>ship</b><small>switching later is cheap — concepts port</small></div>
+  </div>
+  <span class="flow-stage-label">the 60-second pick — one harness, not a collection · re-check the as-of dates monthly</span>
+</div>
+<div class="callout co-warn"><span class="c-tag">warning</span><p>Every row above has an expiry date. Roo Code was alive when this book was outlined and archived 2026-05-15 (community successor ZooCode). Check the as-of date on any row you bet a workflow on — including this one.</p></div>
+
+<div class="sec-rule"><span class="sec-no">§ archiving</span></div>
+<h2 id="app-a-archive">Historical note — Roo Code</h2>
+<p><strong>Roo Code — archived 2026-05-15 · successor <a href="https://github.com/RooCodeInc/Roo-Code">ZooCode</a></strong>. Kept here as a warning: even Apache-2.0 harnesses die. Mode-system heritage is instructive; do not start new work on the archived extension.</p>
+
+<div class="sec-rule"><span class="sec-no">§ receipts</span></div>
+<h2 id="app-a-receipts">Receipts</h2>
+<p>Every cell traces to a tiered, dated source. Tier key: <span class="tier tier-t1">T1 official</span> primary docs or established practitioner · <span class="tier tier-t2">T2 vendor blog</span> secondary · <span class="tier tier-t3">T3 lead only</span> pointer.</p>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://opencode.ai/docs ; github.com/anomalyco/opencode</span><span class="as-of">checked 2026-08-25 · MIT; ~201k ★; surfaces + channels</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://opencode.ai/docs/providers</span><span class="as-of">checked 2026-08-25 · 75+ providers; Zen/Go; ChatGPT/Copilot/GitLab Duo OAuth; Claude proxies removed v1.3.0</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://opencode.ai/docs/skills</span><span class="as-of">checked 2026-08-25 · SKILL.md; .claude/.agents compat; wildcard permissions</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://opencode.ai/docs/plugins</span><span class="as-of">checked 2026-08-25 · event hooks; npm plugins at startup (supply-chain)</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://opencode.ai/docs/lsp</span><span class="as-of">checked 2026-08-25 · 30+ servers, disabled by default</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://opencode.ai/docs/tui</span><span class="as-of">checked 2026-08-25 · /sessions /new /undo /redo /share</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span><span class="as-of">checked 2026-08-26 · explore→plan→implement; verify loop; /goal · hooks · subagent review</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://code.claude.com/docs/en/overview ; github.com/anthropics/claude-code</span><span class="as-of">checked 2026-08-25 · proprietary; subagents, SDK, routines</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://github.com/openai/codex</span><span class="as-of">checked 2026-08-25 · Apache-2.0; Rust core; ChatGPT sign-in</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://github.com/google-gemini/gemini-cli</span><span class="as-of">checked 2026-08-25 · Apache-2.0; 60 rpm / 1 000 day free; 1M context; MCP + checkpointing</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://github.com/cline/cline</span><span class="as-of">checked 2026-08-25 · Apache-2.0; JetBrains plugin closed</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://github.com/block/goose  →  github.com/aaif-goose/goose</span><span class="as-of">checked 2026-08-25 · Apache-2.0; Block → AAIF/Linux Foundation; 70+ MCP</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://aider.chat/docs</span><span class="as-of">checked 2026-08-25 · git-native auto-commits; repo map</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://cursor.com/docs/cli</span><span class="as-of">checked 2026-08-25 · UNVERIFIED licensing + free-tier — confirm ToS</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://pi.dev ; mariozechner.at/posts/2025-11-30-pi-coding-agent/</span><span class="as-of">checked 2026-08-25 · MIT; 4-tool core by design; pi-ai layer</span></div>
+<div class="receipt"><span class="tier tier-t1">T1 official</span><span class="r-url">https://github.com/RooCodeInc/Roo-Code</span><span class="as-of">checked 2026-08-25 · ARCHIVED 2026-05-15; ZooCode successor</span></div>
+<p class="as-of">Ledger rows already exist in <code>docs/source-ledger.md</code> for Ch02 — no new research here, just curation. Re-verify any URL before you stake money or a semester on it.</p>
+
+<nav class="pager" aria-label="Appendix navigation">
+  <a href="../../toc.html">← contents</a>
+  <a href="../../index.html">home →</a>
+</nav>
+</main>
+
+<footer class="site-foot"><span>the agentic coding field manual — appendix A</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
+<script src="../../assets/js/theme.js"></script>
+<script>
+// copy buttons + live filter — tokens only, no deps
+(function(){
+  // copy
+  document.querySelectorAll("[data-copy]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var wrap = btn.closest(".copy-wrap");
+      var code = wrap && wrap.querySelector("code");
+      var text = code ? code.textContent : "";
+      function ok(){
+        btn.textContent="copied";btn.classList.add("copied");
+        setTimeout(function(){btn.textContent="copy";btn.classList.remove("copied")},1400);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(ok).catch(function(){
+          var ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();
+          try{document.execCommand("copy");ok();}catch(e){} ta.remove();
+        });
+      } else {
+        var ta2=document.createElement("textarea");ta2.value=text;document.body.appendChild(ta2);ta2.select();
+        try{document.execCommand("copy");ok();}catch(e){} ta2.remove();
+      }
+    });
+  });
+  // filter
+  var inp=document.getElementById("qs-filter");
+  var rows=document.querySelectorAll("#qs-body tr");
+  var count=document.getElementById("qs-count");
+  var cards=document.querySelectorAll(".harness-card");
+  function apply(){
+    var q=(inp.value||"").trim().toLowerCase();
+    var shown=0;
+    rows.forEach(function(r){
+      var keys=(r.getAttribute("data-keys")||"").toLowerCase()+" "+r.textContent.toLowerCase();
+      var hit=!q||keys.indexOf(q)>-1;
+      r.classList.toggle("is-hidden",!hit);
+      if(hit) shown++;
+    });
+    cards.forEach(function(c){
+      var id=c.id.replace("card-","");
+      var hit=!q;
+      if(!hit){
+        var row=document.querySelector("#qs-body tr[data-keys*='"+id+"']") || Array.from(rows).find(function(r){return r.textContent.toLowerCase().indexOf(id)>-1});
+        // fallback: check card text
+        var cardKeys=c.textContent.toLowerCase();
+        hit=cardKeys.indexOf(q)>-1;
+      } else hit=true;
+      // don't hide cards visually — just dim
+      c.style.opacity = (!q || c.textContent.toLowerCase().indexOf(q)>-1) ? "1" : ".33";
+      c.style.filter = (!q || c.textContent.toLowerCase().indexOf(q)>-1) ? "none" : "grayscale(.2)";
+    });
+    if(count) count.textContent = shown+" of 9 shown"+(q?" · filter: “"+q+"”":" · type to narrow");
+  }
+  if(inp){inp.addEventListener("input",apply); inp.addEventListener("search",apply);}
+})();
+</script>
+<script src="../../assets/search-index.js"></script>
+<script src="../../assets/js/search.js"></script>
+</body>
+</html>

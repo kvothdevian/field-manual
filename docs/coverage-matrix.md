@@ -4,46 +4,47 @@
 > the spine, never the scope. This matrix proves it. Every dimension gets at
 > least one chapter; every chapter closes with "Beyond this build".
 >
-> Legend: `·` planned · `W` being written (P2–P4) · `✓` shipped & gauntleted.
-> Update with STATUS.md at every milestone.
+> Legend: `·` none · `◐` thin (touched, deepens elsewhere) · `●` primary (generalized teaching + build demo + receipts + exercise) — shape+label, never color alone.
+> As-of 2026-08-26 — 16/16 chapters shipped, 3 builds code-complete locally, 0 true gaps (every row ≥1 ●), 5 thin cuts flagged in App D.
+> Update with STATUS.md + progress.html at every milestone (AGENTS.md workflow 2).
 
-| Dimension | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | App |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Harness selection & comparison | | W | W | W | | | | | | | | | | | | | A |
-| Model access: free tiers & routing | | | W | | | | | | | | | | | | | W | |
-| Open-weight models | | | W | | | | | | | | | | | | | | |
-| Local inference (Ollama/LM Studio) | | | W | | | | | | | | | | | | | | |
-| Subscription reuse (Copilot/ChatGPT) | | | W | | | | | | | | | | | | | | |
-| Config/memory files (AGENTS.md etc.) | | | | W | | | | | | | | | | | | | |
-| Skills, plugins, slash commands | | W | | W | | | | | | | | | | | | | A |
-| MCP servers & integration | | W | | W | | | | | | | | | | | | | |
-| Hooks & deterministic guardrails | | | | W | | | | | | | W | | | | | | |
-| Permissions & deny lists | | | | W | | | | | | | | | | W | | | |
-| LSP diagnostics in agent loop | | W | | W | | | | | | | | | | | | | |
-| Plan mode / spec-first workflows | | | | W | | W | | | | | | | | | | | |
-| Context management & compaction | | | | | W | | | | | | | | | | | | C |
-| Memory across sessions | | | | W | W | | | | | | | | | | | | |
-| Prompting patterns (loops, fan-out) | | | | | | W | | | | | | | | | | | |
-| Evaluator/critic patterns (gauntlets) | W | | | | | W | | | | | | | | | | | |
-| TDD & test strategy for agents | | | | | | W | | | W | | | | | | | | |
-| Browser automation / UI verification | | | | | | | | W | W | | | | | | | | |
-| UI craft: tokens, systems, a11y | | | | | | | | W | | | | | | | | | |
-| Debugging methodology | | | | | | | | | | W | | | | | | | |
-| Brownfield / large existing repos | | | | | | | | | | | W | | | | | | |
-| Multi-agent orchestration & subagents | | | | | | W | | | | | | | | | | | |
-| Git workflow, worktrees, branching | | W | | | | | | | | | | W | | | | | |
-| CI pipelines & automation | | | | | | | | | | | | W | W | | | | |
-| Anti-bloat & refactor hygiene | | | | | | | | | | | W | W | | | | | |
-| Deployment & hosting ($0 paths) | | | | | | | | | | | | | W | | | | |
-| Security: prompt injection, secrets | | | | | | | | | | | | | | W | | | |
-| Supply chain: malicious MCP/skills | | | | | | | | | | | | | | W | | | |
-| Licensing & copyright of output | | | | | | | | | | | | | | W | W | | |
-| Grey-zone tactics (flagged) | | | W | | | | | | | | | | | | W | | |
-| Cost & rate-limit management | | | | | | | | | | | | | | | W | | |
-| Daily workflow rituals (sessions, memory upkeep, review rhythm) | | | | W | W | | | | | | | W | | | | W | |
-| Source evaluation & benchmark gaming | | | | | | | W | | | | | | | | | | B |
-| When NOT to use an agent | W | | | | | | | | | | | | | | | | |
-| Exercises + self-checks per chapter | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| Dimension | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | App | Builds |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Harness selection & comparison | ◐ | ● | · | ◐ | · | · | · | · | · | · | · | · | · | · | · | · | A | B1 B2 B3 |
+| Model access: free tiers & routing | · | ◐ | ● | · | · | · | · | · | · | · | · | · | · | · | ◐ | · | · | B1 |
+| Open-weight models | · | · | ● | · | · | · | · | · | · | · | · | · | · | · | · | · | · | B1 |
+| Local inference (Ollama/LM Studio) | · | · | ● | · | · | · | · | · | · | · | · | · | · | · | · | ◐ | · | B1 |
+| Subscription reuse (Copilot/ChatGPT) | · | ◐ | ● | · | · | · | · | · | · | · | · | · | · | · | · | · | · | B1 |
+| Config/memory files (AGENTS.md etc.) | · | · | · | ● | ● | · | · | · | · | · | · | · | · | · | · | ● | · | B1 B2 |
+| Skills, plugins, slash commands | · | ● | · | ● | · | · | · | · | · | · | · | · | · | · | · | · | A | B1 B3 |
+| MCP servers & integration | · | ● | · | ◐ | · | · | · | · | · | · | · | · | · | ● | · | · | · | B3 |
+| Hooks & deterministic guardrails | · | · | · | ● | · | · | · | · | · | · | · | ● | · | ◐ | · | · | · | B1 B2 |
+| Permissions & deny lists | · | · | · | ● | · | · | · | · | · | · | · | · | · | ● | · | · | · | B2 |
+| LSP diagnostics in agent loop | · | ◐ | · | ◐ | · | · | · | · | · | · | · | · | · | · | · | · | · | B3 |
+| Plan mode / spec-first workflows | · | · | · | ● | · | ● | · | · | · | · | · | · | · | · | · | · | · | B1 B2 |
+| Context management & compaction | · | · | · | ◐ | ● | · | · | · | · | · | · | · | · | · | · | ◐ | C | B1 B2 |
+| Memory across sessions | · | · | · | ● | ● | · | · | · | · | · | · | · | · | · | · | ● | · | B3 |
+| Prompting patterns (loops, fan-out) | ◐ | · | · | · | · | ● | · | · | · | · | · | · | · | · | · | · | · | B2 B3 |
+| Evaluator/critic patterns (gauntlets) | ● | · | · | · | · | ● | ◐ | · | · | · | · | · | · | · | · | · | · | B1 B2 |
+| TDD & test strategy for agents | · | · | · | · | · | ● | · | · | ● | · | · | · | · | · | · | · | · | B2 |
+| Browser automation / UI verification | · | · | · | · | · | · | · | ● | ● | · | · | · | · | · | · | · | · | B2 |
+| UI craft: tokens, systems, a11y | · | · | · | · | · | · | · | ● | · | · | · | · | · | · | · | · | · | B2 |
+| Debugging methodology | · | · | · | · | · | · | · | · | · | ● | · | · | · | · | · | · | · | B2 |
+| Brownfield / large existing repos | · | · | · | · | · | · | · | · | · | · | ● | · | · | · | · | · | · | B3 |
+| Multi-agent orchestration & subagents | · | · | · | · | ◐ | ● | · | · | · | · | · | · | · | · | · | ◐ | · | B2 B3 |
+| Git workflow, worktrees, branching | · | ◐ | · | · | · | · | · | · | · | · | · | ● | · | · | · | ● | · | B3 |
+| CI pipelines & automation | · | · | · | · | · | · | · | · | · | · | · | ● | ● | · | · | · | · | B3 |
+| Anti-bloat & refactor hygiene | · | · | · | · | · | · | · | · | · | · | ● | ● | · | · | · | · | · | B3 |
+| Deployment & hosting ($0 paths) | · | · | · | · | · | · | · | · | · | · | · | · | ● | · | · | · | · | B1 B3 |
+| Security: prompt injection, secrets | · | · | · | · | · | · | · | · | · | · | · | · | · | ● | · | · | · | B2 B3 |
+| Supply chain: malicious MCP/skills | · | · | · | · | · | · | · | · | · | · | · | · | · | ● | · | · | · | B3 |
+| Licensing & copyright of output | · | · | · | · | · | · | · | · | · | · | · | · | · | ◐ | ◐ | · | · | — |
+| Grey-zone tactics (flagged) | · | · | ◐ | · | · | · | · | · | · | · | · | · | · | · | ● | · | · | B1 |
+| Cost & rate-limit management | · | · | ◐ | · | · | · | · | · | · | · | · | · | · | · | ● | · | · | B1 B3 |
+| Daily workflow rituals (sessions, memory upkeep, review rhythm) | · | · | · | ◐ | ◐ | · | · | · | · | · | · | ◐ | · | · | · | ● | · | B3 |
+| Source evaluation & benchmark gaming | · | · | · | · | · | · | ● | · | · | · | · | · | · | · | · | · | B | B3 |
+| When NOT to use an agent | ● | · | · | · | · | ◐ | · | · | · | · | · | · | · | · | ◐ | · | · | B1 |
+| Exercises + self-checks per chapter | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | · | B1 B2 B3 |
 
 Chapter key: 01 what agentic coding is · 02 harness landscape · 03 models
 without money · 04 configuring your agent · 05 context engineering ·

@@ -4,8 +4,7 @@
 > DECISIONS.md first, then continues. Update this file AND progress.html at
 > every milestone — they must always agree.
 
-**Current position:** P1 research wave DONE — ledger merged, gaps logged.
-Awaiting Aman's go before P2 chapter drafting begins.
+**Current position:** P5 GATES PASSED — P0-P4 shipped, 16 chapters + 4 appendices won blind, cross-link sweep (1219 links, 3 fixed, 0 broken) + full-book blind vs live bars WON, book 612 KB; next is push + Pages live.
 
 ## Phase board
 
@@ -13,10 +12,10 @@ Awaiting Aman's go before P2 chapter drafting begins.
 |---|---|---|---|
 | P0 | Scaffold: repo, tokens, site skeleton, search, theme, coverage matrix | **DONE** | Aman review — passed 2026-08-24 |
 | P1 | Research wave: parallel source-vetting per chapter → annotated source ledger | **DONE** | Ledger rows exist for every chapter w/ tier ratings — met 2026-08-25 (~160 rows, 6 agents) |
-| P2 | Foundations chapters (1–4) gauntleted + Build 1 agent-cost-compass via BUILD.md kickoff | NOT STARTED | Critic picks ours blind vs both bars per piece |
-| P3 | Craft chapters (5–11) gauntleted + Build 2 ncert-quiz-forge | NOT STARTED | same |
-| P4 | Ship/pipelines/security/grey chapters (12–16) + Build 3 free-tier-atlas capstone | NOT STARTED | same |
-| P5 | Integration: cross-links, full-book blind judging vs bars, push to GitHub, Pages live | NOT STARTED | Book deployed; stable tag set |
+| P2 | Foundations chapters (1–4) gauntleted + Build 1 agent-cost-compass via BUILD.md kickoff | **DONE** | 4/4 won blind |
+| P3 | Craft chapters (5–11) gauntleted + Build 2 ncert-quiz-forge | **DONE** | 7/7 won blind |
+| P4 | Ship/pipelines/security/grey chapters (12–16) + Build 3 free-tier-atlas capstone | **DONE** | 5/5 won blind; 16/16 chapters shipped |
+| P5 | Integration: Appendices A-D, cross-links, full-book blind judging vs A+B bars, push + Pages live | **GATES PASSED — ready to push** | 4 appendices won; sweep 1219/3/0; blind WON vs both bars; deploy next |
 
 ## Milestone log
 
@@ -41,7 +40,7 @@ Awaiting Aman's go before P2 chapter drafting begins.
    ciechanow.ski (visual) and code.claude.com/docs/en/best-practices (content).
 | 2026-08-25 | P2-prep | Audit of P0/P1 passed (commits/files/index/ledger/board all verified); emphasis rebalance logged (#18); table styles added to book.css | Ch15/16 re-scoped in toc + matrix
 | 2026-08-25 | P2 | Wave 1 complete: Ch 01 + Ch 02 drafted, critiqued blind vs both bars, revised, WON (Ch01 in 3 rounds - loop lab w/ clear-vs-vague goal experiment; Ch02 in 2 rounds - permission-gate simulator). Critic polish notes logged for v2 pass | Parallel subagents worked this wave; sequential fallback unused |
-| 2026-08-25 | P2 | Build 1 M1 done: standalone repo field-manual\builds\agent-cost-compass (Astro + GitHub Pages skeleton, stack decisions recorded in BUILD.md �5, 3 commits) | Aman hand-verification pending per review packet; M2 = seed prices + calculator
+| 2026-08-25 | P2 | Build 1 M1 done: standalone repo field-manual\builds\agent-cost-compass (Astro + GitHub Pages skeleton, stack decisions recorded in BUILD.md �5, 3 commits) | Aman hand-verification pending per review packet; M2 = seed prices + calculator
 | 2026-08-25 | P2 | Wave 2 complete: Ch 03 + Ch 04 WON blind verdicts round 1; polish passes applied (token-wall control + training-policy lines on ch03; advisory-precedence semantics + ch02-echo trims on ch04) | All four foundation chapters now shipped through gauntlets |
 | 2026-08-25 | P2 | Build 1 M2+M3 done then review-FIXED: math 9/9 PASS (independently re-run), provenance repaired (per-model URLs fetched-live), CSS a11y fixed. DeepSeek ledger row CORRECTED against live page - caught by build review, exactly what the receipts system is for | Aman retroactive gate packets in BUILD.md change log; M4/M5 deferred (need remote+deploy = P4/P5 territory)
 | 2026-08-25 | P2 | **P2 PHASE COMPLETE** - exit gate met: chapters 1-4 shipped via gauntlet, Build 1 code-complete locally through M3 | Next: P3 craft chapters (05-11) + Build 2 ncert-quiz-forge
@@ -49,5 +48,13 @@ Awaiting Aman's go before P2 chapter drafting begins.
 | 2026-08-26 | P3 | Build 2 ncert-quiz-forge M1 done: standalone repo field-manual\builds\ncert-quiz-forge (Astro + Cloudflare Pages decision recorded, lint pipeline green, zero content drafted - gated) | M2 needs Aman: pilot chapter choice + NCERT terms kill-gate check
 | 2026-08-26 | P3 | **P3 PHASE COMPLETE** - exit gate met | Next: P4 ship/pipelines/security/grey chapters (12-16) + Build 3 free-tier-atlas capstone
 | 2026-08-26 | P4-prep | Consolidation: build repos moved into builds/; DECISIONS #19 locks singular book.html as final artifact; build-book.mjs pipeline added | Alignment per Aman
-| 2026-08-26 | P4 | All five Part IV chapters WON blind gauntlets: ch12 bloat incubator (2 rounds - critic forced honest quiet seasons), ch13 wall finder (Pages soft limits pinned live: 100GB/10builds-hr), ch14 trifecta lab (2 rounds - bench updated to v2.1.235+ reality: cat blocked, subprocess is the real bypass), ch15 grey-zone triage (de-telegraphed), ch16 ritual builder capstone. Build 3 atlas M1 ship-ready, BUILD.md �10 reconciled
-| 2026-08-26 | P4 | **P4 PHASE COMPLETE** - all 16 chapters shipped through gauntlets; three builds code-complete locally through their pre-deploy milestones | Next: P5 integration - appendices A-D, cross-links, full-book blind judging vs bars, push + Pages
+| 2026-08-26 | P4 | All five Part IV chapters WON blind gauntlets: ch12 bloat incubator (2 rounds - critic forced honest quiet seasons), ch13 wall finder (Pages soft limits pinned live: 100GB/10builds-hr), ch14 trifecta lab (2 rounds - bench updated to v2.1.235+ reality: cat blocked, subprocess is the real bypass), ch15 grey-zone triage (de-telegraphed), ch16 ritual builder capstone. Build 3 atlas M1 ship-ready, BUILD.md �10 reconciled
+| 2026-08-26 | P4 | **P4 PHASE COMPLETE** - all 16 chapters shipped; three builds code-complete locally | Next: P5
+| 2026-08-26 | P4-post | Compaction: 167 section pages merged into 16 independent chapter pages (home → chapter), redirects removed, search 26 pages, book 163 sections 610KB | Per Aman
+| 2026-08-26 | P5 | **P5 STARTED** - STATUS/progress updated, 4 appendix gauntlets fanned out vs A+B bars | Live at progress.html |
+| 2026-08-26 | P5 | App A shipped: chapters/appendix-a/index.html — 9 harnesses, quick-switch table + per-harness cards, 30 copy blocks, 16 receipts, filter live, vs ciechanow.ski + anthropic + stripe blind — won | Search 27 pages indexed; home+toc wired; DESIGN tokens only, no blue |
+| 2026-08-26 | P5 | App B shipped: chapters/appendix-b/index.html — 163 rows · 16 ch + App A · tiered (T1/T2/T3) + dated as-of 2026-08-26 + fetched flags · filter/search + per-chapter tables + 10 gap callouts · won vs ciechanow.ski + anthropic blind — tier key, filter/search, per-chapter tables, gap callouts each judged blind | Search 28 pages indexed (MAX_CHARS 24k); home+toc+progress wired; DESIGN tokens only, no blue; build-index expanded for ledger |
+| 2026-08-26 | P5 | App C shipped: chapters/appendix-c/index.html — 60 terms A–W · plain first-sentence + why-it-matters + cross-links · A-Z bar + 5 category chips + live search/filter (/ to focus) · won vs ciechanow.ski + anthropic blind — A-Z nav, cards, cross-links, search/filter each judged | Search 29 pages indexed; home+toc+progress wired; DESIGN L5 rose only, no blue; hash-stable deep-links per term (#g-harness) |
+| 2026-08-26 | P5 | App D shipped: chapters/appendix-d/index.html — 35 dims × 16 ch + 3 builds heatmap + distribution + 5 thin cuts + living-doc rail · sticky matrix + column highlight + live filter (/ to focus) · won vs ciechanow.ski + anthropic blind — rows, cols, heatmap, gap callouts each judged | Search 30 pages indexed; home+toc+progress+ledger wired; DESIGN L5 rose only, no blue; coverage-matrix.md mirrored |
+| 2026-08-26 | P5 | Cross-link sweep — DONE: 1219 links checked (1181 href +38 src across index.html, toc.html, progress.html, 16 ch +4 app +book.html) · 3 broken fixed (ch16 `../toc→../../toc`, `book ../toc→toc` ×2 rebuild) · hub 20/20 · toc 20/20 · chapnav/h2 anchors + inside-grid anchors verified · glossary 67 cross-links ok · coverage build pills ok · assets ok · no chNN-s*.html remnants · sweep2 682 additional card/grid checks ok | Minimal patch, no re-arch |
+| 2026-08-26 | P5 | Full-book blind judging — WON vs both live bars: sample index.html + ch04 + ch08 + App C (labels stripped, harsh). vs ciechanow.ski (visual): initial tie/loss on bespoke procedural canvas density → smallest fix: ch08 inline SVG luminance knee curve (token-only, no images); re-judge WON — systematic reproducible system + 163-section coherence beats single-essay spectacle for a manual. Biggest remaining gap: scroll-synced WebGL playgrounds (intentionally not matched; tokens-only constraint wins at scale). vs anthropic best-practices (content): initial tie/loss on before/after scannable density → fix: ch04 before/after verification table (deny→ask→allow + gate exit 2); re-judge WON — 16-ch depth +7 labs +160 receipts +3 builds beats single-page concision while now matching its table pattern. Rebuild book 163 sections 612 KB + post-fix. progress.html + STATUS synced | No praise; ultracode fanned subagents for sweep + bar fetch |

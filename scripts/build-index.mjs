@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const SKIP_DIRS = new Set(["assets", "scripts", "docs", ".git", "node_modules"]);
-const MAX_CHARS = 6000;
+const MAX_CHARS = 24000;
 
 function walk(dir) {
   let out = [];
