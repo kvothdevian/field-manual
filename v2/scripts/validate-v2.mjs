@@ -71,7 +71,7 @@ function checkChapter(file, urls) {
   const pageUrls = [...html.matchAll(/https?:\/\/[^\s"'<|)]+/g)].map(m => m[0].replace(/[.,;]+$/, ""));
   const seen = new Set();
   for (const u of pageUrls) {
-    if (u.includes("cdn.jsdelivr.net") || u.includes("w3.org")) continue; // infra, not claims
+    if (u.includes("cdn.jsdelivr.net") || u.includes("w3.org") || u.includes("opencode.ai/config.json")) continue; // infra/schema, not claims
     if (!urls.has(u) && !seen.has(u)) err(file, `URL not in source ledger: ${u}`);
     seen.add(u);
   }
