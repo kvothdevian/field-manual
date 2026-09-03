@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Agentic Coding Field Manual — v2 (interactive essays)</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
 <link rel="stylesheet" href="assets/css/style-b.css">
 </head>
 <body>
 <header class="site">
   <a href="index.html" class="here"><b>field manual</b> · v2</a>
   <span class="kicker">rebuild in progress · 1 of 16 sessions</span>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
 <main>
   <p class="kicker">Learn by shipping · opencode default · $0</p>
@@ -21,5 +22,6 @@
   <a class="track" href="chapters/ch01/index.html"><span class="n">01</span><h3>Your first agent session</h3><p>Model · harness · loop — then a real opencode run with a stopping condition. 45 min.</p></a>
   <p style="color:var(--muted);font-style:italic">Sessions 02–16 land here as their chapters pass review. v1 remains the complete book until cutover.</p>
 </main>
+<script src="assets/js/theme.js"></script>
 </body>
 </html>

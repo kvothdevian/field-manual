@@ -10,7 +10,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const V2 = join(ROOT, "v2");
 const LEDGER = join(ROOT, "docs", "source-ledger.md");
 const BANNED = ["delve", "tapestry", "game-changer", "cutting-edge", "seamless", "it's important to note"];
-const PROSE_MIN = 1500, PROSE_MAX = 2500, BRIEF_MAX = 400;
+const PROSE_MIN = 2200, PROSE_MAX = 3200, BRIEF_MAX = 500;
 
 let errors = [], warns = [];
 const err = (f, m) => errors.push(`${f}: ERROR ${m}`);

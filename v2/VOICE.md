@@ -27,7 +27,7 @@ validator errors or adversary findings, never style suggestions.
 ## Structure (every chapter, this order)
 
 1. Kicker + H1 + lede (lede = outcome promise, ≤40 words).
-2. Briefing (≤400 words, time-boxed "5 min", tool-agnostic first).
+2. Briefing (≤500 words, time-boxed "5 min", tool-agnostic first).
 3. Figures inside the sections they explain (never a gallery at the end).
 4. Session: numbered steps, each with goal → paste-block → expected
    terminal → verify → stuck-fix. Minimum 3 steps, maximum 6.
@@ -37,11 +37,12 @@ validator errors or adversary findings, never style suggestions.
 
 ## Budgets
 
-Prose 1500–2500 words/chapter (code + transcripts excluded from count).
-Briefing ≤400 words. Visuals per chapter: 1 signature SVG (geometry
+Prose 2200–3200 words/chapter (code + transcripts excluded from count).
+Briefing ≤500 words. Visuals per chapter: 1 signature SVG (geometry
 only) + 2–4 HTML infographics, spanning ≥3 different forms — the brief
 names the trio. Richness is a number: fewer than 3 visual blocks is a
-validator error.
+validator error. (ch01 pilot shipped at ~1700 under the old budget and
+stands; the higher floor applies from ch02.)
 
 ## Freshness (knowledge must be current, never carried on trust)
 
