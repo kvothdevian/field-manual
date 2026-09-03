@@ -87,20 +87,20 @@ function main() {
   const urls = ledgerUrls();
   let files = [];
   if (args.includes("--book")) {
+    // whole-book checks run against the ASSEMBLED book (ids namespaced
+    // at build). Build first: node v2/scripts/build-book-v2.mjs
+    const book = join(V2, "book.html");
+    if (!existsSync(book)) { console.log("no v2/book.html — run build-book-v2.mjs first"); return; }
+    const html = readFileSync(book, "utf8");
+    const ids = new Map();
+    for (const m of html.matchAll(/id="([^"]+)"/g)) {
+      if (ids.has(m[1])) err("book.html", `duplicate id "${m[1]}"`);
+      else ids.set(m[1], 1);
+    }
     const dir = join(V2, "chapters");
-    if (!existsSync(dir)) { console.log("no v2 chapters yet"); return; }
     for (const d of readdirSync(dir)) {
       const f = join(dir, d, "index.html");
       if (existsSync(f)) files.push(f);
-    }
-    // whole-book checks: duplicate ids, TOC order
-    const ids = new Map();
-    for (const f of files) {
-      const html = readFileSync(f, "utf8");
-      for (const m of html.matchAll(/id="([^"]+)"/g)) {
-        if (ids.has(m[1])) err(`${basename(dirname(f))}/index.html`, `duplicate id "${m[1]}" (also in ${ids.get(m[1])})`);
-        else ids.set(m[1], basename(dirname(f)));
-      }
     }
   } else {
     files = args.filter(a => !a.startsWith("--"));

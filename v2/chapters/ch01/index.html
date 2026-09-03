@@ -139,16 +139,15 @@ blank slate
 
   <nav class="pager" aria-label="Chapter navigation">
     <a href="../../index.html">← all sessions</a>
-    <!-- ch02 not yet appended: next points home until it lands -->
-    <a href="../../index.html">more sessions →</a>
+    <a href="../ch02/index.html">session 02 →</a>
   </nav>
-</main>
 <script>
 (function(){
   document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
   document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch01-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
 })();
 </script>
+</main>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>
