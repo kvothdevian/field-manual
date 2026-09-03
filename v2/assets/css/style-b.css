@@ -136,6 +136,25 @@ figure label { font-family: var(--mono); font-size: 0.72rem; color: var(--muted)
 .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem;
   font-family: var(--serif); font-style: italic; font-size: 1.1rem; }
 
+/* stat strip: big figures, small labels */
+.stat-strip { display: flex; flex-wrap: wrap; gap: 0; margin: 1.2rem 0;
+  border: 1px solid var(--line); border-radius: var(--radius); background: var(--raised); }
+.stat { flex: 1 1 8rem; padding: 0.9rem 1.1rem; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat-num { display: block; font-family: var(--mono); font-weight: 700; font-size: 1.5rem; }
+.stat-label { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted); }
+
+/* timeline: vertical rail of events */
+.timeline { list-style: none; margin: 1.2rem 0; padding: 0 0 0 1.6rem; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 0.45rem; top: 0.4rem; bottom: 0.4rem;
+  border-left: 2px dotted var(--line-strong); }
+.timeline li { position: relative; padding: 0 0 0.9rem 0.6rem; }
+.timeline li::before { content: ""; position: absolute; left: -1.5rem; top: 0.55rem;
+  width: 0.7rem; height: 0.7rem; border-radius: 50%;
+  background: var(--raised); border: 2px solid var(--ink); }
+.timeline li b { font-family: var(--mono); font-size: 0.78rem; }
+
 /* home tracks */
 .track { display: block; border-top: 1px solid var(--line); padding: 1.1rem 0.2rem; text-decoration: none; }
 .track:hover { background: var(--raised); }

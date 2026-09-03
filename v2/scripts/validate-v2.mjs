@@ -41,14 +41,22 @@ function checkChapter(file, urls) {
   for (const cls of ["paste", "term", "verify", "stuck", "checkpoint", "receipts", "pager"]) {
     if (!has(new RegExp(`class="${cls}"`))) err(file, `missing .${cls} block`);
   }
-  // figures: svg + caption + accessible name (diagram-design checklist)
-  const svgs = [...html.matchAll(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/g)];
-  if (svgs.length < 1) err(file, "no inline SVG figure (min 1)");
-  if (svgs.length > 3) warn(file, `${svgs.length} figures (max 3)`);
-  for (const [i, m] of svgs.entries()) {
+  // visuals: HTML-first budget — >=3 visual blocks in >=3 forms, max 1 SVG.
+  // visual block = <figure> | .diff | .term | .stat-strip | .timeline
+  const figures = [...html.matchAll(/<figure[\s>]/g)].length;
+  const svgs = [...html.matchAll(/<svg[\s>]/g)];
+  const htmlVisuals = (html.match(/class="(diff|term|stat-strip|timeline)"/g) || []).length;
+  const visualTotal = figures + htmlVisuals;
+  if (visualTotal < 3) err(file, `only ${visualTotal} visual blocks (min 3: 1 signature + 2 HTML infographics)`);
+  if (svgs.length > 1) err(file, `${svgs.length} SVGs (max 1 signature SVG; build the rest in HTML)`);
+  for (const [i, m] of [...html.matchAll(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/g)].entries()) {
     if (!/aria-label=|role="img"/.test(m[0])) err(file, `figure ${i + 1} has no accessible name`);
   }
   if (!has(/<figcaption>Fig\. \d+ —/)) err(file, "figcaption must start 'Fig. N —'");
+  const forms = new Set([...html.matchAll(/class="(diff|term|stat-strip|timeline)"/g)].map(m => m[1]));
+  if (svgs.length) forms.add("svg");
+  if (figures > forms.size) forms.add("figure");
+  if (forms.size < 3) err(file, `only ${forms.size} visual forms (min 3 different forms)`);
   // receipts: every URL must be a ledger row (closed world)
   const pageUrls = [...html.matchAll(/https?:\/\/[^\s"'<|)]+/g)].map(m => m[0].replace(/[.,;]+$/, ""));
   const seen = new Set();
@@ -69,7 +77,7 @@ function checkChapter(file, urls) {
   const n = words(html);
   if (n < PROSE_MIN) warn(file, `thin prose: ~${n} words (min ${PROSE_MIN})`);
   if (n > PROSE_MAX) warn(file, `bloated prose: ~${n} words (max ${PROSE_MAX})`);
-  return { steps: steps.length, figures: svgs.length, words: n };
+  return { steps: steps.length, visuals: visualTotal, words: n };
 }
 
 function main() {
@@ -99,7 +107,7 @@ function main() {
   for (const f of files) {
     if (!existsSync(f)) { err(f, "file not found"); continue; }
     const s = checkChapter(f, urls);
-    console.log(`ok ${f} (steps ${s.steps}, figs ${s.figures}, ~${s.words}w)`);
+    console.log(`ok ${f} (steps ${s.steps}, visuals ${s.visuals}, ~${s.words}w)`);
   }
   console.log(`\n${errors.length} errors, ${warns.length} warns`);
   for (const e of errors) console.log("  " + e);

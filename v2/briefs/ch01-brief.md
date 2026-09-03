@@ -19,18 +19,22 @@ else installed besides opencode. Reproducible from zero in 45 minutes.
 Model / harness / loop in three short moves, condensed from v1 ch01.
 Ends on the outer loop you own: aim → watch → verify → commit.
 
-## Figures (2, both interactive)
+## Visuals (budget: 1 signature SVG + HTML infographics in ≥3 forms)
 
-1. **Fig. 1 — the wheel.** Agent-loop SVG (model → harness → stopping
-   gate → back), animated dash on the loop-back edge. Answers: "what
-   turns, and what stops it?"
-2. **Fig. 2 — clarity is a stopping condition.** Clear-goal vs vague-goal
-   SVG chart with a draggable clarity slider (kept from the winning
-   mockup, rebuilt on tokens). Answers: "why does vagueness cost
-   context?"
+Trio for ch01 (no later chapter may repeat this exact trio):
 
-Both pass the diagram-design checklist at draft review (titled, labeled
-arrows, one question each, grayscale-readable).
+1. **Fig. 1 — the wheel (signature SVG).** Agent-loop diagram: model →
+   harness → stopping gate → loop-back, animated dash on the return
+   edge. Answers: "what turns, and what stops it?"
+2. **Annotated terminal (HTML `.term`).** The session's expected
+   transcript with per-line roles (thought / tool / observed) —
+   doubles as the step-2 expectation.
+3. **Stat strip (HTML `.stat-strip`).** The honesty anchor: predicted
+   +24% / believed +20% / measured −19% (METR trial, re-verified at
+   evidence packing or cut).
+4. **Diff view (HTML `.diff`).** Step-3 expectation: +7/−0, one file.
+
+Forms used: svg + term + stat-strip + diff (4 forms ≥ 3 required).
 
 ## Session (4 steps)
 
@@ -57,6 +61,15 @@ explained · wrote a reusable stopping condition).
 - Live-fetch in P1 and record here: opencode quickstart (install +
   first-run commands as of 2026-09). Session transcript will be pasted
   from a REAL executed run, never generated.
+- Freshness re-verification at evidence packing: METR trial numbers
+  (stat strip lives or dies here), opencode install path, Node version
+  floor for the proof. Stamped "verified 2026-09-XX" in-chapter.
+
+## Teach test (adversary enforces this)
+
+After ch01 the reader runs solo sessions with written stopping
+conditions and self-run proofs. If the draft doesn't produce that
+behavior, it fails — however pretty the figures are.
 
 ## Budgets
 

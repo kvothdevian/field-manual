@@ -38,4 +38,20 @@ validator errors or adversary findings, never style suggestions.
 ## Budgets
 
 Prose 1500–2500 words/chapter (code + transcripts excluded from count).
-Briefing ≤400 words. One bespoke figure minimum, three maximum.
+Briefing ≤400 words. Visuals per chapter: 1 signature SVG (geometry
+only) + 2–4 HTML infographics, spanning ≥3 different forms — the brief
+names the trio. Richness is a number: fewer than 3 visual blocks is a
+validator error.
+
+## Freshness (knowledge must be current, never carried on trust)
+
+- Every time-sensitive claim (install commands, model names, free-tier
+  limits, harness UI) is re-fetched live during evidence packing and
+  stamped with a fetch date in the chapter ("verified 2026-09-XX").
+- Ledger rows from August that cannot be re-verified are cut or labeled
+  stale — never silently inherited.
+- The teach test: each brief states the reader behavior the chapter
+  changes. The adversary fails any chapter whose session doesn't produce
+  that behavior. No behavior change = no chapter.
+- P5 ledger as-of audit: whole-book sweep of receipt dates before
+  cutover.

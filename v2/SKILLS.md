@@ -10,9 +10,15 @@ chapter closes: title that says what the diagram shows · labeled arrows
 (verb phrases) · one question per diagram · ≤15 elements · shape+label
 (never color alone) · grayscale-readable.
 
-**Project mapping:** figures are inline SVG, hand-built per chapter (no
-Mermaid — the book renders over `file://` with zero dependencies, and the
-ciechanow.ski bar demands bespoke craft).conventions below are binding:
+**Project mapping (HTML-first figure policy, locked 2026-09-03):**
+default construction material is HTML/CSS infographics (step rails, stat
+strips, timelines, annotated terminals, before/after diffs). Inline SVG
+is reserved for custom geometry only (flows with arrows, charts with
+axes) — max one signature SVG per chapter. Every visual in either
+material passes the checklist: title, labeled relationships, one
+question answered. Visual budget per chapter: 1 signature SVG + 2–4
+HTML infographics in ≥3 different forms (each brief names its trio; no
+chapter repeats another chapter's exact trio).
 
 - Palette: ink `#26201A`, accent `#B25E09`, go `#1F7A52`, stop `#B03A2A`
   on paper `#FAF5EA` (dark theme: lifted tokens, same roles).
