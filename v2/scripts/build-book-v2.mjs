@@ -30,6 +30,7 @@ for (const d of dirs) {
   let main = (html.match(/<main>([\s\S]*)<\/main>/) || [, ""])[1];
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
     .map(m => m[1]).filter(s => s.includes("copy-btn") || s.includes("checkpoint"));
+  main = main.replace(/<script>[\s\S]*?<\/script>/g, ""); // scripts appended below, not duplicated
   main = namespace(main, d);
   const js = scripts.map(s => namespace(`<script>${s}</script>`, d)).join("\n");
   const id = "v2-" + d;
