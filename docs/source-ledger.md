@@ -40,6 +40,11 @@ Rows below are lightly normalized; wording preserved from the vetting pass.
 | When to design an agentic loop: clear success criteria + trial-and-error tasks; agents are dangerous (prompt injection, rogue shell) | https://simonwillison.net/2025/Sep/30/designing-agentic-loops/ | T1 | 2025-09 | n | Safety framing consistent with vendor guidance |
 | Perception-gap RCT: devs expected +24%, believed +20%, measured 19% SLOWER (early-2025 tools, experienced OSS devs) | https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/ | T1 | 2025-07 | y | Independent nonprofit RCT, public data/code; narrow setting |
 | Convergence risk: even careful practitioners stop reviewing every line; accountability stays human | https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/ | T1 | 2026-05 | n | Recent self-critical reflection |
+| opencode first-run path: `npm install -g opencode-ai`, launch `opencode`, `/init` scaffolds AGENTS.md, Tab toggles plan/build, Windows via choco/scoop/npm/mise | https://opencode.ai/docs | T1 | 2026-09-03 | y | v2 ch01 evidence packing: fetched live 2026-09-03, install + first-run + Windows paths confirmed |
+| METR Jul-2025 RCT page now carries an "out of date" banner pointing at the Feb-2026 follow-up; +24/+20/−19 figures unchanged on the page | https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/ | T1 | 2026-09-03 | y | v2 ch01 re-verification: numbers hold, staleness flagged in prose |
+| opencode provider auth via `/connect` in the TUI (opencode.ai/auth, paste API key); supports any LLM provider + Zen curated list | https://opencode.ai/docs | T1 | 2026-09-03 | y | v2 ch01: fetched live 2026-09-03, Configure section |
+| opencode non-interactive runs: `opencode run -m provider/model "message"` (also --agent/--format/--continue flags) | https://opencode.ai/docs/cli/ | T1 | 2026-09-03 | y | v2 ch01: `opencode run --help` on opencode-ai 1.18.21 + live CLI page; the ch01 session transcript was produced this way |
+| Node.js floor for the ch01 proof: Node v24.13.0 used 2026-09-03; proof is one console.log, needs any maintained Node release | https://opencode.ai/docs | T1 | 2026-09-03 | y | v2 ch01: `node --version` executed locally; chapter states the observed version, not a support claim |
 
 ## Ch 07 — Source literacy
 

@@ -52,7 +52,7 @@ function checkChapter(file, urls) {
   for (const [i, m] of [...html.matchAll(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/g)].entries()) {
     if (!/aria-label=|role="img"/.test(m[0])) err(file, `figure ${i + 1} has no accessible name`);
   }
-  if (!has(/<figcaption>Fig\. \d+ —/)) err(file, "figcaption must start 'Fig. N —'");
+  if (!has(/<figcaption>(<[^>]+>)*Fig\. \d+ —/)) err(file, "figcaption must start 'Fig. N —'");
   const forms = new Set([...html.matchAll(/class="(diff|term|stat-strip|timeline)"/g)].map(m => m[1]));
   if (svgs.length) forms.add("svg");
   if (figures > forms.size) forms.add("figure");

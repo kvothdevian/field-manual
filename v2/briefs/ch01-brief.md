@@ -32,7 +32,7 @@ Trio for ch01 (no later chapter may repeat this exact trio):
 3. **Stat strip (HTML `.stat-strip`).** The honesty anchor: predicted
    +24% / believed +20% / measured −19% (METR trial, re-verified at
    evidence packing or cut).
-4. **Diff view (HTML `.diff`).** Step-3 expectation: +7/−0, one file.
+4. **Diff view (HTML `.diff`).** Step-3 expectation: +6/−0, one file. *(Corrected 2026-09-03 after the real run: agent appended instead of replacing. Brief was frozen with +7/−0; this correction approved as factual fix.)*
 
 Forms used: svg + term + stat-strip + diff (4 forms ≥ 3 required).
 
@@ -44,7 +44,7 @@ Forms used: svg + term + stat-strip + diff (4 forms ≥ 3 required).
    Claude Code/Codex/Gemini if commands differ) · expect: transcript
    read → edit → run-proof → halt · stuck: extra files touched →
    `git checkout .`, re-send with final constraint standalone.
-3. **Read the diff** — diff view (+7/−0, one file) · verify: explain
+3. **Read the diff** — diff view (+6/−0, one file) · verify: explain
    every line; `git diff --stat` = 1 file.
 4. **Run the proof yourself** — your keystrokes, not the agent's ·
    verify: output matches.
