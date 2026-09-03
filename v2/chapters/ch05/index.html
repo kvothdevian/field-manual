@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05 · Context engineering — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
+</head>
+<body>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 05</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
+</header>
+<main>
+  <p class="kicker">Session 05 · prompting craft · opencode default</p>
+  <h1>Context engineering</h1>
+  <p class="lede">Audit what enters your agent's context, price it in tokens, cut a third of it without losing quality — and learn exactly when delegation pays and when it taxes.</p>
+  <p class="kicker" style="margin-top:1rem">60 min · scratch repo · needs ch04 · verified 2026-09-03</p>
+
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · the finite budget</p>
+    <h2><span class="s-n">i.</span>The attention budget</h2>
+    <p>Context is a finite resource with diminishing returns, and the reason is architectural: every token attends to every other token, so attention stretches thin as windows grow — models lose focus the way people lose working memory. The field calls the degradation <strong>context rot</strong>: measured across eighteen frontier models, recall decays non-uniformly with input length even on trivial tasks, and distractors compound the damage. The engineering answer is one sentence that governs this whole session: <strong>find the smallest set of high-signal tokens that maximizes the chance of the outcome you want.</strong> Everything below is a technique for spending that budget well.</p>
+    <p>Know what you are spending it on. A session's context is an itemized bill: system prompt, memory files, skill descriptions (cheap until loaded — progressive disclosure), deferred tool schemas, every file read, every tool result. What survives <strong>compaction</strong> — the practice of summarizing a near-full window and restarting with the summary — is a second bill: decisions and bugs persist, raw tool outputs get discarded, recently touched files ride along. And the three long-horizon levers, named by the people who run agents at scale: compaction for conversational flow, structured note-taking for milestones, sub-agent architectures for parallel exploration that returns condensed summaries. Against them stands the canonical counterpoint, and you will feel it execute today: naive fan-out is fragile, because actions carry implicit decisions that don't survive the summary — share full traces where it matters, delegate where it pays.</p>
+    <p>The essay's sharpest operational idea deserves its own paragraph: <strong>just-in-time retrieval over pre-loading.</strong> Instead of stuffing everything the agent might need up front, maintain lightweight identifiers — file paths, stored queries, links — and let the agent pull data at runtime with tools. Claude Code works this way by design: memory files drop in naively, then glob and grep navigate just-in-time, bypassing stale indexes entirely. Metadata does quiet work here: a file named <code>test_utils.py</code> in tests/ means something different than the same name in src/, and timestamps proxy relevance. The tradeoff is honest: runtime exploration is slower than pre-computed retrieval and needs opinionated tooling (without guidance the agent chases dead ends), so the mature shape is hybrid — retrieve some up front for speed, explore autonomously at discretion. Your audit below will show which side of that hybrid your sessions live on.</p>
+    <figure>
+      <svg viewBox="0 0 640 250" role="img" aria-label="Stacked context bar: system, memory, skills, reads, and tool results sized by token cost, with a compaction line cutting the bar.">
+        <g font-family="Consolas, monospace" font-size="11" fill="currentColor">
+          <rect x="40" y="60" width="60" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="70" y="150" text-anchor="middle">system</text>
+          <rect x="105" y="60" width="90" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="150" y="150" text-anchor="middle">memory</text>
+          <rect x="200" y="60" width="70" height="80" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><text x="235" y="150" text-anchor="middle">skills</text>
+          <rect x="275" y="60" width="150" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="350" y="150" text-anchor="middle">file reads</text>
+          <rect x="430" y="60" width="170" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="515" y="150" text-anchor="middle">tool results</text>
+          <line x1="40" y1="105" x2="600" y2="105" stroke-width="2" stroke-dasharray="8 5"/>
+          <text x="600" y="95" text-anchor="end">compaction line ↓ keep above</text>
+        </g>
+      </svg>
+      <figcaption><strong>Fig. 5 — the budget.</strong> Every segment costs tokens; the dashed line is where compaction cuts. Your audit tonight prices each segment of your own sessions.</figcaption>
+    </figure>
+  </section>
+
+  <h2><span class="s-n">ii.</span>Audit your own context <span class="time">· 15 min · measured</span></h2>
+  <p>Before changing anything, read the meter. opencode ships one: <code>opencode stats</code> reports sessions, messages, cost, and average plus median tokens per session. On this machine, mid-book: 168 sessions, 4,483 messages, $0.00 — and a median 356K tokens per session against a 2.6M average, which tells you the distribution is skewed by a few marathon sessions. That skew is the audit's first finding on almost every machine: a handful of bloated sessions dominate the budget.</p>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">168</span><span class="stat-label">sessions, 14 days</span></div>
+    <div class="stat"><span class="stat-num">4,483</span><span class="stat-label">messages · $0.00 total</span></div>
+    <div class="stat"><span class="stat-num">356K</span><span class="stat-label">median tokens / session</span></div>
+    <div class="stat"><span class="stat-num">2.6M</span><span class="stat-label">average — marathons dominate</span></div>
+  </div>
+  <p>That skew is the audit's first finding on almost every machine: a handful of bloated sessions dominate the budget. (Executed 2026-09-03 on the author's machine. Your numbers will differ; the skew pattern probably won't. Run it now — this is your baseline.) Read the skew as a diagnosis, not trivia: a median far below the average means a few marathons ate most tokens, and marathons are almost always kitchen-sink sessions wearing a trench coat — five goals, one thread, context rotting since hour one. The session-01 fix applies before any technique in this chapter: split the marathon into one-goal sessions first, then optimize each. No compaction strategy rescues a session that should have been five sessions; the cheapest context engineering is a fresh start, and the stats readout tells you exactly which past sessions prove it.</p>
+  <p>Then inventory one live session's bill by hand. List what entered: the memory file (bytes on disk — divide by four for a rough token estimate), skill descriptions (one line each until loaded), the files read (bytes likewise), the tool results (usually the largest line). Price each segment, rank them, and write down the single largest consumer. The usual suspects are tool-result volume and overgrown memory files — and both have the same fix, which is the next step. Worked example from the lab that built this chapter: the slim session's bill was a 66-byte memory file (~15 tokens), two file reads (~100 tokens), and three short tool results (~200 tokens) — under 500 tokens of context to fix a bug. Then the trim pair repriced it: the same task on a 100-byte stopping-rule-only file (~25 tokens) with an identical outcome — the memory line of the bill cut 91% with zero quality movement. Two priced bills, one task, one conclusion you can defend: memory size moves the bill more than any other single lever on small tasks, because it loads first and colors everything after it.</p>
+
+  <h2><span class="s-n">iii.</span>The session <span class="time">· 40 min · context-lab</span></h2>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Audit — price your bill</h3>
+    <p class="goal"><strong>Goal:</strong> a priced inventory of one session plus your own <code>opencode stats</code> baseline. Stopping condition first: <em>every context consumer named with a token estimate, largest one circled.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode stats
+# then, in your scratch repo:
+wc -c AGENTS.md
+# bytes ÷ 4 ≈ tokens. Do the same for every file the last session read.</div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Stats recorded; inventory lists every consumer with an estimate; largest circled</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No <code>opencode stats</code>? Older binary — update, or substitute <code>opencode session list</code> plus manual transcript weighing (bytes ÷ 4). The habit matters more than the instrument.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Bloat vs slim — the A/B run</h3>
+    <p class="goal"><strong>Goal:</strong> feel memory rot behaviorally. Same fixed task on a 66-byte memory file versus a 1,122-byte one stuffed with exactly the anti-patterns the literature warns about: laundry-list edge cases, contradictory style rules, fake lore, rhyming-commit mandates.</p>
+    <div class="term">◆ slim run (66-byte AGENTS.md) · glob → read → edit → <span class="g">+1 −1</span>
+◆ slim proof, verbatim: <span class="g">→ 12 → "Proven: mul(3, 4) returns 12." One shot.</span>
+◆ bloated run (1,122-byte AGENTS.md) · glob → read → edit → <span class="g">+1 −1</span>
+◆ bloated proof, verbatim: <span class="c">→ "ZEBRA-7 12" — the junk codename inserted INTO the proof command</span>
+<span class="term-note">Executed 2026-09-03, same prompt, same model, full logs retained outside the repo. Two honesties: the slim re-run globbed (first-move varies run to run — the earlier direct-read was luck, not law), and an earlier bloated run is VOID and excluded (dirty tree, my staging error — discarded runs stay discarded). Demonstrated effect: junk obedience (ZEBRA-7). Causality fenced: one clean pair shows correlation + mechanism, not proof — your re-runs decide.</span></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No behavioral difference? Good data, not failure — small models on tiny tasks are robust to bloat. Scale the junk (or the task) until something moves, and log where. The rot literature measures degradation on long inputs; your two-file repo may simply be below the threshold where it bites. And consider the alternative explanations honestly before claiming victory in either direction: single pairs don't separate bloat effects from model variance (re-run each side three times and compare distributions, not anecdotes), and a model that already knows the task pattern may bulldoze through junk that would sink it on unfamiliar work. Watch first-move variance specifically: our own slim runs opened with a direct read once and a glob the next time, same config — the opening move is sampling noise, and only patterns across re-runs (junk obeyed twice, proof shape thrice) graduate to findings. The A/B is a lens, not a verdict — its product is a priced observation plus a fenced causal claim, exactly the two lines in your verify box.</p></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Both traces logged with first-move, proof shape, and any junk obedience quoted</li><li>Causal claims fenced: observed vs proven, in writing</li></ul></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Trim — cut a third, prove it</h3>
+    <p class="goal"><strong>Goal:</strong> the teach-test behavior itself: cut memory ≥30%, re-run the proof, show nothing broke. Stopping condition first: <em>memory file smaller by a third or more, fixed task green, diff one file.</em></p>
+    <p>Replace the bloated memory file with one keeping only the stopping rule (~100 bytes vs 1,122 — a 91% cut, ~280→~25 tokens), then re-run the identical fixed-task prompt:</p>
+    <div class="term">◆ trim: AGENTS.md 1,122B → 100B <span class="g">(91% cut)</span> · re-run → edit <span class="g">+1 −1</span>
+◆ trim proof, verbatim: <span class="g">→ 12, no junk prefix, "Proof: mul(3, 4) → 12."</span>
+<span class="term-note">Executed 2026-09-03. The junk obedience vanished with the junk: clean proof, no ZEBRA-7. Before/after priced: ~280 tokens of memory → ~25, identical task outcome. That pair — priced cut plus green re-run — is the ≥30% demonstration this session promised.</span></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Trim broke the task? You cut signal, not fat — restore from git, cut half as much, re-run. The verify box below is the judge: green proof plus smaller bill, or it doesn't count. Never "feel" a trim; price it. And run the restore-and-halve protocol when a cut fails twice: restore fully, confirm green, then cut a quarter of what you cut before. Binary search beats guessing — two halvings locate the line between fat and signal faster than any amount of staring at the file. Log every attempt as bill-before, bill-after, proof result; three logged attempts make a trim history worth keeping, and the history is what stops the next session from re-trimming what you already proved load-bearing.</p></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Before/after byte counts logged with token estimates; cut ≥30%</li><li>Fixed task re-run green on the trimmed config, diff one file</li></ul></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Delegate — price the subagent</h3>
+    <p class="goal"><strong>Goal:</strong> a measured answer to "when does delegation pay?" Run an exploration through a subagent and make it price itself.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Explore this repo (AGENTS.md, mul.js, git log) using a delegated subagent for the exploration, then report: what you found, and roughly how many tokens the subagent used vs what a full read would cost. Keep the main response under 150 words.</div>
+    <div class="term">◆ Explore subagent spawned ✓ · reported accurately — <span class="g">including committed-vs-working-tree state</span>
+◆ self-priced: ~1,500–2,000 tokens vs ~200–300 direct → <span class="c">6–8x overhead here</span>
+◆ verdict (its own words): <span class="c">"justified only if the task were more complex"</span>
+<span class="term-note">Executed 2026-09-03. The subagent was right: delegation on a tiny repo is pure overhead. That is the Cognition lesson with numbers attached — delegate where the exploration dwarfs the summary, never by default.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Delegation ratio computed for your repo (subagent cost ÷ direct-read cost)</li><li>You can state the threshold where your delegation starts paying</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Agent won't delegate? Don't argue — delegation is architecture, not persuasion. Some harnesses need explicit subagent types or config; if yours won't, run the comparison manually (full read vs written summary) and price that instead. The ratio is the lesson, not the tool call.</p></div>
+  </div>
+  <p>Generalize the ratio before you forget it — worked illustration, not measurement: <em>if</em> a subagent burned 30,000 tokens to return 1,500, that would be 20x compression of what the main window never held. Ours measured 6–8x the <em>other</em> way (summary approaching exploration cost), and it rots when subtasks share hidden state the summary can't carry (the Cognition warning: conflicting-context workers producing fragile merges). The decision rule fits one line: delegate breadth (independent searches, parallel recon), never depth-with-shared-state. And price the summary itself — five simultaneous 1,500-token returns would park 7,500 tokens of other agents' conclusions in your "clean" main window. Fan-out has a budget too. Compute your break-even before delegating by habit: divide a typical exploration cost on your work by the summary size you accept, and delegate only above a ratio that beats your direct-read baseline with room to spare — rule of thumb, 3x measured, not hoped. Below that line, the subagent is ceremony; above it, leverage. The documented pattern to calibrate against is roughly 14x (6,100 tokens of recon returning 420); your work will differ, and now you know how to find your number.</p>
+
+  <div class="step">
+    <h3><span class="n">5.</span>Compact — the reader-run lever</h3>
+    <p class="goal"><strong>Goal:</strong> watch a long session survive its own window. Compaction can't be forced headlessly with dignity, so this step runs in the TUI on your longest session: invoke <code>/compact</code>, then inspect what survived.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button># in your longest opencode session:
+/compact
+# then ask: "summarize what you retained about this task in 5 bullets"</div>
+    <p class="variant">What should survive, per the documented semantics: architectural decisions, unresolved bugs, implementation details — plus the five most recently accessed files. What should die: raw tool outputs, redundant messages. Grade your compaction against that bar; if a decision vanished, your structured notes (NOTES.md habit, session 16) have a gap to fill. opencode exposes the continuation prompt as an experimental plugin hook for the day you want to tune it. And start the cheapest long-horizon habit tonight: a running NOTES.md where the agent records decisions as made — one line per decision, dated. Compaction then summarizes a window that already contains its own minutes, instead of reconstructing them from archaeology. Notes are how sessions survive their own summarization.</p>
+    <div class="verify"><span>✓ Verify</span><ul><li>Post-compaction summary graded against the survive/die bar; gaps logged</li><li>Rubric: every bullet tagged retained-decision, retained-bug, retained-detail, dropped-noise, or dropped-signal — four keeps and one honest loss is a healthy compaction</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Nothing to compact yet? Your sessions are short — that's a compliment to your session discipline (one goal per session compacts naturally). Borrow a marathon: export any long transcript and grade what <em>you</em> would keep vs cut before ever invoking /compact.</p></div>
+  </div>
+
+  <h2><span class="s-n">iv.</span>The trim checklist <span class="time">· tonight's habit</span></h2>
+  <p>End with the checklist that converts the audit into a routine. Run it whenever a session feels sluggish — sluggishness is usually context, not model. <strong>One, kill hungry tools:</strong> an MCP server that dumps schemas on load (the docs' own example: a GitHub server that "can easily exceed the context limit") gets disabled or glob-scoped before anything else. <strong>Two, slim memory:</strong> cut the file to conventions that changed a trace this month; move procedures into skills where bodies load on use. <strong>Three, canonical examples only:</strong> replace the laundry list of edge cases with diverse canonical ones — the essay's explicit guidance, and the exact anti-pattern the bloated run wore. <strong>Four, minimal toolsets:</strong> if you can't say definitively which tool handles a situation, neither can the agent — prune overlap. <strong>Five, clear tool results first:</strong> the lightest-touch compaction in existence is dropping raw results deep in history; whole summaries are the heavy machinery for when clearing isn't enough. Five cuts, ten minutes, one re-run to verify nothing broke. Log the bill before and after in identical units — bytes and estimated tokens, dated — or the trim never happened. That loop — audit, trim, verify — is context engineering as a practice rather than a chapter. Schedule it monthly alongside the limits-page ritual from session 03: contexts rot and prices move on the same clock, and one sitting maintains both.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Lever</th><th>Measured here</th><th>Pays when</th><th>Rots when</th></tr>
+          <tr><td><strong>Audit + trim</strong></td><td>A/B 66B vs 1,122B (junk obeyed); trim 1,122B→100B, re-run green</td><td>Always — smallest high-signal set wins</td><td>Trimming cuts live signal (verify by re-run)</td></tr>
+    <tr><td><strong>Compaction</strong></td><td>Reader-run (semantics ledger-backed)</td><td>Conversational flow across marathons</td><td>Aggressive summaries drop latent decisions</td></tr>
+    <tr><td><strong>Notes</strong></td><td>Scorecard habit (this book's own ledger!)</td><td>Milestones across sessions</td><td>Notes rot like memory — prune them</td></tr>
+      <tr><td><strong>Subagents</strong></td><td>6–8x overhead tiny here; docs report 6,100→420 on real recon</td><td>Exploration dwarfs the summary</td><td>Naive fan-out disperses decisions</td></tr>
+  </table></div>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>I recorded my <code>opencode stats</code> baseline and priced one session's bill.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I ran the slim/bloated pair (or equivalent) and logged behavioral differences with causality fenced.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>I measured a delegation ratio and can state when delegation pays on my work.</span></label>
+  </section>
+
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Attention budget, n² stretch, just-in-time retrieval, progressive disclosure, compaction/note-taking/subagents triad</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://anthropic.com/engineering/effective-context-engineering-for-ai-agents</span> · fetched live 2026-09-03 · defining essay</span></details>
+    <details><summary>Context rot across 18 models; distractors compound; replication code public</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://research.trychroma.com/context-rot</span> · ledger row · controlled but vendor-authored</span></details>
+    <details><summary>Naive fan-out fragility: unshared context, dispersed decisions — delegate where it pays</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://cognition.ai/blog/dont-build-multi-agents</span> · ledger row · canonical counterpoint, executed its lesson</span></details>
+    <details><summary>A/B + trim executed 2026-09-03: slim vs bloated traces, junk obedience, 1,122B→100B re-run green, fenced causality</summary><span class="receipt"><span class="tier">T2 own-execution</span><span class="r-url">https://research.trychroma.com/context-rot</span> · ledger rows · observed-not-proven labeled; tier follows the cited source</span></details>
+    <details><summary>Delegation measured 2026-09-03: Explore subagent accurate, self-priced 6–8x overhead on tiny repo</summary><span class="receipt"><span class="tier">T2 own-execution</span><span class="r-url">https://cognition.ai/blog/dont-build-multi-agents</span> · ledger row · numbers attached; tier follows the cited source</span></details>
+    <details><summary>opencode stats instrument (median 356K measured here); token figures illustrative, mechanisms real</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs</span> · ledger stats row · audit step built on it</span></details>
+    <details><summary>Compaction semantics: /compact summaries, CLAUDE.md re-reads, skills re-inject capped, PreCompact hooks</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/context-window</span> · ledger rows · step-4 bar backed</span></details>
+    <details><summary>Skills progressive disclosure; MCP schemas deferred and hungry; experimental compacting hook</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/mcp-servers</span> · ledger row (cost tradeoff stated outright) · plus <span class="r-url">https://code.claude.com/docs/en/skills</span> ledger row (disclosure mechanics) · plus <span class="r-url">https://opencode.ai/docs/plugins</span> ledger row (compacting hook)</span></details>
+    <details><summary>Memory across sessions: CLAUDE.md + auto-memory per repo; subagent isolation quantified 6,100→420</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/memory</span> · ledger row (machine-local scope) · plus <span class="r-url">https://code.claude.com/docs/en/sub-agents</span> ledger row (isolation figures)</span></details>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch04/index.html">← session 04</a>
+    <!-- ch06 not yet appended: next points home until it lands -->
+    <a href="../../index.html">more sessions →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch05-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
+</main>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>
