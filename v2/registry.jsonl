@@ -1,0 +1,9 @@
+{"key":"term.harness","value":"The program wrapped around the model: system prompt, tools (read/edit/run), permission gates, transcript management. You never talk to a raw model.","locked":"2026-09-03"}
+{"key":"term.loop","value":"Model proposes an action → harness executes → result feeds back, until the stopping condition is met. Remove the loop and you have a chatbot.","locked":"2026-09-03"}
+{"key":"term.stopping-condition","value":"A falsifiable finish line written BEFORE the goal is run (e.g. 'these three tests pass, no other files touched').","locked":"2026-09-03"}
+{"key":"term.session","value":"One goal, one agent run, one verify step. Kitchen-sink sessions (many goals, one thread) are the canonical failure.","locked":"2026-09-03"}
+{"key":"conv.prompt-default","value":"All paste-blocks default to opencode. Variant lines for Claude Code / Codex CLI / Gemini CLI only where commands differ.","locked":"2026-09-03"}
+{"key":"conv.venue","value":"Sessions run in scratch repos (mkdir, 1-3 files) unless the brief justifies more. Reproducible from zero.","locked":"2026-09-03"}
+{"key":"conv.receipts","value":"Every factual claim with a URL must match a docs/source-ledger.md row verbatim. New facts need new ledger rows first.","locked":"2026-09-03"}
+{"key":"fig.grammar","value":"Inline SVG only. Palette roles: ink structure, accent motion/emphasis, go pass/done, stop fail/wall. Every arrow labeled with a verb. Caption starts 'Fig. N —'. Motion dies under prefers-reduced-motion.","locked":"2026-09-03"}
+{"key":"a11y.floor","value":"Semantic HTML, 3px focus rings, ≥38px (44px preferred) tap targets, shape+label never color alone, dark theme first-class, no blue.","locked":"2026-09-03"}
