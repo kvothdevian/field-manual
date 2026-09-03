@@ -34,7 +34,15 @@ function checkChapter(file, urls) {
   // required blocks (VOICE.md structure)
   if (!has(/<h1[\s>]/)) err(file, "missing <h1>");
   if (!has(/class="lede"/)) err(file, "missing .lede outcome promise");
-  if (!has(/briefing/i)) err(file, "missing briefing section");
+  // briefing budget (VOICE.md): section[aria-label] or class briefing, prose only
+  const bStart = html.search(/aria-label="Briefing"|class="briefing"/);
+  if (bStart < 0) err(file, "missing briefing section");
+  else {
+    const bHtml = html.slice(bStart, html.indexOf("</section>", bStart));
+    const bWords = bHtml.replace(/<pre[\s\S]*?<\/pre>/g, " ").replace(/<[^>]+>/g, " ")
+      .split(/\s+/).filter(Boolean).length;
+    if (bWords > BRIEF_MAX) err(file, `briefing ${bWords} words (max ${BRIEF_MAX})`);
+  }
   const steps = html.match(/class="step"/g) || [];
   if (steps.length < 3) err(file, `only ${steps.length} session steps (min 3)`);
   if (steps.length > 6) warn(file, `${steps.length} session steps (max 6)`);
