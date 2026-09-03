@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06 · Patterns that ship — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
+</head>
+<body>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 06</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
+</header>
+<main>
+  <p class="kicker">Session 06 · prompting craft · opencode default</p>
+  <h1>Patterns that ship</h1>
+  <p class="lede">Name five workflow patterns, run the same task three ways with logged costs, and put your own work through a builder-critic gauntlet that names its biggest gap.</p>
+  <p class="kicker" style="margin-top:1rem">70 min · scratch repo · needs ch05 · verified 2026-09-03</p>
+
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · shapes with prices</p>
+    <h2><span class="s-n">i.</span>Five shapes, one baseline</h2>
+    <p>Before the five named patterns, the zeroth option: <strong>one direct prompt, one session, a clear stopping condition.</strong> If that works — and it works far more often than beginners expect — you are done. Every pattern below is a purchase paid in tokens, latency, and parts that can disagree. The field's most profitable bias, from the people who named the patterns: start with the simplest thing that could work, and add complexity only when measurements say you must. The five names: <strong>prompt chaining</strong> (fixed substeps feeding forward — gather, draft, check), <strong>routing</strong> (classify first, dispatch to a specialist), <strong>parallelization</strong> (split independent pieces, or run candidates and vote), <strong>orchestrator-workers</strong> (a planner delegating to insulated workers), <strong>evaluator-optimizer</strong> (one model generates, another judges against criteria, loop until it passes — the only pattern that manufactures judgment where no test exists). §ii prices every shape; the session prices three of them with real runs.</p>
+    <p>Three companion disciplines ride with the patterns. <strong>Spec-driven development</strong> turns intent into the source of truth: constitution (non-negotiable principles) → specify (what and why, no tech choices) → plan (technical decisions grounded in the constitution) → tasks (ordered, checkable chunks) → implement → converge — with clarify, analyze, and checklist commands between the arrows, and the honest footnote that this is not waterfall (re-enter any step when reality argues back). Spec Kit's live 1.0.0 speaks two dialects you must both recognize: <code>/speckit.*</code> slash commands and <code>speckit-*</code> agent skills.</p>
+ <strong>Tests as steering:</strong> red-green TDD in one line — write the failing test first, confirm it fails, then make it pass — because tests written after the code encode the model's own misreadings. <strong>Evals before iteration:</strong> where no assertion says "good enough," climb assertions → human/LLM judge → A/B, aligning any model-judge against 25–50 human labels first, because missing evals are the most common stall point in AI projects.</p>
+    <figure>
+      <svg viewBox="0 0 640 270" role="img" aria-label="Pattern picker flow: task shape questions route to direct prompt, chaining, routing, fan-out, orchestrator, or evaluator patterns.">
+        <g font-family="Consolas, monospace" font-size="11" text-anchor="middle" fill="currentColor">
+          <rect x="230" y="15" width="180" height="44" rx="22" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="42">one task, known steps?</text>
+          <rect x="60" y="100" width="150" height="44" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="135" y="127">direct prompt</text>
+          <rect x="245" y="100" width="150" height="44" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="120">distinct stages?</text><text x="320" y="134">→ chaining</text>
+          <rect x="430" y="100" width="150" height="44" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="505" y="120">many kinds?</text><text x="505" y="134">→ routing</text>
+          <rect x="60" y="185" width="150" height="44" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="135" y="205">independent parts?</text><text x="135" y="219">→ fan-out</text>
+          <rect x="245" y="185" width="150" height="44" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="205">separable + plan?</text><text x="320" y="219">→ orchestrator</text>
+          <rect x="430" y="185" width="150" height="44" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="505" y="205">taste, no test?</text><text x="505" y="219">→ evaluator</text>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M320,59 L135,100" marker-end="url(#ah6)"/>
+          <path d="M320,59 L320,100" marker-end="url(#ah6)"/>
+          <path d="M320,59 L505,100" marker-end="url(#ah6)"/>
+          <path d="M135,144 L135,185" marker-end="url(#ah6)"/>
+          <path d="M320,144 L320,185" marker-end="url(#ah6)"/>
+          <path d="M505,144 L505,185" marker-end="url(#ah6)"/>
+        </g>
+        <defs><marker id="ah6" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+      </svg>
+      <figcaption><strong>Fig. 6 — the picker.</strong> Answer the shape question honestly and the simplest sufficient pattern picks itself. Complexity without a measured reason is ceremony.</figcaption>
+    </figure>
+    <p>One honest boundary to close the briefing. The gauntlet you will run in step 5 — builder drafts, critic reviews blind-ish against criteria, binary verdict, biggest gap returns — is this book's house pattern, and it has no quantitative validation behind it. Its studied cousins are the evaluator-optimizer pattern above, Reflexion's reflection loop (peer-reviewed, but its 80→91% digits predate modern harnesses by years), and judge-alignment discipline. Presented as practitioner craft with the book itself as running evidence — which is exactly what "unvalidated" means here: try it, log it, keep it iff it works for you.</p>
+  </section>
+
+  <h2><span class="s-n">ii.</span>What each shape costs <span class="time">· buy only with a reason</span></h2>
+  <p>Price each shape before buying it, because the costs differ in kind, not just size. Named rules below are workshop rules — author's, ledger-backed where cited, disprovable where marked: log the disproof when you find one.</p> Chaining pays per handoff (tokens at every seam) and fails at the weakest stage — buy it when stages are genuinely distinct, not to make a two-step job look rigorous. A worked shape: changelog generation as gather (collect commits) → draft (write entries) → check (verify against the diff) — three genuinely different operations, each inspectable, each re-runnable alone when one fails. Routing buys focus for the price of a classifier you must maintain; it pays when inputs genuinely sort into kinds needing different handling — a triage bot sending bug reports, feature requests, and questions down three different prompts. Count the maintenance before you buy: labels drift as products change, new kinds arrive unannounced, and every misroute pays double (wrong handler plus recovery). A routing layer earns its keep with a fallback route — the explicit "none of the above" handler — and a confusion log you review monthly. Without both, the classifier silently becomes the system's most confident liar. Parallelization buys latency for coordination cost: sectioning pays on separable work (five independent file migrations), voting pays when disagreement is signal (three candidate fixes, tests as the ballot).</p>
+  <p>Orchestrator-workers buys scale for fragility, and deserves its warning label in full. Workers that cannot see each other compound misunderstandings: each worker's action carries implicit decisions the others never observe, retries collide on shared state, and the orchestrator merges debris it cannot attribute. The skeptics' documented position is that this fragility is structural, not a bug to prompt away — buy the pattern only with interfaces crisp enough to survive isolation (typed inputs, owned files, no shared mutable state) and a merge step you could defend in review. Concretely, an interface that survives isolation names three things per subtask: the exact files owned (no two workers share a write path), the exact shape returned (a schema, not prose), and the exact conflict rule (last-writer-wins per file, or orchestrator-mediated merge with the losing diff preserved in the log). Miss any of the three and the merge becomes archaeology. Evaluator-optimizer buys judgment for rounds: each loop costs a generation plus a judgment, and an unaligned judge optimizes noise loudly — align it against human labels first, exactly as the evals ladder demands, or the loop polishes confidently toward the wrong bar.</p>
+  <p>The separation of concerns inside spec-driven work is the whole design: specify owns what-and-why and explicitly excludes technology choices, plan owns the technical decisions grounded in the constitution, tasks makes the work ordered and checkable — and converge checks the implementation back against all three, appending leftovers as new tasks instead of declaring victory. Around the core sit the modifiers: clarify before planning, analyze for cross-artifact consistency after tasks, checklists that validate requirements like unit tests validate code, plus opt-in extensions for bug-fixing (assess → fix → test) and idea assessment (intake → decide). Install needs uv and Python — not installed on this machine by standing rule, so every Spec Kit claim here is docs-verified and reader-run, labeled as such. On evals mechanics: climb the ladder one rung at a time (assertion, then judge, then A/B), because each rung answers a different question — assertions check knowns, judges approximate taste, A/B measures outcomes — and skipping straight to judging means optimizing a bar nobody wrote down. Judge alignment itself is a protocol, not a hope: collect 25–50 human labels first, measure the model's agreement against them, iterate the judge prompt until agreement holds, and only then let it gate anything. An unaligned judge doesn't optimize quality; it optimizes noise, loudly — and the volume makes the failure hard to catch, because confident numbers look like rigor. The Reflexion export worth keeping is cheaper than its benchmark: between attempts, write down what failed and why instead of blindly retrying — a short post-mortem held where the next attempt can read it. Treat the digits as historical and the habit as current. And verify at every seam you paid extra to create: each handoff between stages multiplies unverified assumptions into the next stage's inputs, so by the time symptoms surface you can no longer attribute the failure. The chaining tax is not the tokens at the seams — it is the attribution debt. Check each stage's output against its input contract before passing it on, especially the seams that exist for ceremony rather than necessity.</p>
+
+  <h2><span class="s-n">iii.</span>The three-way run <span class="time">· executed 2026-09-03</span></h2>
+  <p>One task (median of [3,1,2] must equal 2, plus median of [7]), three shapes, logged costs. The transcripts below are condensed from real runs — including a wrong turn worth more than the successes. Watch two things across all three runs: where the tokens go (diagnosis versus ceremony) and where the judgment lives (the suite, the plan, or the critic).</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Direct — the baseline purchase: nothing</h3>
+    <p class="goal"><strong>Goal:</strong> the cheapest possible price for the task. One prompt, one run, stopping condition first: <em>both tests green, one file.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Fix median.js so both tests pass. Run node --test median.test.js to prove it. Do not touch any other file.</div>
+    <div class="term">◆ direct · read → edit → <span class="g">+3 −1 · 2/2 green, 1 file</span>
+<span class="term-note">Executed 2026-09-03. Sort a copy numerically, return the middle. No ceremony, no plan, no critic — and nothing to criticize. Log this row first: every fancier shape must beat it.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Tests green from your terminal; diff logged (+/−, files)</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Direct run stalls past 15 minutes? Narrow the task (fewer tests, smaller function) instead of nursing it — the baseline must stay cheap or the whole comparison lies.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Plan-first — two runs, one approval</h3>
+    <p class="goal"><strong>Goal:</strong> feel what planning buys. Run one must produce ONLY a plan (no edits — verify the diff is empty), run two implements the approved plan.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Do NOT edit any file. Produce ONLY a short implementation plan (numbered steps) for fixing median.js so both tests pass, then stop.</div>
+    <div class="term">◆ plan run · read both files · <span class="g">3-step plan, zero edits (diff empty ✓)</span>
+◆ implement run · applied the approved plan → <span class="g">+3 −1 · 2/2 green</span>
+<span class="term-note">Executed 2026-09-03. The plan run read both files before proposing — that reconnaissance is what you're buying. Price: twice the runs; tokens unlogged here — measure yours and confirm or disprove the "~2x" folk estimate.</span></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Plan run edited anyway? Your "do NOT edit" was a wish, not a gate — instructions ask, denies block (session 04). In the TUI, real plan mode is a harness gate (Tab), not a sentence. Headless, split the runs and check the diff between them; the empty diff IS the verification.</p></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Run-one diff empty (plan-only honored); run-two diff logged; run count doubled, token cost logged by you</li></ul></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Evaluator — builder vs critic</h3>
+    <p class="goal"><strong>Goal:</strong> manufacture judgment. Builder drafts, critic reviews against written criteria with a binary verdict plus the single biggest gap.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Draft a fix for median.js so both tests pass. Run the tests. Report the diff.
+--- then, fresh run: ---
+You are the critic. Review the uncommitted diff against: (1) both tests genuinely pass (run them), (2) no other file touched, (3) no untested helper added. Verdict: SHIP or KILL plus the single biggest gap.</div>
+    <div class="term">◆ builder · fix +3 −1 · 2/2 green
+◆ critic · checklist: <span class="g">3/3 green</span> · biggest gap: <span class="c">"Even-length arrays are untested — the diff adds even-case logic neither test exercises."</span>
+<span class="term-note">Executed 2026-09-03, and the critic earned its tokens: the builder over-built past the suite (even-length branch, zero coverage), and only the critic noticed. Green tests plus an untested branch is the failure red-green TDD exists to prevent — unconfirmed code agreeing with itself.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Critic verdict + biggest gap logged; gap is about the diff, not vibes</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Critic parrots the builder ("looks good, ship it")? The fresh session was violated — new chat, criteria pasted, artifact attached, zero shared history. A critic that read the builder's reasoning is a second builder.</p></div>
+  </div>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">1 + 1</span><span class="stat-label">rounds: builder draft, critic verdict</span></div>
+    <div class="stat"><span class="stat-num">3 / 3</span><span class="stat-label">criteria green</span></div>
+    <div class="stat"><span class="stat-num">1</span><span class="stat-label">biggest gap: untested even branch</span></div>
+  </div>
+  <div class="table-scroll"><table>
+    <tr><th>Shape</th><th>Runs (measured)</th><th>Diff</th><th>What it bought</th><th>Tokens (log yours)</th></tr>
+    <tr><td><strong>Direct</strong></td><td>1</td><td>+3 −1, green</td><td>Nothing beyond the fix</td><td>___ (baseline)</td></tr>
+      <tr><td><strong>Plan-first</strong></td><td>2</td><td>+3 −1, green</td><td>Reviewed reasoning before edits</td><td>___ (runs 2x; tokens: log yours)</td></tr>
+      <tr><td><strong>Evaluator</strong></td><td>2 + judgment</td><td>+3 −1, green + genuine gap found</td><td>Caught over-building past the suite</td><td>___ (runs 2x+judgment; tokens: log yours)</td></tr>
+  </table></div>
+  <p>Read the table the way the doctrine demands: direct wins this task and should win most small tasks — the fancier shapes must beat 1x to justify themselves, and here neither does on cost. What they buy is not speed but different failure coverage: plan-first buys reviewability (the empty diff between runs is a decision point a second human could have entered), evaluator buys detection (the even-branch gap no test named). Chaining would buy inspectability here at a bad price — gather, draft, and check on a one-function fix is three seams for a two-step job — which is exactly how you learn the cost/kind distinction: name what each seam would have caught, and when the answer is "nothing," ship the boring version. Voting has one more failure mode worth knowing before you try it: correlated blindness. Candidates from the same model family share training and blind spots, so three votes can agree confidently on the same wrong answer — votes are signal only when the candidates genuinely disagree, which usually means different models or different decompositions, not three samples from one distribution. (Analysis, not measurement: disprove it by voting across families and logging when agreement misleads.) Your logbook extends this table to your tasks, and the day a shape's row beats direct on your work is the day you adopt it — with the measurement that proved it attached.</p>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Red-green — the one-line prompt</h3>
+    <p class="goal"><strong>Goal:</strong> the cheapest control surface in this book. Tests first, confirmed failure, then green — on a new function, so the suite grows instead of echoing.</p>
+    <p>This chapter's own lab demonstrates it: <code>median.test.js</code> was written before any fix and ran red on arrival (median-of-three failing, 1 pass 1 fail) — the confirmed failure this discipline demands. The confirmed failure is the point, and it protects against two distinct mistakes at once: code that doesn't work (the red you must turn green) and code nobody needs (dead code no test ever exercises can never turn a red test green, so it stands out immediately). Skip the confirmation and both protections evaporate — a test that passes before the fix is a participation trophy. Your turn, same shape:</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Using red/green TDD: first write a failing test for even-length median (median([1,2,3,4]) === 2.5), confirm it fails, then implement until green. Do not touch any other file.</div>
+    <div class="term">◆ red, verbatim from this chapter's lab: <span class="c">✖ median of three · pass 1 · fail 1</span>
+<span class="term-note">Captured before any fix was written. Your red must look like this: named test, failing output quoted, implementation untouched.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Red observed (failing output quoted) BEFORE any implementation edit</li><li>Green after; the critic's gap from step 3 is now covered by a test</li><li>Suite scanned for tests that never failed — unfailed tests are untested tests, name them</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Test passes before you implement? It cannot fail — rewrite it to assert the new behavior specifically (wrong values in, exact expected out). A test that passes on the old code is decoration.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">5.</span>Your gauntlet — blind-ish, binary, honest</h3>
+    <p class="goal"><strong>Goal:</strong> run the book's engine on your own artifact. Builder drafts, critic judges against criteria you write down first, verdict is binary, biggest gap returns to builder. Exit on judgment, never on a round count.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Builder: draft [your artifact: a function, a config, a doc section].
+Critic (fresh session): judge it against [your 3 written criteria]. Verdict SHIP or KILL + the single biggest gap. No scores.</div>
+    <div class="term">◆ format reference, from the executed critic above:
+◆ checklist 3/3 → verdict + <span class="c">"single biggest gap" named, no scores</span>
+<span class="term-note">Not a second run — the shape of the first one, quoted so your critic's output has a template. Fresh session, criteria pasted, artifact attached.</span></div>
+    <p class="variant">Fresh session matters: the critic must not inherit the builder's rationalizations. New chat, criteria pasted in, artifact attached — empty transcript, clean eyes. Log rounds until the verdict flips or you stop the run; both outcomes teach. Set the exit rule before round one: the loop ends when the critic ships the work blind or when you stop it — this book's house rule is never to exit on a round count. And write the criteria narrowly enough to judge: "both tests pass" is checkable, "code is clean" is a mood. The critic can only manufacture the judgment your criteria describe, so vague criteria manufacture vague verdicts. Expect your first gauntlets to run long; the rounds get shorter as your builder learns what your critic checks. First gauntlet suggestion: run it on this chapter's own scorecard table — fresh session, criteria "numbers match the runs," verdict binary.</p>
+    <div class="verify"><span>✓ Verify</span><ul><li>Criteria written BEFORE the draft; verdict binary; biggest gap logged with its fix</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No artifact handy? Run round one on this chapter's own scorecard table (criteria: "numbers match the runs"). Borrowing the book's artifact beats waiting for the perfect one.</p></div>
+  </div>
+
+  <ol class="timeline">
+    <li><b>direct</b> — one prompt, +3 −1, green. The price to beat: 1 run.</li>
+    <li><b>plan-first</b> — plan honored with empty diff, then green. Price: 2 runs; tokens unlogged, measure yours.</li>
+    <li><b>evaluator</b> — builder green, critic 3/3 with a genuine gap (untested even branch).</li>
+    <li><b>red-green</b> — confirmed failure first, then green; the gap gets its test.</li>
+    <li><b>your gauntlet</b> — criteria first, binary verdict, biggest gap returns.</li>
+  </ol>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>I logged all three shapes on one task with costs (tokens, runs, diff).</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I watched a red test fail before writing implementation.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>I ran a builder-critic gauntlet with written criteria and a binary verdict.</span></label>
+  </section>
+
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Five-shape taxonomy + simplest-thing-that-works + complexity-only-when-measured</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.anthropic.com/research/building-effective-agents</span> · ledger row · pattern-namers' essay</span></details>
+    <details><summary>Spec Kit 1.0.0: dual command forms, constitution→converge flow, clarify/analyze/checklist, bug/assess extensions + sub-steps</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://github.com/github/spec-kit</span> · re-verified 2026-09-03 · install needs uv (reader-run)</span></details>
+    <details><summary>Red-green TDD: test-first, confirmed failure, one-line prompt; page Feb 2026</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span> · re-verified 2026-09-03 · content holds</span></details>
+    <details><summary>Three-way executed 2026-09-03: direct/plan/evaluator transcripts + critic's even-branch gap</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://www.anthropic.com/research/building-effective-agents</span> · ledger row · shapes demonstrated, gap genuine</span></details>
+    <details><summary>TDD red demonstrated: median suite 1/2 failing before any fix, green after</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span> · ledger row · confirmed-failure captured</span></details>
+    <details><summary>Evals ladder: assertions → judge → A/B; align judge on 25–50 labels; missing evals stall most</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://hamel.dev/blog/posts/evals/</span> · ledger row · named case study</span></details>
+    <details><summary>Reflexion with expiry date: reflection loop peer-reviewed, digits predate modern harnesses</summary><span class="receipt"><span class="tier">T1 research</span><span class="r-url">https://arxiv.org/abs/2303.11366</span> · ledger row · habit current, digits historical</span></details>
+    <details><summary>Multi-agent fragility counterpoint: dispersed decisions + unshared context; workshop rules (fallback routes, confusion logs, owned files, return schemas, conflict rules)</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://cognition.ai/blog/dont-build-multi-agents</span> · ledger rows (position + prescriptions) · structural-fragility position</span></details>
+    <details><summary>Plan-first mechanics: read-only plan, approve before edits, delegate research to subagents (+opencode Tab plan/build)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/common-workflows</span> · ledger row · plus <span class="r-url">https://opencode.ai/docs</span> ledger row (Tab agents) · prescriptive</span></details>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch05/index.html">← session 05</a>
+    <!-- ch07 not yet appended: next points home until it lands -->
+    <a href="../../index.html">more sessions →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch06-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
+</main>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

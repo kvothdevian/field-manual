@@ -31,15 +31,16 @@ trap). Evals ladder (align judge on 25–50 labels). Reflexion habit
 with expired digits. The gauntlet (this book's engine, honestly
 labeled unvalidated craft).
 
-## Visuals — trio {svg, timeline, stat-strip}
+## Visuals — quad {svg, table, timeline, stat-strip} (amended round-2: price table + gauntlet strip both earned a place; all sets distinct from ch01–ch05)
 
 1. **Fig. 6 — the picker (signature SVG).** Decision flow: task
    shape → simplest sufficient pattern. Answers: "which shape for
    THIS task?"
-2. **Pattern timeline.** Same task three ways: tokens, latency,
-   diff quality per pattern.
-3. **Gauntlet stat strip.** Builder→critic rounds on the real
-   artifact: verdicts per round until blind win (or human stop).
+2. **Price table.** Direct/plan/evaluator: measured runs + diffs,
+   reader-logged tokens.
+3. **Pattern timeline.** Same task three ways + red-green + gauntlet.
+4. **Gauntlet stat-strip.** Builder/critic rounds, criteria green,
+   biggest gap.
 
 ## Session (5 steps)
 
