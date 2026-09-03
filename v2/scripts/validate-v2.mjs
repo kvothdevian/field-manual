@@ -42,11 +42,12 @@ function checkChapter(file, urls) {
     if (!has(new RegExp(`class="${cls}"`))) err(file, `missing .${cls} block`);
   }
   // visuals: HTML-first budget — >=3 visual blocks in >=3 forms, max 1 SVG.
-  // visual block = <figure> | .diff | .term | .stat-strip | .timeline
+  // visual block = <figure> | .diff | .term | .stat-strip | .timeline | <table>
   const figures = [...html.matchAll(/<figure[\s>]/g)].length;
+  const tables = [...html.matchAll(/<table[\s>]/g)].length;
   const svgs = [...html.matchAll(/<svg[\s>]/g)];
   const htmlVisuals = (html.match(/class="(diff|term|stat-strip|timeline)"/g) || []).length;
-  const visualTotal = figures + htmlVisuals;
+  const visualTotal = figures + tables + htmlVisuals;
   if (visualTotal < 3) err(file, `only ${visualTotal} visual blocks (min 3: 1 signature + 2 HTML infographics)`);
   if (svgs.length > 1) err(file, `${svgs.length} SVGs (max 1 signature SVG; build the rest in HTML)`);
   for (const [i, m] of [...html.matchAll(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/g)].entries()) {
@@ -55,6 +56,7 @@ function checkChapter(file, urls) {
   if (!has(/<figcaption>(<[^>]+>)*Fig\. \d+ —/)) err(file, "figcaption must start 'Fig. N —'");
   const forms = new Set([...html.matchAll(/class="(diff|term|stat-strip|timeline)"/g)].map(m => m[1]));
   if (svgs.length) forms.add("svg");
+  if (tables) forms.add("table");
   if (figures > forms.size) forms.add("figure");
   if (forms.size < 3) err(file, `only ${forms.size} visual forms (min 3 different forms)`);
   // receipts: every URL must be a ledger row (closed world)
