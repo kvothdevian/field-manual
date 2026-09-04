@@ -149,6 +149,10 @@ Rows below are lightly normalized; wording preserved from the vetting pass.
 Covered by the Ch 03 table above (rows tagged 16): token buckets, spend tiers,
 credit systems, free-tier training tradeoffs, off-peak routing economics.
 
+NOTE (v2 P4): v2 ch16 is the daily-workflow capstone — it cites, it does not
+re-research. These cost rows are NOT inherited; live cost rows live in the
+Ch 15 section below.
+
 ## Ch 12 — Pipelines that prevent bloat
 
 | claim | URL | tier | as-of | fetched | note |
@@ -161,6 +165,8 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Dependabot updates pinned GitHub Actions via dependabot.yml (package-ecosystem: github-actions) | https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot | T1 | current | y | Copy-paste config |
 | Renovate: multi-platform dependency automation; scheduling/presets; AGPL-3.0 | https://docs.renovatebot.com/ | T1 | v44.41.1 | y | Maintainer docs |
 | Agent-run recurring jobs recipes: docs-sync, triage, scheduled maintenance | .../claude-code-action/blob/main/docs/solutions.md | T1 | 2026 | y | From official solutions guide |
+| Runner exit-code contract: steps report fail/succeed on exit code; on.schedule takes cron for time-triggered sweeps | https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax | T1 | 2026-09-04 | y | v2 ch12: fetched live; exit-code + schedule sections confirm doorway-vs-calendar framing |
+| Hook exit-code semantics re-verified: exit 0 with no output means no decision, normal permission flow applies | https://code.claude.com/docs/en/hooks | T1 | 2026-09-04 | y | v2 ch12: re-verified live; silent-pass wording holds |
 
 ## Ch 13 — Shipping for $0
 
@@ -173,6 +179,17 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | GitHub Pages published SOFT limits: ~100 GB/mo bandwidth (soft); 10 builds/hr (soft; waived entirely w/ custom Actions workflow); source repo recommended ≤1 GB, published site ≤1 GB; 10-min deploy timeout; rate limits may respond HTTP 429; exceed → site may stop serving or Support emails mitigation advice | https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits | T1 | fetched-live 2026-08-26 | y | One click from additional-products terms §Bandwidth and Usage Limits; soft = guidance-grade, not contractual hard walls |
 | Pages ToS boundary: NOT allowed as free commercial-business/e-commerce/SaaS hosting; same terms EXPLICITLY permit donation buttons and crowdfunding links on Pages | https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features | T1 | eff. 2026-04-27 | y | Also covers Actions limits; donation permission amended into row 2026-08-26 |
 | Preview-deploy pattern: every branch gets preview URL before merge | developers.cloudflare.com/pages/configuration/preview-deployments/ | T1 | 2026 | y | |
+| Cloudflare Pages Free re-verified: 500 builds/mo, 1 at a time, 20-min timeout, 20k files, 25 MiB/file, unlimited previews, 100 projects | https://developers.cloudflare.com/pages/platform/limits/ | T1 | 2026-09-04 | y | v2 ch13: fetched live; page stamped Jul 16, 2026; transfer UNPINNED on page |
+| Vercel Hobby re-verified: 200 projects, 100 deploys/day, 45-min builds, 1 concurrent; 100 GB/mo Fast Data Transfer | https://vercel.com/docs/limits | T1 | 2026-09-04 | y | v2 ch13: limits page (updated 2026-08-25) + transfer figure re-confirmed live on pricing page |
+| Vercel Hobby transfer figure URL-form row: 100 GB/mo Fast Data Transfer included | https://vercel.com/pricing | T1 | 2026-09-04 | y | v2 ch13: REPAIR — backs the transfer number the limits page blanks |
+| Netlify Free re-verified: $0, 300 credits, 15 credits/prod deploy, unlimited previews, custom domains + SSL | https://www.netlify.com/pricing/ | T1 | 2026-09-04 | y | v2 ch13: fetched live; 300/15 = 20 prod deploys per refill is reader arithmetic |
+| GitHub Pages soft walls re-verified: ~100 GB/mo, 10 builds/hr (waived w/ custom Actions), 1 GB source + site, 10-min timeout, HTTP 429 | https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits | T1 | 2026-09-04 | y | v2 ch13: fetched live; soft = guidance-grade |
+| Pages ToS commercial bar re-verified: no business/e-commerce/SaaS hosting; donation buttons + crowdfunding permitted | https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features | T1 | 2026-09-04 | y | v2 ch13: fetched live; terms eff. 2026-04-27; highest legal load |
+| Preview-deployments URL-form row (REPAIR: replaces bare row): per-branch hash URLs + branch aliases, X-Robots noindex | https://developers.cloudflare.com/pages/configuration/preview-deployments/ | T1 | 2026-09-04 | y | v2 ch13: fetched live; page updated Jun 3, 2026; cited only after repair |
+| Pages-about split (REPAIR row 1 of 2): user/org vs project site types | https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages | T1 | 2026-09-04 | y | v2 ch13: fetched live; one site per account / one per repo |
+| Pages-about split (REPAIR row 2 of 2): canonical about page | https://pages.github.com/ | T1 | 2026-09-04 | y | v2 ch13: existing compound row preserved; split for validator-visibility |
+| Secret-scan basis cross-cite (ch14/ch04 deny rows, no new page): deny > ask > allow, Read(./.env) denies | https://code.claude.com/docs/en/permissions | T1 | 2026-09-04 | n | v2 ch13: substance per existing rows; gate enforces what they teach |
+| Secret-scan basis cross-cite (ch04 deny rows, no new page): *.env denied by default | https://opencode.ai/docs/permissions/ | T1 | 2026-09-04 | n | v2 ch13: substance per existing rows |
 
 ## Ch 14 — Security & secrets
 
@@ -186,6 +203,11 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | s1ngularity aftermath: ~50% of victims had AI CLI installed; guardrail refusal rates measured | https://www.wiz.io/blog/s1ngularitys-aftermath | T2 | 2025-09-03 | y | Quantified funnel |
 | Official Nx advisory GHSA-cxm3-wv7p-598c | github.com/nrwl/nx/security/advisories/GHSA-cxm3-wv7p-598c | T1 | 2025-08/09 | y | Primary advisory |
 | Deny-list practice: Read(./.env) deny rules block agent reads; deny > ask > allow precedence; known bypass caveats documented | https://code.claude.com/docs/en/permissions | T1 | 2026-08 (v2.1.235+) | y | Paste-ready exclude-secrets rules |
+| OWASP Top 10 for LLM Apps: 2026 edition is the latest community guide | https://genai.owasp.org/ | T1 | 2026-09-04 | y | v2 ch14: fetched live; 2026 edition + Agent Control Standard announced |
+| Claude permissions re-verified: deny→ask→allow fixed regardless of specificity; Read deny blocks Edit/Write (v2.1.208+/228+); denies cover built-in tools + recognized cat/head/tail/sed, NOT arbitrary subprocesses (sandbox instead); newest version-gated behavior v2.1.235 | https://code.claude.com/docs/en/permissions | T1 | 2026-09-04 | y | v2 ch14: fetched live; highest-churn page, wording holds verbatim |
+| Hooks wording verified: quiet hook (exit 0, no output) returns call to normal permission flow; schema-invalid output is a non-blocking error, action proceeds; matching deny still blocks even when hook returned allow | https://code.claude.com/docs/en/hooks | T1 | 2026-09-04 | y | v2 ch14: fetched live; "fail-open" phrasing DOWNGRADED to verified wording |
+| opencode permissions session-default mechanics: ask answers once / always-for-this-session / reject; defaults permissive except *.env + *.env.* deny (*.env.example allowed); doom_loop + external_directory ask | https://opencode.ai/docs/permissions/ | T1 | 2026-09-04 | y | v2 ch14: fetched live; page stamped Sep 4 2026 |
+| Official Nx advisory GHSA-cxm3-wv7p-598c URL-form (replaces bare row, validator-invisible) | https://github.com/nrwl/nx/security/advisories/GHSA-cxm3-wv7p-598c | T1 | 2026-09-04 | n | v2 ch14: URL-form for closed-world matching; substance per Aug bare row |
 
 ## Ch 15 — Grey zones, honestly
 
@@ -199,6 +221,25 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Z.ai third-party explainer: China-hosted data residency, Entity List shifts, self-hosting MIT weights as clean path | https://www.layer3labs.io/guides/z-ai-explained | T3 | 2026-07-21 | y | Leads-only for residency/risk framing |
 | Example unofficial relay: ericc-ch/copilot-api (4.1k stars) reverse-proxies Copilot into OpenAI/Anthropic APIs; README itself warns "not supported by GitHub… use at your own risk" + abuse-detection notice | https://github.com/ericc-ch/copilot-api | T3 | active 2026 | y | Ideal warning-framed exhibit; viability historically short-lived |
 | Free-tier stacking boundary: hosters reserve suspension rights for disproportionate burden; Pages bars commercial hosting; Actions bars standalone services | docs.github.com additional-products terms | T1 | eff. 2026-04-27 | y | Contractual text, not case law |
+| Codex shared allowance pool across plans incl. Free/Go; /status shows remainder; 5-hour + weekly windows; credit-based billing | https://help.openai.com/en/articles/11369540-using-codex | T1 | 2026-09-04 | y | v2 ch15: URL-form REPAIR of bare row |
+| OpenAI Terms of Use (2026-01-01 ed.): no credential sharing; no circumventing rate limits/protective measures; no competing-model training on output | https://openai.com/policies/row-terms-of-use | T1 | 2026-09-04 | y | v2 ch15: URL-form REPAIR of bare row; relay-illegality clauses |
+| Free-tier stacking boundary URL-form: Actions bars disproportionate burden + standalone services; Pages bars commercial SaaS, permits donations/crowdfunding | https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features | T1 | 2026-09-04 | y | v2 ch15: URL-form REPAIR of bare row |
+| GLM quota mechanics: dual 5-hour + weekly ceilings; points since GLM-5.3 (2026-08-14); off-peak half-points + concurrency boost; unpublished concurrency; non-refundable | https://moclaw.ai/blog/glm-coding-plan-rate-limits | T3 | 2026-09-04 | y | v2 ch15: URL-form REPAIR; community-reported, warning-fenced |
+| GLM Coding Plan Apr 2026 policy: coding-scenarios restriction, automated detection, 3-strike ban, errors 1302/1303 | https://awesomeagents.ai/news/zai-coding-plan-bans-non-coding-use/ | T3 | 2026-09-04 | y | v2 ch15: URL-form REPAIR; community-reported |
+| Gemini free-tier may-train lead | https://aireiter.com/blog/google-ai-studio-free-api | T3 | carried | n | v2 ch15: URL-form REPAIR; lead only, quote no grid |
+| Mistral free-tier may-train-unless-opt-out lead | https://e8.team/resources/mistral-la-plateforme-free-tier-for-developers/ | T3 | carried | n | v2 ch15: URL-form REPAIR; lead only, quote no grid |
+| Anthropic buckets + caps + cache rule re-verified (Start Opus-class 1,000/2M/400K; $500/$1k/$200k; cache-read excluded) | https://docs.anthropic.com/en/api/rate-limits | T1 | 2026-09-04 | y | v2 ch15: August numbers hold exactly |
+| OpenRouter :free constants + 429/402 semantics re-verified | https://openrouter.ai/docs/api-reference/limits | T1 | 2026-09-04 | y | v2 ch15: constants hold exactly |
+| OpenRouter privacy + FAQ re-verified (separate opt-outs; not-logged-by-default; 1% opt-in) | https://openrouter.ai/docs/features/privacy-and-logging | T1 | 2026-09-04 | y | v2 ch15: trade printed in writing |
+| z.ai usage policy fetched: tiers, dynamic concurrency, 3-strike ban, 3-day cancel; training silence citable | https://docs.z.ai/devpack/usage-policy | T1 | 2026-09-04 | y | v2 ch15: thorough page, training absent |
+| DeepSeek V4-Flash off-peak $0.22/$0.66, cache $0.007, peak doubled 01-04 + 06-10 UTC weekdays re-verified | https://api-docs.deepseek.com/quick_start/pricing | T1 | 2026-09-04 | y | v2 ch15: tabled row |
+| Kimi K2.7/K2.6 $0.95/$4.00 (cache $0.19/$0.16); K3 $3/$15 re-verified | https://platform.kimi.ai/ | T1 | 2026-09-04 | y | v2 ch15: tabled row |
+| Groq free gpt-oss-120b 30/1K/8K/200K org-level, cached excluded, 429 re-verified | https://console.groq.com/docs/rate-limits | T1 | 2026-09-04 | y | v2 ch15: free door, no per-M price |
+| Anthropic consumer terms no-sharing re-verified | https://www.anthropic.com/legal/consumer-terms | T1 | 2026-09-04 | y | v2 ch15: eff. 2025-10-08 |
+| Copyright hub re-verified (P2 2025-01-29; P3 pre-publication) | https://www.copyright.gov/ai/ | T1 | 2026-09-04 | y | v2 ch15 |
+| Relay exhibit re-verified (4.1k stars; own-risk + abuse-detection warnings) | https://github.com/ericc-ch/copilot-api | T3 | 2026-09-04 | y | v2 ch15: warning-fenced, never fact |
+| Residency lead re-verified (China-hosted; Entity List churn; open-weights path) | https://www.layer3labs.io/guides/z-ai-explained | T3 | 2026-09-04 | y | v2 ch15: lead-only, upd 2026-08-29 |
+| Gemini limits page transport error (as August); console-workflow claim only | https://ai.google.dev/gemini-api/docs/rate-limits | T1 | 2026-09-04 | n | v2 ch15: Gap 1, quote no grid |
 
 ## Ch 04 — Configuring your agent properly
 
