@@ -65,6 +65,11 @@ Rows below are lightly normalized; wording preserved from the vetting pass.
 | Waterloo memorization test still arXiv-only preprint (v2, 22 Dec 2025, never peer-reviewed); 3x file / 6x edited-file localization gaps, recall-vs-skill | https://arxiv.org/abs/2512.10218 | T1 | 2026-09-04 | y | v2 ch07: preprint status = insufficient-alone, not earn-belief |
 | REFORMS checklist: 32 reporting items by 19 researchers; hit-song 97%-to-chance leakage case + Nature oncology leakage case | https://www.normaltech.ai/p/introducing-the-reforms-checklist | T1 | 2026-09-04 | y | v2 ch07: dated deep link behind the checklist tradition; authors' new domain after hub move |
 | Verification-heuristics hub now forwards to renamed subscription page; re-anchor before reuse for checklist specifics | https://www.aisnakeoil.com/ | T1 | 2026-09-04 | y | v2 ch07: STALE watch, do not cite for checklist specifics until re-anchored |
+| METR RCT re-verified: −19% measured, +24% expected / +20% believed, 16 devs, 246 issues, $150/hr, Cursor Pro + Claude 3.5/3.7; "out of date" banner points at Feb-2026 follow-up | https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/ | T1 | 2026-09-04 | y | v2 ch07 round-2: fetched live; figures hold, banner confirmed |
+| METR uplift re-verified: pay $150→$50/hr, selection effects (refuse no-AI arm, 30–50% task withholding), raw −18% orig-devs (CI −38/+9) / −4% new (CI −15/+9); authors call data weak evidence for size of increase | https://metr.org/blog/2026-02-24-uplift-update/ | T1 | 2026-09-04 | y | v2 ch07 round-2: fetched live; walk-back mechanism confirmed |
+| Epoch holdout re-verified: 300 commissioned questions, statements+solutions with OpenAI except 50-question holdout (statements only, solutions withheld) | https://epoch.ai/latest/openai-and-frontiermath | T1 | 2026-09-04 | y | v2 ch07 round-2: fetched live; wording holds verbatim |
+| ch07 own-execution (claim-lab): staged/restated Copilot-55% claim, five-wound verdicts, paper pre-commit sort with written disagreement, banked LEDGER.md + STALE flag | https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/ | T2 | 2026-09-04 | y | v2 ch07: own-execution; tier follows T2 vendor source per receipt-tier |
+| SWE-Bench+ URL-form row: ~33% leak / ~25% weak tests / 12.47%→4.58% filtering / post-cutoff scoring | https://arxiv.org/abs/2410.06992 | T1 | 2026-09-04 | n | v2 ch07 round-2: URL-form for closed-world matching; substance per Aug row |
 
 ## Ch 02 — The harness landscape (+ Appendix A data)
 
@@ -287,6 +292,11 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Target size minimum: pointer targets ≥ 24×24 CSS px (2.5.8); book holds 38/44px above it | https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
 | Focus visible: keyboard-operable UI has a mode where the focus indicator is visible (2.4.7) | https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
 | Animation from interactions can be disabled unless essential (2.3.3, reduced-motion) | https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
+| chrome-devtools-mcp stars re-verified: 50.9k live ("at checking time" phrasing) | https://github.com/ChromeDevTools/chrome-devtools-mcp | T1 | 2026-09-04 | y | v2 ch08 round-2: fetched live; capability list per fetched README |
+| Tailwind docs serve the v4 line (v4.3 shown); release-tag specifics cut as unverified | https://tailwindcss.com/docs | T1 | 2026-09-04 | y | v2 ch08 round-2: fetched live; chapter states v4 lineage only |
+| Screenshot-compare loop URL-form row (ch08 claim): screenshot → compare → fix; verify visually | https://code.claude.com/docs/en/best-practices | T1 | 2026-09-04 | n | v2 ch08 round-2: URL-form for closed-world matching; loop wording holds per Aug bare row |
+| WCAG quickref URL-form row: normative success-criteria reference | https://www.w3.org/WAI/WCAG22/quickref/ | T1 | 2026-09-04 | n | v2 ch08 round-2: URL-form for closed-world matching; stable |
+| ch08 own-execution (ui-loop-lab): agent baseline 31 lines, literal search 12→2 lines, node -e contrast ratios, halt statement after 1 of 2 cycles | https://opencode.ai/docs | T1 | 2026-09-04 | y | v2 ch08: own-execution via opencode run; rebuild authored, labeled |
 
 ## Ch 09 — Testing what agents build
 
@@ -328,6 +338,10 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | git bisect run exit-code contract: 0 = good/old, 1–127 except 125 = bad/new, 125 = skip untestable, anything else aborts; test script kept outside the repo | https://git-scm.com/docs/git-bisect | T1 | 2026-09-04 | y | v2 ch10: fetched live (manual v2.55.0); executed via debug-lab bisect |
 | opencode session exits: run --continue/--session/--fork/--share; session list/delete; TUI multi-session + /new + git-backed /undo | https://opencode.ai/docs/cli/ | T1 | 2026-09-04 | y | v2 ch10: local `opencode run --help` / `opencode session --help` output; PING-OK executed |
 | opencode TUI exits corroboration: multi-session, /new, git-backed /undo + redo | https://opencode.ai/docs/tui | T1 | 2026-09-04 | y | v2 ch10: pairs with local --help row above |
+| Exercise-evidence URL-form row (ch10 Showboat claim): agents must exercise what they build and show output, not assert success | https://simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-09-04 | n | v2 ch10 round-2: URL-form for closed-world matching; substance per Aug bare row |
+| Root-cause-tracing skill URL-form row (ch10 packaged procedure): trace backward through call stack | https://github.com/obra/superpowers/blob/main/skills/debugging/root-cause-tracing/SKILL.md | T1 | 2026-09-04 | n | v2 ch10 round-2: URL-form for closed-world matching; substance per Aug bare row |
+| Systematic-debugging synthesis URL-form row (ch10 craft lens, solo-lens caveat kept) | https://tianpan.co/blog/2026-02-19-systematic-debugging-ai-agents-production | T2 | 2026-09-04 | n | v2 ch10 round-2: URL-form for closed-world matching; substance per Aug bare row |
+| One-log/fast-loop/abort URL-form row (ch10 environment quality): log to one file, fast loud loop, abort degraded sessions | https://lucumr.pocoo.org/2025/6/12/agentic-coding/ | T1 | 2026-09-04 | n | v2 ch10 round-2: URL-form for closed-world matching; substance per Aug bare row |
 
 ## Ch 11 — Brownfield reality
 
@@ -347,6 +361,9 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Spec Kit Existing Projects track URL-form (REPAIR: replaces bare github.github.com row): reviewable baseline, guardrails already true, one bounded slice, plan against the repo | https://github.com/github/spec-kit/blob/main/docs/guides/existing-projects.md | T1 | 2026-09-04 | y | v2 ch11: guide confirmed live; correct repo-path URL |
 | Enterprise brownfield case URL-form (REPAIR: full canonical URL, single-sample caveat kept): ~80%/phase, 0.8^5 = 0.33 compounding, per-phase review gates; agent duplicated email-service instead of reusing | https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase | T2 | 2026-09-04 | y | v2 ch11: fetched live; figure confirmed on page, single-project sample |
 | Understand-before-edit arc URL-form (re-verified: Explore → Plan → Implement → Commit; "Give Claude a way to verify its work") | https://code.claude.com/docs/en/best-practices | T1 | 2026-09-04 | y | v2 ch11: re-fetched live; wording holds |
+| Refactoring catalog URL-form (ch11 moves claim): behavior-preserving rename/extract/move, each pinning-test-checked | https://refactoring.com/catalog/ | T1 | 2026-09-04 | n | v2 ch11 round-2: URL-form for closed-world matching; substance per Aug bare row |
+| Agent-legibility URL-form (ch11 steering claim): local reasoning, grep-ability, aliasing over rule lists | https://lucumr.pocoo.org/2026/2/9/a-language-for-agents/ | T1 | 2026-09-04 | n | v2 ch11 round-2: URL-form for closed-world matching; substance per Aug bare row |
+| Brownfield-bootstrap gap URL-form (closed lead, community signal only, never fact) | https://github.com/github/spec-kit/issues/1436 | T3 | 2026-09-04 | n | v2 ch11 round-2: URL-form for closed-world matching; closed-status per Aug row |
 
 ---
 
