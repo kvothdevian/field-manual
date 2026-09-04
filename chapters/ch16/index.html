@@ -3,664 +3,217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>· Your daily agentic workflow — The Agentic Coding Field Manual</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../../assets/css/book.css">
+<title>16 · Your daily agentic workflow — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
 </head>
 <body>
-<header class="site-head" style="position:static">
-  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 16</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
-<main><nav class="chapnav" aria-label="Sections"><a href="#ch16-s1">01 one rhythm, three scales</a><a href="#ch16-s2">02 the daily four</a><a href="#ch16-s3">03 the weekly three</a><a href="#ch16-s4">04 the kickoff three</a><a href="#ch16-s5">05 simplest pattern applies to </a><a href="#ch16-s6">06 the gauntlet, weekly, on you</a><a href="#ch16-s7">07 where this landed in our bui</a><a href="#ch16-s8">08 assemble your rhythm</a><a href="#ch16-s9">09 receipts</a><a href="#ch16-s10">10 try it yourself</a><a href="#ch16-s11">11 self-check</a><a href="#ch16-s12">12 beyond this build</a><a href="#ch16-s13">13 where you go from here</a></nav>
+<main>
+  <p class="kicker">Session 16 · daily agentic workflow · opencode default</p>
+  <h1>Your daily agentic workflow</h1>
+  <p class="lede">Leave with a one-page RITUAL.md naming sessions 01–15 and a filed receipt proving one composed run touched every gate — red quoted, green earned, diff read.</p>
+  <p class="kicker" style="margin-top:1rem">75 min · scratch repo · needs 01–15 · verified 2026-09-04</p>
 
-  <div class="chapter-banner banner-l4">
-    <span class="banner-num" aria-hidden="true">16</span>
-    <div class="banner-meta">
-      <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
-      <h1>Chapter 16 · Your daily agentic workflow</h1>
-      <p class="as-of">facts checked as of 2026-08-26 · this chapter introduces no new tools;
-  it compiles fifteen chapters of them into one cadence</p>
-    </div>
-  </div>
-
-  <p class="lede">After this chapter you own a personal operating rhythm — four moves
-  per session, three per week, three at every project kickoff — the habits that
-  separate people who ship with agents from people who demo with them.</p>
-
-  <p>Harnesses rewrite themselves monthly. Models leap every quarter. None of
-  that is where the game is won or lost. Watch someone demo with an agent and
-  then watch someone ship with one: the difference is rarely talent or budget —
-  it is a handful of boring, repeated moves, done every single time, especially
-  when nothing seemed to go wrong last time. This chapter folds the whole book
-  into a calendar. Nothing in it is new theory; every move cites the chapter
-  that earned it.</p>
-
-  <div class="inside-grid"><div class="inside-card ic-l4"><span class="chip">01</span><a href="#ch16-s1">One rhythm, three scales</a></div><div class="inside-card ic-l4"><span class="chip">02</span><a href="#ch16-s2">The daily four</a></div><div class="inside-card ic-l4"><span class="chip">03</span><a href="#ch16-s3">The weekly three</a></div><div class="inside-card ic-l4"><span class="chip">04</span><a href="#ch16-s4">The kickoff three</a></div><div class="inside-card ic-l4"><span class="chip">05</span><a href="#ch16-s5">Simplest pattern applies to rituals too</a></div><div class="inside-card ic-l4"><span class="chip">06</span><a href="#ch16-s6">The gauntlet, weekly, on your own work</a></div><div class="inside-card ic-l4"><span class="chip">07</span><a href="#ch16-s7">Where this landed in our builds</a></div><div class="inside-card ic-l4"><span class="chip">08</span><a href="#ch16-s8">Assemble your rhythm</a></div><div class="inside-card ic-l4"><span class="chip">09</span><a href="#ch16-s9">Receipts</a></div><div class="inside-card ic-l4"><span class="chip">10</span><a href="#ch16-s10">Try it yourself</a></div><div class="inside-card ic-l4"><span class="chip">11</span><a href="#ch16-s11">Self-check</a></div><div class="inside-card ic-l4"><span class="chip">12</span><a href="#ch16-s12">Beyond this build</a></div><div class="inside-card ic-l4"><span class="chip">13</span><a href="#ch16-s13">Where you go from here</a></div></div>
-  <p class="as-of">facts checked as of 2026-08-26 · this chapter introduces no new tools;
-  it compiles fifteen chapters of them into one cadence</p>
-
-<h2 id="ch16-s1">One rhythm, three scales</h2>
-  <p>The same skeleton fits a student, a professional, and a tinkerer. The
-  magnitudes differ; the moves do not.</p>
-  <h3>The student, shipping a first real project</h3>
-  <p>She has one evening and one feature. Before opening the harness she
-  writes the finish line — "these three tests pass, no other files touched" —
-  because chapter 01 taught her that a loop without a detectable goal stops at
-  the context wall, not at done. One session per concern. When the build fails
-  she pastes the exact stack trace instead of describing it from memory. She
-  reads every diff before accepting; twice this week the plausible patch was
-  wrong, and reading caught it. On Friday she deletes two stale rules from her
-  five-line AGENTS.md, reruns her test command end-to-end, and logs one thing
-  the agent got worse at. Total ritual overhead: fifteen minutes a week.</p>
-
-  <h3>The developer, adopting agents at work</h3>
-  <p>His blast radius is bigger, so the same moves get witnesses. Finish lines
-  are written where a teammate can see them. Every concern gets its own
-  worktree and branch, because two agents sharing one checkout trample each
-  other and chapter 04's <code>--worktree</code> isolation exists precisely
-  for this. Diffs get reviewed like any human pull request — no sentimental
-  discount. His weekly sweep includes the CI gates, not just dependencies,
-  and his Friday retro note goes to the team channel, where one honest line
-  about a regression saves everyone else a bad afternoon.</p>
-
-  <h3>The tinkerer, running local models</h3>
-  <p>His hardware sets the ceiling: a 64-thousand-token context is not
-  generous, so chapter 05's economy rules stop being optional. Smaller finish
-  lines — one test, one file — because every wasted pass is a larger fraction
-  of the window. He pastes exact errors all the same; slow hardware punishes
-  wandering loops harder than fast ones. Weekly grooming matters most for him:
-  he copies configurations between machines, and chapter 04's rot compounds
-  with every copy. Same rhythm, tighter circles.</p>
-
-  <p>Notice what all three share: nothing heroic. No twelve-step morning
-  routine, no dashboard. Everything below is those ten moves, taught.</p>
-
-  <div class="pull-fact pf-l4">
-    <p><strong>Four moves a day, three a week, three at kickoff.</strong></p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
-
-<h2 id="ch16-s2">The daily four</h2>
-  <p><strong>One: state the finish line before the session.</strong> One
-  falsifiable sentence the loop can detect — tests passing, a table rendering,
-  an exit code hitting zero. Chapter 01 built this: clear success criteria are
-  the highest-leverage habit in agentic work, and vague goals are how loops
-  wander. Write it where you can see it when the session gets tempting.</p>
-  <p><strong>Two: review the diff before you accept.</strong> Run the proof,
-  read the patch, then accept — the verify step of the outer loop, and the
-  first thing everyone starts skipping. It gets its own honesty section
-  below.</p>
-  <p><strong>Three: one worktree per concern.</strong> Five features in one
-  endless conversation is chapter 01's kitchen-sink session: context fills,
-  quality sags, the agent contradicts decisions it made an hour ago, and the
-  diff can't be untangled afterward. The antidote is physical, not willpower —
-  a separate branch and checkout per concern, trivial to throw away. Restarting
-  clean usually beats rescuing a bloated thread.</p>
-  <p><strong>Four: paste exact errors.</strong> Verbatim output, not a
-  paraphrase, not "it doesn't work." Chapter 10's reproduce-first discipline
-  starts with the literal text; paraphrased symptoms send the loop chasing
-  ghosts, and ghost-chasing is where thrash lives.</p>
-
-  <h3>Convergence risk: the drift is the default</h3>
-  <p>Here is the uncomfortable row this book refuses to bury. In May 2026,
-  Simon Willison — whose definitional essays shaped this book's vocabulary —
-  published a self-critical reflection conceding that even careful
-  practitioners gradually stop reviewing every line as tools get smoother and
-  trust accumulates. The trend line bends toward acceptance without
-  inspection, and nothing in the tooling pushes accountability back; it simply
-  stays yours anyway. The daily diff review is not a talisman that makes you
-  correct — it is a tripwire that makes drift visible while the diff is still
-  small enough to read. Skip it once and nothing happens, which is exactly
-  the trap.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
-
-<h2 id="ch16-s3">The weekly three</h2>
-  <p><strong>One: groom the memory files.</strong> Open your AGENTS.md (and
-  any auto-memory index) with one question: which rules are stale? Kill
-  anything you cannot explain the reason for. Chapter 04's config-rot warning
-  is blunt: a stale rule does not merely stop helping, it misleads — last
-  year's "always use library X" turns every fresh session into a fight against
-  your own file. Date rules as you add them; documented load caps on memory
-  indexes are a second argument for short files, since overflow silently goes
-  unread.</p>
-  <p><strong>Two: sweep dependencies and gates.</strong> Bump the pins, rerun
-  the verifier end-to-end, read the results. Chapter 12's premise is that
-  bloat and drift arrive on their own; the sweep is the scheduled resistance.
-  Much of it automates — GitHub's Dependabot, for instance, updates pinned
-  GitHub Actions from a config file — but automation only nominates the
-  change. Reading gate output stays a human chore, on purpose.</p>
-  <p><strong>Three: hold a retro — one thing the agent got worse at.</strong>
-  Not a mood, a log entry. Chapter 07's hardest receipt applies: in METR's
-  randomized trial, experienced developers believed they were 20% faster while
-  measuring 19% slower. Feelings about your tools are not data. You need no
-  daily stopwatch — but once a week write down one observed regression, and
-  occasionally measure something real: commit history, a timed task, a boring
-  spreadsheet. Update on evidence, not vibes.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
-
-<h2 id="ch16-s4">The kickoff three</h2>
-  <p>Every new project gets three moves before any feature work:</p>
-  <ul class="rail">
-    <li><strong>Seed the AGENTS.md — five lines.</strong> What this is, the
-    exact test command, one dated rule. Chapter 04's promotion rule governs
-    growth: correct the agent twice about the same thing, and the correction
-    enters the file. Five lines today beats a constitution never.</li>
-    <li><strong>Branch first.</strong> New concern, new branch, before the
-    briefing. Chapter 11's understand-before-edit workflow quietly assumes
-    the work lands somewhere disposable; work committed straight to main is
-    work you cannot cleanly throw away.</li>
-    <li><strong>Pin the verifier.</strong> Choose, on day one, the one command
-    that proves done, and write it into the memory file. Chapter 06's
-    red-green discipline needs a test that can fail; with no pinned verifier,
-    no session can stop honestly.</li>
-  </ul>
-
-  <div class="callout co-tip">
-    <span class="c-tag">tip</span>
-    <p>End every session by leaving a note to your next session — three lines:
-    where you stopped, what's next, any trap you just discovered. It is the
-    cheapest external memory you own. Compaction summarizes transcripts well
-    (chapter 05), but a hand-written handoff survives every mechanism and
-    turns tomorrow's cold start into a warm one.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
-
-<h2 id="ch16-s5">Simplest pattern applies to rituals too</h2>
-  <p>Do not install ten habits on Monday; you will abandon nine by Thursday
-  and distrust the tenth. Chapter 06's doctrine — simplest thing that could
-  possibly work, complexity added only when measurements demand it — applies
-  to your own routine. Grow the rhythm on evidence, with the same promotion
-  rule as memory files: adopt a ritual the moment the same mistake costs you
-  twice. Until then, the daily four carry most of the weight.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
-
-<h2 id="ch16-s6">The gauntlet, weekly, on your own work</h2>
-  <p>Chapter 06 introduced this book's house pattern with honest labeling,
-  kept here: the gauntlet has no quantitative validation — no study benchmarks
-  it. Its nearest studied anchors are the evaluator-optimizer pattern,
-  Reflexion's reflection loop, and judge alignment. As a weekly self-review
-  ritual it works like this: pick one piece of your own output, fetch the bar
-  (for us, Anthropic's best-practices page), and have a fresh-context agent
-  compare your piece against that bar blind — binary verdict, single biggest
-  gap. The gap becomes Monday's finish line. That is how every chapter of
-  this book was finished.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
-
-<h2 id="ch16-s7">Where this landed in our builds</h2>
-  <p>No demonstration section this time — nothing left to demonstrate. So we
-  will say it plainly instead: both companion builds ran on exactly this
-  cadence while the book was being written. agent-cost-compass and
-  ncert-quiz-forge opened each milestone with a stated finish line from their
-  build specs, worked one concern per branch behind review gates, and ended
-  sessions with handoff notes. The proof it pays: during a build review, a
-  subtly wrong pricing claim about DeepSeek's off-peak rates was caught by
-  this loop — diff read, live source re-checked, ledger corrected. The cadence
-  in this chapter is not advice we wrote for you. It is how the book itself
-  got shipped.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
-
-<h2 id="ch16-s8">Assemble your rhythm</h2>
-  <p>Pick the moves you will actually run. The builder grades your board
-  against this book's own lessons — no invented scores — and prints a
-  cheat-sheet card to tape above your desk.</p>
-
-  <div id="ritual">
-    <style>
-      #ritual { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
-      .rb-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.8rem; }
-      .rb-grid { display: flex; flex-wrap: wrap; gap: 1.1rem; align-items: flex-start; }
-      .rb-menu, .rb-boardcol { border: 1.5px solid var(--line-strong); border-radius: 12px; padding: 0.9rem 1rem; background: var(--paper); min-width: 17rem; }
-      .rb-menu { flex: 3 1 24rem; } .rb-boardcol { flex: 2 1 19rem; }
-      .rb-h { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0 0 0.45rem; }
-      fieldset.rb-group { border: none; padding: 0; margin: 0 0 0.9rem; }
-      fieldset.rb-group:last-child { margin-bottom: 0; }
-      legend.rb-h { padding: 0; margin-bottom: 0.45rem; }
-      .rb-card { appearance: none; cursor: pointer; width: 100%; text-align: left; min-height: 38px; display: flex; align-items: baseline; gap: 0.55rem; border: 1.5px solid var(--line-strong); border-radius: 10px; background: var(--paper-raised); color: var(--ink); padding: 0.42rem 0.7rem; margin: 0 0 0.4rem; font-family: inherit; font-size: 0.88rem; }
-      .rb-card:hover { border-color: var(--ink); }
-      .rb-card:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .rb-card[aria-pressed="true"] { background: color-mix(in srgb, var(--l4) 16%, var(--paper)); border-color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--l4); }
-      .rb-mark { font-family: var(--font-mono); font-weight: 700; flex-shrink: 0; }
-      .rb-card[aria-pressed="true"] .rb-mark { color: var(--l4); }
-      .rb-sub { display: block; font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); }
-      .rb-slot { border: 1.5px dashed var(--line-strong); border-radius: 10px; padding: 0.35rem 0.6rem; margin: 0 0 0.4rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); }
-      .rb-slot.has { border-style: solid; border-color: var(--ink); color: var(--ink); }
-      .rb-count { font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); float: right; }
-      .rb-grade { margin-top: 1rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; }
-      .rb-verdict { font-weight: 700; margin: 0 0 0.5rem; padding: 0.5rem 0.75rem; border-left: 3px solid var(--muted); background: var(--paper); border-radius: 0 8px 8px 0; font-size: 0.95rem; }
-      .rb-verdict.is-good { border-left-color: var(--l3); }
-      .rb-verdict.is-warn { border-left-color: var(--l1); }
-      .rb-lines { margin: 0; padding: 0; list-style: none; }
-      .rb-lines li { font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.65; margin: 0 0 0.35rem; padding-left: 0.6rem; border-left: 3px solid var(--line-strong); }
-      .rb-lines li.good { border-left-color: var(--l3); }
-      .rb-lines li.warn { border-left-color: var(--l1); }
-      .rb-lines li.note { border-left-color: var(--l4); }
-      .rb-cite { color: var(--muted); }
-      .rb-unlock { display: inline-block; font-family: var(--font-mono); font-size: 0.62rem; font-weight: 700; border: 1.5px solid currentColor; border-radius: 6px; padding: 0 0.35rem; margin-right: 0.4rem; color: var(--l4); }
-      .rb-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.9rem; align-items: center; }
-      .rb-cheatwrap { margin-top: 1.2rem; }
-      .cheat-card { font-family: var(--font-mono); border: 2px solid var(--ink); border-radius: 12px; background: var(--paper); padding: 1rem 1.15rem; font-size: 0.78rem; line-height: 1.7; max-width: 34rem; }
-      .cheat-card h3 { font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 0.15rem; }
-      .cheat-card .cc-stamp { color: var(--muted); font-size: 0.66rem; display: block; margin-bottom: 0.5rem; }
-      .cheat-card h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 0.6rem 0 0.15rem; border-bottom: 1px dashed var(--line-strong); }
-      .cheat-card ul { margin: 0.15rem 0; padding-left: 0; list-style: none; }
-      .cheat-card li::before { content: "\2610\00a0"; }
-      .cheat-foot { border-top: 2px solid var(--ink); margin-top: 0.7rem; padding-top: 0.45rem; font-size: 0.66rem; color: var(--muted); }
-      @media (max-width: 720px) { .rb-menu, .rb-boardcol { flex-basis: 100%; } }
-      @media (prefers-reduced-motion: reduce) { #ritual *, #ritual *::before, #ritual *::after { transition: none !important; animation: none !important; } }
-      @media print {
-        body.solo-print > header, body.solo-print > footer, body.solo-print > main > :not(#ritual) { display: none !important; }
-        body.solo-print #ritual > :not(.rb-cheatwrap) { display: none !important; }
-        body.solo-print .rb-cheatwrap > :not(.cheat-card) { display: none !important; }
-        .cheat-card { border-color: #000; background: #fff; color: #000; box-shadow: none; max-width: none; }
-        .cheat-card .cc-stamp, .cheat-card h4, .cheat-foot { color: #444; }
-      }
-    </style>
-    <span class="rb-tag">ritual builder · interactive · grades against the book's own lessons · nothing leaves this page</span>
-
-    <div class="rb-grid">
-      <fieldset class="rb-menu">
-        <legend class="rb-h">menu — toggle the moves you will run</legend>
-        <div id="rb-cards"></div>
-      </fieldset>
-      <div class="rb-boardcol">
-        <p class="rb-h">your board</p>
-        <div id="rb-board"></div>
-      </div>
-    </div>
-
-    <div class="rb-grade" aria-live="polite">
-      <p class="rb-verdict" id="rb-verdict">an empty board — assemble a rhythm and the grading appears here.</p>
-      <ul class="rb-lines" id="rb-lines"></ul>
-    </div>
-
-    <div class="rb-actions">
-      <button type="button" class="btn btn-primary" id="rb-print">print cheat-sheet card</button>
-      <button type="button" class="btn" id="rb-reset">clear board</button>
-      <span class="chip" id="rb-count">0 of 10 moves on the board</span>
-    </div>
-
-    <div class="rb-cheatwrap" id="rb-cheatwrap">
-      <div class="cheat-card" id="rb-cheatcard" aria-live="polite"></div>
-    </div>
-  </div>
-
-  <script>
-  (function () {
-    var root = document.getElementById("ritual");
-    if (!root || root.dataset.rbBound) return;
-    root.dataset.rbBound = "1";
-
-    var GROUPS = [
-      { id: "daily", name: "daily", items: [
-        { id: "finish", label: "state the finish line before the session", sub: "one falsifiable sentence the loop can detect",
-          missing: "warning \u00b7 no finish line: a loop without a detectable goal stops at the context wall, not at done.",
-          cite: "ch01 stopping conditions" },
-        { id: "diffs", label: "review diffs before accepting", sub: "run the proof, read the patch, then accept",
-          missing: "warning \u00b7 no diff review: plausible is not correct \u2014 the trust-then-verify gap ships merges nobody read.",
-          bonus: "unlocked \u00b7 anchors ch01 \u2014 convergence-risk flag: even careful practitioners stop reviewing every line as sessions smooth out; accountability stays human. This card is the countermeasure.",
-          cite: "ch01 verify ritual" },
-        { id: "worktree", label: "one worktree per concern", sub: "parallel sessions never share a checkout",
-          missing: "warning \u00b7 shared checkout: five concerns in one session is the kitchen-sink failure \u2014 sagging quality, contradictory decisions, untangleable diff.",
-          cite: "ch01 failure modes + ch04 --worktree" },
-        { id: "errors", label: "paste exact errors", sub: "verbatim output, not paraphrase",
-          missing: "warning \u00b7 paraphrased symptoms send the loop chasing ghosts; reproduce-first starts with the literal text.",
-          cite: "ch10 reproduce-first" }
-      ]},
-      { id: "weekly", name: "weekly", items: [
-        { id: "groom", label: "groom memory files: kill stale rules", sub: "date rules, delete what you cannot explain",
-          missing: "config-rot warning \u00b7 anchors ch04 \u2014 a stale rule does not stop helping, it misleads: last year's 'always use X' fights every fresh session. Grooming skipped is grooming poisoned.",
-          bonus: "grooming on schedule \u2014 the memory file stays a fossil record of friction, not fiction.",
-          cite: "ch04 config rot" },
-        { id: "deps", label: "dependency + gate sweep", sub: "bump pins, rerun the verifier end-to-end",
-          missing: "warning \u00b7 unswept: bloat and drift arrive on their own; the sweep is the scheduled resistance.",
-          cite: "ch12 pipelines" },
-        { id: "retro", label: "retro: one thing the agent got worse at", sub: "log it; measure something occasionally",
-          missing: "warning \u00b7 no retro: feelings are not data \u2014 the METR trial caught pros believing +20% while measuring \u221219%.",
-          cite: "ch07 evidence over assertion" }
-      ]},
-      { id: "kickoff", name: "per-project kickoff", items: [
-        { id: "seed", label: "seed AGENTS.md (five lines)", sub: "what it is, test command, one dated rule",
-          missing: "warning \u00b7 no seed: corrections typed into chat die with the session \u2014 promote repeated fixes into the file.",
-          cite: "ch04 memory files" },
-        { id: "branch", label: "branch-first", sub: "new concern, new branch, before the briefing",
-          missing: "warning \u00b7 straight to main: work with no disposable branch is work you cannot cleanly throw away.",
-          cite: "ch11 understand-before-edit" },
-        { id: "verifier", label: "pin the verifier", sub: "the one command that proves done",
-          missing: "warning \u00b7 unpinned: red-green needs a command that can fail \u2014 with none, every session ends on vibes.",
-          cite: "ch06 red-green TDD" }
-      ]}
-    ];
-
-    var SEL = {};
-    var cardsEl = document.getElementById("rb-cards");
-    var boardEl = document.getElementById("rb-board");
-    var verdictEl = document.getElementById("rb-verdict");
-    var linesEl = document.getElementById("rb-lines");
-    var countEl = document.getElementById("rb-count");
-    var cheatEl = document.getElementById("rb-cheatcard");
-
-    function el(tag, cls, text) {
-      var n = document.createElement(tag);
-      if (cls) n.className = cls;
-      if (text !== "" && text != null) n.textContent = text;
-      return n;
-    }
-
-    function buildMenu() {
-      cardsEl.textContent = "";
-      for (var g = 0; g < GROUPS.length; g++) {
-        var grp = GROUPS[g];
-        var fs = el("fieldset", "rb-group");
-        var lg = el("legend", "rb-h", grp.name.toUpperCase());
-        fs.appendChild(lg);
-        for (var i = 0; i < grp.items.length; i++) {
-          var it = grp.items[i];
-          var b = el("button", "rb-card");
-          b.type = "button";
-          b.setAttribute("aria-pressed", "false");
-          b.setAttribute("data-rb-id", it.id);
-          b.appendChild(el("span", "rb-mark", "\u2713"));
-          var wrap = el("span");
-          wrap.appendChild(document.createTextNode(it.label));
-          wrap.appendChild(el("span", "rb-sub", it.sub + " \u00b7 " + it.cite));
-          b.appendChild(wrap);
-          fs.appendChild(b);
-        }
-        cardsEl.appendChild(fs);
-      }
-    }
-
-    function renderBoard() {
-      boardEl.textContent = "";
-      var selCount = 0;
-      for (var g = 0; g < GROUPS.length; g++) {
-        var grp = GROUPS[g];
-        var got = 0;
-        var head = el("p", "rb-slot", "");
-        head.appendChild(el("b", "", grp.name.toUpperCase()));
-        head.appendChild(el("span", "rb-count", ""));
-        boardEl.appendChild(head);
-        for (var i = 0; i < grp.items.length; i++) {
-          var it = grp.items[i];
-          if (SEL[it.id]) {
-            got++; selCount++;
-            boardEl.appendChild(el("p", "rb-slot has", "\u25a0 " + it.label));
-          }
-        }
-        head.querySelector(".rb-count").textContent = got + "/" + grp.items.length;
-        if (!got) boardEl.appendChild(el("p", "rb-slot", "nothing yet"));
-      }
-      countEl.textContent = selCount + " of 10 moves on the board";
-      return selCount;
-    }
-
-    function groupTally(grp) {
-      var got = 0;
-      for (var i = 0; i < grp.items.length; i++) if (SEL[grp.items[i].id]) got++;
-      return { got: got, total: grp.items.length };
-    }
-
-    function renderCheat(selCount) {
-      cheatEl.textContent = "";
-      var h = el("h3", "", "my agentic operating rhythm");
-      cheatEl.appendChild(h);
-      cheatEl.appendChild(el("span", "cc-stamp", "the agentic coding field manual \u00b7 printed " + new Date().toISOString().slice(0, 10)));
-      if (!selCount) {
-        cheatEl.appendChild(el("p", "", "no moves selected yet \u2014 pick cards above, then print again."));
-        return;
-      }
-      for (var g = 0; g < GROUPS.length; g++) {
-        var grp = GROUPS[g];
-        var sec = el("h4", "", grp.name);
-        var ul = el("ul");
-        var any = false;
-        for (var i = 0; i < grp.items.length; i++) {
-          if (SEL[grp.items[i].id]) { ul.appendChild(el("li", "", grp.items[i].label)); any = true; }
-        }
-        if (any) { cheatEl.appendChild(sec); cheatEl.appendChild(ul); }
-      }
-      cheatEl.appendChild(el("p", "cheat-foot", "end sessions with a note to your next session \u00b7 rituals calcify \u2014 prune quarterly"));
-    }
-
-    function renderGrade() {
-      var selCount = renderBoard();
-      renderCheat(selCount);
-      linesEl.textContent = "";
-      verdictEl.className = "rb-verdict";
-
-      var d = GROUPS[0], w = GROUPS[1], k = GROUPS[2];
-      var dt = groupTally(d), wt = groupTally(w), kt = groupTally(k);
-
-      if (selCount === 0) {
-        verdictEl.textContent = "an empty board \u2014 start with the daily four.";
-        return;
-      }
-
-      var warns = [], goods = [], notes = [];
-
-      if (!SEL.finish) warns.push(GROUPS[0].items[0].missing + " [ch01]");
-      if (!SEL.diffs) warns.push(GROUPS[0].items[1].missing + " [ch01]");
-      if (SEL.diffs) notes.push(GROUPS[0].items[1].bonus);
-      if (!SEL.worktree) warns.push(GROUPS[0].items[2].missing + " [ch01, ch04]");
-      if (!SEL.errors) warns.push(GROUPS[0].items[3].missing + " [ch10]");
-      if (!SEL.groom) warns.push(GROUPS[1].items[0].missing);
-      if (SEL.groom) goods.push(GROUPS[1].items[0].bonus);
-      if (!SEL.deps) warns.push(GROUPS[1].items[1].missing + " [ch12]");
-      if (!SEL.retro) warns.push(GROUPS[1].items[2].missing + " [ch07]");
-      if (!SEL.seed) warns.push(GROUPS[2].items[0].missing + " [ch04]");
-      if (!SEL.branch) warns.push(GROUPS[2].items[1].missing + " [ch11]");
-      if (!SEL.verifier) warns.push(GROUPS[2].items[2].missing + " [ch06]");
-
-      if (dt.got === dt.total) goods.push("daily four complete \u2014 the outer loop from ch01, wearing work clothes.");
-      if (wt.got === wt.total) goods.push("weekly three complete \u2014 memory, deps, evidence: the maintenance layer.");
-      if (kt.got === kt.total) goods.push("kickoff three complete \u2014 every new project starts configured.");
-
-      var shipLike = SEL.diffs && dt.got >= 3 && wt.got >= 2;
-      if (selCount === 10) {
-        verdictEl.textContent = "shipper's board \u2014 the whole manual in miniature. now prune it quarterly, like everything else.";
-        verdictEl.className += " is-good";
-      } else if (shipLike) {
-        verdictEl.textContent = "shipper's rhythm \u2014 review gates closed, maintenance scheduled. the remaining warnings are where demos slip in.";
-        verdictEl.className += " is-good";
-      } else {
-        verdictEl.textContent = "demoer's risk \u2014 this board looks like a week of demos waiting to happen. warnings below cite the chapters that earned them.";
-        verdictEl.className += " is-warn";
-      }
-
-      for (var gi = 0; gi < goods.length; gi++) linesEl.appendChild(el("li", "good", goods[gi]));
-      for (var ni = 0; ni < notes.length; ni++) linesEl.appendChild(el("li", "note", notes[ni]));
-      for (var wi = 0; wi < warns.length; wi++) linesEl.appendChild(el("li", "warn", warns[wi]));
-    }
-
-    function syncCards() {
-      var btns = root.querySelectorAll("[data-rb-id]");
-      for (var i = 0; i < btns.length; i++) {
-        var on = !!SEL[btns[i].getAttribute("data-rb-id")];
-        btns[i].setAttribute("aria-pressed", on ? "true" : "false");
-      }
-    }
-
-    cardsEl.addEventListener("click", function (ev) {
-      var b = ev.target.closest ? ev.target.closest("[data-rb-id]") : null;
-      if (!b) return;
-      var id = b.getAttribute("data-rb-id");
-      SEL[id] = !SEL[id];
-      b.setAttribute("aria-pressed", SEL[id] ? "true" : "false");
-      renderGrade();
-    });
-
-    document.getElementById("rb-reset").addEventListener("click", function () {
-      SEL = {};
-      syncCards();
-      renderGrade();
-    });
-
-    document.getElementById("rb-print").addEventListener("click", function () {
-      document.body.className += " solo-print";
-      window.print();
-    });
-    window.addEventListener("afterprint", function () {
-      document.body.className = document.body.className.replace(/\bsolo-print\b/g, "");
-    });
-
-    buildMenu();
-    renderGrade();
-  })();
-  </script>
-
-  <div class="callout co-warn">
-    <span class="c-tag">warning</span>
-    <p>Rituals calcify. A move that once caught real failures becomes ceremony,
-    then costume, then tax — and you will keep paying it long after the reason
-    expired. Chapter 06 gave the test: name the specific failure a ritual
-    catches; silence means delete it. Put a quarterly prune on the same calendar
-    as your memory-file grooming and audit the rhythm itself: every move earns
-    its slot or loses it.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
-
-<h2 id="ch16-s9">Receipts</h2>
-  <p>Six receipts, each re-anchored to the chapter whose ledger row it comes
-  from — this chapter cites, it does not re-research. Tier key: T1 official
-  docs or established practitioners · T2 vendor secondary · T3 lead only.</p>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/</span>
-    <span class="as-of">checked 2026-05 · anchors ch01 · convergence risk: even careful practitioners stop reviewing every line; accountability stays human</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/best-practices</span>
-    <span class="as-of">checked 2026-08 · anchors ch01 · kitchen-sink session, explore → plan → implement → commit, reproduce-first discipline and escape hatches</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/memory</span>
-    <span class="as-of">checked 2026-08-25 · anchors ch04 · memory files reload every session; MEMORY.md ~200-line/25KB load cap; "memory is context, not enforcement"</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/common-workflows</span>
-    <span class="as-of">checked 2026-08-25 · anchors ch04 · plan mode reviews before disk writes; --worktree gives parallel sessions isolated checkouts</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 research</span>
-    <span class="r-url">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</span>
-    <span class="as-of">checked 2025-07 · anchors ch07 · RCT: expected +24%, believed +20%, measured 19% slower — evidence over assertion</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot</span>
-    <span class="as-of">checked current · anchors ch12 · Dependabot updates pinned GitHub Actions via dependabot.yml — the sweep's automatable half</span>
-  </div>
-
-  <section class="exercise">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
-
-<h2 id="ch16-s10">Try it yourself</h2>
-    <ol>
-      <li><strong>Exact-click checkpoint.</strong> In the builder above, select
-      the daily four and the weekly three, read every graded line, then press
-      <em>print cheat-sheet card</em>. Tape the card where you start sessions.
-      Those seven moves cost roughly ninety minutes a week — cheaper than one
-      rescued kitchen-sink session.</li>
-      <li><strong>Break it on purpose.</strong> Uncheck <em>review diffs before
-      accepting</em> and read what the grader does. Then run one real session
-      where you skip the diff review deliberately, and afterwards inspect
-      <code>git diff</code> for what slipped. Once is usually enough to make
-      the ritual permanent.</li>
-      <li><strong>Ship-sized task.</strong> Run the full rhythm for one week on
-      your own project — finish lines, diff reviews, worktrees, Friday grooming
-      and retro. Keep the retro log; it becomes your first quarterly prune's
-      agenda, and the raw material for your own gauntlet.</li>
-    </ol>
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · tomorrow morning, one page, one session, one receipt</p>
+    <h2><span class="s-n">i.</span>The book in execution order</h2>
+    <p>Tomorrow morning you open the laptop with one page beside the keyboard: nineteen rules, every one bracketed to the session that owns it, and a blank receipt waiting for tonight. The book already decided what good looks like, fifteen times — this session turns those decisions into a single day you can repeat tired, which is exactly when you need it.</p>
+    <p>Fifteen gates, one fixed order. The stopping line [01] comes before the branch; the branch [11] before the map; the map before the pin; the pin before the fix [06]; the fix before the evidence [09]; the evidence before the commit; receipt [05/07] before sleep. The trick: each gate's output is the next gate's input, so a late evening cannot silently skip one. Ritual survives tired evenings because willpower was never a gate. Counter-weight: ritual calcifies, and a checklist that never changes starts protecting itself instead of the work — so the retro log overrides any rule at the quarterly prune [04].</p>
+    <figure>
+      <svg viewBox="0 0 640 320" role="img" aria-label="Day loop: morning start feeds the composed session, the session feeds evening review, review feeds a quarterly prune that rewrites the morning page.">
+        <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="currentColor">
+          <rect x="235" y="18" width="170" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="44">MORNING ☀</text>
+          <text x="320" y="62" font-size="10">line · branch [01/11]</text>
+          <rect x="30" y="128" width="170" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="115" y="154">SESSION ⚙</text>
+          <text x="115" y="172" font-size="10">map→pin→red→green</text>
+          <rect x="440" y="128" width="170" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="525" y="154">EVENING ✓</text>
+          <text x="525" y="172" font-size="10">receipt · log/cut</text>
+          <rect x="235" y="238" width="170" height="64" rx="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="320" y="264">PRUNE ✂</text>
+          <text x="320" y="282" font-size="10">quarterly · retro wins</text>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M235,50 L140,128" marker-end="url(#ah16)"/>
+          <path d="M405,50 L500,128" marker-end="url(#ah16)"/>
+          <path d="M200,192 L260,238" marker-end="url(#ah16)"/>
+          <path d="M440,192 L380,238" marker-end="url(#ah16)"/>
+          <path d="M320,238 L320,82" marker-end="url(#ah16)" stroke-dasharray="6 4"/>
+        </g>
+        <defs><marker id="ah16" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+      </svg>
+      <figcaption><strong>Fig. 16 — the day loop.</strong> Morning starts the session, the session earns the evening, the prune rewrites the morning page. It answers: where does each gate live?</figcaption>
+    </figure>
+    <p>Three clocks run the day, and they speak in session numbers only — zero mechanics re-explained. Morning start [01+04/11]: name the session, write the line, cut the branch. Session hygiene [01+06+09+10]: one goal, red first, evidence pasted, hatch armed. Evening review [04+05+07]: receipt filed, every claim logged ledger-style or cut. Times and tools vary; the clocks do not.</p>
+    <p>The composed arc in one paragraph: the stopping line [01] briefs the branch [11], the map [11] finds the suspect, the pin [11] names the test, the red-green [06] earns the change, the pasted output [09] proves it, the one-file commit holds the stopping line [01], and the receipt [05/07] hands off tomorrow. Seven arrows, each naming home — the timeline below doubles as the expectation for steps 2 and 5.</p>
+    <p>Where this breaks down: the ritual manufactures no judgment. Checklists filter; they do not guarantee — a green suite on a misread spec is still a misread, hence green-without-red fails the gate [09]. No receipt asserts a gate without pasted evidence; a ritual-without-run is the failure this chapter exists to kill. Novel ground with no pin to write, or a second hatch trip in one evening, both mean stop — never ritual harder.</p>
+    <p>The landing is three files in a scratch repo named ritual-run. RITUAL.md holds the nineteen bracketed rules. task.md holds one falsifiable sentence. RECEIPT.md holds command-plus-output evidence per gate plus a handoff note. Both formats are authored here — no ledger row allowed. Seventy-five minutes, opencode default, every green from your own keystrokes.</p>
   </section>
 
-  <section class="selfcheck">
+  <h2><span class="s-n">ii.</span>The fixed order is the feature <span class="time">· composition over memory</span></h2>
+  <p>Fifteen sessions of technique die the same death: remembered in the morning, abandoned by midnight. The failure is not discipline, it is architecture — fifteen separate habits compete for attention, and attention loses. Composition fixes this by collapsing fifteen decisions into one order with no branches: you never choose what comes next, you only execute what is next. A tired brain can execute; it cannot prioritize.</p>
+  <p>Each arrow carries exactly one artifact, and the artifact is the proof the next gate consumes. The stopping line is a sentence the commit later verifies against ("diff shows cart.js only"). The map is notes the blast-radius quotes. The pin is a test the red-green runs. The red is a number the receipt pastes. Break any arrow and the chapter tells you within one gate: a commit with no line to check, a fix with no red to quote, a receipt with no output to paste. The order detects its own violation — that is what makes it a ritual instead of advice.</p>
+  <p>The calcify counter is load-bearing, not decorative. A ritual that cannot change becomes superstition: rules followed because they are rules, while the work underneath moves on. So the prune is scheduled like a gate, not wished like a resolution — quarterly, from the retro log, and the log wins every argument with the page [04]. If a rule never fires in a quarter, it is cut or narrowed until it does. Nineteen rules survived this book's prune; your count will differ, and differing is the point.</p>
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§11</span></div>
+  <h2><span class="s-n">iii.</span>Three clocks, one day <span class="time">· numbers only, no mechanics</span></h2>
+  <p>Morning start owns three moves and nothing else: name the session [01], load only the config this task needs [04], cut the branch before briefing [11]. Confirm the spend ceiling [03] and the harness surface [02] the way you check fuel — glance, not study. If the morning takes more than ten minutes, the ritual is already too heavy; cut a rule tonight.</p>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">☀ 01·04·11</span><span class="stat-label">morning start — line, config, branch</span></div>
+    <div class="stat"><span class="stat-num">⚙ 01·06·09·10</span><span class="stat-label">session hygiene — goal, red, proof, hatch</span></div>
+    <div class="stat"><span class="stat-num">✓ 04·05·07</span><span class="stat-label">evening review — receipt, claims, prune</span></div>
+  </div>
+  <p>Session hygiene is the counter-thrash machine: one goal parked in writing [01], the simplest shape first [06], red quoted before green [06], command-plus-output pasted [09], the two-miss hatch armed [10], untrusted content held off private data [14], license and stacking boundaries respected [15]. Evening review files the receipt with its handoff note [05], logs claims ledger-style or cuts them [07], and notes interface checks wherever the diff touched the eye [08], dependency hygiene [12], and the zero-spend ceiling [13]. The figure below is the whole page at a glance — audit yours against it.</p>
+  <figure>
+    <div class="stat-strip" aria-label="Ritual schematic: three clocks with every rule bracketed to its home session.">
+      <div class="stat"><span class="stat-num">☀ START</span><span class="stat-label">line [01] · config [04] · branch [11] · ceiling [03] · surface [02]</span></div>
+      <div class="stat"><span class="stat-num">⚙ RUN</span><span class="stat-label">goal [01] · shape [06] · red [06] · proof [09] · hatch [10] · secrets [14] · bounds [15]</span></div>
+      <div class="stat"><span class="stat-num">✓ REVIEW</span><span class="stat-label">receipt [05] · diff [11] · claims [07] · eye [08] · deps [12] · spend [13] · prune [04]</span></div>
+    </div>
+    <figcaption><strong>Fig. 17 — the ritual schematic.</strong> One page, three clocks, every rule bracketed to the session that owns it. It answers: is my ritual complete, and who owns each rule?</figcaption>
+  </figure>
 
-<h2 id="ch16-s11">Self-check</h2>
-    <details>
-      <summary>What separates the daily four from the weekly three?</summary>
-      <p>Timescale and purpose. The daily four are per-session loop hygiene —
-      goal, verification, isolation, evidence quality. The weekly three are
-      maintenance that prevents silent decay: config rot, dependency drift, and
-      unexamined assumptions about the tools themselves.</p>
-    </details>
-    <details>
-      <summary>You skip memory-file grooming for a month. What specifically breaks?</summary>
-      <p>Nothing loud — that is the danger. Stale rules stay loaded every
-      session and actively steer it wrong: old commands, dead conventions,
-      contradicted decisions. You experience it as "the agent got worse," when
-      the file is fighting the present. Date rules; delete what you cannot
-      explain.</p>
-    </details>
-    <details>
-      <summary>When should you break your own rules?</summary>
-      <p>Deliberately, on evidence, in writing. The retro and quarterly prune
-      exist so measurement can override ritual — if the log shows a move
-      catches nothing, retire it and note why. What you must not do is break
-      rules silently mid-session because the diff looked long. Drift is the
-      default; the ritual is the tripwire.</p>
-    </details>
+  <h2><span class="s-n">iv.</span>The composed arc <span class="time">· seven gates, seven evidences</span></h2>
+  <p>Walk the run left to right and each gate has exactly one deliverable. The ritual is drafted first so the run has rules to obey; the stopping line briefs a branch; the map names the suspect without touching it; the pin turns suspicion into a number; the red-green earns the diff; the evidence paste proves it to a stranger; the commit holds the line; the receipt hands off. The table is the contract; the timeline is the shape; the session below is the execution.</p>
+  <div class="timeline">
+    <div class="tl-step"><span class="tl-n">1</span><span class="tl-t">Ritual drafted [06]</span><span class="tl-d">19 rules, 3 clocks</span></div>
+    <div class="tl-step"><span class="tl-n">2</span><span class="tl-t">Map read-only [11]</span><span class="tl-d">entry · hub · suspect</span></div>
+    <div class="tl-step"><span class="tl-n">3</span><span class="tl-t">Pin named [11]</span><span class="tl-d">one test, exact assert</span></div>
+    <div class="tl-step"><span class="tl-n">4</span><span class="tl-t">Red → green [06]</span><span class="tl-d">53.5 quoted, then 2/2</span></div>
+    <div class="tl-step"><span class="tl-n">5</span><span class="tl-t">Evidence pasted [09]</span><span class="tl-d">command + output</span></div>
+    <div class="tl-step"><span class="tl-n">6</span><span class="tl-t">Commit holds line [01]</span><span class="tl-d">1 file, diff read</span></div>
+    <div class="tl-step"><span class="tl-n">7</span><span class="tl-t">Receipt logged [07]</span><span class="tl-d">rows or cut + handoff</span></div>
+  </div>
+  <div class="table-scroll"><table>
+    <tr><th>Gate</th><th>Home</th><th>Evidence pasted in RECEIPT.md</th></tr>
+    <tr><td>Ritual drafted</td><td>[06] simplest shape first</td><td>grep count: 19 bracketed rules, 01–15 covered</td></tr>
+    <tr><td>Stopping line + branch</td><td>[01] one goal, one line</td><td>baseline commit hash; clean status on agent-fix</td></tr>
+    <tr><td>Map + pin, tree clean</td><td>[11] touch last</td><td>MAP-NOTES; empty git status after the read</td></tr>
+    <tr><td>Red quoted, then green</td><td>[06] confirmed failure</td><td>53.5 !== 54.5 before; pass 2 / fail 0 after</td></tr>
+    <tr><td>Commit holds the line</td><td>[01] the line verifies</td><td>1-file diff stat; every changed line explained</td></tr>
+    <tr><td>Receipt + handoff</td><td>[05/07] log or cut</td><td>ledger-style rows for claims; next-session note</td></tr>
+  </table></div>
+  <p>Judgment stays human throughout — the composure the convergence essay in session [01] demands: no gate reviews a line so you can stop thinking, every gate exists so your thinking lands somewhere checkable. The ritual decides the order; you decide the truth. When the two-miss hatch trips [10], it is your call to rewind, and yours to say what the next first prompt learns.</p>
+
+  <h2><span class="s-n">v.</span>Session — the composed run <span class="time">· executed 2026-09-04</span></h2>
+  <p>Five files, plain <code>node --test</code>, zero installs. The shop arrives the way inherited code always arrives: a live total hard-coding last year's 7%, a truth table already saying 9%, a stale duplicate waiting to absorb your fix. The transcripts below are the executed reference — run every step with your own keystrokes and paste your own outputs into RECEIPT.md.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Write RITUAL.md — rules with home numbers</h3>
+    <p class="goal"><strong>Goal:</strong> a one-page ritual in 3 sections where every rule ends in a bracketed home-session number [01]–[15], all fifteen covered [04/06].</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Write RITUAL.md in this repo: exactly 3 sections (Morning start, Session hygiene, Evening review). Every rule is one line ending in a home-session bracket [01]..[15]; cover all fifteen sessions at least once. Output the file only — no explanations.</div>
+    <div class="term">◆ ritual · 3 sections · <span class="g">19 bracketed rules · 01–15 covered ✓</span>
+(Select-String -Path RITUAL.md -Pattern '\[(0[1-9]|1[0-5])\]').Count → 19
+<span class="term-note">Executed 2026-09-04. The count is the verification: fewer than 15 lines means a session owns no rule; a rule without a bracket is advice, not ritual.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>RITUAL.md has exactly 3 sections; bracket grep counts ≥15 lines and every number 01–15 appears at least once</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Agent explains instead of writing? Re-prompt with "output the file only" appended last — constraints placed last are obeyed most. Sessions missing? Ask "which of 01–15 lack a rule" and add one line each.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Stopping line + branch before briefing</h3>
+    <p class="goal"><strong>Goal:</strong> one falsifiable sentence in task.md, a committed baseline, and a clean agent-fix branch — reversibility before comprehension [01/11].</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>git init; git add -A; git commit -m "baseline: ritual-run before mapping"; git checkout -b agent-fix; git status</div>
+    <div class="term">◆ baseline · [master (root-commit) 3506e4d] 5 files changed
+◆ branch agent-fix · <span class="g">nothing to commit, working tree clean ✓</span>
+<span class="term-note">Executed 2026-09-04. task.md holds the line: cartTotal follows rates.js TAX_RATE (9%) — node --test cart.test.js passes 2/2, git diff --stat shows cart.js only.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>task.md is one sentence with a command and counts; baseline hash exists; <code>git status</code> prints clean on agent-fix</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Branch already exists from a past attempt? Delete it (<code>git branch -D agent-fix</code>) and re-cut from the baseline. Sentence untestable? Add the command and the numbers until a stranger could check it.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Map → pin → blast-radius, read-only</h3>
+    <p class="goal"><strong>Goal:</strong> MAP-NOTES with entry, hub, tests, and the suspect duplicate, a named pinning test, written blast-radius lanes — zero modified files [11].</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Do NOT edit any file. Read-only map of this repo: list entry point, hubs, tests, and any suspect duplicate function. Then run the suite and report per-test pass/fail plus the exact failing assertion. Then write BLAST RADIUS lanes (TOUCH / NOT-TOUCH / pinning test) without editing. Output MAP-NOTES only.</div>
+    <div class="term">◆ map · read 5 files · edits 0 · <span class="g">git status still clean ✓</span>
+MAP-NOTES: entry cart.js · hub rates.js · tests cart.test.js · suspect legacyCartTotal
+PINNING TEST: live cartTotal follows the rates.js truth table (9% tax)
+BLAST RADIUS: TOUCH cart.js cartTotal only · NOT-TOUCH rates.js, cart.test.js, legacyCartTotal, RITUAL.md, task.md
+◆ opencode attempt · <span class="c">Cannot connect to API: Unable to connect.</span> — sandbox failure, quoted verbatim; deterministic map above is the substitute
+<span class="term-note">Executed 2026-09-04. The map read everything and changed nothing — the clean status after a full read is the verification. The opencode map run failed in this sandbox with the error quoted above (also filed in RECEIPT.md); the paste-block is the reader equivalent, opencode default.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>MAP-NOTES names entry, hub, tests, suspect, and one pinning test; <code>git status --short</code> prints nothing; radius lanes written before any edit</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Early edit slipped in? Revert (<code>git checkout -- .</code>), then re-run with the read-only instruction first — an edit before the radius voids the session, not just the step.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Red-green + verify — the trap-checked gate</h3>
+    <p class="goal"><strong>Goal:</strong> the exact red quoted before the edit, green from your own re-run after, inside the radius lanes [06/09]. Two-miss hatch armed [10].</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>BLAST RADIUS (approved): TOUCH cart.js cartTotal only — replace hard-coded 1.07 with (1 + TAX_RATE) from ./rates.js. NOT-TOUCH: rates.js, cart.test.js, legacyCartTotal, RITUAL.md, task.md. PINNING TEST: live cartTotal follows the rates.js truth table. First run the suite and quote the red, then edit, then run again and quote the green.</div>
+    <div class="term">◆ red · tests 2 · <span class="c">pass 1 · fail 1 — 53.5 !== 54.5</span>
+◆ green · tests 2 · <span class="g">pass 2 · fail 0 ✓</span>
+<span class="term-note">Executed 2026-09-04, quoted verbatim. Trap check per 09: this green counts only because the red above names the exact assertion first — green-without-red proves nothing and fails the gate. Two-miss rule per 10 stood armed and unfired (zero misses used).</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Red quoted exactly (<code>53.5 !== 54.5</code>) before any edit; green re-run with your own keystrokes after; <code>git diff --stat</code> shows cart.js only</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Red will not reproduce? Check the truth table drifted (rates.js must say 0.09, cart.js must still hard-code 1.07). Second miss on the same issue? Hatch: revert, clear the thread, restart error-first with what you learned.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">5.</span>Commit + receipt — the handoff</h3>
+    <p class="goal"><strong>Goal:</strong> a 1-file diff read line by line against the radius, then a RECEIPT.md with pasted evidence per gate, ledger-style rows for claims, and a handoff note [05/07/11].</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Review the diff against the blast-radius: read every changed line aloud, confirm 1 file. Then append RECEIPT.md with: stopping line, branch, MAP-NOTES, pin, blast-radius, red/green outputs pasted, ledger-style rows for any claim, handoff note. Flag any claim with no row — cut it or log it.</div>
+    <div class="term">◆ commit · <span class="g">cart.js | 4 ++-- · 1 file changed, 2 insertions(+), 2 deletions(-)</span>
+◆ receipt · line ✓ branch ✓ map ✓ pin ✓ radius ✓ red/green ✓ rows ✓ handoff ✓
+[agent-fix 8142bfd] fix: cartTotal reads TAX_RATE from rates.js (pin green 2/2)
+<span class="term-note">Executed 2026-09-04. Line 1 imports the truth; the taxed line reads it. Unlogged claim rule held: RITUAL.md/RECEIPT.md formats are authored (no rows allowed); everything else traces to a row or was cut.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Every changed line explained against the radius; RECEIPT.md complete with pasted outputs and handoff note; tree clean after commit</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Diff touches 2+ files? Revert and re-paste the NOT-TOUCH list — the plan failed, not the fix. A claim with no row? Cut it now; research it next session with the ledger open.</p></div>
+  </div>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>My RITUAL.md has 3 sections and the bracket grep covers sessions 01–15.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>My stopping line is one falsifiable sentence, written before the branch.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>My branch was cut from a committed baseline before any briefing.</span></label>
+    <label class="check-line"><input type="checkbox" id="c4"><span>My MAP-NOTES names entry, hub, tests, and suspect — recorded with a clean tree.</span></label>
+    <label class="check-line"><input type="checkbox" id="c5"><span>I quoted the red exactly (53.5 vs 54.5) before touching source.</span></label>
+    <label class="check-line"><input type="checkbox" id="c6"><span>My green came from my own keystrokes: pass 2 / fail 0 on the re-run.</span></label>
+    <label class="check-line"><input type="checkbox" id="c7"><span>My diff is 1 file and I read every line against the blast-radius.</span></label>
+    <label class="check-line"><input type="checkbox" id="c8"><span>My RECEIPT.md files pasted evidence per gate plus a handoff note.</span></label>
   </section>
 
-  <section class="beyond">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§12</span></div>
-
-<h2 id="ch16-s12">Beyond this build</h2>
-    <p><strong>Teams.</strong> Personal rhythms harden into team conventions:
-    the finish line becomes the ticket's acceptance criteria, the diff review
-    becomes the PR gate, the weekly sweep becomes a rota. Scale the ceremony to
-    the blast radius; let whoever owns the bar own the ritual.</p>
-    <p><strong>Onboarding others.</strong> Hand newcomers the cheat-sheet card,
-    not the vibes. Their first-week deliverable is the kickoff three on their
-    own machine: seeded AGENTS.md, branch-first habit, pinned verifier. Someone
-    who can run those three can be trusted with the daily four unsupervised.</p>
-    <p><strong>When to break your own rules.</strong> The rhythm serves
-    shipping, never the reverse. Deadlines legitimately compress rituals — but
-    compression is a decision you make consciously and write down, not drift
-    you notice later. If a rule keeps losing to reality, change it at the
-    prune; if it keeps saving you, promote it. Observe, prune, promote — that
-    loop is this entire book in one sentence.</p>
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Stopping-line discipline: clear success criteria before trial-and-error loops</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://simonwillison.net/2025/Sep/30/designing-agentic-loops/</span> · ledger row · safety framing holds</span></details>
+    <details><summary>Composition arc: verify-first, then explore → plan → implement → commit</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · re-verified live 2026-09-04 · wording holds</span></details>
+    <details><summary>Evidence bar: give the agent a check it can run — a way to verify its work</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · re-verified live 2026-09-04 · same page, second claim</span></details>
+    <details><summary>Show output, never assert success: command plus pasted output as the evidence gate</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span> · ledger row · Showboat evidence-document workflow</span></details>
+    <details><summary>Two-miss hatch: /rewind restores, /clear after two failed corrections, Stop hook overridden after 8 consecutive blocks</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · re-verified live 2026-09-04 · highest-churn claims hold</span></details>
+    <details><summary>Non-interactive runs: opencode run with model flag for map-class steps</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/cli/</span> · ledger row · sandbox attempt quoted honestly in RECEIPT.md</span></details>
+    <details><summary>Session exits: multi-session, /new, git-backed undo plus redo</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/tui</span> · ledger row · pairs the CLI exits</span></details>
+    <details><summary>Config standard: tool-agnostic instruction files, nested nearest-wins, review cadence</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://agents.md</span> · ledger row · morning-start rule source</span></details>
+    <details><summary>Memory cadence: hierarchy plus auto-memory with load caps, context not enforcement</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/memory</span> · ledger row · review-cadence source</span></details>
+    <details><summary>Plan-first mechanics: read-only plan, approve before edits, simplest shape first</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/common-workflows</span> · ledger row · prescriptive</span></details>
+    <details><summary>Handoff instrument: smallest high-signal set; compaction plus structured notes plus subagents</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://anthropic.com/engineering/effective-context-engineering-for-ai-agents</span> · ledger row · receipt-note source</span></details>
+    <details><summary>Pattern choice: five shapes, simplest-thing-that-works, complexity only when measured</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.anthropic.com/research/building-effective-agents</span> · ledger row · pattern-namers' essay</span></details>
+    <details><summary>Red-green control: test-first with confirmed failure stops broken and unused code</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span> · re-verified row · practitioner guidance</span></details>
+    <details><summary>Forecast humility: independent RCT humbled productivity forecasts — figures not repeated here</summary><span class="receipt"><span class="tier">T1 independent</span><span class="r-url">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</span> · ledger row · numbers live in ch07 only</span></details>
+    <details><summary>Confidence walk-back: follow-up retracted method confidence over selection effects</summary><span class="receipt"><span class="tier">T1 independent</span><span class="r-url">https://metr.org/blog/2026-02-24-uplift-update/</span> · ledger row · model for the prune habit</span></details>
+    <details><summary>Tautology trap: tests-after-code encode misreadings; contract tests reviewed as spec</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://www.codewithseb.com/blog/test-driven-agentic-development-guide</span> · ledger row · trap-check source</span></details>
+    <details><summary>Exercise-evidence: agents must run what they build and show output, not assert it</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span> · ledger row · first-person transcript</span></details>
+    <details><summary>Characterization discipline: pin actual behavior first, judge second</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://www.artima.com/weblogs/viewpost.jsp?thread=198296</span> · ledger row · pin-source</span></details>
+    <details><summary>Repo-map mechanics: graph-ranked symbol map packed under a token budget</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://aider.chat/docs/repomap.html</span> · ledger row · map-source, no figures repeated</span></details>
+    <details><summary>Dependency hygiene in one line: pin actions via the updates config</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot</span> · ledger row · copy-paste config</span></details>
+    <details><summary>Judgment stays human: even careful practitioners stop reviewing every line; accountability stays human</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/</span> · ledger row · self-critical reflection</span></details>
+    <details><summary>Executed 2026-09-04: ritual drafted (19 rules), composed run, red pin (53.5 vs 54.5), 1-file diff, 2/2 green, receipt filed</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · transcripts quoted verbatim above</span></details>
+    <details><summary>Authored formats (no ledger row allowed): RITUAL.md and RECEIPT.md layouts are this chapter's invention</summary><span class="receipt"><span class="tier">authored</span> · cross-cited rows only elsewhere — zero new rows</span></details>
   </section>
 
-  <div class="part-divider pd-l5">appendices · reference shelf</div>
-
-  <section class="beyond" id="wheres-next">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§13</span></div>
-
-<h2 id="ch16-s13">Where you go from here</h2>
-    <p>The chapters are done; the practice starts now. Three doors:</p>
-    <p><strong>The appendices.</strong> The <a href="../../toc.html">contents
-    page</a> leads to the reference shelf: a per-harness tool cheat sheet, the
-    glossary, and the coverage matrix that guarantees what this book promised
-    to teach, it taught.</p>
-    <p><strong>The source ledger.</strong> Every claim in all sixteen chapters
-    traces to a tiered, dated row in the book's source ledger — the same
-    discipline chapter 07 taught you to demand of anyone else's benchmarks.
-    Re-verify anything; URLs age and so do we.</p>    <p><strong>Your own work.</strong> The loops in this book are not
-    destinations, they are reusable engines: the outer loop from chapter 01,
-    the patterns from chapter 06, the gauntlet from this chapter. Point them
-    at your next project. Then leave yourself a note about what to build
-    next — your next session is already grateful.</p>
-  </section>
-
+  <nav class="pager" aria-label="Chapter navigation">
+    <!-- ch15 pending sibling; ch16 owns this link only -->
+    <a href="../ch15/index.html">← session 15</a>
+    <a href="../../index.html">Book III →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch16-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
 </main>
-<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>

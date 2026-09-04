@@ -3,605 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>: Costs, limits &amp; grey zones — The Agentic Coding Field Manual</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../../assets/css/book.css">
+<title>15 · Costs, limits &amp; grey zones — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
 </head>
 <body>
-<header class="site-head" style="position:static">
-  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 15</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
-<main><nav class="chapnav" aria-label="Sections"><a href="#ch15-s1">01 the walls, with receipts</a><a href="#ch15-s2">02 the meters: shared pools and</a><a href="#ch15-s3">03 the hidden price: what free </a><a href="#ch15-s4">04 what you own when the output</a><a href="#ch15-s5">05 where this lands in your bui</a><a href="#ch15-s6">06 try it yourself</a><a href="#ch15-s7">07 self-check</a><a href="#ch15-s8">08 receipts</a><a href="#ch15-s9">09 beyond this build</a></nav>
+<main>
+  <p class="kicker">Session 15 · costs, limits &amp; grey zones · opencode default</p>
+  <h1>Price it before you touch it</h1>
+  <p class="lede">Price your last session from its transcript, cap your worst month with a written stop rule, and triage one grey-zone shortcut on paper — before any of them prices you.</p>
+  <p class="kicker" style="margin-top:1rem">60 min · scratch cost-lab · needs ch03 · verified 2026-09-04</p>
 
-  <div class="chapter-banner banner-l4">
-    <span class="banner-num" aria-hidden="true">15</span>
-    <div class="banner-meta">
-      <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
-      <h1>Chapter 15: Costs, limits &amp; grey zones</h1>
-      <p class="as-of">facts checked as of 2026-08-26 · every rate number below expires — re-stamp before betting a habit on it</p>
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · read the meter, cap the month, skip the shortcut</p>
+    <h2><span class="s-n">i.</span>Your bill has three dials and a hidden price</h2>
+    <p>Every agent session spends four things, and only three appear on a dashboard. The burst dial caps how fast you may ask: requests per minute, the bucket behind a "slow down" 429. The throughput dial caps how much you may move: input and output tokens per minute, the pipe behind a "send less" 429. The budget dial caps what you may spend: the monthly ceiling where the API stops answering until the first of next month. The hidden price is your data: which doors train on prompts, which let you opt out, and which never say — because silence about training is itself a term you accept.</p>
+    <p>The ritual is four numbers plus a date: RPM, input tokens per minute, output tokens per minute, and your cap — written down the day you read them. Anthropic's rate-limits page is the worked example, re-verified live 2026-09-04: Start-tier Opus-class traffic gets 1,000 requests per minute, 2,000,000 input tokens per minute, 400,000 output tokens per minute, under a $500 monthly cap, and cached input reads do not count toward the input limit on current models. When a 429 names the input-token limit, the throughput dial tripped — fix it with caching or smaller context, never blind retry.</p>
+    <p>Distrust every meter you did not read yourself. Subscription doors pool allowances across products — Codex draws from one shared pool with the rest of the plan, and the remaining balance lives behind the plan's own status screen, not in any chapter table. Token-credit doors convert everything to one opaque unit whose burn depends on model, context, and reasoning depth. Vendor averages are order-of-magnitude weather, not your forecast. The ritual reads your door, today, in writing.</p>
+    <p>Some pages print the trade; some print nothing, and the nothing is citable. OpenRouter's privacy page states the deal: per-provider training flags, separate opt-outs for paid and free models, request-level filtering — opting out may exclude the cheapest doors, and that exclusion is the price tag. The z.ai usage policy, fetched live 2026-09-04, says nothing about input training: no opt-out to point at, no retention promise to quote. That silence is not permission. Gemini and Mistral training claims stay third-party leads, warning-fenced, never fact.</p>
+    <p>Grey-zone arithmetic scores two axes plus a forecast. Stability: does the shortcut survive the next provider change, or is it reverse-engineered surface that dies without notice? Legality: what do the written terms actually prohibit — credential sharing, limit circumvention, reselling access? Then the death-forecast: how long until this stops working, and what breaks with it. Relays that launder one subscription into another tool fail both axes in writing, and uptime proves nothing. This chapter's exhibit is triaged on paper, never executed. Table numbers expire; the recheck date is the artifact. The $0 doors from ch03 remain the on-ramp.</p>
+  </section>
+
+  <h2><span class="s-n">ii.</span>Three dials and a side channel <span class="time">· which dial tripped my 429?</span></h2>
+  <p>A rate-limit error is a diagnosis, not a mood. Requests per minute is the burst bucket: it fills with each call and drains steadily. Input and output tokens per minute form the throughput pipe: long contexts trip it even at a polite request rate. The monthly spend cap is the budget ceiling: past it, requests stop with a limit error and no retry header. Read which limit the error names before touching anything — each dial has exactly one fix, and the wrong fix burns the session twice.</p>
+  <figure>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Three dials left to right: a burst bucket labeled RPM, a throughput pipe labeled input and output tokens per minute, a budget ceiling labeled monthly cap, with a data side channel below labeled training rights.">
+      <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="currentColor">
+        <rect x="30" y="40" width="130" height="180" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="95" y="65">BURST</text>
+        <text x="95" y="85" font-size="10">RPM bucket</text>
+        <text x="95" y="150" font-size="28">◉</text>
+        <text x="95" y="195" font-size="10">fix: slow down</text>
+        <polygon points="180,120 215,120 197,155" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="235" y="40" width="130" height="180" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="300" y="65">THROUGHPUT</text>
+        <text x="300" y="85" font-size="10">ITPM / OTPM pipe</text>
+        <text x="300" y="150" font-size="28">⇄</text>
+        <text x="300" y="195" font-size="10">fix: send less</text>
+        <polygon points="385,120 420,120 402,155" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="440" y="40" width="170" height="110" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="525" y="65">BUDGET</text>
+        <text x="525" y="85" font-size="10">monthly cap</text>
+        <text x="525" y="115" font-size="10">fix: wait / raise</text>
+        <rect x="440" y="170" width="170" height="50" rx="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="525" y="192" font-size="10">DATA side channel</text>
+        <text x="525" y="208" font-size="10">training rights</text>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M160,140 L180,140"/>
+        <path d="M365,140 L385,140"/>
+        <path d="M525,150 L525,170" stroke-dasharray="4 3"/>
+      </g>
+    </svg>
+    <figcaption><strong>Fig. 15 — three dials plus the hidden price.</strong> Burst, throughput, and budget each trip a different 429 with a different fix; the data side channel bills you in training rights. It answers: which dial tripped my 429?</figcaption>
+  </figure>
+  <p>The side channel needs its own reading because it never returns an error code. A door that trains on your prompts charges you in future-model weights. OpenRouter answers both questions in writing — per-provider flags, separate paid and free opt-outs — so the trade is priced. The z.ai policy answers neither, so the trade is unpriced, which is worse than expensive. The chapter rule: an unpriced trade is never assumed free; it is filed as unknown, dated, and routed around for anything you would not publish.</p>
+
+  <h2><span class="s-n">iii.</span>The four-number ritual <span class="time">· RPM, in, out, cap, date</span></h2>
+  <p>Open the door's own limits page and write five tokens on paper: requests per minute, input tokens per minute, output tokens per minute, the spend cap, and today's date. The date is the load-bearing field — rate cards change, and August numbers are fertilizer, not facts. Do this for each door you actually use, monthly. The OpenRouter constants are the worked example, re-verified live 2026-09-04 from the page source: free-variant models allow 20 requests per minute always, 50 requests per day until the account has bought at least $10 of credits, then 1,000 per day — and making extra accounts or keys does not move the limit. A 402 means money; a 429 means rate; the fix follows the code.</p>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">18,250 × $0.22</span><span class="stat-label">input tokens × per-M price = $0.0040</span></div>
+    <div class="stat"><span class="stat-num">4,120 × $0.66</span><span class="stat-label">output tokens × per-M price = $0.0027</span></div>
+    <div class="stat"><span class="stat-num">$0.0067 ✓</span><span class="stat-label">session receipt total · authored-measurement example · 2026-09-04</span></div>
+    <div class="stat"><span class="stat-num">cap + halt</span><span class="stat-label">stop rule written before the next session runs</span></div>
+  </div>
+  <p>The strip above is a receipt, not a quote: step 2 has you build your own the same way. The token counts come from the reader's own prior transcript — transcript footer, status screen, or local meter — never from this chapter's example. The example counts (18,250 in, 4,120 out) are authored measurements: they demonstrate the arithmetic and nothing else. Your door's row supplies the prices; your transcript supplies the counts. A receipt without your own numbers is a postcard, and the teach test fails it on sight.</p>
+  <p>Distrusted meters each lie differently. Shared pools (Codex draws with the rest of the plan from one allowance) lie by aggregation: no single session looks expensive. Token credits lie by exchange rate: the credit burns faster on long-context reasoning models, so last month's burn predicts nothing. The ritual answers both the same way — read your door, write the four numbers, date them — and adds one habit: check your own status screen before any long run.</p>
+
+  <h2><span class="s-n">iv.</span>The price table <span class="time">· cheapest for my shape, and is it fresh?</span></h2>
+  <p>A price table has exactly one job: given the shape of your work (input-heavy review vs output-heavy generation, peak vs off-peak hours), name the cheapest door — and prove the numbers are fresh. Every row below comes from a quoted line on a named pricing page, fetched live 2026-09-04, with a verified date and a recheck date one month out. Rows without a quoted line were dropped to the scratch STALE list, not inherited from August. Two doors had quotable lines this session: the table is small on purpose.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Door</th><th>$/M in</th><th>$/M out</th><th>Cache note</th><th>Verified</th><th>Recheck</th></tr>
+    <tr><td><strong>DeepSeek V4-Flash</strong> (off-peak)</td><td>$0.22</td><td>$0.66</td><td>Cache-hit input $0.007/M; peak rates double; peak = 01:00–04:00 &amp; 06:00–10:00 UTC, Mon–Fri</td><td>2026-09-04</td><td>2026-10-04</td></tr>
+    <tr><td><strong>Kimi K2.7 Code / K2.6</strong></td><td>$0.95</td><td>$4.00</td><td>Cache-hit input $0.19/M (K2.7) / $0.16/M (K2.6); K3 flagship $3/$15, cache $0.30</td><td>2026-09-04</td><td>2026-10-04</td></tr>
+  </table></div>
+  <p>Read the table by shape, not by sticker. An 18k-in / 4k-out review session costs $0.0067 through the DeepSeek off-peak row and $0.0338 through the Kimi row — same words, five times the price — while the same session at DeepSeek peak hours costs $0.0135, because the clock doubles the rate. The Groq free door (gpt-oss-120b at 30 requests/min, 1,000/day, 8k tokens/min, 200k/day, organization-level, cached tokens excluded, re-verified 2026-09-04) sits outside the table deliberately: it has no per-million price, so it answers "what can I run for $0?" — and mixing priced and free rows would let a reader compare cents against silence.</p>
+  <p>Silence gets its own filing discipline. The Gemini limits page resisted direct fetch again this session (transport error, as in August): no public fixed grid remains, so the chapter teaches the console workflow — open AI Studio, read your project's live numbers — instead of quoting a dead table. Google's own tooling post confirms the dashboard direction: project spend caps with automatic tier graduation. Gemini and Mistral training claims stay third-party leads, warning-fenced in the receipts, never fact. The z.ai policy silence is the sharper exhibit because the page fetched cleanly and at length — tiers, dynamic concurrency, violation ladders, cancellation windows — while saying nothing about training on inputs. A page that thorough has no accidental gaps; the absence is the finding, dated 2026-09-04.</p>
+
+  <h2><span class="s-n">v.</span>Grey-zone arithmetic <span class="time">· stability × legality + death-forecast</span></h2>
+  <p>Score every shortcut on two axes before pricing it. Stability: is this documented surface or reverse-engineered surface — will it survive the next provider change, or does it break without notice? Legality: what do the written terms prohibit, in quoted words? Then add the death-forecast: how long until it stops working, and what breaks with it. Risk is probability times consequence on each axis, and the canonical mistake is scoring only the saving.</p>
+  <figure>
+    <div class="stat-strip">
+      <div class="stat"><span class="stat-num">⛔ walk-away</span><span class="stat-label">credential-sharing relays · resold access · limit circumvention</span></div>
+      <div class="stat"><span class="stat-num">⚠ eyes-open</span><span class="stat-label">dated T3 leads · silence-filed doors · expiring numbers</span></div>
+      <div class="stat"><span class="stat-num">✓ clean</span><span class="stat-label">quoted rows · own receipts · written caps</span></div>
     </div>
+    <div class="term">◆ canonical card (paper triage, nothing touched) · unofficial Copilot relay
+stability <span class="c">LOW ⛔</span> · reverse-engineered proxy; breaks on provider change; abuse-detection notice on its own README
+legality <span class="c">HOSTILE ⛔</span> · no credential sharing (both vendors, quoted in receipts); no limit circumvention; no competing-model training on output
+death-forecast: weeks-to-months, ending without notice; takes the underlying subscription standing with it
+<span class="g">verdict: WALK AWAY ✓</span> · the compliant door prices a real session under a cent — the saving is smaller than one violation
+<span class="term-note">T3 exhibit, warning-fenced, never cited as fact. Triaged 2026-09-04 from README + terms text only.</span></div>
+    <figcaption><strong>Fig. 16 — the grey-zone risk rail.</strong> Three lanes plus one pinned card with stability and legality pills and a death-forecast. It answers: is this shortcut walk-away, eyes-open, or clean?</figcaption>
+  </figure>
+  <p>The clauses behind the pinned card, each fetched live 2026-09-04. Anthropic's consumer terms prohibit sharing login, API key, or account credentials with anyone else. OpenAI's 2026 terms add three walls: no sharing account credentials, no circumventing rate limits or protective measures, no using output to develop competing models. GitHub's additional-products terms, effective 2026-04-27, draw the stacking boundary: Actions may not carry disproportionate burden or serve as a standalone commercial service, and Pages may not host commercial SaaS (donation buttons and crowdfunding links are explicitly permitted). The relay exhibit itself — a 4.1k-star reverse proxy — carries its own warning label: not supported by the vendor, use at your own risk, with an abuse-detection notice. Uptime is not permission.</p>
+  <p>Where this breaks down: numbers expire, so the recheck date is the artifact — a price without one is a rumor with formatting. Residency risk (one guide flags China-hosted serving plus Entity List churn for the z.ai surface, with open-weights self-hosting as the clean path) stays a dated third-party lead: good questions for your compliance lead, never conclusions. Copyright's hub anchors the authorship side: Part 2 on copyrightability published 2025-01-29, Part 3 on training still pre-publication — the training-law question is unsettled at the source, which is why the chapter prices data trades conservatively.</p>
+
+  <h2><span class="s-n">vi.</span>Session — the cost dashboard <span class="time">· executed 2026-09-04, $0 spent</span></h2>
+  <p>Three files in scratch <code>cost-lab/</code>, plain <code>node -e</code>, zero installs, zero spend: table prices from quoted lines, price your own last session, write a cap with a stop rule, paper-triage one exhibit. Your numbers replace the example's everywhere.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Table prices from quoted lines only</h3>
+    <p class="goal"><strong>Goal:</strong> a <code>PRICES.md</code> where every row quotes one line from its pricing page plus both dates — everything unquotable goes to a STALE list.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Check cost-lab PRICES.md: each row must quote its pricing page and carry both dates. List failures as STALE. Change nothing."</div>
+    <div class="term">◆ prices · 2 rows quoted · verified 2026-09-04 · recheck 2026-10-04
+row DeepSeek V4-Flash off-peak: $0.22/M in · $0.66/M out · cache $0.007/M
+row Kimi K2.7/K2.6: $0.95/M in · $4.00/M out · cache $0.19/$0.16/M
+STALE (dropped): z.ai per-M (pages render empty) · GitHub Models (retired) · all un-reverified August rows
+<span class="term-note">Executed 2026-09-04. The STALE list proves what you refused to price.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Each row quotes its page and shows both dates; every dropped candidate is on the STALE list with its reason</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Page empty or paywalled? File the silence (page, date, gap), drop the number, mark STALE — never fill it from memory.</p></div>
   </div>
 
-  <p class="lede">Promise: one honest reference. Read any provider's rate-limit page like
-  an engineer, cap your worst-month spend in advance, name what free tiers charge in
-  data, and price a grey-zone shortcut before taking it — compact enough to consult,
-  framed so you rarely need most of it.</p>
-
-  <p>This is the book's only money-forward chapter by design — every other chapter stays
-  about craft. Everything providers throw at you reduces to <strong>three dials and one
-  hidden price</strong>:</p>
-  <ul class="rail">
-    <li><strong>Burst.</strong> Requests per minute — a token bucket. Drain it faster
-    than it refills and you get HTTP 429 with a <code>retry-after</code> header whose
-    size names the wall: seconds = minute-wall, hours = rolling window, midnight = daily.</li>
-    <li><strong>Throughput.</strong> Tokens per minute, often split input/output. Agent
-    contexts are huge, so token walls bite long before request counts do.</li>
-    <li><strong>Budget.</strong> Spend caps stop you at a dollar figure; prepaid credits
-    stop at zero; shared subscription pools refill monthly.</li>
-    <li><strong>The hidden price: data.</strong> Free tiers are frequently paid in
-    training rights over your prompts. A written opt-out beats silence; silence beats a
-    forum post.</li>
-  </ul>
-  <div class="pull-fact pf-l4">
-    <p>Grey zones are the same arithmetic on shortcuts:
-    <strong>risk = probability × consequence</strong> — suspension, credential
-    loss, silently worse output. Not morality — pricing; score = calibration,
-    not morality.</p>
+  <div class="step">
+    <h3><span class="n">2.</span>Price your last session from its transcript</h3>
+    <p class="goal"><strong>Goal:</strong> a <code>RECEIPT.md</code> with your own transcript's counts times your door's row, arithmetic shown.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>node -e "const inn=PASTE_YOUR_INPUT_TOKENS,out=PASTE_YOUR_OUTPUT_TOKENS;console.log('$'+(inn/1e6*0.22+out/1e6*0.66).toFixed(4))"</div>
+    <div class="term">◆ receipt · authored-measurement example · 18,250 in · 4,120 out
+deepseek-offpeak $0.0067
+deepseek-peak $0.0135
+kimi-k2 $0.0338
+in-part 0.0040 out-part 0.0027
+<span class="term-note">Executed 2026-09-04 via node -e. Example counts only.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Your counts are filed, the row is from step 1, and the one-liner reproduces your total</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No counts anywhere? Check your door's status screen first — that check is the habit. Never borrow this chapter's example.</p></div>
   </div>
 
-  <p>The widget
-  below makes you practice that pricing before revealing graded answers.</p>
-
-  <div class="gzlab" id="gzlab">
-    <style>
-      .gzlab { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
-      .gzlab, .gzlab * { box-sizing: border-box; }
-      .gz-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.7rem; }
-      .gz-score { font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; border-top: 2px dashed var(--line-strong); margin-top: 1rem; padding-top: 0.7rem; }
-      .gz-cards { display: flex; flex-direction: column; gap: 0.9rem; }
-      .gz-card { border: 1.5px solid var(--line-strong); border-radius: 12px; background: var(--paper); padding: 0.95rem 1.05rem; }
-      .gz-card h4 { margin: 0 0 0.25rem; font-size: 1.02rem; }
-      .gz-blurb { margin: 0 0 0.7rem; font-size: 0.88rem; color: var(--muted); }
-      .gz-axes { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin-bottom: 0.7rem; }
-      .gz-axis { border: 0; padding: 0; margin: 0; min-width: 15rem; flex: 1 1 15rem; }
-      .gz-axis legend { font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); padding: 0; margin-bottom: 0.3rem; }
-      .gz-btns { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-      .gz-btn { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--muted); background: var(--paper-raised); border: 1.5px solid var(--line-strong); border-radius: 999px; padding: 0.35rem 0.75rem; min-height: 38px; }
-      .gz-btn:hover { border-color: var(--ink); color: var(--ink); }
-      .gz-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .gz-btn[aria-pressed="true"] { background: color-mix(in srgb, var(--l4) 16%, var(--paper)); border-color: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 2px var(--l4); }
-      .gz-btn[aria-disabled="true"], .gz-btn[aria-disabled="true"]:hover { cursor: not-allowed; opacity: 0.45; border-color: var(--line-strong); color: var(--muted); }
-      .gz-reveal { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: var(--ink); background: var(--paper-raised); border: 2px solid var(--ink); border-radius: 10px; padding: 0.45rem 0.9rem; min-height: 44px; box-shadow: 3px 3px 0 var(--line-strong); }
-      .gz-reveal:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--line-strong); }
-      .gz-reveal:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .gz-verdict { margin-top: 0.85rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; }
-      .gz-verdict[hidden] { display: none; }
-      .gz-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.55rem; }
-      .gz-pill { display: inline-block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; border: 1.5px solid currentColor; border-radius: 999px; padding: 0.15rem 0.55rem; }
-      .gz-good { color: var(--l3); } .gz-mid { color: var(--l0); } .gz-bad { color: var(--l1); }
-      .gz-truth { margin: 0 0 0.55rem; font-size: 0.92rem; line-height: 1.6; }
-      .gz-mini { margin: 0.35rem 0 0; font-family: var(--font-mono); font-size: 0.66rem; line-height: 1.65; color: var(--muted); overflow-wrap: anywhere; }
-      .gz-result { margin: 0.6rem 0 0; font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.6; border-left: 3px solid var(--l4); padding-left: 0.6rem; }
-      .gz-note { margin: 0.7rem 0 0; font-size: 0.78rem; color: var(--muted); }
-      @media (max-width: 640px) { .gz-axes { flex-direction: column; } }
-      @media (prefers-reduced-motion: reduce) {
-        .gzlab, .gzlab *, .gzlab *::before, .gzlab *::after { transition: none !important; animation: none !important; }
-        .gz-reveal:hover { transform: none; }
-      }
-    </style>
-    <span class="gz-tag">grey-zone triage · guess first, then flip · graded against the source ledger · score = calibration, not morality</span>
-
-    <div class="gz-cards">
-
-      <article class="gz-card" id="gz-card-stack">
-        <h4>Tactic 1 · Tier stacking across providers</h4>
-        <p class="gz-blurb">Hold free or paid tiers at several providers at once; route
-        each job to whichever door fits.</p>
-        <div class="gz-axes">
-          <fieldset class="gz-axis"><legend>stability</legend>
-            <div class="gz-btns" role="group" aria-label="stability guess for tier stacking">
-              <button type="button" class="gz-btn" data-card="stack" data-axis="stab" data-val="0">rock-solid</button>
-              <button type="button" class="gz-btn" data-card="stack" data-axis="stab" data-val="1">shaky</button>
-              <button type="button" class="gz-btn" data-card="stack" data-axis="stab" data-val="2">dead-soon</button>
-            </div>
-          </fieldset>
-          <fieldset class="gz-axis"><legend>legality</legend>
-            <div class="gz-btns" role="group" aria-label="legality guess for tier stacking">
-              <button type="button" class="gz-btn" data-card="stack" data-axis="leg" data-val="0">sanctioned</button>
-              <button type="button" class="gz-btn" data-card="stack" data-axis="leg" data-val="1">ToS-grey</button>
-              <button type="button" class="gz-btn" data-card="stack" data-axis="leg" data-val="2">violates</button>
-            </div>
-          </fieldset>
-        </div>
-        <button type="button" class="gz-reveal" data-card="stack" aria-expanded="false" aria-controls="gz-verdict-stack">flip: the graded truth</button>
-        <div class="gz-verdict" id="gz-verdict-stack" role="region" aria-label="graded truth for tier stacking" aria-live="polite" hidden>
-          <p class="gz-pills"><span class="gz-pill gz-mid">~ shaky</span> <span class="gz-pill gz-good">✓ sanctioned</span></p>
-          <p class="gz-truth">Allowed — until a term says otherwise. Nothing forbids
-          being many providers' customer at once. But hosters reserve <em>suspension
-          rights</em> for disproportionate burden, Pages bars commercial-business hosting,
-          and Actions bars standalone services — contractual text, effective 2026-04-27.
-          Legal today, revocable overnight.</p>
-          <p class="gz-mini">receipt · T1 docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features · eff. 2026-04-27</p>
-          <p class="gz-result" hidden></p>
-        </div>
-      </article>
-
-      <article class="gz-card" id="gz-card-selfhost">
-        <h4>Tactic 2 · Open-weight self-hosting</h4>
-        <p class="gz-blurb">Download open model weights and run them on your own
-        hardware, outside any hosted API.</p>
-        <div class="gz-axes">
-          <fieldset class="gz-axis"><legend>stability</legend>
-            <div class="gz-btns" role="group" aria-label="stability guess for self-hosting">
-              <button type="button" class="gz-btn" data-card="selfhost" data-axis="stab" data-val="0">rock-solid</button>
-              <button type="button" class="gz-btn" data-card="selfhost" data-axis="stab" data-val="1">shaky</button>
-              <button type="button" class="gz-btn" data-card="selfhost" data-axis="stab" data-val="2">dead-soon</button>
-            </div>
-          </fieldset>
-          <fieldset class="gz-axis"><legend>legality</legend>
-            <div class="gz-btns" role="group" aria-label="legality guess for self-hosting">
-              <button type="button" class="gz-btn" data-card="selfhost" data-axis="leg" data-val="0">sanctioned</button>
-              <button type="button" class="gz-btn" data-card="selfhost" data-axis="leg" data-val="1">ToS-grey</button>
-              <button type="button" class="gz-btn" data-card="selfhost" data-axis="leg" data-val="2">violates</button>
-            </div>
-          </fieldset>
-        </div>
-        <button type="button" class="gz-reveal" data-card="selfhost" aria-expanded="false" aria-controls="gz-verdict-selfhost">flip: the graded truth</button>
-        <div class="gz-verdict" id="gz-verdict-selfhost" role="region" aria-label="graded truth for self-hosting" aria-live="polite" hidden>
-          <p class="gz-pills"><span class="gz-pill gz-good">✓ rock-solid</span> <span class="gz-pill gz-good">✓ sanctioned</span></p>
-          <p class="gz-truth">The clean path. Nobody's terms attach because nobody else is
-          involved — nothing leaves your machine, so training clauses and rate walls never
-          apply. Guides frame self-hosting MIT-licensed weights as exactly this escape
-          hatch from residency and policy risk (a lead, not settled doctrine). The honest
-          cost: your RAM/VRAM and context length become the ceiling.</p>
-          <p class="gz-mini">receipt · T3 lead only www.layer3labs.io/guides/z-ai-explained · checked 2026-07-21 · leads-only framing</p>
-          <p class="gz-result" hidden></p>
-        </div>
-      </article>
-
-      <article class="gz-card" id="gz-card-offpeak">
-        <h4>Tactic 3 · Cheap off-peak routing</h4>
-        <p class="gz-blurb">Schedule heavy jobs into hours when tokens bill cheaper —
-        night-rate windows like DeepSeek's off-peak discounts.</p>
-        <div class="gz-axes">
-          <fieldset class="gz-axis"><legend>stability</legend>
-            <div class="gz-btns" role="group" aria-label="stability guess for off-peak routing">
-              <button type="button" class="gz-btn" data-card="offpeak" data-axis="stab" data-val="0">rock-solid</button>
-              <button type="button" class="gz-btn" data-card="offpeak" data-axis="stab" data-val="1">shaky</button>
-              <button type="button" class="gz-btn" data-card="offpeak" data-axis="stab" data-val="2">dead-soon</button>
-            </div>
-          </fieldset>
-          <fieldset class="gz-axis"><legend>legality</legend>
-            <div class="gz-btns" role="group" aria-label="legality guess for off-peak routing">
-              <button type="button" class="gz-btn" data-card="offpeak" data-axis="leg" data-val="0">sanctioned</button>
-              <button type="button" class="gz-btn" data-card="offpeak" data-axis="leg" data-val="1">ToS-grey</button>
-              <button type="button" class="gz-btn" data-card="offpeak" data-axis="leg" data-val="2">violates</button>
-            </div>
-          </fieldset>
-        </div>
-        <button type="button" class="gz-reveal" data-card="offpeak" aria-expanded="false" aria-controls="gz-verdict-offpeak">flip: the graded truth</button>
-        <div class="gz-verdict" id="gz-verdict-offpeak" role="region" aria-label="graded truth for off-peak routing" aria-live="polite" hidden>
-          <p class="gz-pills"><span class="gz-pill gz-good">✓ rock-solid</span> <span class="gz-pill gz-good">✓ sanctioned</span></p>
-          <p class="gz-truth">Pure arithmetic. Vendors publish discount windows because
-          they want demand shifted into them — you comply with the pricing page, not evade
-          it. z.ai's official usage policy bakes dynamic peak/off-peak limits into its
-          plan; community writeups quote off-peak billing at half points. It only feels
-          exploitative because the savings look big — that is the vendor telling you when
-          capacity idles.</p>
-          <p class="gz-mini">receipt · T1 docs.z.ai/devpack/usage-policy · checked 2026-08 · dynamic peak/off-peak limits<br>
-          receipt · T3 lead only moclaw.ai/blog/glm-coding-plan-rate-limits · read 2026-08-14 · off-peak bills half points — unverified against originals<br>
-          see also · Ch 03 door table for DeepSeek's night-rate figures</p>
-          <p class="gz-result" hidden></p>
-        </div>
-      </article>
-
-      <article class="gz-card" id="gz-card-oauth">
-        <h4>Tactic 4 · Subscription OAuth reuse within ToS</h4>
-        <p class="gz-blurb">Point your harness at a subscription you already pay for,
-        authenticating with your account sign-in instead of an API key.</p>
-        <div class="gz-axes">
-          <fieldset class="gz-axis"><legend>stability</legend>
-            <div class="gz-btns" role="group" aria-label="stability guess for OAuth reuse">
-              <button type="button" class="gz-btn" data-card="oauth" data-axis="stab" data-val="0">rock-solid</button>
-              <button type="button" class="gz-btn" data-card="oauth" data-axis="stab" data-val="1">shaky</button>
-              <button type="button" class="gz-btn" data-card="oauth" data-axis="stab" data-val="2">dead-soon</button>
-            </div>
-          </fieldset>
-          <fieldset class="gz-axis"><legend>legality</legend>
-            <div class="gz-btns" role="group" aria-label="legality guess for OAuth reuse">
-              <button type="button" class="gz-btn" data-card="oauth" data-axis="leg" data-val="0">sanctioned</button>
-              <button type="button" class="gz-btn" data-card="oauth" data-axis="leg" data-val="1">ToS-grey</button>
-              <button type="button" class="gz-btn" data-card="oauth" data-axis="leg" data-val="2">violates</button>
-            </div>
-          </fieldset>
-        </div>
-        <button type="button" class="gz-reveal" data-card="oauth" aria-expanded="false" aria-controls="gz-verdict-oauth">flip: the graded truth</button>
-        <div class="gz-verdict" id="gz-verdict-oauth" role="region" aria-label="graded truth for OAuth reuse" aria-live="polite" hidden>
-          <p class="gz-pills"><span class="gz-pill gz-good">✓ rock-solid</span> <span class="gz-pill gz-good">✓ sanctioned — where vendors document it</span></p>
-          <p class="gz-truth">Sanctioned exactly as far as the documentation runs. "Sign in
-          with ChatGPT" — Free through Pro — feeding one shared Codex allowance pool is
-          OpenAI's own documented door, not a hack. Where terms instead bar sharing login
-          credentials or reselling access (Anthropic consumer terms §§2–3), the door
-          doesn't exist. Read the vendor's page, not a tutorial's.</p>
-          <p class="gz-mini">receipt · T1 help.openai.com/en/articles/11369540-using-codex · post-Apr-2026 · shared pool, token-based credits since 2026-04-02<br>
-          receipt · T1 www.anthropic.com/legal/consumer-terms · eff. 2025-10-08 · §2/§3 quoted verbatim</p>
-          <p class="gz-result" hidden></p>
-        </div>
-      </article>
-
-      <article class="gz-card" id="gz-card-relay">
-        <h4>Tactic 5 · Unofficial relay services</h4>
-        <p class="gz-blurb">Community proxies that turn one subscription into a fake
-        OpenAI/Anthropic-shaped API. Exhibit: ericc-ch/copilot-api.</p>
-        <div class="gz-axes">
-          <fieldset class="gz-axis"><legend>stability</legend>
-            <div class="gz-btns" role="group" aria-label="stability guess for relay services">
-              <button type="button" class="gz-btn" data-card="relay" data-axis="stab" data-val="0">rock-solid</button>
-              <button type="button" class="gz-btn" data-card="relay" data-axis="stab" data-val="1">shaky</button>
-              <button type="button" class="gz-btn" data-card="relay" data-axis="stab" data-val="2">dead-soon</button>
-            </div>
-          </fieldset>
-          <fieldset class="gz-axis"><legend>legality</legend>
-            <div class="gz-btns" role="group" aria-label="legality guess for relay services">
-              <button type="button" class="gz-btn" data-card="relay" data-axis="leg" data-val="0">sanctioned</button>
-              <button type="button" class="gz-btn" data-card="relay" data-axis="leg" data-val="1">ToS-grey</button>
-              <button type="button" class="gz-btn" data-card="relay" data-axis="leg" data-val="2">violates</button>
-            </div>
-          </fieldset>
-        </div>
-        <button type="button" class="gz-reveal" data-card="relay" aria-expanded="false" aria-controls="gz-verdict-relay">flip: the graded truth</button>
-        <div class="gz-verdict" id="gz-verdict-relay" role="region" aria-label="graded truth for relay services" aria-live="polite" hidden>
-          <p class="gz-pills"><span class="gz-pill gz-bad">✗ dead-soon</span> <span class="gz-pill gz-bad">✗ violates</span></p>
-          <p class="gz-truth">Violates — and dies overnight. A relay is credential-sharing
-          and resale in one move: Anthropic's consumer terms bar sharing login/API
-          credentials (§2) and reselling the Services (§3); OpenAI's terms bar credential
-          sharing, its platform terms reselling or sublicensing access. The exhibit
-          convicts itself — copilot-api's own README warns it is "not supported by
-          GitHub… use at your own risk," with abuse detection noted. Uptime is not
-          permission.</p>
-          <p class="gz-mini">receipt · T1 www.anthropic.com/legal/consumer-terms · eff. 2025-10-08<br>
-          receipt · T1 openai.com/policies/row-terms-of-use + platform.openai.com/terms · 2026 ed.<br>
-          receipt · T3 warning-framed exhibit github.com/ericc-ch/copilot-api · active 2026 · README self-warning + abuse-detection notice</p>
-          <p class="gz-result" hidden></p>
-        </div>
-      </article>
-
-    </div>
-
-    <p class="gz-score" id="gz-score" aria-live="polite">guessed 0 of 10 axes · flip cards to grade your calibration</p>
-    <p class="gz-note">Grades come from the source ledger, not vibes.</p>
+  <div class="step">
+    <h3><span class="n">3.</span>Cap the month with a stop rule</h3>
+    <p class="goal"><strong>Goal:</strong> one written sentence naming a spend trigger AND its action — cheapest door or halt.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Draft my stop-rule sentence: WHEN &lt;trigger&gt; THEN &lt;cheapest door or halt&gt;. One sentence. Change nothing."</div>
+    <div class="term">◆ cap · trigger AND action named · default cheapest-door-or-halt
+"When this month passes $X, all further runs switch to the cheapest tabled door; when it passes $Y, sessions halt until the 1st."
+<span class="term-note">Template executed 2026-09-04. X and Y are yours — set them before the next session.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>The sentence names a trigger and an action; the action is cheapest-door or halt</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Cannot pick numbers? Use last month's spend as X, double it as Y — a cap you obey beats one you renegotiate.</p></div>
   </div>
 
-  <script>
-  (function () {
-    var root = document.getElementById("gzlab");
-    if (!root || root.dataset.gzBound) return;
-    root.dataset.gzBound = "1";
-
-    var STAB = ["rock-solid", "shaky", "dead-soon"];
-    var LEG = ["sanctioned", "ToS-grey", "violates"];
-    var TRUTH = {
-      stack:    { stab: 1, leg: 0 },
-      selfhost: { stab: 0, leg: 0 },
-      offpeak:  { stab: 0, leg: 0 },
-      oauth:    { stab: 0, leg: 0 },
-      relay:    { stab: 2, leg: 2 }
-    };
-    var CARDS = ["stack", "selfhost", "offpeak", "oauth", "relay"];
-    var guesses = {};
-    var revealed = {};
-    var score = 0;
-
-    var scoreLine = document.getElementById("gz-score");
-
-    function labelOf(axis, val) {
-      return axis === "stab" ? STAB[val] : LEG[val];
-    }
-
-    function refresh() {
-      var guessed = 0, done = 0;
-      for (var i = 0; i < CARDS.length; i++) {
-        var c = CARDS[i];
-        if (!guesses[c]) continue;
-        for (var a in guesses[c]) { if (guesses[c].hasOwnProperty(a)) guessed++; }
-        if (revealed[c]) done++;
-      }
-      if (done === CARDS.length) {
-        scoreLine.textContent = "final calibration: " + score + "/10 · score = calibration, not morality — the point is knowing which doors are load-bearing before you lean on them.";
-      } else {
-        scoreLine.textContent = "calibration so far: " + score + "/" + guessed + " guessed axes scored · " + (CARDS.length - done) + " card(s) left to flip";
-      }
-    }
-
-    root.addEventListener("click", function (ev) {
-      var t = ev.target;
-      if (!t || !t.closest) return;
-
-      var btn = t.closest(".gz-btn");
-      if (btn && btn.getAttribute("aria-disabled") === "true") return;
-      if (btn) {
-        var card = btn.getAttribute("data-card");
-        var axis = btn.getAttribute("data-axis");
-        if (!guesses[card]) guesses[card] = {};
-        guesses[card][axis] = parseInt(btn.getAttribute("data-val"), 10);
-        var siblings = root.querySelectorAll('.gz-btn[data-card="' + card + '"][data-axis="' + axis + '"]');
-        for (var i = 0; i < siblings.length; i++) {
-          siblings[i].setAttribute("aria-pressed", siblings[i] === btn ? "true" : "false");
-        }
-        return;
-      }
-
-      var rev = t.closest(".gz-reveal");
-      if (rev && !revealed[rev.getAttribute("data-card")]) {
-        var c = rev.getAttribute("data-card");
-        revealed[c] = true;
-        var verdict = document.getElementById("gz-verdict-" + c);
-        verdict.hidden = false;
-        rev.setAttribute("aria-expanded", "true");
-        rev.disabled = true;
-        var frozen = root.querySelectorAll('.gz-btn[data-card="' + c + '"]');
-        for (var fi = 0; fi < frozen.length; fi++) {
-          frozen[fi].setAttribute("aria-disabled", "true");
-        }
-        var g = guesses[c] || {};
-        var out = verdict.querySelector(".gz-result");
-        var parts = [];
-        var axes = ["stab", "leg"];
-        for (var k = 0; k < axes.length; k++) {
-          var a = axes[k];
-          var truthV = TRUTH[c][a];
-          if (typeof g[a] !== "number") {
-            parts.push(labelOf(a, truthV) + ": no call made — unpriced risk scores zero");
-          } else if (g[a] === truthV) {
-            score++;
-            parts.push(labelOf(a, truthV) + ": called it ✓");
-          } else {
-            parts.push("you said \u201C" + labelOf(a, g[a]) + "\u201D — ledger says \u201C" + labelOf(a, truthV) + "\u201D ✗");
-          }
-        }
-        out.textContent = parts.join(" · ");
-        out.hidden = false;
-        refresh();
-      }
-    });
-
-    refresh();
-  })();
-  </script>
-
-  <div class="callout co-risk">
-    <span class="c-tag">grey zone · risk-flagged</span>
-    <p>The cards above name real tactics with real receipts — including one violating live
-    terms today. Documented so you can recognize and price them, not recommended —
-    anything undocumented falls under the countdown warning below.</p>
+  <div class="step">
+    <h3><span class="n">4.</span>Paper-triage one exhibit — touch nothing</h3>
+    <p class="goal"><strong>Goal:</strong> a filed <code>RISK-CARD.md</code> (offer · risk · death-forecast · verdict) from receipts only — no account, no service, no spend.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Fill RISK-CARD.md from the chapter receipts: offer, tier-labeled risk, death-forecast, verdict (default walk-away). Open no URL, touch no service. Change nothing else."</div>
+    <div class="term">◆ risk-card · paper triage · 0 services touched · $0 spent
+offer: one subscription driven through an unofficial relay into other tools
+risk: no-sharing clauses (both vendors) · abuse-detection notice (README) · uptime-is-not-permission
+death-forecast: weeks-to-months, ends without notice, subscription standing at risk
+verdict: WALK AWAY
+<span class="term-note">Executed 2026-09-04 from text only. Touching nothing is the method.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Verdict present (default walk-away); every risk line tiered; nothing executed</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Tempted? The compliant door costs under a cent a session. A "saving" smaller than one violation is not a saving.</p></div>
   </div>
 
-  <div class="inside-grid"><div class="inside-card ic-l4"><span class="chip">01</span><a href="#ch15-s1">The walls, with receipts</a></div><div class="inside-card ic-l4"><span class="chip">02</span><a href="#ch15-s2">The meters: shared pools and a number to distrust politely</a></div><div class="inside-card ic-l4"><span class="chip">03</span><a href="#ch15-s3">The hidden price: what free tiers charge in data</a></div><div class="inside-card ic-l4"><span class="chip">04</span><a href="#ch15-s4">What you own when the output ships</a></div><div class="inside-card ic-l4"><span class="chip">05</span><a href="#ch15-s5">Where this lands in your build</a></div><div class="inside-card ic-l4"><span class="chip">06</span><a href="#ch15-s6">Try it yourself</a></div><div class="inside-card ic-l4"><span class="chip">07</span><a href="#ch15-s7">Self-check</a></div><div class="inside-card ic-l4"><span class="chip">08</span><a href="#ch15-s8">Receipts</a></div><div class="inside-card ic-l4"><span class="chip">09</span><a href="#ch15-s9">Beyond this build</a></div></div>
-  <p class="as-of">facts checked as of 2026-08-26 · every rate number below expires — re-stamp before betting a habit on it</p>
-
-<h2 id="ch15-s1">The walls, with receipts</h2>
-  <p>Anthropic's published grid is the canonical token-bucket read: paid access buys
-  taller walls, not the absence of walls — per-model-class RPM plus input/output
-  tokens-per-minute ceilings (Start-tier Opus 5: 1,000 RPM / 2M ITPM / 400K OTPM) and
-  monthly spend caps ($500 Start / $1k Build / $200k Scale). One clause rewards
-  discipline: <strong>cached-read input doesn't count toward ITPM</strong> — prompt
-  caching widens your throughput walls for free. The ritual transfers to any provider:
-  find the four numbers (burst RPM, input TPM, output TPM, spend cap), write them down,
-  stamp the date.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
-
-<h2 id="ch15-s2">The meters: shared pools and a number to distrust politely</h2>
-  <p>Codex shows where subscription meters are heading: included across ChatGPT plans
-  from Free to Pro, all drawing <strong>one shared allowance pool</strong>, billed since
-  2026-04-02 in token credits, not per-message. OpenAI cites roughly
-  <strong>$100–200 per developer-month</strong> as average. Apply Chapter 07 first:
-  vendor-reported, no distribution or workload definition, from a party selling the
-  product. Treat it as order-of-magnitude — professional agentic usage costs more than
-  pizza money — then verify against your own <code>/status</code>.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
-
-<h2 id="ch15-s3">The hidden price: what free tiers charge in data</h2>
-  <p>OpenRouter prints the trade in writing: <code>:free</code> models run 50 requests/day
-  (1,000/day once you hold ≥$10 lifetime credits); prompts are not logged by default;
-  providers that may train on your prompts route only if your privacy settings permit —
-  with separate opt-outs for paid and free models. The nuance: opting out can exclude the
-  cheapest providers — some doors are cheap because your prompts are part of the
-  payment.</p>
-  <p>Contrast z.ai's GLM Coding Plan: its official usage policy documents concurrency
-  tiers and dynamic peak/off-peak limits — and says <strong>nothing</strong> about
-  input-training. That silence is citable: there is no written opt-out to point at.
-  Community reporting (T3 — a labeled lead) adds terms permitting training on your data
-  plus April 2026 enforcement limiting use to "coding scenarios" via automated detection:
-  throttle → suspend → permanent ban at three violations, errors 1302/1303 reported.
-  A matching fence surrounds Gemini and Mistral: third-party writeups report unpaid
-  Gemini tiers may train on prompts and responses — verify against ai.google.dev's terms
-  before relying (that verification workflow <em>is</em> the lesson) — and Mistral's free
-  tier may train unless opted out in the Admin Console, paid tiers defaulted opted-out.
-  Until you've read a policy yourself: private code goes through written-opt-out doors
-  or local weights.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
-
-<h2 id="ch15-s4">What you own when the output ships</h2>
-  <p>One line from the US Copyright Office (AI report, Part 2, 2025-01-29): <strong>human
-  authorship is required</strong>. Purely machine-generated material is not copyrightable;
-  work you selected, arranged, or modified can be. Keep evidence of your editorial hand —
-  the more autonomous the run, the thinner your claim. Training-side questions were still
-  pre-publication at our check.</p>
-
-  <div class="callout co-tip">
-    <span class="c-tag">tip</span>
-    <p>Prefer doors whose terms you've actually read. Ten minutes with a vendor's
-    rate-limit and privacy pages beats a hundred forum threads — the person who read the
-    terms is never surprised by them.</p>
-  </div>
-  <div class="callout co-warn">
-    <span class="c-tag">warning</span>
-    <p>Every unofficial shortcut is a countdown. Not "might break someday" — scheduled to.
-    Maintainers warn in their own READMEs, vendors enforce, uptime proves nothing. Never
-    let anything undocumented become load-bearing.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
-
-<h2 id="ch15-s5">Where this lands in your build</h2>
-  <p>The agent-cost-compass exists <strong>because these numbers move</strong>. Vendors
-  reprice without notice; tiers appear and vanish between printings of any static page —
-  including this one. So the compass is this chapter's living artifact, not its copy:
-  every constant here enters Build 1 as a row with an as-of stamp and a recheck date, and
-  the compass's whole job is surfacing drift in minutes instead of mid-session.</p>
-
-  <section class="exercise">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
-
-<h2 id="ch15-s6">Try it yourself</h2>
-    <ol>
-      <li><strong>Exact-click checkpoint.</strong> Open
-      <code>https://docs.anthropic.com/en/api/rate-limits</code>, find the tier nearest
-      your reality, and copy its four numbers (RPM, ITPM, OTPM, monthly cap) plus today's
-      date into your build log.</li>
-      <li><strong>Break it on purpose.</strong> On any free door from Chapter 03, fire
-      trivial prompts rapidly until HTTP 429 appears. Record the wording and retry-after,
-      then classify which dial tripped: burst, throughput, or daily.</li>
-      <li><strong>Ship-sized task.</strong> Add one compass row for a triage tactic you
-      actually use: name, graded stability/legality, receipt URL, re-verify date.</li>
-    </ol>
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>My <code>RECEIPT.md</code> prices my own transcript: my counts × my door's row, arithmetic shown and re-runnable.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>My stop-rule sentence names a trigger AND an action (cheapest door or halt) — written before the next session.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>My <code>RISK-CARD.md</code> is filed with offer, tier-labeled risk, death-forecast, and a verdict — triaged on paper, nothing touched.</span></label>
+    <label class="check-line"><input type="checkbox" id="c4"><span>Every tabled number carries a verified date and a recheck date; anything unquotable sits on the STALE list.</span></label>
   </section>
 
-  <section class="selfcheck">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
-
-<h2 id="ch15-s7">Self-check</h2>
-    <details>
-      <summary>Why does the cached-read exemption change how you architect prompts?</summary>
-      <p>Cached reads don't count toward Anthropic's input-token ceiling, so repeated
-      stable context stops consuming your throughput budget — caching discipline widens
-      the wall without paying for a higher tier.</p>
-    </details>
-    <details>
-      <summary>Name two reasons the "$100–200/month" Codex figure deserves suspicion.</summary>
-      <p>Vendor-reported with no distribution, workload definition, or methodology — and
-      the reporting party profits from adoption looking affordable. Order-of-magnitude
-      framing only; check your own <code>/status</code>.</p>
-    </details>
-    <details>
-      <summary>A relay has been up for six months without incident. Why is it still categorically unsafe?</summary>
-      <p>Uptime is not permission. Its mechanics violate written terms — credential
-      sharing and resale — and enforcement is a business decision, not a technical one.
-      Documented OAuth reuse rests on a grant; a relay rests on not having been caught.</p>
-    </details>
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Anthropic token buckets + spend caps + cache rule (Start Opus-class 1,000 RPM / 2M ITPM / 400K OTPM; $500/$1k/$200k; cache reads excluded)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.anthropic.com/en/api/rate-limits</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>OpenRouter free caps (:free 20 RPM; 50/day under $10 credits, 1,000/day above; global governance; 429 vs 402)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://openrouter.ai/docs/api-reference/limits</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>OpenRouter training trade in writing (per-provider flags; separate paid/free opt-outs; request-level filtering)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://openrouter.ai/docs/features/privacy-and-logging</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>OpenRouter free terms (50/1,000 per day; prompts not logged by default; 1% opt-in logging discount)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://openrouter.ai/docs/faq</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>z.ai usage policy (dynamic Max&gt;Pro&gt;Lite concurrency; account-sharing ban; 3-strike ban; 3-day cancel; says NOTHING about input training — silence citable)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.z.ai/devpack/usage-policy</span> · fetched live 2026-09-04</span></details>
+    <details><summary>DeepSeek V4-Flash off-peak $0.22/$0.66 per M, cache-hit $0.007, peak doubled 01–04 &amp; 06–10 UTC weekdays</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://api-docs.deepseek.com/quick_start/pricing</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>Kimi K2.7 Code &amp; K2.6 $0.95/$4.00 per M (cache $0.19/$0.16); K3 flagship $3/$15 (cache $0.30)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://platform.kimi.ai/</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>Groq free gpt-oss-120b 30 RPM / 1K RPD / 8K TPM / 200K TPD, org-level, cached excluded, 429 + retry-after</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://console.groq.com/docs/rate-limits</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>Anthropic consumer terms: no sharing login, API key, or credentials</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.anthropic.com/legal/consumer-terms</span> · re-verified live 2026-09-04</span></details>
+    <details><summary>Copyright hub: Part 2 copyrightability 2025-01-29; Part 3 training pre-publication</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.copyright.gov/ai/</span> · hub re-verified live 2026-09-04</span></details>
+    <details><summary>Gemini spend-cap dashboard direction (project caps, automatic tier graduation)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://blog.google/innovation-and-ai/technology/developers-tools/more-control-over-gemini-api-costs/</span> · backs console-reading workflow</span></details>
+    <details><summary>Gemini console-only limits (no public fixed grid; per-project live numbers in AI Studio) + spend-cap dashboard direction</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://ai.google.dev/gemini-api/docs/rate-limits</span> · 2026-09-04: direct fetch fails transport — workflow claim only, quote no grid</span></details>
+    <details><summary>Codex shared allowance pool across plans incl. Free/Go; /status remainder; 5-hour + weekly windows</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://help.openai.com/en/articles/11369540-using-codex</span> · URL-form REPAIR row · fetched live 2026-09-04</span></details>
+    <details><summary>OpenAI terms 2026: no credential sharing; no circumventing rate limits; no competing-model training on output</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://openai.com/policies/row-terms-of-use</span> · URL-form REPAIR row · fetched live 2026-09-04</span></details>
+    <details><summary>Free-tier stacking boundary: Actions bars disproportionate burden + standalone services; Pages bars commercial SaaS, permits donations</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features</span> · URL-form REPAIR row · fetched live 2026-09-04</span></details>
+    <details><summary>Relay exhibit: reverse-engineered Copilot proxy, 4.1k stars, own README warns unsupported + abuse-detection</summary><span class="receipt"><span class="tier">T3 lead-only</span><span class="r-url">https://github.com/ericc-ch/copilot-api</span> · warning-fenced, never fact · fetched 2026-09-04</span></details>
+    <details><summary>Residency lead: China-hosted serving + Entity List churn; open-weights self-host as clean path</summary><span class="receipt"><span class="tier">T3 lead-only</span><span class="r-url">https://www.layer3labs.io/guides/z-ai-explained</span> · lead-only, never fact · fetched 2026-09-04</span></details>
+    <details><summary>GLM quota mechanics lead: dual 5-hour + weekly ceilings; points system; off-peak half-points; unpublished concurrency</summary><span class="receipt"><span class="tier">T3 lead-only</span><span class="r-url">https://moclaw.ai/blog/glm-coding-plan-rate-limits</span> · URL-form REPAIR row · community-reported</span></details>
+    <details><summary>Non-coding-use enforcement lead: coding-scenarios restriction, 3-strike ban, errors 1302/1303 (Apr 2026 events)</summary><span class="receipt"><span class="tier">T3 lead-only</span><span class="r-url">https://awesomeagents.ai/news/zai-coding-plan-bans-non-coding-use/</span> · URL-form REPAIR row · community-reported</span></details>
+    <details><summary>Free-tier training leads (Gemini unpaid-tier may-train; Mistral free-tier may-train unless opted out): quote no grid, verify against official terms</summary><span class="receipt"><span class="tier">T3 lead-only</span><span class="r-url">https://aireiter.com/blog/google-ai-studio-free-api</span> · plus <span class="r-url">https://e8.team/resources/mistral-la-plateforme-free-tier-for-developers/</span> · URL-form REPAIR rows · leads only</span></details>
+    <details><summary>Executed 2026-09-04: price table from quoted lines; node -e receipt ($0.0067 off-peak / $0.0135 peak / $0.0338 Kimi); cap template; paper risk-card, $0 spent, nothing touched</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://api-docs.deepseek.com/quick_start/pricing</span> · deterministic re-run; counts authored-measurement</span></details>
   </section>
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
-
-<h2 id="ch15-s8">Receipts</h2>
-  <p>Tier key: T1 official docs/specs or established practitioners · T2 vendor secondary ·
-  T3 lead only, never cited as fact alone.</p>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://docs.anthropic.com/en/api/rate-limits</span>
-    <span class="as-of">checked 2026-08 · per-model RPM + ITPM/OTPM (Start Opus 5: 1,000 / 2M / 400K); monthly caps $500/$1k/$200k; cached-read input exempt from ITPM</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://help.openai.com/en/articles/11369540-using-codex</span>
-    <span class="as-of">post-Apr-2026 · Codex on all ChatGPT plans incl. Free/Go via one shared pool; token credits since 2026-04-02; OpenAI cites ~$100–200/dev/mo (scrutinize)</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://openrouter.ai/docs/faq</span>
-    <span class="as-of">checked 2026-08-26 · :free 50 req/day (1,000/day at ≥$10 lifetime credits); prompts unlogged by default; training-capable providers route only if privacy toggle allows</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://openrouter.ai/docs/features/privacy-and-logging</span>
-    <span class="as-of">checked 2026-08 · per-provider train-on-prompts flags; separate opt-outs paid AND free; opting out may exclude cheapest providers</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://docs.z.ai/devpack/usage-policy</span>
-    <span class="as-of">checked 2026-08-26 · Lite/Pro/Max concurrency tiers, dynamic peak/off-peak — silent on input-training (silence citable)</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://www.anthropic.com/legal/consumer-terms</span>
-    <span class="as-of">eff. 2025-10-08 · §2: no sharing login/API credentials; §3: no reselling Services — quoted verbatim in ledger</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://openai.com/policies/row-terms-of-use · https://platform.openai.com/terms</span>
-    <span class="as-of">2026 ed. · no credential sharing; API terms bar reselling/sublicensing access</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features</span>
-    <span class="as-of">eff. 2026-04-27 · hosters reserve suspension rights for disproportionate burden; Pages bars commercial hosting; Actions bars standalone services</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://www.copyright.gov/ai/</span>
-    <span class="as-of">Part 2 published 2025-01-29 · human authorship required for copyright; Part 3 (training) pre-publication at check</span>
-  </div>
-  <p class="as-of" style="margin:1.1rem 0 0;">T3 cluster · leads, paired and labeled — never fact alone</p>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://awesomeagents.ai/news/zai-coding-plan-bans-non-coding-use/</span>
-    <span class="as-of">Apr 2026 events · community-reported: ToS permits training, no meaningful opt-out; throttle → suspend → ban at 3 violations (errors 1302/1303 reported)</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://moclaw.ai/blog/glm-coding-plan-rate-limits</span>
-    <span class="as-of">read 2026-08-14 · quotes z.ai policy pages directly (dual 5-hour/weekly ceilings; off-peak half points) — unverified against originals</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://aireiter.com/blog/google-ai-studio-free-api</span>
-    <span class="as-of">checked 2026-07-20 · unpaid Gemini tier may train on prompts/responses; Search grounding capped 500 req/day — VERIFY against ai.google.dev before relying</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://e8.team/resources/mistral-la-plateforme-free-tier-for-developers/</span>
-    <span class="as-of">Jun 2026 upd · free Experiment tier may train unless opted out in Admin Console; paid Scale defaulted opted-out — cross-check help.mistral.ai</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://www.layer3labs.io/guides/z-ai-explained</span>
-    <span class="as-of">checked 2026-07-21 · residency/risk framing + self-hosting MIT weights as clean path — leads only</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://github.com/ericc-ch/copilot-api</span>
-    <span class="as-of">active 2026 · warning-framed exhibit: reverse-proxies Copilot into OpenAI/Anthropic APIs; own README warns "not supported by GitHub… use at your own risk" + abuse-detection notice</span>
-  </div>
-
-  <section class="beyond">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
-
-<h2 id="ch15-s9">Beyond this build</h2>
-    <p><strong>When spending $20 beats hours of optimization.</strong> Your evening is the
-    expensive token. If a month of a modest subscription costs less than the hours you'd
-    burn routing around walls, buy the month and ship instead. Do that math hourly before
-    building plumbing to save pocket change.</p>
-    <p><strong>Org procurement reality.</strong> Past a second teammate, keys, budgets, and
-    data boundaries need an owner — organizations have a department for this. "Which tier,
-    whose card, what may leave" is a form, not a hack; knowing the grey-zone map lets you
-    explain <em>why</em> the sanctioned door costs what it costs.</p>
-    <p><strong>Ethics, one paragraph.</strong> Grey-zone tricks shift costs onto someone
-    else: the vendor that must enforce, other users sharing the pool, the maintainer of a
-    proxy that gets taken down, future-you inheriting a banned account. Nothing here is
-    illegal to read; several things violate contracts you would be signing. Calibration is
-    the skill this chapter teaches. The choice — and the account it rides on — stay
-    yours.</p>
-  </section>
-
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch14/index.html">← session 14</a>
+    <a href="../ch16/index.html">session 16 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch15-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
 </main>
-<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 > DECISIONS.md first, then continues. Update this file AND progress.html at
 > every milestone — they must always agree.
 
-**Current position:** P5 DONE — 16 chapters + 4 appendices won blind, 1219 links clean, both blinds WON, deployed at https://kvothdevian.github.io/field-manual/ (building), book 612 KB.
+**Current position:** SHIPPED — v2 interactive-essay rebuild (16 sessions) cut over to repo root and live at https://kvothdevian.github.io/field-manual/; v1 preserved on git tag `v1-final`. Validator 0 errors across all 16 chapters; book 436 KB (local-only artifact).
 
 ## Phase board
 
@@ -61,3 +61,8 @@
 | 2026-08-26 | P5 | App D shipped: chapters/appendix-d/index.html — 35 dims × 16 ch + 3 builds heatmap + distribution + 5 thin cuts + living-doc rail · sticky matrix + column highlight + live filter (/ to focus) · won vs ciechanow.ski + anthropic blind — rows, cols, heatmap, gap callouts each judged | Search 30 pages indexed; home+toc+progress+ledger wired; DESIGN L5 rose only, no blue; coverage-matrix.md mirrored |
 | 2026-08-26 | P5 | Cross-link sweep — DONE: 1219 links checked (1181 href +38 src across index.html, toc.html, progress.html, 16 ch +4 app +book.html) · 3 broken fixed (ch16 `../toc→../../toc`, `book ../toc→toc` ×2 rebuild) · hub 20/20 · toc 20/20 · chapnav/h2 anchors + inside-grid anchors verified · glossary 67 cross-links ok · coverage build pills ok · assets ok · no chNN-s*.html remnants · sweep2 682 additional card/grid checks ok | Minimal patch, no re-arch |
 | 2026-08-26 | P5 | Full-book blind judging — WON vs both live bars: sample index.html + ch04 + ch08 + App C (labels stripped, harsh). vs ciechanow.ski (visual): initial tie/loss on bespoke procedural canvas density → smallest fix: ch08 inline SVG luminance knee curve (token-only, no images); re-judge WON — systematic reproducible system + 163-section coherence beats single-essay spectacle for a manual. Biggest remaining gap: scroll-synced WebGL playgrounds (intentionally not matched; tokens-only constraint wins at scale). vs anthropic best-practices (content): initial tie/loss on before/after scannable density → fix: ch04 before/after verification table (deny→ask→allow + gate exit 2); re-judge WON — 16-ch depth +7 labs +160 receipts +3 builds beats single-page concision while now matching its table pattern. Rebuild book 163 sections 612 KB + post-fix. progress.html + STATUS synced | No praise; ultracode fanned subagents for sweep + bar fetch |
+| 2026-09-03 | V2-P0 | V2 foundation: registry/VOICE/validator/theme/briefs; ch01–ch02 shipped via gauntlet | Full rewrite into v2/ alongside v1 (DECISIONS #20–23); opencode default, Style B |
+| 2026-09-03 | V2-P1 | ch03–ch06 shipped (P2 batch): brief-batch + parallel builds + adversaries to SHIP | Append-style book.html assembly; word-floor + receipt-tier protocols locked |
+| 2026-09-04 | V2-P2 | ch07–ch11 shipped (P3 batch): 5 parallel scouts/builders/adversaries; round-2 receipt repairs | URL-form rows, stamps-need-rows, authored-vs-executed labeling |
+| 2026-09-04 | V2-P3 | ch12–ch16 shipped (P4 batch): book complete 16/16, validator 0 errors, 436 KB | Capstone ch16 with zero new ledger rows; parallel formation throughout |
+| 2026-09-04 | SHIP | V2 CUTOVER: v2/ moved to root, v1 page tree removed, v1 preserved on tag `v1-final`; live at https://kvothdevian.github.io/field-manual/ | DECISIONS #24; book.html stays local-only; search = first fast-follow |

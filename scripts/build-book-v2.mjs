@@ -1,17 +1,17 @@
-// build-book-v2.mjs — append-style assembly: recompiles v2/book.html from
-// v2/chapters/chNN/index.html in TOC order after every approved chapter.
+// build-book-v2.mjs — append-style assembly: recompiles book.html from
+// chapters/chNN/index.html in TOC order after every approved chapter.
 // Namespaces ids per chapter (c1 -> ch01-c1) so the single-page book has
 // no collisions; carries each chapter's inline scripts (copy buttons,
 // checkpoints) into the book. Stdlib only.
-// Usage: node v2/scripts/build-book-v2.mjs
+// Usage: node scripts/build-book-v2.mjs
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const V2 = join(ROOT, "v2");
-const dirs = readdirSync(join(V2, "chapters"))
-  .filter(d => /^ch\d{2}$/.test(d) && existsSync(join(V2, "chapters", d, "index.html")))
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const SITE = ROOT; // post-cutover: the book lives at the repo root
+const dirs = readdirSync(join(SITE, "chapters"))
+  .filter(d => /^ch\d{2}$/.test(d) && existsSync(join(SITE, "chapters", d, "index.html")))
   .sort();
 
 function namespace(html, d) {
@@ -22,10 +22,10 @@ function namespace(html, d) {
     .replace(/getElementById\("([^"]+)"\)/g, `getElementById("${d}-$1")`);
 }
 
-const css = readFileSync(join(V2, "assets", "css", "style-b.css"), "utf8");
+const css = readFileSync(join(SITE, "assets", "css", "style-b.css"), "utf8");
 let toc = "", body = "", n = 0;
 for (const d of dirs) {
-  const html = readFileSync(join(V2, "chapters", d, "index.html"), "utf8");
+  const html = readFileSync(join(SITE, "chapters", d, "index.html"), "utf8");
   const title = (html.match(/<title>([^<]*)<\/title>/) || [, d])[1];
   let main = (html.match(/<main>([\s\S]*)<\/main>/) || [, ""])[1];
   const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
@@ -49,12 +49,12 @@ const out = `<!DOCTYPE html>
 </head>
 <body>
 <main>
-<p class="kicker">v2 book · compiled ${new Date().toISOString().slice(0, 10)} · ${n} sessions</p>
-<h1>The Agentic Coding Field Manual — v2</h1>
+  <p class="kicker">book · compiled ${new Date().toISOString().slice(0, 10)} · ${n} sessions</p>
+  <h1>The Agentic Coding Field Manual</h1>
 <ol>\n${toc}</ol>
 ${body}
 </main>
 </body>
 </html>`;
-writeFileSync(join(V2, "book.html"), out, "utf8");
-console.log(`v2/book.html: ${n} chapters, ${out.length} bytes`);
+writeFileSync(join(SITE, "book.html"), out, "utf8");
+console.log(`book.html: ${n} chapters, ${out.length} bytes`);

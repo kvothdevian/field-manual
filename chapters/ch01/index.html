@@ -3,678 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>· What agentic coding actually is — The Agentic Coding Field Manual</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../../assets/css/book.css">
+<title>01 · Your first agent session — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
 </head>
 <body>
-<header class="site-head" style="position:static">
-  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 01</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
-<main><nav class="chapnav" aria-label="Sections"><a href="#ch01-s1">01 three parts, one machine</a><a href="#ch01-s2">02 what makes it agentic — and </a><a href="#ch01-s3">03 three classic failure modes</a><a href="#ch01-s4">04 an honest word about speed</a><a href="#ch01-s5">05 vibe coding vs agentic engin</a><a href="#ch01-s6">06 where this lands in your bui</a><a href="#ch01-s7">07 receipts</a><a href="#ch01-s8">08 try it yourself</a><a href="#ch01-s9">09 self-check</a><a href="#ch01-s10">10 beyond this build</a></nav>
+<main>
+  <p class="kicker">Session 01 · orientation · opencode default</p>
+  <h1>Your first agent session</h1>
+  <p class="lede">Run a real coding-agent session in a scratch repo and end with one reviewed, verified change you fully understand — plus a stopping condition you will reuse forever.</p>
+  <p class="kicker" style="margin-top:1rem">45 min · scratch repo · beginner · verified 2026-09-03</p>
 
-  <div class="chapter-banner banner-l0">
-    <div class="banner-num" aria-hidden="true">01</div>
-    <div class="banner-meta">
-      <span class="part-plate p-l0">part 0 · orientation · L0 saffron</span>
-      <h1>Chapter 01 · What agentic coding actually is</h1>
-      <p class="lede">After this chapter you can explain what a coding agent really is —
-      model, harness, loop — run your first session without getting burned, and name
-      the moments when reaching for an agent is simply the wrong move.</p>
-      <p class="as-of">facts checked as of 2026-08-25</p>
-    </div>
-  </div>
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · the whole mental model</p>
+    <h2><span class="s-n">i.</span>The machine in three parts</h2>
+    <p>A coding agent is three things bolted together. The <strong>model</strong> predicts text and cannot touch anything — no files, no commands, no memory of yesterday. The <strong>harness</strong> is the program wrapped around it: opencode hands the model tools (read, edit, run), enforces permission gates, and feeds tool output back into the conversation. The <strong>loop</strong> is what makes it agentic: the model proposes an action, the harness executes it, the result feeds back in — until a <strong>stopping condition</strong> says halt. Remove the loop and you have a chatbot. A chatbot answers; an agent acts.</p>
+    <p>Two people on the same model through different harnesses get wildly different results — the harness is most of what you experience as "the product." And there is a second loop, the one you own, wrapped around the machine's: <strong>aim</strong> (one goal, one success test) → <strong>watch</strong> (skim before edits land) → <strong>verify</strong> (run the proof yourself) → <strong>commit</strong> (accept, correct, or restart clean). Every technique in this book lives somewhere in that chain.</p>
+    <figure>
+      <svg viewBox="0 0 640 300" role="img" aria-label="The agent loop: your goal enters the model, the model proposes acts the harness executes, results return, until the stopping condition halts the loop.">
+        <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+        <g fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="230" y="20" width="180" height="64" rx="32"/>
+          <rect x="230" y="216" width="180" height="64" rx="10"/>
+          <rect x="20" y="118" width="150" height="64" rx="10" stroke-dasharray="6 4"/>
+          <rect x="470" y="118" width="150" height="64" rx="10"/>
+        </g>
+        <g font-family="Georgia, serif" font-size="17" text-anchor="middle" fill="currentColor">
+          <text x="320" y="47">model</text><text x="320" y="243">harness</text>
+          <text x="95" y="145">your goal</text><text x="545" y="145">done?</text>
+        </g>
+        <g font-family="Consolas, monospace" font-size="11" text-anchor="middle" opacity="0.7" fill="currentColor">
+          <text x="320" y="66">predicts the next act</text><text x="320" y="262">reads · edits · runs</text>
+          <text x="95" y="163">+ stopping line</text><text x="545" y="163">verify, then commit</text>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M170,150 C200,150 200,52 230,52" marker-end="url(#ah)"/>
+          <path d="M410,52 C450,52 450,140 470,146" marker-end="url(#ah)"/>
+          <path d="M410,248 C450,248 450,160 470,156" marker-end="url(#ah)"/>
+          <path d="M230,248 C150,248 120,220 100,182" stroke-dasharray="7 6" marker-end="url(#ah)"/>
+        </g>
+        <text x="120" y="235" font-family="Consolas, monospace" font-size="11" opacity="0.7" fill="currentColor">the loop — watch it turn</text>
+      </svg>
+      <figcaption><strong>Fig. 1 — the only diagram that matters.</strong> Goal in, acts out, results back, until the stopping line halts the wheel. Every session in this book is one turn pattern on this machine.</figcaption>
+    </figure>
+    <p>One boundary before you touch anything. A <strong>workflow</strong> is ordinary code marching a model through steps a human already understands; an <strong>agent</strong> directs its own process, choosing tools as it goes. Agents trade predictability for flexibility and cost more in tokens and latency — so the field's most profitable bias is to start with the simplest thing that could work and reach for autonomy only when the task genuinely needs it. Say no to the agent when the steps are already known (a script is cheaper and cannot improvise), when you cannot state what "done" looks like (no finish line, no honest halt), when latency or cost budgets are tight (a loop of model calls is expensive by construction), or when mistakes are irreversible without a sandbox (live systems, other people's data). Autonomy amplifies whatever it touches, including mistakes.</p>
+  </section>
 
-  <p>The hype flattened the language. "The AI built my app" can mean four
-  different things: a chatbot answered while a human typed every change, an
-  autocomplete guessed lines, a scripted pipeline transformed text, or an agent
-  genuinely acted — read the repo, ran the tests, edited files, retried. Those
-  are not shades of the same thing. This chapter builds the mental model
-  everything else in this book sits on.</p>
-
-  <div class="inside-grid">
-    <a class="inside-card ic-l0" href="#ch01-s1">
-      <span class="ic-num" aria-hidden="true">§1</span>
-      <h3>Three parts, one machine</h3>
-      <p class="ic-sum">Model predicts, harness acts, loop repeats — run the pass-by-pass simulator and watch a clear goal stop where a vague one wanders.</p>
-      <span class="ic-meta"><span>~6 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s2">
-      <span class="ic-num" aria-hidden="true">§2</span>
-      <h3>When to skip the agent entirely</h3>
-      <p class="ic-sum">Workflows vs agents, four honest "say no" cases, and why autonomy amplifies whatever it touches.</p>
-      <span class="ic-meta"><span>~4 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s3">
-      <span class="ic-num" aria-hidden="true">§3</span>
-      <h3>Three classic failure modes</h3>
-      <p class="ic-sum">Kitchen-sink sessions, trust-then-verify gaps, infinite wander — learn them by name and fix each in one line.</p>
-      <span class="ic-meta"><span>~4 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s4">
-      <span class="ic-num" aria-hidden="true">§4</span>
-      <h3>An honest word about speed</h3>
-      <p class="ic-sum">METR's randomized trial: predicted +24%, believed +20%, measured −19%. Your feeling of speed is not data.</p>
-      <span class="ic-meta"><span>~3 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s5">
-      <span class="ic-num" aria-hidden="true">§5</span>
-      <h3>Vibe coding vs agentic engineering</h3>
-      <p class="ic-sum">Never commit what you can't explain — how the vocabulary settled on "agentic engineering."</p>
-      <span class="ic-meta"><span>~3 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s6">
-      <span class="ic-num" aria-hidden="true">§6</span>
-      <h3>Where this lands in your build</h3>
-      <p class="ic-sum">Chapter 01 compressed into one bounded build afternoon: the inner loop types, the outer loop keeps you honest.</p>
-      <span class="ic-meta"><span>~1 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s7">
-      <span class="ic-num" aria-hidden="true">§7</span>
-      <h3>Receipts</h3>
-      <p class="ic-sum">Every claim above traced to tiered sources — T1 anchors first, leads marked T3 and never cited alone.</p>
-      <span class="ic-meta"><span>~2 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s8">
-      <span class="ic-num" aria-hidden="true">§8</span>
-      <h3>Try it yourself</h3>
-      <p class="ic-sum">Sort real chores into workflow-vs-agent columns, amputate the verify step on paper, draft your first falsifiable stopping condition.</p>
-      <span class="ic-meta"><span>~15 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s9">
-      <span class="ic-num" aria-hidden="true">§9</span>
-      <h3>Self-check</h3>
-      <p class="ic-sum">Flip-to-reveal answers: model vs harness in one breath, the three failure modes, interrogating a 40% speed claim.</p>
-      <span class="ic-meta"><span>~5 min</span></span>
-    </a>
-    <a class="inside-card ic-l0" href="#ch01-s10">
-      <span class="ic-num" aria-hidden="true">§10</span>
-      <h3>Beyond this build</h3>
-      <p class="ic-sum">Where the loop pattern ports outside coding, how harnesses differ in surface only, where agents break down.</p>
-      <span class="ic-meta"><span>~4 min</span></span>
-    </a>
-  </div>
-  <p class="as-of">10 sections · pick any card, or start with §1.</p>
-
-<h2 id="ch01-s1">Three parts, one machine</h2>
-  <p>Strip the marketing and every coding agent has three pieces.</p>
-  <p>The <strong>model</strong> is the language model itself — a system that
-  predicts likely text, one token at a time. It has no hands. It cannot open a
-  file, run a command, or remember yesterday. Left alone, it produces text and
-  stops.</p>
-  <p>The <strong>harness</strong> is the program wrapped around the model. You
-  never talk to a raw model; you talk to a harness that injects a system prompt
-  you didn't write, hands the model tools — read this file, edit that function,
-  run this command — enforces permission gates, manages the transcript so the
-  model appears to remember the session, and feeds tool output back into the
-  conversation. Practitioners describe a coding agent as exactly this: a
-  harness wrapping a language model with invisible prompts and callable tools,
-  where the ability to execute code is the defining capability. Two people
-  using the identical model through different harnesses will have wildly
-  different experiences — the harness is most of what you experience as "the
-  product."</p>
-  <p>The <strong>loop</strong> is what makes it agentic. The working definition
-  this book adopts: an agent is a language model running tools in a loop,
-  toward a goal, bounded by a stopping condition. The model proposes an action,
-  the harness executes it, the result feeds back in, and the wheel turns again
-  — until the goal is met, the agent stalls, or the budget runs out. Remove the
-  loop and you have a chatbot. A chatbot answers; an agent acts.</p>
-
-  <div class="flow-stage" id="loop-lab">
-    <div role="group" aria-label="Scenario" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;">
-      <span style="font-size:0.78rem;color:var(--muted);">scenario:</span>
-      <button type="button" class="btn btn-primary" id="mode-clear" aria-pressed="true">clear goal — “make these three tests pass”</button>
-      <button type="button" class="btn" id="mode-vague" aria-pressed="false">vague goal — “make the login page better”</button>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:0.8rem;margin-top:0.9rem;">
-      <button type="button" class="btn btn-primary" id="loop-run">run one pass</button>
-      <button type="button" class="btn" id="loop-reset">reset</button>
-      <span class="chip" id="loop-status">scenario: clear goal · context 0% · passes 0</span>
-    </div>
-    <div aria-hidden="true" style="height:12px;margin-top:0.9rem;border:2px solid var(--ink);border-radius:999px;background:var(--paper-raised);overflow:hidden;">
-      <div id="loop-fill" style="height:100%;width:0%;background:var(--l0);"></div>
-    </div>
-    <div aria-hidden="true" style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.62rem;color:var(--muted);margin-top:0.3rem;">
-      <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span style="color:var(--ink);">100% = context limit</span>
-    </div>
-    <div id="loop-scoreboard" aria-live="polite" aria-label="run comparison" style="display:none;margin-top:0.8rem;font-family:var(--font-mono);font-size:0.72rem;line-height:1.7;"></div>
-    <div id="loop-transcript" aria-live="polite" aria-label="agent session transcript" style="margin-top:0.9rem;font-family:var(--font-mono);font-size:0.78rem;line-height:1.75;"></div>
-    <span class="flow-stage-label">pick a scenario, then pace it one pass at a time · the meter scale is honest — 100% is the hard limit · run BOTH endings and compare them: that gap is the lesson</span>
-  </div>
-
-  <script>
-  (function () {
-    var CLEAR = [
-      { pct: 6,
-        thought: "goal: three login-page tests fail. look at the failure output before touching anything.",
-        tool: "$ npx vitest run login",
-        obs: "3 failed · TypeError: handleSubmit is not a function (src/login.js:12)" },
-      { pct: 13,
-        thought: "read the function the tests import.",
-        tool: "read src/login.js",
-        obs: "47 lines · the button calls handleSubmit() — never defined anywhere" },
-      { pct: 22,
-        thought: "smallest fix first: define the missing handler.",
-        tool: "edit src/login.js  +9 −1",
-        obs: "patch applied · 1 hunk" },
-      { pct: 29,
-        thought: "don't trust the patch. rerun the proof.",
-        tool: "$ npx vitest run login",
-        obs: "2 passed · 1 failed · timeout: redirect fired before the request resolved" },
-      { pct: 33,
-        thought: "the redirect races the fetch. await it.",
-        tool: "edit src/login.js  +1 −1",
-        obs: "patch applied" },
-      { pct: 36,
-        thought: "full suite — the condition demands all three green, no other files touched.",
-        tool: "$ npx vitest run",
-        obs: "3 passed · 0 failed · git diff shows src/login.js only" }
-    ];
-    var VAGUE = [
-      { pct: 8,
-        thought: "goal arrived as 'make the login page feel solid.' no test named, no file, no finish line. run everything and see.",
-        tool: "$ npx vitest run",
-        obs: "38 passed · 3 failed (login) · which failure IS the goal? unknowable",
-        evalTxt: "stopping condition: 'feels solid' · not measurable → press on" },
-      { pct: 16,
-        thought: "the login failures might be it. read the file.",
-        tool: "read src/login.js",
-        obs: "47 lines · handleSubmit() never defined · probably related?",
-        evalTxt: "'solid' remains undefined → keep going" },
-      { pct: 26,
-        thought: "'feel solid' could mean visual polish. restyle the submit button while we're here.",
-        tool: "edit src/login.css  +12 −4",
-        obs: "patch applied · diff now touches 2 files · scope grew",
-        evalTxt: "tests still failing · scope grew" },
-      { pct: 37,
-        thought: "define the missing handler — plus a reusable error module, those always help.",
-        tool: "edit src/login.js  +21 −1 · new file src/error-kit.js",
-        obs: "patch applied · 4 files touched · nobody asked for error-kit",
-        evalTxt: "tests still failing · scope grew again" },
-      { pct: 49,
-        thought: "rerun everything — proof by volume.",
-        tool: "$ npx vitest run",
-        obs: "40 passed · 1 failed · timeout: redirect still races the fetch",
-        evalTxt: "tests still failing · no criterion says whether this one even matters" },
-      { pct: 62,
-        thought: "maybe the answer is already on screen. re-read login.js and the stylesheet.",
-        tool: "read src/login.js · read src/login.css",
-        obs: "same 68 lines as before · transcript grows, nothing new learned",
-        evalTxt: "tests still failing · re-reading solved nothing" },
-      { pct: 76,
-        thought: "the real problem must be the form layer. extract a shared Field component across the app.",
-        tool: "edit src/form.jsx src/signup.jsx src/settings.jsx  +64 −38",
-        obs: "diff explodes to 7 files · two previously-green suites now red",
-        evalTxt: "tests still failing · scope grew past recognition" },
-      { pct: 89,
-        thought: "rerun. reread. retry. the loop has no exit because 'better' was never falsifiable.",
-        tool: "$ npx vitest run",
-        obs: "34 passed · 7 failed · every re-read and dead patch still sitting in context",
-        evalTxt: "tests still failing · scope grew · context nearly gone" }
-    ];
-    var EXHAUSTED_AT = 96;
-
-    var runBtn = document.getElementById("loop-run");
-    var resetBtn = document.getElementById("loop-reset");
-    var clearBtn = document.getElementById("mode-clear");
-    var vagueBtn = document.getElementById("mode-vague");
-    var log = document.getElementById("loop-transcript");
-    var fill = document.getElementById("loop-fill");
-    var chip = document.getElementById("loop-status");
-    var board = document.getElementById("loop-scoreboard");
-    var mode = "clear";
-    var idx = 0;
-    var hint = null;
-    var results = {};
-
-    function el(tag, text, style) {
-      var n = document.createElement(tag);
-      if (text !== "") n.textContent = text;
-      if (style) n.setAttribute("style", style);
-      return n;
-    }
-
-    function passes() { return mode === "clear" ? CLEAR : VAGUE; }
-
-    function mountHint() {
-      hint = el("p", "transcript empty — the agent holds only your goal. one press = one pass.", "color:var(--muted);margin:0;");
-      log.appendChild(hint);
-    }
-
-    function paint(p) {
-      fill.style.width = p.pct + "%";
-      if (mode === "vague" && p.pct >= 85) fill.style.background = "var(--l1)";
-      chip.textContent = "scenario: " + (mode === "clear" ? "clear goal" : "vague goal") +
-        " · context " + p.pct + "% · passes " + idx;
-    }
-
-    function recordBoard(ok, line) {
-      var row = el("p", "", "margin:0 0 0.15rem;");
-      row.appendChild(el("b", ok ? "✓ " : "✗ ", ok ? "color:var(--l3);" : "color:var(--l1);"));
-      row.appendChild(document.createTextNode(line));
-      results[mode] = row;
-      board.innerHTML = "";
-      if (results.clear) board.appendChild(results.clear);
-      if (results.vague) board.appendChild(results.vague);
-      board.style.display = "block";
-    }
-
-    function finishClear() {
-      var last = CLEAR[CLEAR.length - 1].pct;
-      var v = el("p", "", "margin:0.4rem 0 0;padding:0.5rem 0.75rem;border-left:3px solid var(--l3);background:var(--paper-raised);border-radius:0 8px 8px 0;");
-      v.appendChild(el("span", "evaluate — stopping condition: 3/3 tests pass · no other files touched"));
-      v.appendChild(document.createElement("br"));
-      v.appendChild(el("b", "met → the agent stops. that is the whole trick.", "color:var(--l3);"));
-      log.appendChild(v);
-      fill.style.background = "var(--l3)";
-      chip.textContent = "scenario: clear goal · context " + last + "% · passes " + idx + " · stopped: condition met";
-      runBtn.disabled = true;
-      runBtn.textContent = "stopped — goal met";
-      runBtn.setAttribute("style", "opacity:0.55;");
-      recordBoard(true, "clear goal · " + idx + " passes · stopped honestly at " + last + "% context — condition met, diff readable");
-    }
-
-    function finishVague() {
-      var v = el("p", "", "margin:0.4rem 0 0;padding:0.5rem 0.75rem;border-left:3px solid var(--l1);background:var(--paper-raised);border-radius:0 8px 8px 0;");
-      v.appendChild(el("span", "pass " + (idx + 1) + " never starts — the harness halts the session:"));
-      v.appendChild(document.createElement("br"));
-      v.appendChild(el("b", "context nearly exhausted — compaction or human intervention required.", "color:var(--l1);"));
-      v.appendChild(document.createElement("br"));
-      v.appendChild(el("span", "lesson: vague goals are how loops wander — with no detectable finish line, the only thing that stops the loop is the wall.", "color:var(--muted);"));
-      log.appendChild(v);
-      fill.style.width = EXHAUSTED_AT + "%";
-      fill.style.background = "var(--l1)";
-      chip.textContent = "scenario: vague goal · context " + EXHAUSTED_AT + "% · passes " + idx + " · stopped: context exhausted";
-      runBtn.disabled = true;
-      runBtn.textContent = "stopped — context exhausted";
-      runBtn.setAttribute("style", "opacity:0.55;");
-      recordBoard(false, "vague goal · " + idx + " passes · never stopped honestly — harness halted it at " + EXHAUSTED_AT + "% context, diff unreadable");
-    }
-
-    function finish() { if (mode === "clear") finishClear(); else finishVague(); }
-
-    function appendPass() {
-      var arr = passes();
-      var p = arr[idx];
-      idx += 1;
-      if (hint) { log.removeChild(hint); hint = null; }
-      var pass = el("p", "", "margin:0 0 0.6rem;");
-      pass.appendChild(el("span", "pass " + idx + " · thought — " + p.thought, "display:block;"));
-      pass.appendChild(el("span", "tool → " + p.tool, "display:block;border-left:3px solid var(--l0);padding-left:0.55rem;"));
-      pass.appendChild(el("span", "observed ← " + p.obs, "display:block;color:var(--muted);"));
-      log.appendChild(pass);
-      if (p.evalTxt) {
-        var evn = el("p", "", "margin:-0.35rem 0 0.6rem;padding-left:0.55rem;border-left:3px solid var(--l1);");
-        evn.appendChild(el("span", "evaluate ✗ — ", "color:var(--l1);"));
-        evn.appendChild(el("span", p.evalTxt, "color:var(--l1);"));
-        log.appendChild(evn);
-      }
-      paint(p);
-      try { pass.scrollIntoView({ block: "nearest", behavior: "auto" }); } catch (e) {}
-      if (idx === arr.length) finish();
-    }
-
-    function setActive(b, on) {
-      b.setAttribute("aria-pressed", on ? "true" : "false");
-      b.className = on ? "btn btn-primary" : "btn";
-    }
-
-    function syncModeBtns() {
-      setActive(clearBtn, mode === "clear");
-      setActive(vagueBtn, mode === "vague");
-    }
-
-    function reset() {
-      idx = 0;
-      log.innerHTML = "";
-      mountHint();
-      fill.style.width = "0%";
-      fill.style.background = "var(--l0)";
-      chip.textContent = "scenario: " + (mode === "clear" ? "clear goal" : "vague goal") + " · context 0% · passes 0";
-      runBtn.disabled = false;
-      runBtn.removeAttribute("style");
-      runBtn.textContent = "run one pass";
-    }
-
-    function setMode(m) {
-      mode = m;
-      syncModeBtns();
-      reset();
-    }
-
-    runBtn.addEventListener("click", function () { if (!runBtn.disabled) appendPass(); });
-    resetBtn.addEventListener("click", reset);
-    clearBtn.addEventListener("click", function () { setMode("clear"); });
-    vagueBtn.addEventListener("click", function () { setMode("vague"); });
-    syncModeBtns();
-    reset();
-  })();
-  </script>
-
-  <p>Notice what is missing from that loop: magic. The agent is not thinking
-  in any deep sense. Each pass, it looks at everything in its transcript and
-  predicts a next action. The craft of this entire book is shaping what the
-  loop can see, what it may touch, and how it knows it is finished.</p>
-
-  <p>Here is the loop you own — wrapped around the machine's loop. Every
-  technique in this book lives somewhere in this second chain.</p>
-
-  <div class="flow-stage">
-    <div class="flow-chain">
-      <div class="flow-step"><b>aim</b><small>one goal, one success test</small></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><b>watch</b><small>skim the plan before edits land</small></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><b>verify</b><small>run the proof yourself</small></div>
-      <div class="flow-arrow">→</div>
-      <div class="pivot">trust it?</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step"><b>commit</b><small>accept, correct, restart clean</small></div>
-    </div>
-    <span class="flow-stage-label">one pass of the outer loop · human-gated · every step stays yours</span>
-  </div>
-
-  <div class="callout co-tip">
-    <span class="c-tag">tip</span>
-    <p>Write the stopping condition before you write the goal. "Make the login
-    page work" is a wish; "make these three tests pass without touching any
-    other file" is a stopping condition. Clear success criteria are the
-    highest-leverage habit in agentic work — trial-and-error loops need a
-    finish line they can actually detect, and vague goals are how loops
-    wander.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
-
-<h2 id="ch01-s2">What makes it agentic — and when to skip it entirely</h2>
-  <p>An agentic coding session differs from chatting with a bot in three
-  concrete ways: the agent reads your actual files, runs real commands, and
-  iterates on its own output without waiting for you between steps. Official
-  documentation for leading harnesses is blunt that this is a different working
-  relationship, not a faster chat window — you manage it more than converse.</p>
-  <p>There is also a distinction practitioners lean on constantly. A
-  <strong>workflow</strong> is ordinary code orchestrating a model through steps
-  a human already understands: summarize this, classify that, format the
-  result. An <strong>agent</strong> is the model directing its own process,
-  choosing which tools to run and when. The canonical guidance from Anthropic's
-  effective-agents essay: start with the simplest thing that could possibly
-  work, and reach for an agent only when the task genuinely needs flexible,
-  open-ended execution — agents trade predictability for flexibility, cost more
-  in latency and tokens, and compound errors along the way. Add complexity only
-  when measurements say you must.</p>
-  <p>Say no to the agent when:</p>
-  <ul>
-    <li>the steps are already known — a script or workflow is cheaper, faster,
-    and cannot improvise surprises;</li>
-    <li>latency or cost budgets are tight — a loop of model calls is expensive
-    by construction;</li>
-    <li>errors compound dangerously — anything irreversible on live systems
-    belongs behind a sandbox and guardrails first;</li>
-    <li>you cannot state what "done" looks like — an agent with no success
-    criterion cannot stop honestly, and neither can you verify it.</li>
-  </ul>
-
-  <div class="callout co-warn">
-    <span class="c-tag">warning</span>
-    <p>Autonomy amplifies whatever it touches, including mistakes. Field
-    reports describe agents that skipped permission prompts, stalled on slow
-    tools, or wandered when a refactor exceeded their capacity — and the
-    security story is worse: a rogue agent with shell access is a classic
-    injection target. Treat any "skip approvals" flag as radioactive outside a
-    disposable, sandboxed environment. Guardrails are part of the design, not
-    an optional extra.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
-
-<h2 id="ch01-s3">Three classic failure modes</h2>
-  <p>These recur so reliably across teams and harnesses that learning to spot
-  them by name is worth the price of this chapter.</p>
-  <p><strong>Failure one: the kitchen-sink session.</strong> Five features go
-  into one endless conversation. Context fills up, quality sags, the agent
-  contradicts decisions it made an hour ago, and nobody can untangle the diff
-  afterward. Official best-practices docs warn against exactly this shape. Fix:
-  one goal per session, and treat a fresh start as cheap — it usually beats
-  rescuing a bloated thread.</p>
-  <p><strong>Failure two: the trust-then-verify gap.</strong> The output reads
-  plausibly, so nobody reads the diff, nobody runs the proof, and a subtly
-  broken change merges. Even careful practitioners admit the drift: as sessions
-  get longer, reviewing every line erodes — but accountability stays human no
-  matter what the tooling implies. Plausible is not correct. Fix: a verify
-  ritual you never skip.</p>
-  <p><strong>Failure three: the infinite wander.</strong> The agent re-reads
-  the same files, tries adjacent fixes, stalls on slow tools, never converges.
-  That is the signature of a goal too vague to detect progress, or a refactor
-  bigger than one sitting. Fix: timebox the loop, narrow the goal, restart
-  clean instead of nursing a doomed attempt.</p>
-  <p>Worth knowing alongside those three: instruction and memory files that
-  grow unbounded quietly poison later sessions, and permission-skipping turns
-  small mistakes into big ones. Both recur across field notes; both are habits,
-  not bugs.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
-
-<h2 id="ch01-s4">An honest word about speed</h2>
-  <p>Before you assume agents make everyone faster, meet the most uncomfortable
-  result in the field. In 2025 the independent nonprofit METR ran a randomized
-  controlled trial: experienced open-source developers, real issues in repos
-  they knew well, early-2025 agentic tools. Participants predicted a 24%
-  speedup. After finishing, they believed they had achieved about 20%. Measured
-  reality: the group using AI took roughly 19% longer.</p>
-
+  <h2><span class="s-n">ii.</span>An honest word about speed <span class="time">· 3 min</span></h2>
+  <p>Before the session, one uncomfortable measurement. In 2025 the independent nonprofit METR ran a randomized trial: experienced open-source developers, real issues in repos they knew, early-2025 tools. Read it in both directions — narrow setting, old tools, and METR itself now flags these results as out of date with newer data coming in. The durable lesson survives anyway:</p>
   <div class="stat-strip">
-    <div class="stat"><span class="stat-num">+24%</span><span class="stat-label">speedup participants predicted</span></div>
-    <div class="stat"><span class="stat-num">+20%</span><span class="stat-label">speedup they believed afterward</span></div>
-    <div class="stat"><span class="stat-num">−19%</span><span class="stat-label">measured reality · slower with ai</span></div>
+    <div class="stat"><span class="stat-num">+24%</span><span class="stat-label">speedup developers predicted</span></div>
+    <div class="stat"><span class="stat-num">+20%</span><span class="stat-label">speedup they believed after</span></div>
+    <div class="stat"><span class="stat-num">−19%</span><span class="stat-label">measured reality · slower with AI</span></div>
+  </div>
+  <p>Nobody in that study sensed the slowdown. Your feeling of speed is not data — measure occasionally, and this book will keep asking you to. (Numbers re-verified 2026-09-03; METR's page now carries an "out of date" banner pointing at its 2026 follow-up.)</p>
+
+  <h2><span class="s-n">iii.</span>The session <span class="time">· 35 min · opencode</span></h2>
+  <p>Four steps. Each states its goal, gives you the exact thing to paste, shows what you should see, and tells you how to prove it. The transcript below is condensed from an actual run on 2026-09-03, not written for effect.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Make a scratch repo</h3>
+    <p class="goal"><strong>Goal:</strong> a disposable repo with one file and one commit, so every later change is reviewable as a diff.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>mkdir agent-first-run
+cd agent-first-run
+git init -q
+git config user.name "learner"
+git config user.email "learner@example.com"</div>
+    <p>Then create <code>hello.js</code> containing exactly one line — <code>console.log('blank slate')</code> — with your editor, and commit:</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>git add -A
+git commit -qm start</div>
+    <p class="variant">Terminal-only alternative (macOS, Linux, Git Bash): <code>printf "console.log('blank slate')\n" &gt; hello.js</code> before the commit. Plain <code>echo</code> with quotes misbehaves on some Windows shells, so the editor route above is the default. The <code>git config</code> lines are one-time per machine — without them a fresh <code>git commit</code> refuses to run.</p>
+    <div class="term">◆ ls → <span class="g">hello.js</span> · ◆ git log --oneline → <span class="g">start</span>
+<span class="term-note">One file, one commit. That is the entire setup.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li><code>ls</code> shows exactly <code>hello.js</code></li><li><code>git log --oneline</code> shows one commit</li></ul></div>
   </div>
 
-  <p>Read that honestly, in both directions: one narrow setting, early-generation
-  tools, and follow-up work suggests newer models help more — do
-  not generalize it into "agents are a scam." The durable lesson stands
-  anyway: your feeling of speed is not data. Nobody in that study sensed a
-  slowdown. Measure your own throughput occasionally — timers, commit history,
-  boring spreadsheets — and update on evidence, not vibes. This book will keep
-  asking you to.</p>
-
-  <aside class="pull-fact pf-l0">
-    <p>The durable lesson stands anyway: your feeling of speed is not data.</p>
-  </aside>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
-
-<h2 id="ch01-s5">Vibe coding vs agentic engineering: pick your words carefully</h2>
-  <p>In February 2025 Andrej Karpathy described a new style he called vibe
-  coding. The definition this book relies on is anchored not on the fragile
-  original post but on Simon Willison's definitional essay, which documents
-  the coinage: fully give in to the vibes, accept all diffs, stop reading
-  them entirely, forget the code even exists — fun for throwaway weekend
-  projects, explicitly not for serious work. The phrase escaped its cage
-  almost immediately; headlines began using "vibe coding" for all AI-assisted
-  programming, muddying a useful boundary.</p>
-  <p>Simon Willison drew the line back where it belonged: vibe coding is that
-  specific mode where you accept output without reviewing it — and his golden
-  rule is that you can't commit what you can't explain. Everyone doing serious
-  work with these tools was never vibe coding; they were doing AI-assisted
-  engineering with the review step intact. Later attempts at vocabulary settled
-  the matter: Willison proposed "vibe engineering" in October 2025, then conceded
-  in a February 2026 update that "agentic engineering" won the naming contest —
-  a term Karpathy himself endorsed, as reported by The New Stack: orchestration
-  of agents with oversight and no compromise on quality. That is the term this
-  book uses, and the standard it holds you to: orchestrate, supervise, verify.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
-
-<h2 id="ch01-s6">Where this lands in your build</h2>
-  <p>The book's threaded projects start in the next chapter with a harness
-  choice, and the first build — a small agent-cost-compass that turns pricing
-  pages into a decision table — is deliberately tiny. One bounded question, one
-  agent session, a written stopping condition, a verify step before anything
-  merges. That is Chapter 01 compressed into an afternoon: the inner loop does
-  the typing, the outer loop keeps you honest.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
-
-<h2 id="ch01-s7">Receipts</h2>
-  <p>Every factual claim above traces to a source card below. Tier key:
-  T1 official docs or established practitioners · T2 vendor/press secondary ·
-  T3 lead only, never cited as fact alone.</p>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2025/Sep/18/agents/</span>
-    <span class="as-of">checked 2025-09 · agent = LLM running tools in a loop toward a goal, bounded, with a stopping condition</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/how-coding-agents-work/</span>
-    <span class="as-of">checked 2026-08-25 · harness wraps LLM with invisible prompts + callable tools; code execution defines coding agents</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://www.anthropic.com/research/building-effective-agents</span>
-    <span class="as-of">checked 2024-12 · workflows vs agents; start simplest; compounding-error and latency/cost caveats; sandbox + guardrails</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/best-practices</span>
-    <span class="as-of">checked 2026-08 · agentic ≠ chatbot; kitchen-sink session, trust-then-verify gap, infinite exploration documented; favors own tool inline</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://lucumr.pocoo.org/2025/6/12/agentic-coding/</span>
-    <span class="as-of">checked 2025-06 · Ronacher: permission-skipping risk, slow tools stall loops, refactor before complexity exceeds capacity</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2025/Jun/29/agentic-coding/</span>
-    <span class="as-of">checked 2025-06 · practical loop tips incl. skip-permissions only inside sandboxes</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2025/Sep/30/designing-agentic-loops/</span>
-    <span class="as-of">checked 2025-09 · design loops around clear success criteria + trial-and-error tasks; agents are dangerous (injection, rogue shell)</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 research</span>
-    <span class="r-url">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</span>
-    <span class="as-of">checked 2025-07 · RCT: expected +24%, believed +20%, measured 19% slower; early-2025 tools, experienced OSS devs, public data</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://metr.org/blog/2026-02-24-uplift-update/</span>
-    <span class="as-of">checked 2026-02 · authors retract confidence in their own method due to selection effects; late-2025 tools likely help more</span>
-  </div>
-  <p class="as-of" style="margin:1.1rem 0 0;">receipt cluster · the "vibe coding" definition — T1 anchor first, T3 lead only as supplement</p>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2025/Mar/19/vibe-coding/</span>
-    <span class="as-of">checked 2025-03 · ANCHOR: vibe coding = Karpathy's coinage as documented here — give in to the vibes, Accept All, never read diffs; ≠ all AI-assisted programming; golden rule: don't commit what you can't explain</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t3">T3 lead only</span>
-    <span class="r-url">https://archive.is/yNSTA</span>
-    <span class="as-of">checked 2025-02 · supplementary: archived copy of the original Feb 2025 post (orig x.com/karpathy 1886192184808149383) — X originals are unstable; lead only, never cited as fact alone, pairs with the T1 anchor above</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2025/Oct/7/vibe-engineering/</span>
-    <span class="as-of">checked 2025-10, updated 2026-02 · "vibe engineering" proposed; update concedes "agentic engineering" won the naming contest</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 press</span>
-    <span class="r-url">https://thenewstack.io/vibe-coding-is-passe/</span>
-    <span class="as-of">checked 2026-02 · press proxy for the inaccessible original post: Karpathy endorses orchestrating with oversight, no quality compromise</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/</span>
-    <span class="as-of">checked 2026-08-25 · stable reference definition separating agentic engineering from vibe coding</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2026/May/6/vibe-coding-and-agentic-engineering/</span>
-    <span class="as-of">checked 2026-05 · convergence risk: even careful practitioners stop reviewing every line; accountability stays human</span>
+  <div class="step">
+    <h3><span class="n">2.</span>Launch opencode, paste one goal</h3>
+    <p class="goal"><strong>Goal:</strong> one agent run with a falsifiable finish line. If you haven't installed opencode: <code>npm install -g opencode-ai</code> (needs Node.js — check with <code>node --version</code>; v24.13.0 used here, 2026-09-03), then <code>opencode</code> in the scratch repo. First launch walks through provider auth (<code>/connect</code>); the session below needs any working model.</p>
+    <p><strong>Before you paste, write the stopping line down</strong> — on paper, in one sentence: <em>hello() works via the node proof, no other files touched.</em> That sentence is the stopping condition. The prompt below encodes it; writing it first is the habit, not the prompt.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>In this repo, add a hello() function in hello.js that returns the string 'hello from my agent', and export it via module.exports. Then prove it works by running node to print require('./hello.js').hello(). Do not touch any other file.</div>
+    <p class="variant">Prefer non-interactive? The equivalent is <code>opencode run -m &lt;provider/model&gt; "…"</code> — same prompt, piped straight through. Prefer another harness? The prompt is portable: Claude Code, Codex CLI and Gemini CLI all accept it verbatim; only the launch command changes.</p>
+    <div class="term">◆ opencode · read . <span class="c">→ listing</span> · read hello.js <span class="c">→ 1 line</span>
+◆ opencode · edit hello.js <span class="c">→ +6 −0</span>
+◆ opencode · run proof <span class="c">→</span> <span class="g">blank slate ↩ hello from my agent ✓</span>
+<span class="term-note">Condensed from a real run, 2026-09-03, model muse-spark-1.3, clean repo: only the two reads above, nothing else touched. Note the proof prints <strong>two</strong> lines — requiring the file also runs its top-level console.log. Read whole outputs, not last lines.</span></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Wrong files touched? First look: <code>git status --short</code>. Tracked modifications revert with <code>git checkout .</code>; brand-new files need <code>git clean -fd &lt;path&gt;</code> — checkout alone never removes untracked files. Then re-send the prompt with the last sentence standing alone on its own line. Constraints placed last are obeyed most.</p></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>The session ended on its own after the proof passed (stopping condition met, not abandoned)</li><li>No new files appeared in the repo</li></ul></div>
   </div>
 
-  <section class="exercise">
+  <div class="step">
+    <h3><span class="n">3.</span>Read the diff — out loud</h3>
+    <p class="goal"><strong>Goal:</strong> prove you can explain every line the agent wrote. This is the line between agentic engineering and vibe coding: never commit what you can't explain.</p>
+    <div class="diff"><div class="dh">diff --git a/hello.js b/hello.js · 1 file changed, 6 insertions(+)</div><div class="dc"> console.log('blank slate')</div><div class="da">+</div><div class="da">+function hello() {</div><div class="da">+  return 'hello from my agent';</div><div class="da">+}</div><div class="da">+</div><div class="da">+module.exports = { hello };</div></div>
+    <div class="verify"><span>✓ Verify</span><ul><li><code>git diff --stat</code> shows exactly <b>1 file, +6 −0</b></li><li>You can say what each added line does in one sentence</li></ul></div>
+  </div>
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
+  <div class="step">
+    <h3><span class="n">4.</span>Run the proof yourself</h3>
+    <p class="goal"><strong>Goal:</strong> replace trust with evidence. Plausible output is not correct output until your keystrokes say so.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>node -e "console.log(require('./hello.js').hello())"</div>
+    <div class="term"><span class="c">$</span> node -e "console.log(require('./hello.js').hello())"
+blank slate
+<span class="g">hello from my agent</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Output matches, produced by <b>your</b> terminal — the agent's proof and yours agree</li></ul></div>
+  </div>
 
-<h2 id="ch01-s8">Try it yourself</h2>
-    <ol>
-      <li><strong>Exact-click checkpoint.</strong> Open
-      anthropic.com/research/building-effective-agents, scroll to the
-      workflows-vs-agents discussion, and copy its one-line description of an
-      agent into your notes. Then sort three real chores from your life into
-      two columns — "workflow would do" and "genuinely needs an agent" —
-      writing the success criterion next to each.</li>
-      <li><strong>Break it on purpose.</strong> Take the second diagram above
-      and delete its verify step on paper. Write down two concrete ways a wrong
-      diff ships to production unnoticed. Check your predictions against
-      failure mode two — the trust-then-verify gap is that exact diagram,
-      amputated.</li>
-      <li><strong>Ship-sized task.</strong> Draft the stopping condition and
-      the verify step for one real task you intend to hand an agent during the
-      first build — one sentence each, both falsifiable ("these tests pass,"
-      "this table renders"). Keep them; you will paste them into a real session
-      next chapter.</li>
-    </ol>
+  <div class="field-note"><span>Field note —</span> The clean run read exactly two things (the directory, the one file) and touched one. An earlier run with a stray file in the folder read that too — agents read the workspace, not your intentions. Keep the repo clean, write the finish line before you start, and read whole outputs: the proof's first line (<code>blank slate</code>) was the file executing on import, a detail last-line skimming would miss.</div>
+
+  <p>Three failure modes will stalk every session from here, so learn their names now. The <strong>kitchen-sink session</strong> stuffs five goals into one thread until context rots and nobody can untangle the diff — fix: one goal per session, fresh starts are cheap. The <strong>trust-then-verify gap</strong> merges plausible output nobody read — fix: the verify ritual you just ran, never skipped. The <strong>infinite wander</strong> re-reads the same files forever — fix: timebox, narrow the goal, restart clean instead of nursing a doomed attempt. You now have the tools for all three. Session 02 puts them to work comparing harnesses: same task, four runners, one scorecard you fill in yourself.</p>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>I ran the proof in my own terminal and saw the output.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span><code>git diff --stat</code> showed exactly one file, and I can explain each added line.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>I wrote down one reusable stopping condition for my next session.</span></label>
   </section>
 
-  <section class="selfcheck">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
-
-<h2 id="ch01-s9">Self-check</h2>
-    <details>
-      <summary>In one breath: what is the difference between the model and the harness?</summary>
-      <p>The model predicts text and can do nothing else. The harness is the
-      program around it — system prompts, tools, permissions, transcript
-      management — that turns prediction into action. Same model, different
-      harness, completely different experience.</p>
-    </details>
-    <details>
-      <summary>Name the three classic failure modes and one fix for each.</summary>
-      <p>Kitchen-sink session → one goal per session, restart fresh. 
-      Trust-then-verify gap → a verify ritual you never skip (run tests, read
-      the diff). Infinite wander → timebox the loop, narrow the goal, restart
-      clean instead of rescuing.</p>
-    </details>
-    <details>
-      <summary>A friend says "agents made me 40% faster." What do you ask before believing it?</summary>
-      <p>Measured how? Self-timed feelings are exactly what the METR trial
-      punctured — participants believed they were 20% faster while measuring
-      19% slower. Ask for the comparison condition (with vs without, same
-      tasks), who timed it, and whether the logs agree with the memory.</p>
-    </details>
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Agent = LLM running tools in a loop toward a goal, bounded, with a stopping condition</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2025/Sep/18/agents/</span> · as-of 2025-09 · ledger row, definition Anthropic also uses</span></details>
+    <details><summary>Harness wraps the model with invisible prompts + callable tools; code execution defines coding agents</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/how-coding-agents-work/</span> · as-of 2025–2026 · ledger row, conceptual, low churn</span></details>
+    <details><summary>Workflows vs agents: start simplest; latency/cost/error tradeoffs; sandbox + guardrails</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.anthropic.com/research/building-effective-agents</span> · as-of 2024-12 · ledger row, tooling details aged</span></details>
+    <details><summary>Agentic ≠ chatbot; kitchen-sink sessions, trust-then-verify gaps, infinite exploration documented</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · as-of 2026-08 · ledger row, favors own tool</span></details>
+    <details><summary>Loop design needs clear success criteria + trial-and-error tasks; agents are dangerous (injection, rogue shell)</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2025/Sep/30/designing-agentic-loops/</span> · as-of 2025-09 · ledger row</span></details>
+    <details><summary>RCT: expected +24%, believed +20%, measured 19% slower — early-2025 tools, experienced OSS devs; page now flagged out-of-date with 2026 follow-up</summary><span class="receipt"><span class="tier">T1 research</span><span class="r-url">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</span> · re-verified live 2026-09-03 · ledger rows + honesty caveat in prose</span></details>
+    <details><summary>opencode: install via npm, launch with `opencode`, `/init`, Tab plan mode; Windows via choco/scoop/npm</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs</span> · fetched live 2026-09-03 · install + first-run path confirmed against the live intro page</span></details>
+    <details><summary>Vibe coding ≠ all AI-assisted programming; the line is whether you review: don't commit what you can't explain</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2025/Mar/19/vibe-coding/</span> · as-of 2025-03 · ledger row, definitional anchor</span></details>
   </section>
 
-  <section class="beyond">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
-
-<h2 id="ch01-s10">Beyond this build</h2>
-    <p><strong>Where else the pattern applies.</strong> The loop — model, tools,
-    stopping condition, verification — is not coding-specific. Data cleanup,
-    research digests, ops triage, spreadsheet wrangling: anywhere a machine can
-    act on tools and you can check the result, the same shape works. Change the
-    tool belt, keep the discipline.</p>
-    <p><strong>Other tools, same anatomy.</strong> Harnesses differ mainly in
-    surface and defaults — terminal-first, IDE extensions, desktop apps,
-    cloud agents that run in the background — while the underlying loop stays
-    identical. What varies that matters: which tools are exposed, how aggressively
-    approvals are enforced, how much context survives between sessions. The next
-    chapter maps that landscape properly.</p>
-    <p><strong>Where it breaks down.</strong> Agents struggle when you cannot
-    verify the outcome (pure taste calls), when mistakes are irreversible on
-    live systems without a sandbox, when a huge unfamiliar codebase offers no
-    tests or breadcrumbs to steer by, and whenever accountability is yours but
-    oversight is absent. If you cannot state what done means, you are not ready
-    to delegate it — to an agent or to anyone.</p>
-  </section>
-
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../../index.html">← all sessions</a>
+    <a href="../ch02/index.html">session 02 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch01-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
 </main>
-<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>

@@ -1,13 +1,13 @@
-// validate-v2.mjs — deterministic gate for the v2 rebuild (monograph-writing rule:
+// validate-v2.mjs — deterministic gate for the book (monograph-writing rule:
 // a batch closes only at zero errors). Stdlib only. Usage:
-//   node v2/scripts/validate-v2.mjs v2/chapters/ch01/index.html   (one chapter)
-//   node v2/scripts/validate-v2.mjs --book                          (whole book)
+//   node scripts/validate-v2.mjs chapters/ch01/index.html   (one chapter)
+//   node scripts/validate-v2.mjs --book                      (whole book)
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { dirname, resolve, join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const V2 = join(ROOT, "v2");
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const SITE = ROOT; // post-cutover: the book lives at the repo root
 const LEDGER = join(ROOT, "docs", "source-ledger.md");
 const BANNED = ["delve", "tapestry", "game-changer", "cutting-edge", "seamless", "it's important to note"];
 const PROSE_MIN = 2200, PROSE_MAX = 3200, BRIEF_MAX = 500;
@@ -96,16 +96,16 @@ function main() {
   let files = [];
   if (args.includes("--book")) {
     // whole-book checks run against the ASSEMBLED book (ids namespaced
-    // at build). Build first: node v2/scripts/build-book-v2.mjs
-    const book = join(V2, "book.html");
-    if (!existsSync(book)) { console.log("no v2/book.html — run build-book-v2.mjs first"); return; }
+    // at build). Build first: node scripts/build-book-v2.mjs
+    const book = join(SITE, "book.html");
+    if (!existsSync(book)) { console.log("no book.html — run build-book-v2.mjs first"); return; }
     const html = readFileSync(book, "utf8");
     const ids = new Map();
     for (const m of html.matchAll(/id="([^"]+)"/g)) {
       if (ids.has(m[1])) err("book.html", `duplicate id "${m[1]}"`);
       else ids.set(m[1], 1);
     }
-    const dir = join(V2, "chapters");
+    const dir = join(SITE, "chapters");
     for (const d of readdirSync(dir)) {
       const f = join(dir, d, "index.html");
       if (existsSync(f)) files.push(f);

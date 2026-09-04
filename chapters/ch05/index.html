@@ -3,572 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>· Context engineering — The Agentic Coding Field Manual</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../../assets/css/book.css">
+<title>05 · Context engineering — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
 </head>
 <body>
-<header class="site-head" style="position:static">
-  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 05</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
-<main><nav class="chapnav" aria-label="Sections"><a href="#ch05-s1">01 context is a budget, not a b</a><a href="#ch05-s2">02 the evidence that length cos</a><a href="#ch05-s3">03 what actually enters your co</a><a href="#ch05-s4">04 compaction: what /compact ac</a><a href="#ch05-s5">05 memory that crosses sessions</a><a href="#ch05-s6">06 subagents: the pressure valv</a><a href="#ch05-s7">07 where this lands in your bui</a><a href="#ch05-s8">08 receipts</a><a href="#ch05-s9">09 try it yourself</a><a href="#ch05-s10">10 self-check</a><a href="#ch05-s11">11 beyond this build</a></nav>
+<main>
+  <p class="kicker">Session 05 · prompting craft · opencode default</p>
+  <h1>Context engineering</h1>
+  <p class="lede">Audit what enters your agent's context, price it in tokens, cut a third of it without losing quality — and learn exactly when delegation pays and when it taxes.</p>
+  <p class="kicker" style="margin-top:1rem">60 min · scratch repo · needs ch04 · verified 2026-09-03</p>
 
-  <div class="chapter-banner banner-l2">
-    <div class="banner-num" aria-hidden="true">05</div>
-    <div class="banner-meta">
-      <span class="part-plate p-l2">part II · prompting craft · L2 olive</span>
-      <h1>Chapter 05 · Context engineering</h1>
-      <p class="lede">Promise: after this chapter you can keep an agent session sharp for hours —
-      by managing what enters context, what gets compacted, and what carries across sessions.</p>
-      <p class="as-of">facts checked as of 2026-08-25 · all token figures here are teaching
-      approximations, proportionate to published measurements — your harness's real counts differ</p>
-    </div>
-  </div>
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · the finite budget</p>
+    <h2><span class="s-n">i.</span>The attention budget</h2>
+    <p>Context is a finite resource with diminishing returns, and the reason is architectural: every token attends to every other token, so attention stretches thin as windows grow — models lose focus the way people lose working memory. The field calls the degradation <strong>context rot</strong>: measured across eighteen frontier models, recall decays non-uniformly with input length even on trivial tasks, and distractors compound the damage. The engineering answer is one sentence that governs this whole session: <strong>find the smallest set of high-signal tokens that maximizes the chance of the outcome you want.</strong> Everything below is a technique for spending that budget well.</p>
+    <p>Know what you are spending it on. A session's context is an itemized bill: system prompt, memory files, skill descriptions (cheap until loaded — progressive disclosure), deferred tool schemas, every file read, every tool result. What survives <strong>compaction</strong> — the practice of summarizing a near-full window and restarting with the summary — is a second bill: decisions and bugs persist, raw tool outputs get discarded, recently touched files ride along. And the three long-horizon levers, named by the people who run agents at scale: compaction for conversational flow, structured note-taking for milestones, sub-agent architectures for parallel exploration that returns condensed summaries. Against them stands the canonical counterpoint, and you will feel it execute today: naive fan-out is fragile, because actions carry implicit decisions that don't survive the summary — share full traces where it matters, delegate where it pays.</p>
+    <p>The essay's sharpest operational idea deserves its own paragraph: <strong>just-in-time retrieval over pre-loading.</strong> Instead of stuffing everything the agent might need up front, maintain lightweight identifiers — file paths, stored queries, links — and let the agent pull data at runtime with tools. Claude Code works this way by design: memory files drop in naively, then glob and grep navigate just-in-time, bypassing stale indexes entirely. Metadata does quiet work here: a file named <code>test_utils.py</code> in tests/ means something different than the same name in src/, and timestamps proxy relevance. The tradeoff is honest: runtime exploration is slower than pre-computed retrieval and needs opinionated tooling (without guidance the agent chases dead ends), so the mature shape is hybrid — retrieve some up front for speed, explore autonomously at discretion. Your audit below will show which side of that hybrid your sessions live on.</p>
+    <figure>
+      <svg viewBox="0 0 640 250" role="img" aria-label="Stacked context bar: system, memory, skills, reads, and tool results sized by token cost, with a compaction line cutting the bar.">
+        <g font-family="Consolas, monospace" font-size="11" fill="currentColor">
+          <rect x="40" y="60" width="60" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="70" y="150" text-anchor="middle">system</text>
+          <rect x="105" y="60" width="90" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="150" y="150" text-anchor="middle">memory</text>
+          <rect x="200" y="60" width="70" height="80" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/><text x="235" y="150" text-anchor="middle">skills</text>
+          <rect x="275" y="60" width="150" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="350" y="150" text-anchor="middle">file reads</text>
+          <rect x="430" y="60" width="170" height="80" fill="none" stroke="currentColor" stroke-width="2"/><text x="515" y="150" text-anchor="middle">tool results</text>
+          <line x1="40" y1="105" x2="600" y2="105" stroke-width="2" stroke-dasharray="8 5"/>
+          <text x="600" y="95" text-anchor="end">compaction line ↓ keep above</text>
+        </g>
+      </svg>
+      <figcaption><strong>Fig. 5 — the budget.</strong> Every segment costs tokens; the dashed line is where compaction cuts. Your audit tonight prices each segment of your own sessions.</figcaption>
+    </figure>
+  </section>
 
-  <p class="sec-rule sec-no">inside this chapter</p>
-
-  <div class="inside-grid">
-    <div class="inside-card ic-l2">
-      <span class="toc-num">01</span>
-      <a href="#ch05-s1">Context is a budget, not a bucket</a>
-      <span class="ic-sum">Attention is finite and degrades with volume — the craft is keeping signal density high, not fitting more in.</span>
-      <span class="ic-meta"><span>~2 min</span></span>
-    </div>
-    <div class="inside-card ic-l2">
-      <span class="toc-num">02</span>
-      <a href="#ch05-s2">The evidence that length costs accuracy</a>
-      <span class="ic-sum">Eighteen SOTA models degrade non-uniformly as input grows; a bigger window is storage, not immunity.</span>
-      <span class="ic-meta"><span>~2 min</span></span>
-    </div>
-    <div class="inside-card ic-l2">
-      <span class="toc-num">03</span>
-      <a href="#ch05-s3">What actually enters your context</a>
-      <span class="ic-sum">Standing rent vs working history, itemized — then toggle ingredients in the sandbox and watch sharpness sag.</span>
-      <span class="ic-meta"><span>~6 min</span><span class="badge">lab</span></span>
-    </div>
-    <div class="inside-card ic-l2">
-      <span class="toc-num">04</span>
-      <a href="#ch05-s4">Compaction: what /compact actually does</a>
-      <span class="ic-sum">History collapses to a summary while standing rent re-presents every pass — you cannot compact away a fat MCP server.</span>
-      <span class="ic-meta"><span>~3 min</span></span>
-    </div>
-    <div class="inside-card ic-l2">
-      <span class="toc-num">05</span>
-      <a href="#ch05-s5">Memory that crosses sessions</a>
-      <span class="ic-sum">MEMORY.md and per-repo auto-memory persist conclusions — write conclusions, not transcripts.</span>
-      <span class="ic-meta"><span>~2 min</span></span>
-    </div>
-    <div class="inside-card ic-l2">
-      <span class="toc-num">06</span>
-      <a href="#ch05-s6">Subagents: the pressure valve, honestly sold</a>
-      <span class="ic-sum">A subagent reads 6,100 tok in its own window; the parent pays 420 — delegate breadth, keep judgment.</span>
-      <span class="ic-meta"><span>~3 min</span></span>
-    </div>
-    <div class="inside-card ic-l2">
-      <span class="toc-num">07</span>
-      <a href="#ch05-s7">Where this lands in your build</a>
-      <span class="ic-sum">The compass repo stays deliberately tiny: little standing rent, short histories, rare compaction.</span>
-      <span class="ic-meta"><span>~1 min</span></span>
-    </div>
-  </div>
-  <p class="as-of">11 sections · pick any card, or start with §1.</p>
-
-<h2 id="ch05-s1">Context is a budget, not a bucket</h2>
-  <p>Chapter 01 established that the agent re-reads its entire transcript on every pass of the
-  loop. That transcript — the context window — is not a warehouse where stuff accumulates
-  harmlessly. Treat it as a <strong>finite attention budget</strong>. Anthropic's engineering
-  essay on context engineering puts it plainly: the goal is finding the smallest set of
-  high-signal tokens that keeps the task solvable, because attention shows diminishing returns
-  as volume grows. The craft is not "fit more in." It is keeping signal density high enough
-  that the right facts win the model's attention on pass forty, not just pass four.</p>
-  <p>The same essay names three levers for long-horizon work: <strong>compaction</strong>
-  (collapse history, keep conclusions), <strong>structured note-taking</strong> (persist facts
-  outside the window), and <strong>sub-agent architectures</strong> (do heavy reading in a
-  separate window, bring back a summary). This chapter is those three levers, plus the
-  discipline that comes before all of them: deciding what you let in at all.</p>
-
-  <aside class="pull-fact pf-l2">
-    <p>The craft is not "fit more in." It is keeping signal density high enough
-    that the right facts win the model's attention on pass forty, not just pass
-    four.</p>
-  </aside>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
-
-<h2 id="ch05-s2">The evidence that length costs accuracy</h2>
-  <p>Why budget at all? Because measured performance degrades with input length — even on
-  trivial tasks. A 2025 study from Chroma Research tested eighteen state-of-the-art LLMs and
-  found accuracy falls non-uniformly as context grows, with distracting material compounding
-  the damage. Read the sourcing honestly: this is vendor research, marketing-adjacent by
-  nature — but it was controlled, published with public replication code, and nobody has
-  produced a credible reversal. The practical takeaway stands: a bigger window is storage,
-  not immunity. A million-token context (remember Gemini's free tier from Chapter 03?) will
-  <em>hold</em> everything and still attend to it worse. Degradation starts long before the
-  wall.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
-
-<h2 id="ch05-s3">What actually enters your context</h2>
-  <p>Before you typed a single word today, your agent's window already held: a system prompt
-  the harness authors wrote, your memory and instruction files, one-line descriptions of every
-  installed skill, and — the sleeper — the API schemas of every connected MCP server, because
-  the model needs to know which tools exist and how to call them. Official Claude Code
-  documentation itemizes exactly this loading order. Then comes what the loop itself writes:
-  your prompts, the agent's reasoning, every tool call, every file read, every command's full
-  output. Two kinds of load result:</p>
-  <ul>
-    <li><strong>Standing rent</strong> — charged every session, whether or not you use it:
-    system prompt, memory, skill descriptions, MCP schemas.</li>
-    <li><strong>Working history</strong> — everything accumulated this session: pasted files,
-    tool output, back-and-forth turns.</li>
-  </ul>
-  <p>Feel the difference with your hands. Toggle ingredients below and watch the meter; the
-  sharpness readout applies the context-rot finding (fill level plus distractor load) to grade
-  how much attention is left. When history has piled up, press <em>run /compact</em> and watch
-  what survives. Every number is a rounded illustration, scaled to real published figures —
-  the point is proportion, not precision.</p>
-
-  <div class="cbsim" id="ctxbox">
-    <style>
-      .cbsim { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
-      .cbsim-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--l2); margin-bottom: 0.5rem; }
-      .cbs-zone { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin: 0.9rem 0 0.15rem; }
-      .cbs-item { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.7rem; min-height: 38px; padding: 0.2rem 0; border-top: 1px dashed var(--line-strong); cursor: pointer; }
-      .cbs-item:hover { background: color-mix(in srgb, var(--l2) 6%, transparent); }
-      .cbs-item input { width: 1.05rem; height: 1.05rem; accent-color: var(--l2); flex-shrink: 0; }
-      .cbs-name { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; }
-      .cbs-note { font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); flex: 1 1 8rem; }
-      .cbs-cost { margin-left: auto; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; border: 1.5px solid var(--line-strong); border-radius: 6px; padding: 0.06rem 0.45rem; flex-shrink: 0; }
-      .cbs-meter { margin-top: 1rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); height: 28px; overflow: hidden; display: flex; }
-      .cbs-meter span { display: block; height: 100%; transition: width 0.35s ease; }
-      .cbs-leg { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-top: 0.4rem; font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); }
-      .cbs-sw { display: inline-block; width: 0.75rem; height: 0.75rem; border: 1.5px solid var(--ink); vertical-align: -1px; margin-right: 0.3rem; }
-      .cbs-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; align-items: center; }
-      .cbs-btn { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; border-radius: 10px; min-height: 38px; }
-      .cbs-btn-main { font-size: 0.82rem; padding: 0.5rem 1.2rem; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: var(--shadow-sm); }
-      .cbs-btn-main:hover:not(:disabled) { translate: -2px -2px; box-shadow: var(--shadow-md); }
-      .cbs-btn-main:disabled { opacity: 0.55; cursor: default; }
-      .cbs-btn-ghost { font-size: 0.76rem; padding: 0.45rem 1rem; border: 1.5px solid var(--line-strong); background: var(--paper-raised); color: var(--ink); }
-      .cbs-btn-ghost:hover { border-color: var(--ink); }
-      .cbs-floor { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
-      .cbs-read { margin-top: 0.9rem; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.65; }
-      .cbs-chip { display: inline-block; border: 2px solid var(--c, var(--muted)); border-radius: 6px; padding: 0 0.45rem; font-weight: 700; background: color-mix(in srgb, var(--c, var(--muted)) 14%, var(--paper-raised)); }
-      .cbs-result { margin-top: 0.9rem; border-top: 2px solid var(--ink); padding-top: 0.7rem; font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.7; }
-      .cbs-result p { margin: 0 0 0.35rem; }
-      @media (max-width: 640px) { .cbs-note { flex-basis: 100%; } }
-      @media (prefers-reduced-motion: reduce) {
-        .cbsim *, .cbsim *::before, .cbsim *::after { transition: none !important; animation: none !important; }
-        .cbs-btn-main:hover:not(:disabled) { translate: none; box-shadow: none; }
-      }
-    </style>
-    <span class="cbsim-tag">context budget sandbox · interactive · token values are teaching approximations, proportionate to published measurements</span>
-
-    <div class="cbs-zone" style="color:var(--l2);">standing rent — /compact cannot touch these</div>
-    <label class="cbs-item"><input type="checkbox" data-cb="sys" checked>
-      <span class="cbs-name">system prompt</span><span class="cbs-note">harness-authored, loaded first, every session</span><span class="cbs-cost">2,400 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="mem" checked>
-      <span class="cbs-name">memory file</span><span class="cbs-note">your instructions; re-read from disk after compaction</span><span class="cbs-cost">900 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="skills" checked>
-      <span class="cbs-name">skill descriptions ×4</span><span class="cbs-note">descriptions only — bodies load on use (measured: ~68 apiece)</span><span class="cbs-cost">280 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="mcpfetch">
-      <span class="cbs-name">MCP server · fetch-lite</span><span class="cbs-note">two tools, tiny schema</span><span class="cbs-cost">700 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="mcpbr" checked>
-      <span class="cbs-name">MCP server · browser</span><span class="cbs-note">schema measured head-to-head at ~3.6k</span><span class="cbs-cost">3,600 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="mcpgit">
-      <span class="cbs-name">MCP server · github</span><span class="cbs-note">warned in docs: can exceed the context limit alone</span><span class="cbs-cost">12,400 tok</span></label>
-
-    <div class="cbs-zone" style="color:var(--l0);">working history — /compact collapses these</div>
-    <label class="cbs-item"><input type="checkbox" data-cb="notes">
-      <span class="cbs-name">pasted design-notes.md</span><span class="cbs-note">medium reference doc</span><span class="cbs-cost">1,800 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="src">
-      <span class="cbs-name">pasted payments.js</span><span class="cbs-note">source file, 300 lines</span><span class="cbs-cost">2,600 tok</span></label>
-    <label class="cbs-item"><input type="checkbox" data-cb="log">
-      <span class="cbs-name">pasted debug-log.txt</span><span class="cbs-note">distractor-heavy — rots attention fastest</span><span class="cbs-cost">7,500 tok</span></label>
-    <div class="cbs-item" style="cursor:default;">
-      <span class="cbs-name">session turns</span>
-      <span class="cbs-note" id="cbs-turns-note">none yet — each “work” press adds ~3,200 tok of reasoning, tool calls and output</span>
-      <span class="cbs-cost" id="cbs-turns-cost">0 tok</span></div>
-
-    <div class="cbs-meter" aria-hidden="true">
-      <span id="cbs-seg-stand" style="width:0%;background:var(--l2);"></span>
-      <span id="cbs-seg-work" style="width:0%;background:var(--l0);"></span>
-      <span id="cbs-seg-sum" style="width:0%;background:var(--l4);"></span>
-    </div>
-    <div class="cbs-leg">
-      <span><span class="cbs-sw" style="background:var(--l2);"></span>standing rent</span>
-      <span><span class="cbs-sw" style="background:var(--l0);"></span>history</span>
-      <span><span class="cbs-sw" style="background:var(--l4);"></span>/compact summary</span>
-      <span>scale: 200,000-tok window (illustrative)</span>
-    </div>
-
-    <div class="cbs-actions">
-      <button type="button" id="cbs-work" class="cbs-btn cbs-btn-main">＋ work a few turns</button>
-      <button type="button" id="cbs-compact" class="cbs-btn cbs-btn-ghost" disabled>run /compact</button>
-      <button type="button" id="cbs-reset" class="cbs-btn cbs-btn-ghost">reset session</button>
-    </div>
-    <div class="cbs-floor" id="cbs-floor">post-/compact floor right now ≈ 3,580 tok — that is what compaction can never reclaim.</div>
-
-    <div class="cbs-read" id="cbs-read" aria-live="polite"></div>
-    <div class="cbs-result" id="cbs-result" aria-live="polite" hidden></div>
-    <span class="flow-stage-label">toggle ingredients · pile on turns · watch sharpness sag · then compact and see what returns</span>
-  </div>
-
-  <script>
-  (function () {
-    var root = document.getElementById("ctxbox");
-    if (!root || root.dataset.cbsBound) return;
-    root.dataset.cbsBound = "1";
-
-    var BUDGET = 200000, TURN = 3200, MAXTURNS = 30, RATE = 0.12;
-    var ITEMS = {
-      sys:     { t: 2400,  zone: "stand", name: "system prompt" },
-      mem:     { t: 900,   zone: "stand", name: "memory file" },
-      skills:  { t: 280,   zone: "stand", name: "skill descriptions" },
-      mcpfetch:{ t: 700,   zone: "stand", name: "fetch-lite schema" },
-      mcpbr:   { t: 3600,  zone: "stand", name: "browser schema" },
-      mcpgit:  { t: 12400, zone: "stand", name: "github schema" },
-      notes:   { t: 1800,  zone: "work",  name: "design-notes.md" },
-      src:     { t: 2600,  zone: "work",  name: "payments.js" },
-      log:     { t: 7500,  zone: "work",  name: "debug-log.txt" }
-    };
-    var DEFAULTS = { sys: true, mem: true, skills: true, mcpfetch: false, mcpbr: true, mcpgit: false, notes: false, src: false, log: false };
-
-    var on = {}, turns = 0, summary = 0;
-    var els = {};
-    for (var k in DEFAULTS) { on[k] = DEFAULTS[k]; els[k] = root.querySelector('[data-cb="' + k + '"]'); }
-
-    var segStand = document.getElementById("cbs-seg-stand");
-    var segWork = document.getElementById("cbs-seg-work");
-    var segSum = document.getElementById("cbs-seg-sum");
-    var readEl = document.getElementById("cbs-read");
-    var resEl = document.getElementById("cbs-result");
-    var floorEl = document.getElementById("cbs-floor");
-    var turnsCost = document.getElementById("cbs-turns-cost");
-    var turnsNote = document.getElementById("cbs-turns-note");
-    var workBtn = document.getElementById("cbs-work");
-    var compactBtn = document.getElementById("cbs-compact");
-
-    function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-    function el(tag, text, style) {
-      var n = document.createElement(tag);
-      if (text !== "") n.textContent = text;
-      if (style) n.setAttribute("style", style);
-      return n;
-    }
-    function standing() { var s = 0; for (var key in ITEMS) if (ITEMS[key].zone === "stand" && on[key]) s += ITEMS[key].t; return s; }
-    function files() { var s = 0; for (var key in ITEMS) if (ITEMS[key].zone === "work" && on[key]) s += ITEMS[key].t; return s; }
-    function working() { return files() + turns * TURN + summary; }
-
-    function render() {
-      var st = standing(), wk = working(), tot = st + wk, pct = tot / BUDGET * 100;
-      segStand.style.width = Math.min(100, st / BUDGET * 100) + "%";
-      segWork.style.width = Math.min(100 - st / BUDGET * 100, (wk - summary) / BUDGET * 100) + "%";
-      segSum.style.width = summary / BUDGET * 100 + "%";
-
-      var distract = (on.log ? ITEMS.log.t : 0) + Math.max(0, turns * TURN - 16000);
-      var share = tot > 0 ? distract / tot : 0;
-      var score = pct + (share > 0.25 ? 15 : 0);
-      var lvl, col, mark, why;
-      if (score < 22) { lvl = "LOW · attention sharp"; col = "var(--l3)"; mark = "✓"; why = "small, high-signal load — the model sees what matters."; }
-      else if (score < 50) { lvl = "ELEVATED · attention spreading thin"; col = "var(--l0)"; mark = "!"; why = "length alone now taxes every pass."; }
-      else { lvl = "HIGH · degradation likely"; col = "var(--l1)"; mark = "✕"; why = "rot territory — accuracy degrades non-uniformly from here, and distractors compound it."; }
-      if (share > 0.25) why += " Distractor load over 25% (log dumps, stale tool output) — measured to compound the decay.";
-
-      readEl.innerHTML = "";
-      var l1 = el("p", "", "margin:0;");
-      l1.appendChild(el("b", "context: " + fmt(tot) + " / 200,000 tok (" + pct.toFixed(1) + "%)"));
-      readEl.appendChild(l1);
-      var l2 = el("p", "", "margin:0.15rem 0 0;");
-      var chip = el("span", "sharpness: " + mark + " " + lvl);
-      chip.className = "cbs-chip";
-      chip.setAttribute("style", "--c:" + col);
-      l2.appendChild(chip);
-      l2.appendChild(document.createTextNode(" " + why));
-      readEl.appendChild(l2);
-
-      turnsCost.textContent = fmt(turns * TURN) + " tok";
-      turnsNote.textContent = turns === 0
-        ? "none yet — each \u201cwork\u201d press adds ~3,200 tok of reasoning, tool calls and output"
-        : turns + " turn-presses simulated" + (summary > 0 ? " (on top of the summary)" : "");
-      floorEl.textContent = "post-/compact floor right now \u2248 " + fmt(st + Math.round(wk * RATE)) +
-        " tok — standing rent plus a 12% summary; that is what compaction can never reclaim.";
-      compactBtn.disabled = wk === 0;
-    }
-
-    function doCompact() {
-      var collapsed = working();
-      var st = standing();
-      if (collapsed === 0) return;
-      summary = Math.max(1, Math.round(collapsed * RATE));
-      turns = 0;
-      var goneList = [];
-      for (var key in ITEMS) {
-        if (ITEMS[key].zone === "work" && on[key]) { goneList.push(ITEMS[key].name); on[key] = false; if (els[key]) els[key].checked = false; }
-      }
-      resEl.hidden = false;
-      resEl.innerHTML = "";
-
-      var h = el("p", "", "margin:0 0 0.4rem;font-weight:700;");
-      h.textContent = "after /compact:";
-      resEl.appendChild(h);
-
-      var saved = collapsed - summary;
-      resEl.appendChild(el("p", "collapsed \u2192 summary: " + fmt(collapsed) + " tok of transcript, tool output and pasted file text became a " +
-        fmt(summary) + "-tok structured summary (\u2212" + Math.round(saved / collapsed * 100) + "%)."));
-
-      var surv = [];
-      for (var s2 in ITEMS) if (ITEMS[s2].zone === "stand" && on[s2]) surv.push(ITEMS[s2].name + " (" + fmt(ITEMS[s2].t) + ")");
-      resEl.appendChild(el("p", "survived in place (standing rent re-presents every pass): " + (surv.length ? surv.join(" · ") : "nothing toggled on")));
-
-      resEl.appendChild(el("p", on.mem
-        ? "returned, re-injected from disk: memory file (900 tok) — compaction ends, instructions reload. Invoked skill bodies would also re-enter, capped \u22485,000 tok."
-        : "returned, re-injected from disk: nothing — no memory file was marked on disk. This is exactly the gap a memory file fills."));
-      resEl.appendChild(el("p", goneList.length
-        ? "gone unless re-read: " + goneList.join(" · ") + " — conclusions survive only if the summary captured them."
-        : "gone unless re-read: nothing — there were no loose files, only turns."));
-      resEl.appendChild(el("p", "note the floor: schemas and system prompt ride on regardless — compaction cannot evict them.", "color:var(--muted);"));
-      render();
-    }
-
-    workBtn.addEventListener("click", function () { if (turns < MAXTURNS) turns += 1; render(); });
-    compactBtn.addEventListener("click", doCompact);
-    root.addEventListener("change", function (ev) {
-      var t = ev.target;
-      if (!t || !t.getAttribute || !t.getAttribute("data-cb")) return;
-      on[t.getAttribute("data-cb")] = t.checked;
-      render();
-    });
-    document.getElementById("cbs-reset").addEventListener("click", function () {
-      turns = 0; summary = 0;
-      for (var key in DEFAULTS) { on[key] = DEFAULTS[key]; els[key].checked = DEFAULTS[key]; }
-      resEl.hidden = true; resEl.innerHTML = "";
-      render();
-    });
-    render();
-  })();
-  </script>
-
-  <p>Run the experiment that matters: load everything including the github server, stack on
-  turns until sharpness reads HIGH, then compact. The window breathes again — but notice the
-  floor. Now uncheck github and look at the floor line drop. That gap is the entire argument
-  of the next section.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
-
-<h2 id="ch05-s4">Compaction: what /compact actually does</h2>
-  <p>When history crowds the window, harnesses offer compaction. The documented semantics:
-  <code>/compact</code> replaces the whole conversation with a structured summary, then
-  rebuilds a fresh context around it — your instruction files re-read from disk, so your rules
-  survive even though your chat log did not. Any skill <em>bodies</em> you had invoked come
-  back too, capped at roughly five thousand tokens. Hooks exist around the moment (Claude
-  Code ships a PreCompact hook; opencode exposes an experimental
-  <code>session.compacting</code> plugin event) so teams can inject continuation notes before
-  the squeeze. Numbers vary by harness; the mechanism does not.</p>
-  <p>Now the trap the sandbox staged: compaction collapses <strong>history only</strong>.
-  Standing rent — system prompt, schemas, skill descriptions — re-presents in the rebuilt
-  context, every single time. You cannot compact your way out of a fat MCP server. Harness
-  documentation says this out loud: opencode's own MCP docs warn that a GitHub MCP server can
-  easily exceed the context limit by itself, and prescribe disabling or globbing-off servers
-  you are not using. The cure for bloated rent is eviction at the config layer (Chapter 04's
-  tools), not compression at the session layer.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
-
-<h2 id="ch05-s5">Memory that crosses sessions</h2>
-  <p>Compaction saves a session; memory saves <em>you</em>. Documented behavior in Claude
-  Code: an index file (<code>MEMORY.md</code>) loads into context every session, and richer
-  auto-memory directories persist per repository — shared across git worktrees, scoped to
-  your machine, never synced anywhere. Chapter 04 taught you to write such files; here is the
-  economic frame that makes them matter: memory is standing rent, so it competes for attention
-  with everything else — which means you write <strong>conclusions, not transcripts</strong>.
-  "Tests: <code>npm test</code>, never <code>tsc</code> alone" earns its ninety tokens every
-  day. Yesterday's error dump does not.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
-
-<h2 id="ch05-s6">Subagents: the pressure valve, honestly sold</h2>
-  <p>The third lever attacks the deepest problem: research-heavy steps that flood history
-  with material you need once. The documented mechanics quantify the win precisely — in
-  Claude Code's example, a subagent reads 6,100 tokens of files inside its <em>own</em> window
-  and returns a 420-token summary. The parent pays 420, not 6,100; the subagent doesn't even
-  inherit the parent's memory directory. Multiply that across a dozen exploratory reads and
-  the difference between a sharp session and a rotten one is arithmetic.</p>
-  <p>But hold the counterargument before adopting the hammer. Cognition — the Devin team —
-  published the canonical dissent: naive multi-agent splitting produces fragile systems,
-  because an agent's actions carry implicit decisions, subagents on conflicting context make
-  contradictory choices, and nobody holds the full trace. Both essays are vendor opinion
-  pieces, and they genuinely disagree. The synthesis this book teaches: delegate
-  <strong>breadth</strong> (search, enumerate, summarize — mechanical lookup where the
-  subagent's decisions get reviewed anyway), keep <strong>judgment</strong> (architecture,
-  tradeoffs, anything irreversible) in one thread where one trace carries every implicit
-  decision. Isolation is a pressure valve, not a philosophy.</p>
-
+  <h2><span class="s-n">ii.</span>Audit your own context <span class="time">· 15 min · measured</span></h2>
+  <p>Before changing anything, read the meter. opencode ships one: <code>opencode stats</code> reports sessions, messages, cost, and average plus median tokens per session. On this machine, mid-book: 168 sessions, 4,483 messages, $0.00 — and a median 356K tokens per session against a 2.6M average, which tells you the distribution is skewed by a few marathon sessions. That skew is the audit's first finding on almost every machine: a handful of bloated sessions dominate the budget.</p>
   <div class="stat-strip">
-    <div class="stat"><span class="stat-num">6,100</span><span class="stat-label">tok read · inside the subagent's own window</span></div>
-    <div class="stat"><span class="stat-num">420</span><span class="stat-label">tok summary · all the parent session pays</span></div>
-    <div class="stat"><span class="stat-num">≈5,000</span><span class="stat-label">tok cap · invoked skill bodies re-entered post-/compact</span></div>
+    <div class="stat"><span class="stat-num">168</span><span class="stat-label">sessions, 14 days</span></div>
+    <div class="stat"><span class="stat-num">4,483</span><span class="stat-label">messages · $0.00 total</span></div>
+    <div class="stat"><span class="stat-num">356K</span><span class="stat-label">median tokens / session</span></div>
+    <div class="stat"><span class="stat-num">2.6M</span><span class="stat-label">average — marathons dominate</span></div>
+  </div>
+  <p>That skew is the audit's first finding on almost every machine: a handful of bloated sessions dominate the budget. (Executed 2026-09-03 on the author's machine. Your numbers will differ; the skew pattern probably won't. Run it now — this is your baseline.) Read the skew as a diagnosis, not trivia: a median far below the average means a few marathons ate most tokens, and marathons are almost always kitchen-sink sessions wearing a trench coat — five goals, one thread, context rotting since hour one. The session-01 fix applies before any technique in this chapter: split the marathon into one-goal sessions first, then optimize each. No compaction strategy rescues a session that should have been five sessions; the cheapest context engineering is a fresh start, and the stats readout tells you exactly which past sessions prove it.</p>
+  <p>Then inventory one live session's bill by hand. List what entered: the memory file (bytes on disk — divide by four for a rough token estimate), skill descriptions (one line each until loaded), the files read (bytes likewise), the tool results (usually the largest line). Price each segment, rank them, and write down the single largest consumer. The usual suspects are tool-result volume and overgrown memory files — and both have the same fix, which is the next step. Worked example from the lab that built this chapter: the slim session's bill was a 66-byte memory file (~15 tokens), two file reads (~100 tokens), and three short tool results (~200 tokens) — under 500 tokens of context to fix a bug. Then the trim pair repriced it: the same task on a 100-byte stopping-rule-only file (~25 tokens) with an identical outcome — the memory line of the bill cut 91% with zero quality movement. Two priced bills, one task, one conclusion you can defend: memory size moves the bill more than any other single lever on small tasks, because it loads first and colors everything after it.</p>
+
+  <h2><span class="s-n">iii.</span>The session <span class="time">· 40 min · context-lab</span></h2>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Audit — price your bill</h3>
+    <p class="goal"><strong>Goal:</strong> a priced inventory of one session plus your own <code>opencode stats</code> baseline. Stopping condition first: <em>every context consumer named with a token estimate, largest one circled.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode stats
+# then, in your scratch repo:
+wc -c AGENTS.md
+# bytes ÷ 4 ≈ tokens. Do the same for every file the last session read.</div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Stats recorded; inventory lists every consumer with an estimate; largest circled</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No <code>opencode stats</code>? Older binary — update, or substitute <code>opencode session list</code> plus manual transcript weighing (bytes ÷ 4). The habit matters more than the instrument.</p></div>
   </div>
 
-  <aside class="pull-fact pf-l2">
-    <p>You cannot compact your way out of a fat MCP server.</p>
-  </aside>
-
-  <div class="callout co-tip">
-    <span class="c-tag">tip</span>
-    <p>Start every session by stating the finish line — the same falsifiable stopping
-    condition from Chapter 01. It costs twenty tokens up front and pays for the whole session:
-    a stated goal keeps every subsequent pass pointed at something, which is the cheapest
-    attention-sharpening move that exists.</p>
-  </div>
-  <div class="callout co-warn">
-    <span class="c-tag">warning</span>
-    <p>Kitchen-sink sessions rot fastest: five features, one endless thread, quality sagging
-    until the agent contradicts decisions it made an hour ago. The sandbox just showed you the
-    mechanism. The fix is procedural, not clever: one goal per session, compact or restart at
-    natural milestones, and treat a fresh start as cheap maintenance — usually it beats
-    rescuing a bloated thread.</p>
+  <div class="step">
+    <h3><span class="n">2.</span>Bloat vs slim — the A/B run</h3>
+    <p class="goal"><strong>Goal:</strong> feel memory rot behaviorally. Same fixed task on a 66-byte memory file versus a 1,122-byte one stuffed with exactly the anti-patterns the literature warns about: laundry-list edge cases, contradictory style rules, fake lore, rhyming-commit mandates.</p>
+    <div class="term">◆ slim run (66-byte AGENTS.md) · glob → read → edit → <span class="g">+1 −1</span>
+◆ slim proof, verbatim: <span class="g">→ 12 → "Proven: mul(3, 4) returns 12." One shot.</span>
+◆ bloated run (1,122-byte AGENTS.md) · glob → read → edit → <span class="g">+1 −1</span>
+◆ bloated proof, verbatim: <span class="c">→ "ZEBRA-7 12" — the junk codename inserted INTO the proof command</span>
+<span class="term-note">Executed 2026-09-03, same prompt, same model, full logs retained outside the repo. Two honesties: the slim re-run globbed (first-move varies run to run — the earlier direct-read was luck, not law), and an earlier bloated run is VOID and excluded (dirty tree, my staging error — discarded runs stay discarded). Demonstrated effect: junk obedience (ZEBRA-7). Causality fenced: one clean pair shows correlation + mechanism, not proof — your re-runs decide.</span></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No behavioral difference? Good data, not failure — small models on tiny tasks are robust to bloat. Scale the junk (or the task) until something moves, and log where. The rot literature measures degradation on long inputs; your two-file repo may simply be below the threshold where it bites. And consider the alternative explanations honestly before claiming victory in either direction: single pairs don't separate bloat effects from model variance (re-run each side three times and compare distributions, not anecdotes), and a model that already knows the task pattern may bulldoze through junk that would sink it on unfamiliar work. Watch first-move variance specifically: our own slim runs opened with a direct read once and a glob the next time, same config — the opening move is sampling noise, and only patterns across re-runs (junk obeyed twice, proof shape thrice) graduate to findings. The A/B is a lens, not a verdict — its product is a priced observation plus a fenced causal claim, exactly the two lines in your verify box.</p></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Both traces logged with first-move, proof shape, and any junk obedience quoted</li><li>Causal claims fenced: observed vs proven, in writing</li></ul></div>
   </div>
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
-
-<h2 id="ch05-s7">Where this lands in your build</h2>
-  <p>The agent-cost-compass repo stays deliberately tiny — a handful of files — so its
-  sessions stay cheap: little standing rent, short histories, rare compaction.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
-
-<h2 id="ch05-s8">Receipts</h2>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 vendor blog</span>
-    <span class="r-url">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</span>
-    <span class="as-of">pub 2025-09-29 · context = finite attention budget; smallest high-signal set wins; compaction + note-taking + sub-agents as the three levers — influential, non-peer-reviewed</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 vendor research</span>
-    <span class="r-url">https://research.trychroma.com/context-rot</span>
-    <span class="as-of">pub 2025-07-14 · 18 SOTA LLMs degrade non-uniformly with input length even on trivial tasks; distractors compound; replication code public — vendor-authored, verify yourself</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/context-window</span>
-    <span class="as-of">checked 2026-08-25 · what enters context, itemized; /compact replaces conversation with structured summary</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/context-window</span>
-    <span class="as-of">checked 2026-08-25 · instruction files re-read from disk post-compaction; invoked skills re-inject capped ~5k tok; PreCompact hooks exist</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/memory</span>
-    <span class="as-of">checked 2026-08-25 · MEMORY.md index loads every session; per-repo auto memory shared across worktrees; machine-local scope</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/sub-agents</span>
-    <span class="as-of">checked 2026-08-25 · subagent reads 6,100 tok in own window, returns 420-tok summary; parent auto-memory excluded</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 vendor blog</span>
-    <span class="r-url">https://cognition.ai/blog/dont-build-multi-agents</span>
-    <span class="as-of">pub 2025-06-12 · single-agent discipline: shared traces, implicit decisions in actions, conflicting-context fragility — canonical counterpoint</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://opencode.ai/docs/mcp-servers</span>
-    <span class="as-of">checked 2026-08-25 · "GitHub MCP server can easily exceed the context limit"; disable/glob-off unused servers</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://code.claude.com/docs/en/skills</span>
-    <span class="as-of">checked 2026-08-25 · progressive disclosure: body loads only on use; disable-model-invocation keeps side-effecting skills out until called</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://opencode.ai/docs/plugins</span>
-    <span class="as-of">checked 2026-08-25 · experimental.session.compacting hook injects/replaces continuation prompt — marked experimental</span>
-  </div>
-  <p class="as-of" style="margin:1.1rem 0 0;">cross-chapter borrow (flagged): the widget's
-  68-token skill-description and ~3.6k browser-schema figures come from the Chapter 09
-  research wave:</p>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 hands-on guide</span>
-    <span class="r-url">https://betterstack.com/community/guides/ai/playwright-cli-vs-mcp-browser</span>
-    <span class="as-of">pub 2026-02-22 · head-to-head: 68-tok skill description vs ~3.6k-tok MCP schema — reproducible measurement, borrowed from Ch 09 ledger rows</span>
+  <div class="step">
+    <h3><span class="n">3.</span>Trim — cut a third, prove it</h3>
+    <p class="goal"><strong>Goal:</strong> the teach-test behavior itself: cut memory ≥30%, re-run the proof, show nothing broke. Stopping condition first: <em>memory file smaller by a third or more, fixed task green, diff one file.</em></p>
+    <p>Replace the bloated memory file with one keeping only the stopping rule (~100 bytes vs 1,122 — a 91% cut, ~280→~25 tokens), then re-run the identical fixed-task prompt:</p>
+    <div class="term">◆ trim: AGENTS.md 1,122B → 100B <span class="g">(91% cut)</span> · re-run → edit <span class="g">+1 −1</span>
+◆ trim proof, verbatim: <span class="g">→ 12, no junk prefix, "Proof: mul(3, 4) → 12."</span>
+<span class="term-note">Executed 2026-09-03. The junk obedience vanished with the junk: clean proof, no ZEBRA-7. Before/after priced: ~280 tokens of memory → ~25, identical task outcome. That pair — priced cut plus green re-run — is the ≥30% demonstration this session promised.</span></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Trim broke the task? You cut signal, not fat — restore from git, cut half as much, re-run. The verify box below is the judge: green proof plus smaller bill, or it doesn't count. Never "feel" a trim; price it. And run the restore-and-halve protocol when a cut fails twice: restore fully, confirm green, then cut a quarter of what you cut before. Binary search beats guessing — two halvings locate the line between fat and signal faster than any amount of staring at the file. Log every attempt as bill-before, bill-after, proof result; three logged attempts make a trim history worth keeping, and the history is what stops the next session from re-trimming what you already proved load-bearing.</p></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Before/after byte counts logged with token estimates; cut ≥30%</li><li>Fixed task re-run green on the trimmed config, diff one file</li></ul></div>
   </div>
 
-  <section class="exercise" id="ch05-exercises">
+  <div class="step">
+    <h3><span class="n">4.</span>Delegate — price the subagent</h3>
+    <p class="goal"><strong>Goal:</strong> a measured answer to "when does delegation pay?" Run an exploration through a subagent and make it price itself.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Explore this repo (AGENTS.md, mul.js, git log) using a delegated subagent for the exploration, then report: what you found, and roughly how many tokens the subagent used vs what a full read would cost. Keep the main response under 150 words.</div>
+    <div class="term">◆ Explore subagent spawned ✓ · reported accurately — <span class="g">including committed-vs-working-tree state</span>
+◆ self-priced: ~1,500–2,000 tokens vs ~200–300 direct → <span class="c">6–8x overhead here</span>
+◆ verdict (its own words): <span class="c">"justified only if the task were more complex"</span>
+<span class="term-note">Executed 2026-09-03. The subagent was right: delegation on a tiny repo is pure overhead. That is the Cognition lesson with numbers attached — delegate where the exploration dwarfs the summary, never by default.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Delegation ratio computed for your repo (subagent cost ÷ direct-read cost)</li><li>You can state the threshold where your delegation starts paying</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Agent won't delegate? Don't argue — delegation is architecture, not persuasion. Some harnesses need explicit subagent types or config; if yours won't, run the comparison manually (full read vs written summary) and price that instead. The ratio is the lesson, not the tool call.</p></div>
+  </div>
+  <p>Generalize the ratio before you forget it — worked illustration, not measurement: <em>if</em> a subagent burned 30,000 tokens to return 1,500, that would be 20x compression of what the main window never held. Ours measured 6–8x the <em>other</em> way (summary approaching exploration cost), and it rots when subtasks share hidden state the summary can't carry (the Cognition warning: conflicting-context workers producing fragile merges). The decision rule fits one line: delegate breadth (independent searches, parallel recon), never depth-with-shared-state. And price the summary itself — five simultaneous 1,500-token returns would park 7,500 tokens of other agents' conclusions in your "clean" main window. Fan-out has a budget too. Compute your break-even before delegating by habit: divide a typical exploration cost on your work by the summary size you accept, and delegate only above a ratio that beats your direct-read baseline with room to spare — rule of thumb, 3x measured, not hoped. Below that line, the subagent is ceremony; above it, leverage. The documented pattern to calibrate against is roughly 14x (6,100 tokens of recon returning 420); your work will differ, and now you know how to find your number.</p>
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+  <div class="step">
+    <h3><span class="n">5.</span>Compact — the reader-run lever</h3>
+    <p class="goal"><strong>Goal:</strong> watch a long session survive its own window. Compaction can't be forced headlessly with dignity, so this step runs in the TUI on your longest session: invoke <code>/compact</code>, then inspect what survived.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button># in your longest opencode session:
+/compact
+# then ask: "summarize what you retained about this task in 5 bullets"</div>
+    <p class="variant">What should survive, per the documented semantics: architectural decisions, unresolved bugs, implementation details — plus the five most recently accessed files. What should die: raw tool outputs, redundant messages. Grade your compaction against that bar; if a decision vanished, your structured notes (NOTES.md habit, session 16) have a gap to fill. opencode exposes the continuation prompt as an experimental plugin hook for the day you want to tune it. And start the cheapest long-horizon habit tonight: a running NOTES.md where the agent records decisions as made — one line per decision, dated. Compaction then summarizes a window that already contains its own minutes, instead of reconstructing them from archaeology. Notes are how sessions survive their own summarization.</p>
+    <div class="verify"><span>✓ Verify</span><ul><li>Post-compaction summary graded against the survive/die bar; gaps logged</li><li>Rubric: every bullet tagged retained-decision, retained-bug, retained-detail, dropped-noise, or dropped-signal — four keeps and one honest loss is a healthy compaction</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Nothing to compact yet? Your sessions are short — that's a compliment to your session discipline (one goal per session compacts naturally). Borrow a marathon: export any long transcript and grade what <em>you</em> would keep vs cut before ever invoking /compact.</p></div>
+  </div>
 
-<h2 id="ch05-s9">Try it yourself</h2>
-    <ol>
-      <li><strong>Exact-click checkpoint.</strong> In the sandbox above: tick every box
-      including the github server, press <em>work a few turns</em> eight times, and read the
-      sharpness chip aloud. Press <em>run /compact</em> and find the three lists — collapsed,
-      survived, returned. Then uncheck github and read the floor line again.</li>
-      <li><strong>Break it on purpose.</strong> Before touching anything, predict: with the
-      github server on versus off, which setup does /compact help more? Write the prediction,
-      then run both. Compaction recovers history either way — the floor difference proves the
-      rent was never the history's fault.</li>
-      <li><strong>Ship-sized task.</strong> Open your real project folder. List what loads
-      unasked: MCP servers configured, skills installed, your instruction file's length.
-      Disable one server you have not invoked in a week. Next live session, run
-      <code>/compact</code> mid-task and read what it kept — compare against the sandbox's
-      survived/returned lists.</li>
-    </ol>
+  <h2><span class="s-n">iv.</span>The trim checklist <span class="time">· tonight's habit</span></h2>
+  <p>End with the checklist that converts the audit into a routine. Run it whenever a session feels sluggish — sluggishness is usually context, not model. <strong>One, kill hungry tools:</strong> an MCP server that dumps schemas on load (the docs' own example: a GitHub server that "can easily exceed the context limit") gets disabled or glob-scoped before anything else. <strong>Two, slim memory:</strong> cut the file to conventions that changed a trace this month; move procedures into skills where bodies load on use. <strong>Three, canonical examples only:</strong> replace the laundry list of edge cases with diverse canonical ones — the essay's explicit guidance, and the exact anti-pattern the bloated run wore. <strong>Four, minimal toolsets:</strong> if you can't say definitively which tool handles a situation, neither can the agent — prune overlap. <strong>Five, clear tool results first:</strong> the lightest-touch compaction in existence is dropping raw results deep in history; whole summaries are the heavy machinery for when clearing isn't enough. Five cuts, ten minutes, one re-run to verify nothing broke. Log the bill before and after in identical units — bytes and estimated tokens, dated — or the trim never happened. That loop — audit, trim, verify — is context engineering as a practice rather than a chapter. Schedule it monthly alongside the limits-page ritual from session 03: contexts rot and prices move on the same clock, and one sitting maintains both.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Lever</th><th>Measured here</th><th>Pays when</th><th>Rots when</th></tr>
+          <tr><td><strong>Audit + trim</strong></td><td>A/B 66B vs 1,122B (junk obeyed); trim 1,122B→100B, re-run green</td><td>Always — smallest high-signal set wins</td><td>Trimming cuts live signal (verify by re-run)</td></tr>
+    <tr><td><strong>Compaction</strong></td><td>Reader-run (semantics ledger-backed)</td><td>Conversational flow across marathons</td><td>Aggressive summaries drop latent decisions</td></tr>
+    <tr><td><strong>Notes</strong></td><td>Scorecard habit (this book's own ledger!)</td><td>Milestones across sessions</td><td>Notes rot like memory — prune them</td></tr>
+      <tr><td><strong>Subagents</strong></td><td>6–8x overhead tiny here; docs report 6,100→420 on real recon</td><td>Exploration dwarfs the summary</td><td>Naive fan-out disperses decisions</td></tr>
+  </table></div>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>I recorded my <code>opencode stats</code> baseline and priced one session's bill.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I ran the slim/bloated pair (or equivalent) and logged behavioral differences with causality fenced.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>I measured a delegation ratio and can state when delegation pays on my work.</span></label>
   </section>
 
-  <section class="selfcheck">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
-
-<h2 id="ch05-s10">Self-check</h2>
-    <details>
-      <summary>Your session feels dull and you ran /compact twice. Why might it still be dull?</summary>
-      <p>Because compaction only collapses history. If most of your load is standing rent — a
-      heavyweight MCP schema, a bloated instruction file — the rebuilt context re-inherits all
-      of it. Evict rent in configuration; compact only fixes accumulation.</p>
-    </details>
-    <details>
-      <summary>A subagent reads 6,100 tokens of code. What does the main session pay?</summary>
-      <p>About 420 tokens — the summary. The reading happened in the subagent's own window,
-      which doesn't even inherit your memory directory. That ratio is why research breadth
-      belongs behind subagents while decisions stay in the main trace.</p>
-    </details>
-    <details>
-      <summary>When is fanning out subagents the wrong call?</summary>
-      <p>When the steps carry implicit decisions that need one shared trace — architecture
-      choices, sequencing, taste. Cognition's critique: split contexts make contradictory
-      choices nobody can reconcile afterward. Fan out lookup, never judgment.</p>
-    </details>
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Attention budget, n² stretch, just-in-time retrieval, progressive disclosure, compaction/note-taking/subagents triad</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://anthropic.com/engineering/effective-context-engineering-for-ai-agents</span> · fetched live 2026-09-03 · defining essay</span></details>
+    <details><summary>Context rot across 18 models; distractors compound; replication code public</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://research.trychroma.com/context-rot</span> · ledger row · controlled but vendor-authored</span></details>
+    <details><summary>Naive fan-out fragility: unshared context, dispersed decisions — delegate where it pays</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://cognition.ai/blog/dont-build-multi-agents</span> · ledger row · canonical counterpoint, executed its lesson</span></details>
+    <details><summary>A/B + trim executed 2026-09-03: slim vs bloated traces, junk obedience, 1,122B→100B re-run green, fenced causality</summary><span class="receipt"><span class="tier">T2 own-execution</span><span class="r-url">https://research.trychroma.com/context-rot</span> · ledger rows · observed-not-proven labeled; tier follows the cited source</span></details>
+    <details><summary>Delegation measured 2026-09-03: Explore subagent accurate, self-priced 6–8x overhead on tiny repo</summary><span class="receipt"><span class="tier">T2 own-execution</span><span class="r-url">https://cognition.ai/blog/dont-build-multi-agents</span> · ledger row · numbers attached; tier follows the cited source</span></details>
+    <details><summary>opencode stats instrument (median 356K measured here); token figures illustrative, mechanisms real</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs</span> · ledger stats row · audit step built on it</span></details>
+    <details><summary>Compaction semantics: /compact summaries, CLAUDE.md re-reads, skills re-inject capped, PreCompact hooks</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/context-window</span> · ledger rows · step-4 bar backed</span></details>
+    <details><summary>Skills progressive disclosure; MCP schemas deferred and hungry; experimental compacting hook</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/mcp-servers</span> · ledger row (cost tradeoff stated outright) · plus <span class="r-url">https://code.claude.com/docs/en/skills</span> ledger row (disclosure mechanics) · plus <span class="r-url">https://opencode.ai/docs/plugins</span> ledger row (compacting hook)</span></details>
+    <details><summary>Memory across sessions: CLAUDE.md + auto-memory per repo; subagent isolation quantified 6,100→420</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/memory</span> · ledger row (machine-local scope) · plus <span class="r-url">https://code.claude.com/docs/en/sub-agents</span> ledger row (isolation figures)</span></details>
   </section>
 
-  <section class="beyond">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§11</span></div>
-
-<h2 id="ch05-s11">Beyond this build</h2>
-    <p><strong>Long-horizon projects.</strong> Multi-day epics — migrations, spec-driven
-    builds (Chapter 06) — outlast any window. The pattern: keep a running notes file on disk
-    (findings, decisions, open questions), let compaction eat the transcript, and re-anchor
-    each morning's session with one pointer to that file. The notes are the session's
-    successor; the transcript was scaffolding.</p>
-    <p><strong>Note-taking patterns.</strong> Structured task lists the agent checks off,
-    decision logs appended rather than rewritten, and summaries written <em>by the agent, to
-    disk</em> before a planned compaction — all formalize the same instinct: move conclusions
-    out of volatile memory into durable, re-loadable form. Memory files are the permanent
-    tier; session notes are the project tier.</p>
-    <p><strong>When to just restart fresh.</strong> Signals: the agent re-reads files it read
-    an hour ago, contradicts earlier decisions, or edits sprawl beyond the stated goal. A
-    fresh session with a good memory file and a one-paragraph handoff note routinely
-    outperforms nursing a rotten thread — the window resets, the knowledge stays. Restarting
-    is not failure; it is the cheapest compaction there is.</p>
-  </section>
-
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch04/index.html">← session 04</a>
+    <a href="../ch06/index.html">session 06 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch05-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
 </main>
-<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>

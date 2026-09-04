@@ -1,10 +1,12 @@
 # The Agentic Coding Field Manual
 
-A visual, opinionated book that teaches students to ship real software with
-coding agents — opencode, Claude Code, Codex, Gemini CLI and friends — using
-$0-first tools, honest grey-zone coverage, and receipts behind every claim.
+Sixteen sessions. Each one ends with output running on your machine.
+Theory arrives as briefings; the session does the teaching — opencode
+default, $0-first, receipts behind every claim.
 
 Built as plain multi-page HTML. No framework. Works offline over file://.
+
+Live at https://kvothdevian.github.io/field-manual/ (v1 preserved on git tag `v1-final`).
 
 ## Read it
 
@@ -21,17 +23,23 @@ npx serve .
 | `DECISIONS.md` | Locked decisions log (append-only) |
 | `STATUS.md` | Phase board + milestone log — disk memory between sessions |
 | `AGENTS.md` | Rules for agent sessions working on this repo |
+| `VOICE.md` | Voice + structure + budgets (binding on every session) |
+| `registry.jsonl` | Locked terms, conventions, protocols |
+| `briefs/` | Frozen per-session build contracts |
+| `docs/source-ledger.md` | Tiered citation ledger — every claim traces here |
 | `docs/coverage-matrix.md` | Exhaustiveness contract: dimensions × chapters |
-| `progress.html` | Live progress page for humans |
 
-## Rebuild search index
+## Validate + rebuild the single-page edition
 
-After editing any HTML:
+After editing any chapter:
 
 ```
-node scripts/build-index.mjs
+node scripts/validate-v2.mjs --book
+node scripts/build-book-v2.mjs
 ```
+
+(`book.html` is a local-only artifact — git-ignored by design, never deployed.)
 
 ## Status
 
-P0 scaffold complete. Phases P1–P5 tracked in STATUS.md. Local git only until P5.
+v2 rebuild complete: 16/16 sessions shipped, validator zero-errors. See STATUS.md.

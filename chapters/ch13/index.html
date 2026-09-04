@@ -3,647 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>· Shipping for $0 — The Agentic Coding Field Manual</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../../assets/css/book.css">
+<title>13 · Shipping for $0 — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
 </head>
 <body>
-<header class="site-head" style="position:static">
-  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 13</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
-<main><nav class="chapnav" aria-label="Sections"><a href="#ch13-s1">01 the whole ritual, before any</a><a href="#ch13-s2">02 feel the walls: the wall fin</a><a href="#ch13-s3">03 the four hosts, verbatim, da</a><a href="#ch13-s4">04 preview deploys: review the </a><a href="#ch13-s5">05 one host's wall is made of l</a><a href="#ch13-s6">06 deploy = one command, after </a><a href="#ch13-s7">07 let the agent write the rele</a><a href="#ch13-s8">08 where this lands in your bui</a><a href="#ch13-s9">09 receipts</a><a href="#ch13-s10">10 try it yourself — ship somet</a><a href="#ch13-s11">11 self-check</a><a href="#ch13-s12">12 beyond this build</a></nav>
+<main>
+  <p class="kicker">Session 13 · shipping for $0 · opencode default</p>
+  <h1>A URL tonight beats localhost forever</h1>
+  <p class="lede">Put a static site on a public URL for $0: run a three-check gate, fit the host's first wall on paper, and file a dated readiness card — previews first, production only on green.</p>
+  <p class="kicker" style="margin-top:1rem">60 min · scratch repo ship-lab · book-only, no accounts · verified 2026-09-04</p>
 
-  <div class="chapter-banner banner-l4">
-    <span class="banner-num" aria-hidden="true">13</span>
-    <div class="banner-meta">
-      <span class="part-plate p-l4">part IV · shipping &amp; staying sane · L4 plum</span>
-      <h1>Chapter 13 · Shipping for $0</h1>
-      <p class="as-of">facts checked as of 2026-08-26 · every hosting number below carries its own check date — they expire quietly</p>
-    </div>
-  </div>
-
-  <p class="lede">Promise: after this chapter you can put your project on a real
-  public URL today — today, not someday — at literally zero cost, and name the
-  exact wall your traffic will hit first on whichever host you pick.</p>
-
-  <div class="inside-grid"><div class="inside-card ic-l4"><span class="chip">01</span><a href="#ch13-s1">The whole ritual, before any vendor</a></div><div class="inside-card ic-l4"><span class="chip">02</span><a href="#ch13-s2">Feel the walls: the wall finder</a></div><div class="inside-card ic-l4"><span class="chip">03</span><a href="#ch13-s3">The four hosts, verbatim, dated</a></div><div class="inside-card ic-l4"><span class="chip">04</span><a href="#ch13-s4">Preview deploys: review the real thing, not a screenshot</a></div><div class="inside-card ic-l4"><span class="chip">05</span><a href="#ch13-s5">One host's wall is made of law</a></div><div class="inside-card ic-l4"><span class="chip">06</span><a href="#ch13-s6">Deploy = one command, after setup</a></div><div class="inside-card ic-l4"><span class="chip">07</span><a href="#ch13-s7">Let the agent write the release notes</a></div><div class="inside-card ic-l4"><span class="chip">08</span><a href="#ch13-s8">Where this lands in your build</a></div><div class="inside-card ic-l4"><span class="chip">09</span><a href="#ch13-s9">Receipts</a></div><div class="inside-card ic-l4"><span class="chip">10</span><a href="#ch13-s10">Try it yourself — ship something today</a></div><div class="inside-card ic-l4"><span class="chip">11</span><a href="#ch13-s11">Self-check</a></div><div class="inside-card ic-l4"><span class="chip">12</span><a href="#ch13-s12">Beyond this build</a></div></div>
-  <p class="as-of">facts checked as of 2026-08-26 · every hosting number below carries its own check date — they expire quietly</p>
-
-<h2 id="ch13-s1">The whole ritual, before any vendor</h2>
-  <p>Shipping sounds like infrastructure. It is three boring steps, and every
-  free host on earth is just a different brand of the same three:</p>
-  <ul class="rail">
-    <li><strong>Produce a static output.</strong> A folder of HTML, CSS, and JS
-    that any web server could serve as-is. Plain hand-written pages qualify;
-    so does whatever build step your generator runs. If double-clicking
-    <code>index.html</code> shows your site, step one is done.</li>
-    <li><strong>Put that folder in a git repository</strong> pushed to a public
-    forge. The repo is the delivery mechanism — hosts watch it, not your
-    laptop.</li>
-    <li><strong>Connect a host to the repo, once.</strong> You click through an
-    import screen, accept defaults, and the host builds the folder and hands
-    you a URL on its own domain. From then on, deploying <em>is</em> one
-    command: push. The host notices, rebuilds, and the public URL updates.</li>
-  </ul>
-  <p>That last sentence is the entire payoff: setup is an afternoon;
-  afterwards, shipping costs one command forever. Most hosts also offer a
-  small command-line uploader for folder-in-hand deploys — a second flavor of
-  the same one-command endgame. Choose by feel; the ritual transfers.</p>
-  <p>But free hosting is never limit-free, and Chapter&nbsp;03 taught the
-  durable skill already: read the published wall <em>before</em> you build on
-  it. Hosting walls come in two species, and confusing them is the classic
-  beginner injury. <strong>Numeric walls</strong> are metered — builds per
-  month, gigabytes served — and they trip silently mid-month.
-  <strong>Legal walls</strong> are contractual — clauses in a terms page that
-  no dashboard will ever warn you about. One is arithmetic. The other is law.
-  Both can take your site down.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
-
-<h2 id="ch13-s2">Feel the walls: the wall finder</h2>
-  <p>Pick a host, drag the two dials — visitors per month and builds per
-  month — and the finder marks which published limit trips first, printing
-  that host's fine-print line with the date it was checked. Every cap in it
-  comes from the vendor pages this book's source ledger pins; nothing is
-  invented. Flip the commercial-use toggle to meet the second species of
-  wall: one host's hardest limit appears on no dial at all.</p>
-
-  <div class="wallfinder" id="wallfinder">
-    <style>
-      .wallfinder { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
-      .wallfinder, .wallfinder * { box-sizing: border-box; }
-      .wf-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.7rem; }
-      .wf-hosts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-      .wf-host { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; color: var(--muted); background: var(--paper); border: 1.5px solid var(--line-strong); border-radius: 10px; padding: 0.4rem 0.8rem; min-height: 44px; text-align: left; }
-      .wf-host small { display: block; font-weight: 400; font-size: 0.62rem; }
-      .wf-host:hover { border-color: var(--ink); color: var(--ink); }
-      .wf-host:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .wf-host[aria-pressed="true"] { background: color-mix(in srgb, var(--l4) 14%, var(--paper)); border-color: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 2px var(--l4); }
-      .wf-controls { display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; margin-top: 1rem; }
-      .wf-ctl { flex: 1 1 15rem; }
-      .wf-ctl-label { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--ink); }
-      .wf-ctl input[type="range"] { width: 100%; min-height: 38px; accent-color: var(--l4); margin: 0; }
-      .wf-ctl input[type="number"] { width: 6rem; min-height: 38px; font-family: var(--font-mono); font-size: 0.8rem; padding: 0.25rem 0.4rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); }
-      .wf-row2 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.2rem; margin-top: 0.9rem; }
-      .wf-toggle { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--ink); background: var(--paper); border: 1.5px solid var(--line-strong); border-radius: 999px; padding: 0.35rem 0.8rem; min-height: 38px; }
-      .wf-toggle[aria-checked="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 2px var(--l4); background: color-mix(in srgb, var(--l4) 14%, var(--paper)); }
-      .wf-toggle:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .wf-presets-span { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
-      .wf-preset { appearance: none; cursor: pointer; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; color: var(--ink); background: var(--paper); border: 1.5px dashed var(--line-strong); border-radius: 999px; padding: 0.35rem 0.75rem; min-height: 38px; }
-      .wf-preset:hover { border-style: solid; border-color: var(--ink); }
-      .wf-preset:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .wf-track { position: relative; height: 26px; margin-top: 1.1rem; border: 2px solid var(--ink); border-radius: 999px; background: var(--paper); overflow: hidden; }
-      .wf-fill { position: absolute; top: 0; bottom: 0; left: 0; width: 0%; background: var(--l3); transition: width 0.12s linear, background 0.12s linear; }
-      .wf-nowall { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; color: var(--muted); }
-      .wf-ticks { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.62rem; color: var(--muted); margin-top: 0.3rem; }
-      .wf-out { margin-top: 0.9rem; border-top: 2px solid var(--ink); padding-top: 0.7rem; display: flex; flex-direction: column; gap: 0.35rem; }
-      .wf-line { margin: 0; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; }
-      .wf-note { color: var(--muted); font-size: 0.72rem; }
-      .wf-fine { padding: 0.45rem 0.6rem; border-left: 3px solid var(--l4); background: var(--paper); border-radius: 0 8px 8px 0; }
-      .wf-v { font-weight: 700; }
-      .wf-ok { color: var(--l3); }
-      .wf-mid { color: var(--l0); }
-      .wf-bad { color: var(--l1); }
-      .wf-chip { display: inline-block; margin-right: 0.35rem; padding: 0.05rem 0.5rem; border: 1.5px solid var(--l1); border-radius: 999px; font-weight: 700; font-size: 0.68rem; color: var(--l1); background: var(--paper-raised); }
-      @media (max-width: 640px) { .wf-controls { flex-direction: column; } }
-      @media (prefers-reduced-motion: reduce) {
-        .wallfinder, .wallfinder *, .wallfinder *::before, .wallfinder *::after { transition: none !important; animation: none !important; }
-      }
-    </style>
-    <span class="wf-tag">the wall finder · published caps only · every host stamped with its check date · arithmetic stays on this page</span>
-
-    <div class="wf-hosts" role="group" aria-label="Choose a host">
-      <button type="button" class="wf-host" data-host="pages" aria-pressed="true">github pages<small>repo becomes the site</small></button>
-      <button type="button" class="wf-host" data-host="cloudflare" aria-pressed="false">cloudflare pages<small>free plan</small></button>
-      <button type="button" class="wf-host" data-host="vercel" aria-pressed="false">vercel hobby<small>free tier</small></button>
-      <button type="button" class="wf-host" data-host="netlify" aria-pressed="false">netlify free<small>credit-based</small></button>
-    </div>
-
-    <div class="wf-controls">
-      <div class="wf-ctl">
-        <label class="wf-ctl-label" for="wf-visits">visitors per month
-          <input type="number" id="wf-visnum" min="1" max="5000000" step="100" value="15000" aria-label="visitors per month (type a number)">
-        </label>
-        <input type="range" id="wf-visits" min="500" max="200000" step="500" value="15000" aria-label="visitors per month slider">
-      </div>
-      <div class="wf-ctl">
-        <label class="wf-ctl-label" for="wf-builds">builds per month
-          <input type="number" id="wf-bldnum" min="1" max="3000" step="1" value="30" aria-label="builds per month (type a number)">
-        </label>
-        <input type="range" id="wf-builds" min="1" max="600" step="1" value="30" aria-label="builds per month slider">
-      </div>
-    </div>
-
-    <div class="wf-row2">
-      <button type="button" class="wf-toggle" id="wf-commercial" role="switch" aria-checked="false">commercial use: off</button>
-      <span class="wf-presets-span">profiles:</span>
-      <button type="button" class="wf-preset" data-vis="3000" data-bld="10">quiet hobby · 3k / 10</button>
-      <button type="button" class="wf-preset" data-vis="40000" data-bld="60">active portfolio · 40k / 60</button>
-      <button type="button" class="wf-preset" data-vis="300000" data-bld="90">launch-week spike · 300k / 90</button>
-      <button type="button" class="wf-preset" data-vis="1200000" data-bld="700">viral month · 1.2M / 700</button>
-    </div>
-
-    <div class="wf-track" aria-hidden="true">
-      <div class="wf-fill" id="wf-fill"></div>
-      <div class="wf-nowall" id="wf-nowall" hidden>no numeric wall on this host — the binding limits are contractual</div>
-    </div>
-    <div class="wf-ticks" aria-hidden="true"><span>0%</span><span>50%</span><span>100% = nearest published wall</span></div>
-
-    <div class="wf-out" aria-live="polite">
-      <p class="wf-line" id="wf-hostline"></p>
-      <p class="wf-line wf-note wf-fine" id="wf-fine"></p>
-      <div id="wf-walls"></div>
-      <p class="wf-line" id="wf-verdict"></p>
-      <p class="wf-line" id="wf-tos"></p>
-      <p class="wf-line wf-note" id="wf-note"></p>
-    </div>
-  </div>
-
-  <script>
-  (function () {
-    var root = document.getElementById("wallfinder");
-    if (!root || root.dataset.wfBound) return;
-    root.dataset.wfBound = "1";
-
-    var VIS_SCALE = 200000;
-    var HOSTS = {
-      pages: {
-        name: "GitHub Pages",
-        asof: "fine print checked 2026-08-26",
-        fine: "static sites straight from your repo \u00b7 1 user/org site + unlimited project sites \u00b7 custom domains supported \u00b7 published SOFT caps, guidance-grade: ~100 GB bandwidth/mo \u00b7 10 builds/hr \u00b7 site size \u2264 1 GB \u2014 docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits \u00b7 checked 2026-08-26",
-        numeric: true,
-        note: "Pages does publish numbers now, but both headline caps wear GitHub's own soft label: cross them and the documented response is a polite support email or a brief failure to serve \u2014 guidance-grade, not a clean hard stop. The 10-builds/hour cap does not apply at all when publishing runs through a custom Actions workflow. The commercial-use bar below remains the only wall no dial measures."
-      },
-      cloudflare: {
-        name: "Cloudflare Pages \u2014 free",
-        asof: "caps checked 2026-07-16",
-        fine: "500 builds/mo \u00b7 20-min build timeout \u00b7 20k files \u00b7 25 MiB/file \u00b7 UNLIMITED preview deployments \u00b7 100 projects \u2014 developers.cloudflare.com/pages/platform/limits/ \u00b7 checked 2026-07-16",
-        numeric: true,
-        note: "The published build budget is 500/month; preview deployments are listed as unlimited on the same page. The plan page this book cites pins no traffic ceiling, so the visitors dial has no citable wall here \u2014 absence of a pinned number is not proof of infinity; re-read the source before betting on it."
-      },
-      vercel: {
-        name: "Vercel Hobby",
-        asof: "caps checked 2026-08-03",
-        fine: "200 projects \u00b7 100 deploys/day \u00b7 45-min builds \u00b7 100 GB transfer \u00b7 1 concurrent build \u2014 vercel.com/docs/limits \u00b7 checked 2026-08-03",
-        numeric: true,
-        note: "Two independent walls: a daily deploy cap (averaged across 30 days for the finder; any single 101-push day trips it regardless of the average) and a transfer allowance. Transfer math uses your visit count times assumed page weight \u2014 the finder shows light/typical/heavy scenarios rather than pretending one number is truth. Projects cap (200) and concurrency (1) rarely bite solo learners."
-      },
-      netlify: {
-        name: "Netlify \u2014 free",
-        asof: "pricing checked 2026",
-        fine: "$0 tier = 300 credits/mo \u00b7 production deploy = 15 credits \u00b7 deploy previews unlimited \u00b7 custom domains + SSL included \u2014 netlify.com/pricing \u00b7 checked 2026 pricing",
-        numeric: true,
-        note: "Credit math, straight division: 300 credits \u00f7 15 per production deploy = 20 production deploys a month. Preview deployments are listed unlimited \u2014 rehearse every change on a preview URL and spend credits only when promoting. The pricing page this book cites pins no traffic figure, so the visitors dial cannot trip anything citable here."
-      }
-    };
-    var cur = "pages";
-    var commercial = false;
-
-    function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
-    function v(cls, txt) { return '<span class="wf-v wf-' + cls + '">' + txt + "</span> "; }
-
-    function esc(s) {
-      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    }
-
-    function wallLine(label, usage, cap, unit, detail) {
-      var ratio = usage / cap;
-      var cls = ratio >= 1 ? "bad" : (ratio >= 0.85 ? "mid" : "ok");
-      var mark = ratio >= 1 ? "\u2717 TRIPPED \u2014" : (ratio >= 0.85 ? "~ CLOSE \u2014" : "\u2713 FITS \u2014");
-      var txt = mark + " " + label + ": " + fmt(usage) + " " + unit + " vs " + fmt(cap) + " " + unit +
-        " \u00b7 " + Math.round(ratio * 100) + "% of the published wall" + (detail ? " \u00b7 " + detail : "");
-      return { ratio: ratio, html: v(cls, txt), label: label };
-    }
-
-    function wallsFor(key, vis, bld) {
-      if (key === "pages") {
-        var pgLo = vis * 0.5 / 1000, pgMid = vis / 1000, pgHi = vis * 3 / 1000;
-        var avgHr = Math.ceil(bld / 720);
-        return [
-          wallLine("bandwidth at ~1 MB/page (soft cap)", pgMid, 100, "GB", "guidance-grade \u2014 documented response is a support email or brief non-serving, not a hard stop \u00b7 scenarios: " + fmt(pgLo) + "\u2013" + fmt(pgHi) + " GB across light (0.5 MB)\u2013heavy (3 MB) pages"),
-          wallLine("avg builds/hour (monthly \u00f7 720)", avgHr, 10, "", "soft cap \u2014 hourly bursts past 10 trip it \u00b7 waived entirely when publishing via a custom Actions workflow")
-        ];
-      }
-      if (key === "cloudflare") {
-        return [wallLine("builds/month", bld, 500, "", "unlimited preview deployments sit outside this number")];
-      }
-      if (key === "vercel") {
-        var perDay = Math.ceil(bld / 30);
-        var gbLo = vis * 0.5 / 1000, gbMid = vis / 1000, gbHi = vis * 3 / 1000;
-        return [
-          wallLine("deploys/day (monthly avg)", perDay, 100, "", "any single day over 100 pushes trips it early"),
-          wallLine("transfer at ~1 MB/page", gbMid, 100, "GB", "scenarios: " + fmt(gbLo) + "\u2013" + fmt(gbHi) + " GB across light (0.5 MB)\u2013heavy (3 MB) pages")
-        ];
-      }
-      if (key === "netlify") {
-        return [wallLine("production deploys/mo", bld, 20, "", "credit math: 300 \u00f7 15 per prod deploy = 20 \u00b7 previews unlimited")];
-      }
-      return [];
-    }
-
-    function update() {
-      var d = HOSTS[cur];
-      var vis = parseInt(document.getElementById("wf-visnum").value, 10);
-      if (!isFinite(vis) || vis < 1) vis = 1;
-      if (vis > 5000000) vis = 5000000;
-      var bld = parseInt(document.getElementById("wf-bldnum").value, 10);
-      if (!isFinite(bld) || bld < 1) bld = 1;
-      if (bld > 3000) bld = 3000;
-      var vr = document.getElementById("wf-visits");
-      var br = document.getElementById("wf-builds");
-      if (parseInt(vr.value, 10) !== Math.min(vis, VIS_SCALE)) vr.value = Math.min(vis, VIS_SCALE);
-      if (parseInt(br.value, 10) !== Math.min(bld, 600)) br.value = Math.min(bld, 600);
-
-      var walls = wallsFor(cur, vis, bld);
-      var fill = document.getElementById("wf-fill");
-      var nowall = document.getElementById("wf-nowall");
-      var maxRatio = 0;
-      for (var i = 0; i < walls.length; i++) { if (walls[i].ratio > maxRatio) maxRatio = walls[i].ratio; }
-
-      if (!walls.length) {
-        fill.style.width = "0%";
-        nowall.hidden = false;
-      } else {
-        nowall.hidden = true;
-        fill.style.width = Math.min(100, maxRatio * 100) + "%";
-        fill.style.background = maxRatio >= 1 ? "var(--l1)" : (maxRatio >= 0.85 ? "var(--l0)" : "var(--l3)");
-      }
-
-      var whtml = "";
-      var first = null;
-      for (var j = 0; j < walls.length; j++) {
-        whtml += '<p class="wf-line">' + walls[j].html + "</p>";
-        if (walls[j].ratio >= 1 && (first === null || walls[j].ratio > first.ratio)) first = walls[j];
-      }
-      if (first === null && walls.length) {
-        for (var k = 0; k < walls.length; k++) {
-          if (first === null || walls[k].ratio > first.ratio) first = walls[k];
-        }
-      }
-      document.getElementById("wf-walls").innerHTML = whtml;
-
-      var verdict;
-      if (!walls.length) {
-        verdict = v("mid", "~ NO NUMERIC WALL \u2014") + "neither dial can trip a cap, because this book's pinned sources publish none for this plan. The walls that remain are legal ones \u2014 see the toggle.";
-      } else       if (first.ratio >= 1) {
-        verdict = v("bad", "\u2717 FIRST WALL AT THESE SETTINGS: " + first.label + " \u2014") +
-          " everything past it is unreachable until the cycle resets or you move host.";
-      } else {
-        verdict = v("ok", "\u2713 NOTHING TRIPS \u2014") + "nearest wall: the line above at " + Math.round(first.ratio * 100) + "% of its published cap.";
-      }
-      document.getElementById("wf-verdict").innerHTML = verdict;
-
-      var tos;
-      if (cur === "pages") {
-        if (commercial) {
-          tos = '<span class="wf-chip">ToS flag</span>' + v("bad", "\u2717 LEGAL WALL \u2014") +
-            "GitHub's terms for additional products (effective 2026-04-27) do NOT allow Pages as free hosting for a commercial business, e-commerce, or SaaS. No dial measures this wall and no dashboard will warn you \u2014 it is discovered by email, after the fact.";
-        } else {
-          tos = v("ok", "\u2713 WITHIN TERMS \u2014") + "personal and project use sit inside the written rules while the commercial toggle is off. Some walls are legal, not numeric.";
-        }
-      } else if (commercial) {
-        tos = v("mid", "~ COMMERCIAL FLAG \u2014") + "this book's ledger pins no written commercial-use bar for this plan \u2014 which is not permission. Read the host's current terms yourself before a business leans on a free tier.";
-      } else {
-        tos = v("ok", "\u2713 commercial toggle off \u2014") + "flip it to test how each host's fine print treats business use.";
-      }
-      document.getElementById("wf-tos").innerHTML = tos;
-
-      document.getElementById("wf-hostline").innerHTML = "host: " + esc(d.name) + " \u00b7 " + esc(d.asof);
-      document.getElementById("wf-fine").textContent = "fine print: " + d.fine;
-      document.getElementById("wf-note").textContent = d.note;
-    }
-
-    document.getElementById("wf-visits").addEventListener("input", function () {
-      document.getElementById("wf-visnum").value = this.value;
-      update();
-    });
-    document.getElementById("wf-visnum").addEventListener("input", update);
-    document.getElementById("wf-builds").addEventListener("input", function () {
-      document.getElementById("wf-bldnum").value = this.value;
-      update();
-    });
-    document.getElementById("wf-bldnum").addEventListener("input", update);
-
-    root.addEventListener("click", function (ev) {
-      var t = ev.target;
-      var hostBtn = t && t.closest ? t.closest("[data-host]") : null;
-      if (hostBtn) {
-        cur = hostBtn.getAttribute("data-host");
-        var all = root.querySelectorAll("[data-host]");
-        for (var i = 0; i < all.length; i++) {
-          all[i].setAttribute("aria-pressed", all[i] === hostBtn ? "true" : "false");
-        }
-        update();
-        return;
-      }
-      var preBtn = t && t.closest ? t.closest("[data-vis]") : null;
-      if (preBtn) {
-        document.getElementById("wf-visnum").value = preBtn.getAttribute("data-vis");
-        document.getElementById("wf-bldnum").value = preBtn.getAttribute("data-bld");
-        update();
-        return;
-      }
-      if (t && t.id === "wf-commercial") {
-        commercial = !commercial;
-        t.setAttribute("aria-checked", commercial ? "true" : "false");
-        t.textContent = "commercial use: " + (commercial ? "on" : "off");
-        update();
-      }
-    });
-
-    update();
-  })();
-  </script>
-
-  <p>Three lessons the finder should leave behind, none of them vendor-specific.
-  First, <strong>walls differ in kind, not just height</strong>: Cloudflare and
-  Netlify ration your <em>pushes</em>, Vercel rations both pushes and readers,
-  and GitHub Pages publishes only soft, guidance-grade caps — its hardest
-  rationing is still what you may legally
-  <em>be</em>. Second, the same traffic costs different walls on
-  different hosts: 300,000 launch-week visitors sail through on two of these
-  plans and trip Vercel's transfer line at ordinary page weights. Third,
-  <strong>a missing number is not a big number</strong>. Where our sources pin
-  no traffic cap, the finder says so plainly — unpinned means unverified, and
-  unverified is exactly when you go read the source yourself.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
-
-<h2 id="ch13-s3">The four hosts, verbatim, dated</h2>
-  <p>The finder's caps, printed plainly so you can check the finder against
-  them:</p>
-
-  <div class="table-scroll">
-    <table>
-      <thead>
-        <tr><th>host (free)</th><th>published numbers (as printed)</th><th>as-of</th><th>what actually bites</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>GitHub Pages</td>
-          <td>static sites from repos · 1 user/org site + unlimited project sites · custom domains · SOFT caps (guidance-grade): ~100 GB bandwidth/mo · 10 builds/hr · published site ≤1 GB</td>
-          <td>2026-08-26</td>
-          <td>Bandwidth soft cap at real traffic; plus the ToS bar: no free commercial-business/e-commerce/SaaS hosting</td>
-        </tr>
-        <tr>
-          <td>Cloudflare Pages</td>
-          <td>500 builds/mo · unlimited preview deployments · 100 projects · 20-min build timeout · 20k files · 25 MiB/file</td>
-          <td>2026-07-16</td>
-          <td>The 500-build monthly budget on push-heavy weeks</td>
-        </tr>
-        <tr>
-          <td>Vercel Hobby</td>
-          <td>200 projects · 100 deploys/day · 45-min builds · 100 GB transfer · 1 concurrent build</td>
-          <td>2026-08-03</td>
-          <td>Transfer at real traffic; deploy days over 100 pushes</td>
-        </tr>
-        <tr>
-          <td>Netlify free</td>
-          <td>$0 tier = 300 credits/mo · production deploy = 15 credits (= 20 prod deploys) · deploy previews unlimited · custom domains + SSL included</td>
-          <td>2026 pricing</td>
-          <td>Credit math — twenty production deploys, then the meter stops</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
-
-<h2 id="ch13-s4">Preview deploys: review the real thing, not a screenshot</h2>
-  <p>The single best habit free hosting buys you costs nothing on every host
-  above: <strong>every branch gets its own URL before anyone merges it</strong>.
-  Push a fix to a branch and the host quietly builds it at a private address —
-  your reviewer opens the link and clicks the actual change, on an actual
-  phone, before it touches the main site. Cloudflare's documentation formalizes
-  exactly this pattern under the name preview deployments; the other git-connected
-  hosts behave the same way, and Netlify's pricing page goes further, listing
-  deploy previews as unlimited even on the credit-starved free tier. The
-  workflow is host-generic: branch → automatic preview URL → human review →
-  merge → production rebuild. It converts "trust me, it works" into "here is
-  the link," and it is worth choosing a host for all by itself.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
-
-<h2 id="ch13-s5">One host's wall is made of law</h2>
-  <p>Now read the boundary honestly, because it is the one beginners actually
-  hit. GitHub's terms for additional products — effective April 27, 2026 — do
-  not allow GitHub Pages to be used as a free hosting service for a commercial
-  business, e-commerce site, or SaaS product. That clause is not folklore and
-  not a rumor from a forum: it is the contract you clicked. Personal sites,
-  portfolios, project demos, documentation, community pages — all comfortably
-  inside. The terms even narrow the money question themselves: donation
-  buttons and crowdfunding links are explicitly permitted on Pages, so this
-  bar was never "any money" — it targets sites that exist to run a commercial
-  business. The moment the site is the storefront of a business, you are
-  outside the written terms even though every dial still reads zero.
-  Enforcement is
-  sporadic and unpredictable, which is precisely why "they never enforce it"
-  is not a plan.</p>
-
-  <div class="pull-fact pf-l4">
-    <p>The deeper lesson generalizes: <strong>some walls are legal, not
-    numeric</strong> — and no monitoring tool you will ever install watches
-    that kind.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
-
-<h2 id="ch13-s6">Deploy = one command, after setup</h2>
-  <p>This book practices what it preaches on its own timeline: local git only
-  through Phase&nbsp;4, then a single push to GitHub and Pages flips on — a
-  decision recorded, dated, and revisitable. Your projects deserve the same
-  ceremony, generically. After the one-time connection ritual (produce static
-  output → commit → import repo into your chosen host → accept defaults),
-  deployment collapses to <code>git push</code>. Everything downstream —
-  build, preview, promotion — is the host's problem. Resist wiring custom
-  deploy scripts before your tenth push; the plain ritual is the skill, and
-  it transfers unchanged between all four hosts above.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
-
-<h2 id="ch13-s7">Let the agent write the release notes</h2>
-  <p>Shipping is not only uploading; it is telling humans what changed. This
-  is a chore agents are genuinely good at: hand one your merged commits or a
-  tag diff and ask for notes in your house style — what changed, who noticed,
-  what to do about it. The pattern is a recurring job, and Chapter&nbsp;12's
-  pipeline recipes (docs-sync, triage, scheduled maintenance) are the same
-  shape wearing different clothes; run release-notes on a schedule or on every
-  tag and the habit compounds. One honesty rule from Chapter&nbsp;06 applies
-  verbatim: the agent drafts, you verify against the actual diff, then it
-  ships. Notes nobody vetted are rumors with formatting.</p>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
-
-<h2 id="ch13-s8">Where this lands in your build</h2>
-  <p>Both threaded builds already made this exact decision, in writing, and
-  their reasoning is the template for yours. The <strong>agent-cost-compass</strong>
-  targets GitHub Pages: it is free static hosting co-located with the GitHub
-  Actions cron that feeds the compass weekly diffs — one platform hosts the
-  computation and the result. The <strong>ncert-quiz-forge</strong> chose
-  Cloudflare Pages instead, for reasons its BUILD.md records verbatim:
-  Indian edge POPs near its actual students, bandwidth headroom for
-  exam-season spikes, <code>_headers</code> control, and preview deploys —
-  with deployment deliberately gated until the ship milestone so $0 stays
-  intact meanwhile. Neither choice is universally right; both are written
-  down with dates. Do likewise: when you pick, record host, caps, and the
-  date you checked them in your own BUILD.md.</p>
-
-  <div class="callout co-tip">
-    <span class="c-tag">tip</span>
-    <p>Ship the ugly version this week. A live, embarrassing URL beats a
-    beautiful localhost every time — real hosting surfaces real problems
-    (paths, caching, mobile widths) that no local preview reproduces, and
-    every future chapter assumes you have a URL to point at. Setup is an
-    afternoon; polish can ride later on the same ritual.</p>
-  </div>
-
-  <div class="callout co-warn">
-    <span class="c-tag">warning</span>
-    <p>Free-tier limits move silently. Vendors reprice plans without banners
-    on your dashboard, and Chapter&nbsp;03 already watched one beloved free
-    door close entirely. Every number in this chapter carries its check date;
-    stamp your host's limits date in your own notes the day you read them,
-    and re-stamp quarterly. The finder teaches the method, not eternal
-    truths.</p>
-  </div>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
-
-<h2 id="ch13-s9">Receipts</h2>
-  <p>Tier key: T1 official docs or established practitioners · T2 vendor/press
-  secondary · T3 lead only, never cited as fact alone. Cross-chapter rows are
-  flagged as such.</p>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://developers.cloudflare.com/pages/platform/limits/</span>
-    <span class="as-of">checked 2026-07-16 · Free: 500 builds/mo · 20-min build timeout · 20k files · 25 MiB/file · UNLIMITED preview deployments · 100 projects</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://vercel.com/docs/limits</span>
-    <span class="as-of">checked 2026-08-03 · Hobby: 200 projects · 100 deploys/day · 45-min builds · 100 GB transfer · 1 concurrent build</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://www.netlify.com/pricing/</span>
-    <span class="as-of">checked 2026 pricing · $0 tier 300 credits; prod deploy = 15 credits; unlimited deploy previews; custom domains + SSL</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://pages.github.com/ + docs.github.com Pages about-page</span>
-    <span class="as-of">checked 2025–2026 · static sites from repos · 1 user/org site + unlimited project sites · custom domains supported</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits</span>
-    <span class="as-of">fetched-live 2026-08-26 · SOFT caps (guidance-grade): ~100 GB bandwidth/mo · 10 builds/hr (waived w/ custom Actions workflow) · published site ≤1 GB · 10-min deploy timeout</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features</span>
-    <span class="as-of">effective 2026-04-27 · Pages NOT allowed as free commercial-business/e-commerce/SaaS hosting · same terms cover Actions limits</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://developers.cloudflare.com/pages/configuration/preview-deployments/</span>
-    <span class="as-of">checked 2026 · preview-deploy pattern: every branch gets a preview URL before merge</span>
-  </div>
-  <p class="as-of" style="margin:1.1rem 0 0;">receipt cluster · flagged cross-chapter rows</p>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official · x-chapter</span>
-    <span class="r-url">https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md</span>
-    <span class="as-of">checked 2026 · [Ch 12 row] agent-run recurring jobs recipes: docs-sync, triage, scheduled maintenance — the shape release-notes automation follows</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official · x-chapter</span>
-    <span class="r-url">https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features</span>
-    <span class="as-of">eff. 2026-04-27 · [Ch 15 row] free-tier stacking boundary: hosters reserve suspension rights for disproportionate burden; Pages bars commercial hosting</span>
-  </div>
-
-  <section class="exercise">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
-
-<h2 id="ch13-s10">Try it yourself — ship something today</h2>
-    <ol>
-      <li><strong>Exact-click checkpoint.</strong> Create a new public repo on
-      your forge containing one <code>index.html</code> that says "hello, public
-      world" (web-upload works — typing in a browser is enough). Open your
-      chosen host's dashboard, run its import/connect flow against the repo,
-      accept every default, and wait for the build badge. Open the URL it hands
-      you. That URL is yours; send it to one human.</li>
-      <li><strong>Break it on purpose.</strong> In the wall finder, set the
-      viral-month profile, predict which wall trips first <em>before</em> reading
-      the verdict, then check. Switch hosts and find the one that shrugs that
-      same load off. Finally flip commercial-use on GitHub Pages and watch a
-      wall fire that no dial can measure.</li>
-      <li><strong>Ship-sized task.</strong> Point the ritual at your actual
-      project tonight. Then open your BUILD.md and add one line: host chosen,
-      the caps you checked, and today's date beside each — your personal
-      restamping reminder, exactly as the builds did.</li>
-    </ol>
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · a link you can send</p>
+    <h2><span class="s-n">i.</span>Shipping for $0 in one paragraph</h2>
+    <p>A localhost demo dies with your laptop lid; a public URL keeps working while you sleep and forces the agent's output to meet the real network. Tonight's move is small on purpose: one static folder, one free host, one link you can text to a friend. The stakes are not traffic — the toy gets none — they are the habit. Every later project inherits the ritual you set here: preview before production, gate before push, card before claims.</p>
+    <p>The ritual itself is vendor-free and fits in one sentence: a static folder goes into git, git connects to a host once, and from then on every push is a deploy. Branch previews give you a disposable URL per change, so review happens on the live artifact. Merge to the main branch and production updates. No server to feed, no pipeline to babysit at this scale — the host watches the branch and rebuilds. Learn the shape once and all four hosts below feel familiar, because the shape is the product.</p>
+    <p>Two wall species guard the $0 tier, and they warn you differently. Numeric walls are meters: builds per month, bandwidth per month, credits per deploy. They trip silently — the 501st build simply does not run, and nobody emails you. Legal walls are clauses: the terms bar commercial hosting and SaaS storefronts on a free showcase tier. Clauses have no meter; enforcement arrives as an email or a disabled site. Read the meter for the first species and the terms page for the second, because each wall is invisible to the other's instrument.</p>
+    <p>Under an agent, the $0 budget needs writing down, because an agent treats deploys as free keystrokes. The card carries three lines: N production deploys allowed, previews-first as the default lane, and a stop line naming what halts the run. Previews are the free rehearsal — unlimited on Cloudflare and Netlify's published lanes (Vercel's preview terms are unpinned in the table below: verify before relying on that lane) — so the agent can burn preview URLs learning and still cost nothing where the host publishes it. Production is the metered lane. State the number before the run, and the agent spends against a budget instead of against your surprise.</p>
+    <p>Gate before push, card after. The pre-publish gate runs locally with no account and checks three things: every link resolves, the weight fits the published wall, and no secret-shaped string ships in the folder. Red means fix, green means you may merge. The card then records the decision: host, numeric first-wall, as-of date, and the constraining terms line. Where this breaks down: static hosts serve files only; free numbers move silently, so re-stamp figures quarterly; and silence about a limit is hope, not architecture — write UNPINNED where the page names no number, never infinity.</p>
   </section>
 
-  <section class="selfcheck">
+  <h2><span class="s-n">ii.</span>Two wall species <span class="time">· meters trip silently, clauses arrive by email</span></h2>
+  <p>Keep the species apart and each gets the right instrument. A numeric wall answers "how much" — builds, files, megabytes, credits — and you watch it on a dashboard or compute it on paper before you push. A legal wall answers "what for" — showcase projects yes, storefronts no — and you read it on the terms page, because no dashboard will ever show it. The classic failure swaps the instruments: the builder who reads the terms for a bandwidth number that lives only on the limits page, or the builder who watches a usage graph for a commercial-use clause that lives only in the contract. Name the species first, then pick the instrument.</p>
+  <figure>
+    <svg viewBox="0 0 640 320" role="img" aria-label="Two wall species: a numeric meter that fills silently toward a builds cap, a legal clause that fires by email with no meter, and a previews-first arrow that rehearses without touching the production meter.">
+      <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="currentColor">
+        <rect x="30" y="40" width="200" height="240" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="130" y="65">NUMERIC ✕</text>
+        <text x="130" y="85" font-size="10">builds · files · MB</text>
+        <rect x="55" y="110" width="150" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="55" y="110" width="118" height="60" fill="currentColor" opacity="0.25"/>
+        <text x="130" y="145" font-size="10">meter fills silently</text>
+        <text x="130" y="200" font-size="10">warns: dashboard</text>
+        <text x="130" y="220" font-size="10">trips: 501st build</text>
+        <text x="130" y="240" font-size="10">just does not run</text>
+        <rect x="410" y="40" width="200" height="240" rx="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+        <text x="510" y="65">LEGAL ⚠</text>
+        <text x="510" y="85" font-size="10">no storefronts on $0</text>
+        <text x="510" y="150" font-size="28">✉</text>
+        <text x="510" y="200" font-size="10">warns: nothing</text>
+        <text x="510" y="220" font-size="10">fires: email, site</text>
+        <text x="510" y="240" font-size="10">disabled, no graph</text>
+        <rect x="262" y="120" width="116" height="80" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="320" y="145">preview ✓</text>
+        <text x="320" y="165" font-size="10">free rehearsal</text>
+        <text x="320" y="181" font-size="10">skips the meter</text>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M230,160 L262,160" marker-end="url(#ah13)"/>
+        <path d="M378,160 L410,160" marker-end="url(#ah13)"/>
+      </g>
+      <defs><marker id="ah13" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+    </svg>
+    <figcaption><strong>Fig. 13 — the two-species wall.</strong> The meter fills without telling you; the clause fires without metering you; previews rehearse without spending either. It answers: which wall warns me, and which needs a terms page?</figcaption>
+  </figure>
+  <p>The previews-first arrow is the whole budget strategy in one glyph. Cloudflare and Netlify publish unlimited branch previews outside the production meter — Vercel's preview terms are unpinned in this chapter's table, so check the page before relying on that lane — and the agent's trial-and-error happens where trial is free. Production merges are the only moves that spend: a build off the monthly quota, bytes off the bandwidth allowance, credits off the refill. Count production deploys the way you count anything scarce, and let previews absorb everything else. The readiness card in step 4 is where that count becomes a promise.</p>
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§11</span></div>
+  <h2><span class="s-n">iii.</span>The ritual, once <span class="time">· folder → git → connect-once</span></h2>
+  <p>Seven nodes, one connection step, and only the last two spend money-that-isn't-money. The folder holds plain files; git gives the folder a memory; connect-once ties a branch to the host in the dashboard — the single step this book labels docs-only, because no account is opened in this session and the card records intent, not a live hookup. From there the loop is mechanical: push a branch, open its preview URL, review the artifact, merge, and watch production update. Teach the loop with the toy and it transfers to every static host unchanged, because the differences between hosts live in the walls, never in the ritual.</p>
+  <div class="timeline">
+    <div class="tl-step"><span class="tl-dot">1</span><span class="tl-label">folder · index.html + 2 pages</span></div>
+    <div class="tl-step"><span class="tl-dot">2</span><span class="tl-label">git · baseline commit</span></div>
+    <div class="tl-step"><span class="tl-dot">3</span><span class="tl-label">connect-once · docs-only badge ⛔ no account opened</span></div>
+    <div class="tl-step"><span class="tl-dot">4</span><span class="tl-label">preview · per-branch URL, free rehearsal</span></div>
+    <div class="tl-step"><span class="tl-dot">5</span><span class="tl-label">review · on the artifact, not screenshots</span></div>
+    <div class="tl-step"><span class="tl-dot">6</span><span class="tl-label">merge · spends builds/bytes/credits ◉</span></div>
+    <div class="tl-step"><span class="tl-dot">7</span><span class="tl-label">production · the URL you can text ◉</span></div>
+  </div>
+  <p>The meter marks sit on nodes 6 and 7 only, and that placement is the discipline. Everything left of merge is rehearsal: broken links, ugly spacing, and agent experiments all happen on preview URLs that cost nothing and vanish when the branch does. A red gate blocks node 6 — never node 4 — because a broken preview is information while a broken production URL is a promise kept badly. When the agent asks to "just push and see," point at the timeline: seeing happens at node 4, spending happens at node 6, and the two are different verbs.</p>
 
-<h2 id="ch13-s11">Self-check</h2>
-    <details>
-      <summary>You push to production 2,000 times in a month. What breaks on Cloudflare versus Netlify?</summary>
-      <p>Cloudflare: the published 500-builds/month cap — pushes 501 onward
-      stall until the month turns. Netlify: the credit wallet — 300 credits at
-      15 per production deploy buys 20, so death arrives at deploy 21, long
-      before 2,000. Same behavior, wildly different budgets; the finder shows
-      both.</p>
-    </details>
-    <details>
-      <summary>Why is GitHub Pages' most important wall absent from every dial?</summary>
-      <p>Because it is contractual, not metered: the additional-products terms
-      (eff. 2026-04-27) bar commercial-business/e-commerce/SaaS hosting, and a
-      separate clause reserves suspension rights against disproportionate
-      burden. Legal walls have no dashboard counter — you learn of them from a
-      terms page, ideally before shipping, not an outage email after.</p>
-    </details>
-    <details>
-      <summary>Name the moment paid hosting genuinely earns itself.</summary>
-      <p>When a published wall measurably contacts real usage — sustained
-      traffic over a transfer cap, a build cadence over the monthly budget, a
-      business model the free terms forbid — and re-architecting around the
-      wall costs more than the invoice. Pay for the wall you actually hit,
-      never the one you imagine.</p>
-    </details>
+  <h2><span class="s-n">iv.</span>Gate before push <span class="time">· local, no account, three checks</span></h2>
+  <p>The gate is a small authored script, not a service: it reads the folder, resolves every local link, weighs the heaviest file against the published wall, and scans shipped files for secret-shaped strings. It runs with plain node, exits 1 red and 0 green, and knows nothing about hosts, accounts, or networks — which is exactly why you can trust it. Three checks, each with a shape-plus-label verdict, because a gate that prints "done" without naming what it checked is a costume. The strip below is the step-1 expectation and the step-2 target in one glance.</p>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">LINKS ✕ 1/2</span><span class="stat-label">step 1: guide.html missing — RED blocks merge</span></div>
+    <div class="stat"><span class="stat-num">WEIGHT ✓ 2,153B</span><span class="stat-label">heaviest file vs 25 MiB published wall</span></div>
+    <div class="stat"><span class="stat-num">SECRETS ✓ 0 hits</span><span class="stat-label">no key-shaped strings in shipped files</span></div>
+    <div class="stat"><span class="stat-num">GATE ⬛ RED→GREEN</span><span class="stat-label">exit 1 → exit 0, reader keystrokes only</span></div>
+  </div>
+  <p>Each check maps to one wall species or one classic leak. Links resolve because a shipped 404 is the cheapest broken promise in the book, and the seed guarantees you feel the red before you earn the green. Weight fits the published wall because the single-file cap is the wall a toy hits first if it ever grows teeth — images, fonts, video — and the gate quotes the wall's number, not a guess. Secret-shaped strings get scanned because the push-to-URL ritual makes everything in the folder public by construction; the scan's patterns are cross-cited to the deny rules in the security and configuration sessions, so the gate enforces what those chapters teach. Authored, labeled, local: gate.mjs stays authored-labeled in this book, a teaching instrument rather than a cited source.</p>
+
+  <h2><span class="s-n">v.</span>First walls, side by side <span class="time">· numbers live here only</span></h2>
+  <p>Four hosts, one toy weighing 601 bytes across three pages, re-fetched live and stamped 2026-09-04. Read the "bites first" column for your own weight: at toy scale every host fits with room to spare, so the binding constraint is behavior — builds per hour, credits per deploy, previews or none — not bytes. Where a cited page names no number, the cell says UNPINNED, never infinity: an unwritten limit is a limit you have not found yet, and the card re-stamps quarterly because free numbers move silently.</p>
+  <figure>
+  <div class="table-scroll"><table>
+    <tr><th>Host ($0 lane)</th><th>Site / file / build wall</th><th>Previews</th><th>What bites first at toy weight</th><th>As-of</th></tr>
+    <tr><td><strong>Cloudflare Pages</strong></td><td>20k files · 25 MiB/file · 500 builds/mo, 20-min timeout · transfer UNPINNED on cited page</td><td>Unlimited</td><td>500 builds/mo — an agent left pushing hits this in weeks</td><td>2026-09-04</td></tr>
+    <tr><td><strong>Vercel Hobby</strong></td><td>200 projects · 100 deploys/day · 45-min builds, 1 concurrent · 100 GB/mo transfer · per-output-file UNPINNED</td><td>Per-branch previews UNPINNED — rehearse free only where the host publishes it</td><td>100 deploys/day — generous until preview-loops run wild</td><td>2026-09-04</td></tr>
+    <tr><td><strong>Netlify Free</strong></td><td>300 credits/refill · 15 credits per production deploy · per-GB bandwidth cost UNPINNED · file-count walls UNPINNED (credit model)</td><td>Unlimited</td><td>20 production deploys per refill — previews-first or starve</td><td>2026-09-04</td></tr>
+    <tr><td><strong>GitHub Pages</strong></td><td>1 GB source · 1 GB published site · 10-min timeout · ~100 GB/mo soft · 10 builds/hr soft (waived with custom Actions)</td><td>UNPINNED on cited pages — ships on push, rehearse locally</td><td>10 builds/hr soft — plus the legal wall: no storefronts, donations OK</td><td>2026-09-04</td></tr>
+  </table></div>
+  <figcaption><strong>Fig. 14 — first-wall comparison.</strong> Four hosts, the published walls that bind a static toy, and what bites first when bytes are not the problem. It answers: which host fits my pace, and which line of the terms constrains my project?</figcaption>
+  </figure>
+  <p>Two readings deserve emphasis. First, GitHub Pages carries the heaviest legal load in the quad: the terms bar running an online business, e-commerce, or SaaS on the free lane, while explicitly permitting donation buttons and crowdfunding links — so a tip-jar portfolio fits and a store does not, and the card records which side the project falls on. Second, Netlify's credit arithmetic is the tightest numeric wall here: 300 credits divided by 15 per production deploy is 20 production pushes per refill, which makes the previews-first rule load-bearing rather than decorative. The recompute in step 3 runs this division with the reader's own keystrokes, because a wall you have not computed yourself is a rumor.</p>
+
+  <h2><span class="s-n">vi.</span>Session — the ship-lab toy <span class="time">· executed 2026-09-04</span></h2>
+  <p>Five files, plain node, zero installs, zero accounts. The toy arrives broken the way real drafts arrive broken: a link to a page nobody wrote yet. Run every step with your own keystrokes; the transcripts below are the executed reference, node-run verbatim — the opencode non-interactive lane was unavailable in the build environment, so agent prompts ship as paste-blocks and deterministic shell output ships as the record.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Stage the site + written spend budget; gate runs RED</h3>
+    <p class="goal"><strong>Goal:</strong> a toy with a seeded broken link, a three-line spend budget, and a gate that fails out loud — red before green, always.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "In ship-lab/: confirm index.html links to about.html and guide.html, guide.html is missing, and READY.md holds an unfilled card. Do NOT create or edit any file. Then I run: node gate.mjs"</div>
+    <div class="term">LINK BROKEN: guide.html
+LINKS 1/2
+WEIGHT heaviest=gate.mjs 2153B of 26214400B wall
+SECRETS 0 hits
+GATE RED — 1 failing check(s)
+<span class="term-note">Executed 2026-09-04 via node, exit 1. Spend budget written: 0 production deploys until green; previews-first; stop line = any red gate.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Gate prints <code>LINKS 1/2</code> and <code>GATE RED</code>; exit code 1; budget's three lines (N deploys, previews-first, stop line) written in READY.md</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Gate prints all-green on arrival? Someone already added guide.html — delete it and re-run. A gate that cannot show red cannot prove green.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Green the gate with own keystrokes; 1-file diff; outputs match</h3>
+    <p class="goal"><strong>Goal:</strong> fix the broken link by adding the missing page yourself, re-run the gate, and hold a tree where only the fix is new.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "I added guide.html myself. Re-run node gate.mjs read-only and report LINKS/SECRETS/GATE lines. Change nothing." Then I run: node gate.mjs</div>
+    <div class="term">LINKS 2/2
+WEIGHT heaviest=gate.mjs 2153B of 26214400B wall
+SECRETS 0 hits
+GATE GREEN — all checks pass
+<span class="term-note">Executed 2026-09-04 via node, exit 0. Same weight line as the red run — only the link count moved, which is what "outputs match" means.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li><code>LINKS 2/2</code>, <code>GATE GREEN</code>, exit 0; <code>index.html</code>, <code>about.html</code>, <code>gate.mjs</code> byte-identical to baseline — the fix added one file, nothing else moved</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Still red after adding the page? Check the href spelling against the filename — <code>guide.html</code> vs <code>Guide.html</code> fails on case-sensitive hosts even when it opens locally.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Fit the host wall on paper; recompute one row; UNPINNED where unpinned</h3>
+    <p class="goal"><strong>Goal:</strong> weigh the toy, recompute one comparison row with your own arithmetic, and write UNPINNED anywhere the cited page names no number.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Do NOT edit files. Sum the bytes of ship-lab/*.html, divide by the 1 GB GitHub Pages published-site wall, and state the usage percent. Report numbers only."</div>
+    <div class="term">SITE_BYTES:601
+PAGES_USAGE_PCT:0.0001
+<span class="term-note">Executed 2026-09-04 via node. 601 bytes against a 1 GB wall: usage rounds to 0.0001% — the toy fits ~1.7M times over — so behavior walls (builds/hr, credits) bind before bytes do.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Your hand arithmetic matches <code>601</code> bytes; your chosen row's division matches the table; every unnumbered cell in your notes says UNPINNED, never infinity</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Numbers disagree? Re-sum with the shell glob (<code>*.html</code>) — shipped weight is <code>*.html</code> only. The gate scans the whole folder, so its WEIGHT line honestly names gate.mjs as heaviest; READY.md is excluded from both scans on purpose. Counting either as shipped weight is the usual slip.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Fill READY.md docs-only; card holds host + wall + date</h3>
+    <p class="goal"><strong>Goal:</strong> a dated readiness card naming host, numeric first-wall, as-of stamp, and terms line — with nothing pushed, no accounts, no credentials.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Read ship-lab/READY.md and report: does the card name a host, a numeric first-wall, an as-of date, and a ToS line? Do NOT push, deploy, or open any account."</div>
+    <div class="term">◆ READY.md — card contents, quoted verbatim (authored card, filled docs-only):
+HOST GitHub Pages · FIRST WALL ~100 GB/mo bandwidth (soft) · CHECKED 2026-09-04 · TERMS no business/e-commerce/SaaS hosting; donations permitted · STATUS no push, no login, no secret typed
+◆ git status --short →
+?? READY.md
+?? guide.html
+<span class="term-note">Executed 2026-09-04: the status lines are the run output; the card above is the authored deliverable they vouch for — host, numeric first-wall, as-of date, ToS line, all present. Exactly two files outside baseline: the step-2 fix and the card.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Card holds host + numeric first-wall + as-of + ToS line; <code>git status --short</code> shows exactly the fix and the card; no push, no login, no secret ever typed</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>More than two files changed? Diff them — anything beyond the fix and the card gets reverted. A readiness card that ships with stray edits vouches for work it never reviewed.</p></div>
+  </div>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>My gate ran RED then GREEN from my own keystrokes, and I can quote both runs.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I recomputed one comparison row by hand (bytes, division, usage share) and wrote UNPINNED where the page names no number.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>My READY.md names a host, a numeric first-wall, an as-of date, and a ToS line — filled docs-only, nothing pushed.</span></label>
   </section>
 
-  <section class="beyond">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§12</span></div>
-
-<h2 id="ch13-s12">Beyond this build</h2>
-    <p><strong>Custom domains.</strong> The <code>*.host.example</code> URL is
-    training wheels; a domain you own outlives every host. Our pinned rows
-    confirm the path: GitHub Pages documents custom domains, and Netlify's
-    free tier includes custom domains with SSL. The other hosts document
-    domain support on the same pages as their limits — verify there, since
-    this book cites only what its ledger pins. Owning the name means changing
-    hosts is a settings screen, not a rebranding.</p>
-    <p><strong>Analytics-lite.</strong> Once real people arrive you will want
-    to count them — resist heavyweight trackers. A few lines measuring page
-    loads, or your host's own traffic figures, answer the only question that
-    matters at this stage: is anyone here? Anything richer deserves the
-    privacy scrutiny Chapter&nbsp;14 teaches before you embed it.</p>
-    <p><strong>Where it breaks down.</strong> Static hosting serves files; it
-    does not run your backend, hold secrets, or sign transactions. The moment
-    a project needs a database, authenticated APIs, or scheduled heavy jobs,
-    you are composing services again — still often $0 at hobby scale, but now
-    several walls from several vendors, each needing its own stamped date.
-    And when a free tier's silence about a limit is doing load-bearing work
-    in your plan, that is not architecture; that is hope with a deadline.</p>
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Cloudflare Pages Free walls: 500 builds/mo, 20-min timeout, 20k files, 25 MiB/file, unlimited previews, 100 projects</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://developers.cloudflare.com/pages/platform/limits/</span> · re-verified live 2026-09-04 · page stamped Jul 16, 2026</span></details>
+    <details><summary>Vercel Hobby walls: 200 projects, 100 deploys/day, 45-min builds, 1 concurrent; 100 GB/mo transfer</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://vercel.com/docs/limits</span> · limits re-verified live 2026-09-04 (page updated 2026-08-25); transfer figure per <span class="r-url">https://vercel.com/pricing</span> (REPAIR row, fetched live 2026-09-04)</span></details>
+    <details><summary>Netlify Free: $0, 300 credits, 15 credits per production deploy, unlimited previews, custom domains + SSL</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.netlify.com/pricing/</span> · re-verified live 2026-09-04 · 20 production deploys per refill is reader arithmetic (300/15)</span></details>
+    <details><summary>GitHub Pages soft walls: ~100 GB/mo, 10 builds/hr (waived with custom Actions), 1 GB source + site, 10-min timeout, HTTP 429</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits</span> · re-verified live 2026-09-04 · soft = guidance-grade, not contractual</span></details>
+    <details><summary>Pages commercial bar: no business/e-commerce/SaaS hosting; donation buttons + crowdfunding links permitted</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features</span> · re-verified live 2026-09-04 · terms effective 2026-04-27</span></details>
+    <details><summary>Pages site types: one user/org site per account, one project site per repository</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages</span> · split REPAIR row, fetched live 2026-09-04</span></details>
+    <details><summary>Preview-deploy pattern: per-branch hash URLs outside the production meter</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://developers.cloudflare.com/pages/configuration/preview-deployments/</span> · URL-form REPAIR row, fetched live 2026-09-04</span></details>
+    <details><summary>Secret-scan basis: deny beats ask beats allow; Read(./.env) path denies; opencode denies *.env by default</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/permissions</span> · cross-cited to ch14/ch04 deny rows, no new page</span></details>
+    <details><summary>Secret-scan basis (opencode lane): granular allow/ask/deny, *.env denied by default</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/permissions/</span> · cross-cited to ch04 deny rows, no new page</span></details>
+    <details><summary>Non-interactive agent lane: opencode run ships as the paste-block default</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/cli/</span> · ledger row; build-env run unavailable, gate transcripts node-executed and labeled</span></details>
+    <details><summary>Executed 2026-09-04: gate RED (LINKS 1/2, exit 1) → GREEN (LINKS 2/2, exit 0); 601B recompute; 2-file status; dated card</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://developers.cloudflare.com/pages/platform/limits/</span> · transcripts quoted verbatim above; wall figure is the cited source's number</span></details>
   </section>
 
+  <nav class="pager" aria-label="Chapter navigation">
+    <!-- ch12/ch14 landed -->
+    <a href="../ch12/index.html">← session 12</a>
+    <a href="../ch14/index.html">session 14 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch13-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
 </main>
-<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>

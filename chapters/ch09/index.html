@@ -3,697 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>· Testing what agents build — The Agentic Coding Field Manual</title>
-<script>(function(){var t;try{t=localStorage.getItem("fm-theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t})();</script>
-<link rel="stylesheet" href="../../assets/css/book.css">
+<title>09 · Testing what agents build — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
 </head>
 <body>
-<header class="site-head" style="position:static">
-  <a class="brand" href="../../index.html"><span class="roundel">अ</span> <span>field manual</span></a>
-  <nav class="site-nav" aria-label="Site"><a href="../../index.html">home</a><a href="../../toc.html">contents</a><a href="../../progress.html">progress</a></nav>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 09</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
 </header>
-<main><nav class="chapnav" aria-label="Sections"><a href="#ch09-s1">01 verification is an ordering </a><a href="#ch09-s2">02 the experiment: same feature</a><a href="#ch09-s3">03 browser evidence for ui: the</a><a href="#ch09-s4">04 evals-lite: grading what ass</a><a href="#ch09-s5">05 two practitioner moves worth</a><a href="#ch09-s6">06 where this lands in your bui</a><a href="#ch09-s7">07 receipts</a><a href="#ch09-s8">08 try it yourself</a><a href="#ch09-s9">09 self-check</a><a href="#ch09-s10">10 beyond this build</a></nav>
+<main>
+  <p class="kicker">Session 09 · testing agent builds · opencode default</p>
+  <h1>Testing what agents build</h1>
+  <p class="lede">Refuse every agent-written green suite until you have watched it fail, and name the change that would turn each test red.</p>
+  <p class="kicker" style="margin-top:1rem">60 min · scratch repo · needs ch06 · verified 2026-09-04</p>
 
-  <div class="chapter-banner banner-l3">
-    <span class="banner-num" aria-hidden="true">09</span>
-    <div class="banner-meta">
-      <span class="part-plate p-l3">part III · building real things · L3 jade</span>
-      <h1>Chapter 09 · Testing what agents build</h1>
-      <p class="as-of">facts checked as of 2026-08-26 · every claim below traces to the book's source ledger</p>
-    </div>
-  </div>
-
-  <p class="lede">Promise: after this chapter you can verify agent output like a skeptical
-  QA lead — ordering tests so they can actually fail, demanding browser evidence for UI,
-  and running review gates you can execute without reading a line of code.</p>
-
-  <p>Agent output arrives pre-green. The diff looks clean, the demo works on the happy
-  path, the summary says <em>done</em>. The trust-then-verify gap from Chapter&nbsp;01
-  is widest exactly here, and this chapter is the closing move: the QA-lead habit of
-  assuming nothing works until evidence says so. Three skills make up the habit — put
-  the test in the right <em>order</em>, collect <em>evidence</em> instead of assurances,
-  and build <em>gates</em> shallow enough that anyone can operate them.</p>
-
-  
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;1</span>
-
-  <div class="inside-grid" aria-label="Inside this chapter">
-    <a class="inside-card ic-l3" href="#ch09-s1">
-      <span class="ic-num" aria-hidden="true">1</span>
-      <h3>Verification is an ordering problem</h3>
-      <p class="ic-sum">Tests written after the code become biographies, not specs — the tautology trap and why a confirmed red is the whole point.</p>
-      <span class="ic-meta">~4 min</span>
-    </a>
-    <a class="inside-card ic-l3" href="#ch09-s2">
-      <span class="ic-num" aria-hidden="true">2</span>
-      <h3>The experiment: same feature, two orders</h3>
-      <p class="ic-sum">Same divide page, same random defect, two workflows: code-first ships it green, test-first catches it pre-ship.</p>
-      <span class="ic-meta">~5 min <span class="ic-lab">lab</span></span>
-    </a>
-    <a class="inside-card ic-l3" href="#ch09-s3">
-      <span class="ic-num" aria-hidden="true">3</span>
-      <h3>Browser evidence for UI: the trace as a review gate</h3>
-      <p class="ic-sum">Playwright traces a non-coder can operate — CLI bursts vs MCP sessions, cheap evidence vs shared page state.</p>
-      <span class="ic-meta">~5 min</span>
-    </a>
-    <a class="inside-card ic-l3" href="#ch09-s4">
-      <span class="ic-num" aria-hidden="true">4</span>
-      <h3>Evals-lite: grading what assertions can't</h3>
-      <p class="ic-sum">Task + graders + outcome: grade real outcomes, read transcripts yourself — five graded examples beat vibes.</p>
-      <span class="ic-meta">~3 min</span>
-    </a>
-    <a class="inside-card ic-l3" href="#ch09-s5">
-      <span class="ic-num" aria-hidden="true">5</span>
-      <h3>Two practitioner moves worth stealing</h3>
-      <p class="ic-sum">The conformance-suite trick and the evidence mandate: "show me the command and its output."</p>
-      <span class="ic-meta">~3 min</span>
-    </a>
-    <a class="inside-card ic-l3" href="#ch09-s6">
-      <span class="ic-num" aria-hidden="true">6</span>
-      <h3>Where this lands in your build</h3>
-      <p class="ic-sum">Compass verify 9/9 and quiz-forge batch gates already run this chapter; Chapter 12 wires them into CI.</p>
-      <span class="ic-meta">~3 min</span>
-    </a>
-  </div>
-  <p class="as-of">10 sections · pick any card, or start with §1.</p>
-
-<h2 id="ch09-s1">Verification is an ordering problem</h2>
-  <p>A test is an instruction to the loop. Chapter&nbsp;06 introduced tests as the
-  steering wheel; what it could only name in passing, this chapter makes you
-  <em>feel</em>: the wheel only steers if it was bolted on before the car moved.
-  Write the test first and it is a specification — the code must come to
-  <em>it</em>. Write the test after and it is a biography — it can only describe what
-  the code already does, misreadings included.</p>
-  <p>That second path has a name: the <strong>tautology trap</strong>. Field synthesis
-  of agentic development datasets found that tests written after the code tend to
-  encode the model's own misreadings, producing suites that pass while the behavior
-  is wrong — the test agrees with the code because it learned correctness
-  <em>from</em> the code. Practitioner defenses exist (review contract tests as
-  specification, audit for hermeticity), but the cheapest defense is structural and
-  costs one sentence of prompt. Willison's red-green guide reduces it to exactly
-  that: write a failing test first, confirm it fails, then make it pass. The
-  confirmed failure is the entire point — it is proof the test <em>can</em> fail,
-  which is what separates an instrument from a decoration.</p>
-  <p>The same skepticism applies to the agent's own reports. An agent that ends with
-  "the feature works" has asserted; an agent that boots the server, hits the endpoint,
-  and pastes the transcript has exercised. Practitioner rule from the field:
-  agents must exercise what they build and show the evidence, not declare success —
-  and the corollary for you is that "it passed" is a claim, while a captured command
-  and its output are a fact.</p>
-
-  <div class="pull-fact pf-l3">
-    <p>"It passed" is a claim, while a captured command and its output are a fact.</p>
-  </div>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;2</span>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§2</span></div>
-
-<h2 id="ch09-s2">The experiment: same feature, two orders</h2>
-  <p>Judge the ordering argument yourself. Below, two teams build the identical tiny
-  feature: a page that divides two inputs and shows the result. Unknown to both, one
-  of three defects rides along — a division-by-zero leaking raw <em>Infinity</em>,
-  a negative input quietly losing its sign, or floating-point garbage in the
-  decimals. Which defect is drawn is randomized each round, shuffled so repeated
-  plays cover all three. Track&nbsp;A codes first and writes tests afterward.
-  Track&nbsp;B writes the failing test first. Press both through, watch the same bug
-  meet two different workflows, and let the scoreboard keep the honest accounting:
-  bugs caught per minute of verification, across as many rounds as you play.</p>
-
-  <div class="ctlab" id="ctlab">
-    <style>
-      .ctlab { border: 2px solid var(--ink); border-radius: 14px; background: var(--paper-raised); box-shadow: var(--shadow-lg); padding: 1.15rem 1.3rem; margin: 1.4rem 0; }
-      .ctlab-tag { display: block; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.4rem; }
-      .ctlbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 0.9rem; }
-      .ctlbtn-main, .ctlbtn-ghost, .ctlbtn-track { appearance: none; cursor: pointer; font-family: var(--font-mono); font-weight: 700; border-radius: 10px; min-height: 38px; }
-      .ctlbtn-main { font-size: 0.82rem; padding: 0.5rem 1.2rem; border: 2px solid var(--ink); background: var(--ink); color: var(--paper); box-shadow: var(--shadow-sm); }
-      .ctlbtn-main:hover:not(:disabled) { translate: -2px -2px; box-shadow: var(--shadow-md); }
-      .ctlbtn-main:disabled { opacity: 0.55; cursor: default; }
-      .ctlbtn-ghost { font-size: 0.78rem; padding: 0.5rem 1rem; border: 1.5px solid var(--line-strong); background: var(--paper-raised); color: var(--ink); }
-      .ctlbtn-ghost:hover { border-color: var(--ink); }
-      .ctlbtn-track { display: block; width: 100%; font-size: 0.78rem; padding: 0.55rem 0.8rem; border: 2px solid var(--ink); background: var(--paper); color: var(--ink); }
-      .ctlbtn-track:hover:not(:disabled) { translate: -2px -2px; box-shadow: var(--shadow-sm); }
-      .ctlbtn-track:disabled { opacity: 0.45; cursor: default; }
-      .ctlab button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-      .ctltracks { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.1rem; }
-      .ctltrack { flex: 1 1 19rem; border: 1.5px solid var(--line-strong); border-radius: 10px; background: var(--paper); padding: 0.85rem 1rem; }
-      .ctltrack h3 { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; margin: 0 0 0.15rem; }
-      .ctltrack-sub { display: block; font-family: var(--font-mono); font-size: 0.66rem; color: var(--muted); margin-bottom: 0.6rem; }
-      .ctlsteps { min-height: 3.2rem; border-top: 2px solid var(--ink); padding-top: 0.65rem; display: flex; flex-direction: column; gap: 0.45rem; }
-      .ctlhint { margin: 0; font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted); }
-      .ctlline { margin: 0; font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; }
-      .ctlline-muted { color: var(--muted); }
-      .ctlmono { display: block; margin: 0.25rem 0 0 0.9rem; padding-left: 0.55rem; border-left: 3px solid var(--l0); overflow-wrap: break-word; }
-      .ctltag { display: inline-block; margin-right: 0.45rem; padding: 0 0.4rem; border: 1.5px solid var(--pgc, var(--muted)); border-radius: 6px; font-weight: 700; background: color-mix(in srgb, var(--pgc, var(--muted)) 12%, var(--paper)); }
-      .ctltag-step { --pgc: var(--muted); }
-      .ctltag-red { --pgc: var(--l1); }
-      .ctltag-green { --pgc: var(--l3); }
-      .ctlverdict { margin: 0.45rem 0 0; padding: 0.5rem 0.7rem; border-left: 3px solid var(--pgc, var(--muted)); background: color-mix(in srgb, var(--pgc, var(--muted)) 10%, var(--paper-raised)); border-radius: 0 8px 8px 0; }
-      .ctlboard { margin-top: 1.1rem; border-top: 2px solid var(--ink); padding-top: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
-      .ctlboard-title { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0; }
-      .ctlboard p.ctlline b { color: var(--ink); }
-      .ok { color: var(--l3); font-weight: 700; }
-      .bad { color: var(--l1); font-weight: 700; }
-      @media (max-width: 640px) { .ctltracks { flex-direction: column; } }
-      @media (prefers-reduced-motion: reduce) {
-        .ctlab *, .ctlab *::before, .ctlab *::after { transition: none !important; animation: none !important; }
-        .ctlbtn-main:hover, .ctlbtn-track:hover { translate: none; box-shadow: none; }
-      }
-    </style>
-    <span class="ctlab-tag">catch-the-bug lab · one feature, two orders · randomized defect each round · runs locally, nothing leaves this page</span>
-
-    <div class="ctlbar">
-      <button type="button" id="ctl-start" class="ctlbtn-main">▶ start round 1</button>
-      <button type="button" id="ctl-reset" class="ctlbtn-ghost">reset scoreboard</button>
-      <span class="chip" id="ctl-status">round 0 · defect undrawn · press start</span>
-    </div>
-
-    <div class="ctltracks">
-      <div class="ctltrack">
-        <h3>TRACK A</h3>
-        <span class="ctltrack-sub">code first · tests written after</span>
-        <div class="ctlsteps" id="ctl-steps-a" aria-live="polite" aria-label="Track A progress">
-          <p class="ctlhint">idle — waiting for round start.</p>
-        </div>
-        <button type="button" id="ctl-btn-a" class="ctlbtn-track" disabled>press: next A step</button>
-      </div>
-      <div class="ctltrack">
-        <h3>TRACK B</h3>
-        <span class="ctltrack-sub">failing test first · code second</span>
-        <div class="ctlsteps" id="ctl-steps-b" aria-live="polite" aria-label="Track B progress">
-          <p class="ctlhint">idle — waiting for round start.</p>
-        </div>
-        <button type="button" id="ctl-btn-b" class="ctlbtn-track" disabled>press: next B step</button>
-      </div>
-    </div>
-
-    <div class="ctlboard" id="ctl-board" aria-live="polite" aria-label="scoreboard">
-      <p class="ctlboard-title">scoreboard · bugs caught per minute of verification</p>
-      <p class="ctlline ctlline-muted">no rounds played yet. A spends less time verifying; B spends more. Watch what each minute buys.</p>
-    </div>
-  </div>
-
-  <script>
-  (function () {
-    var root = document.getElementById("ctlab");
-    if (!root || root.dataset.ctlabBound) return;
-    root.dataset.ctlabBound = "1";
-
-    var BUGS = [
-      {
-        name: "division-by-zero",
-        shipped: "1 \u00F7 0 \u2192 page proudly shows \u201CInfinity\u201D",
-        spec: "spec: \u00F7 0 must show a friendly \u201Ccan\u2019t divide by zero\u201D note \u2014 never Infinity",
-        aTest: "expect(divide(1, 0)).toBe(Infinity)",
-        aNote: "test copied the page \u2014 Infinity is now \u201Ccorrect\u201D",
-        bRed: "1 \u00F7 0 returned Infinity \u00B7 spec demands a friendly error message"
-      },
-      {
-        name: "negative input loses its sign",
-        shipped: "-9 \u00F7 3 \u2192 page shows \u201C3\u201D \u2014 the minus vanished",
-        spec: "spec: signs survive \u2014 -9 \u00F7 3 is -3, not 3",
-        aTest: "expect(divide(-9, 3)).toBe(3)",
-        aNote: "the dropped sign is now enshrined as the expected value",
-        bRed: "-9 \u00F7 3 returned 3 \u00B7 the sign was silently dropped"
-      },
-      {
-        name: "decimal precision garbage",
-        shipped: "2.6 \u00F7 1.3 \u2192 page shows \u201C2.0000000000000004\u201D",
-        spec: "spec: results round to 2 decimals \u2014 2.6 \u00F7 1.3 displays 2",
-        aTest: "expect(divide(2.6, 1.3)).toBe(2.0000000000000004)",
-        aNote: "the float artifact is pinned as ground truth",
-        bRed: "2.6 \u00F7 1.3 printed seventeen digits \u00B7 spec demands 2-decimal rounding"
-      }
-    ];
-
-    var A_MIN = 1, B_MIN = 2;
-
-    var startBtn = document.getElementById("ctl-start");
-    var resetBtn = document.getElementById("ctl-reset");
-    var btnA = document.getElementById("ctl-btn-a");
-    var btnB = document.getElementById("ctl-btn-b");
-    var listA = document.getElementById("ctl-steps-a");
-    var listB = document.getElementById("ctl-steps-b");
-    var board = document.getElementById("ctl-board");
-    var statusChip = document.getElementById("ctl-status");
-
-    var bag = [];
-    var bug = null;
-    var round = 0;
-    var idxA = 0, idxB = 0;
-    var minsA = 0, minsB = 0, caughtA = 0, caughtB = 0;
-    var started = false;
-
-    function el(tag, text, cls) {
-      var n = document.createElement(tag);
-      if (text !== "") n.textContent = text;
-      if (cls) n.className = cls;
-      return n;
-    }
-
-    function tag(cls, txt) {
-      var s = el("span", txt, "ctltag " + cls);
-      return s;
-    }
-
-    function drawBug() {
-      if (!bag.length) {
-        var order = [0, 1, 2], i, j, t;
-        for (i = order.length - 1; i > 0; i--) {
-          j = Math.floor(Math.random() * (i + 1));
-          t = order[i]; order[i] = order[j]; order[j] = t;
-        }
-        bag = order;
-      }
-      return BUGS[bag.pop()];
-    }
-
-    function hint(list, txt) {
-      list.innerHTML = "";
-      list.appendChild(el("p", txt, "ctlhint"));
-    }
-
-    function clearList(list) {
-      list.innerHTML = "";
-    }
-
-    function addStepA() {
-      if (idxA === 0) clearList(listA);
-      if (idxA === 0) {
-        var p1 = el("p", "", "ctlline");
-        p1.appendChild(tag("ctltag-step", "step 1"));
-        p1.appendChild(document.createTextNode("brief: \u201Cbuild a divide-two-inputs page, ship today.\u201D"));
-        listA.appendChild(p1);
-        var p2 = el("p", "", "ctlline");
-        p2.appendChild(document.createTextNode("agent codes straight onto the page. live in one sitting \u2014 fast."));
-        listA.appendChild(p2);
-      } else if (idxA === 1) {
-        var q1 = el("p", "", "ctlline");
-        q1.appendChild(tag("ctltag-step", "spot-check"));
-        q1.appendChild(document.createTextNode(bug.shipped));
-        listA.appendChild(q1);
-        var q2 = el("p", "", "ctlline ctlline-muted");
-        q2.appendChild(document.createTextNode("(look closely \u2014 something is off. nobody here looks yet.)"));
-        listA.appendChild(q2);
-      } else if (idxA === 2) {
-        var r1 = el("p", "", "ctlline");
-        r1.appendChild(tag("ctltag-step", "step 2"));
-        r1.appendChild(document.createTextNode("tests written AFTER, read back off the code:"));
-        listA.appendChild(r1);
-        var r2 = el("p", "", "ctlline");
-        r2.appendChild(el("span", bug.aTest, "ctlmono"));
-        r2.appendChild(el("span", bug.aNote, "ctlmono ctlline-muted"));
-        listA.appendChild(r2);
-        var r3 = el("p", "", "ctlline");
-        r3.appendChild(tag("ctltag-green", "suite"));
-        r3.appendChild(document.createTextNode("PASS \u2713 1/1 green \u2014 in " + A_MIN + " min."));
-        listA.appendChild(r3);
-        var v = el("p", "", "ctlverdict");
-        v.style.setProperty("--pgc", "var(--l1)");
-        v.appendChild(el("b", "\u2717 SHIPPED WRONG \u2014 green suite, defective page.", "bad"));
-        v.appendChild(document.createElement("br"));
-        v.appendChild(document.createTextNode("verification: " + A_MIN + " min \u00B7 bugs caught: 0. the test cannot fail, so it never does."));
-        listA.appendChild(v);
-      }
-      idxA += 1;
-      if (idxA >= 3) { btnA.disabled = true; btnA.textContent = "track A done"; tryFinish(); }
-    }
-
-    function addStepB() {
-      if (idxB === 0) clearList(listB);
-      if (idxB === 0) {
-        var p1 = el("p", "", "ctlline");
-        p1.appendChild(tag("ctltag-step", "step 1"));
-        p1.appendChild(document.createTextNode("test written FIRST \u2014 from the spec, before any code:"));
-        listB.appendChild(p1);
-        var p2 = el("p", "", "ctlline");
-        p2.appendChild(el("span", bug.spec, "ctlmono"));
-        listB.appendChild(p2);
-      } else if (idxB === 1) {
-        var q1 = el("p", "", "ctlline");
-        q1.appendChild(tag("ctltag-red", "run"));
-        q1.appendChild(document.createTextNode("confirmed RED \u2717 \u2014 " + bug.bRed));
-        listB.appendChild(q1);
-        var q2 = el("p", "", "ctlline ctlline-muted");
-        q2.appendChild(document.createTextNode("caught at step one. no page code exists yet \u2014 nothing to un-build."));
-        listB.appendChild(q2);
-      } else if (idxB === 2) {
-        var r1 = el("p", "", "ctlline");
-        r1.appendChild(tag("ctltag-green", "step 2"));
-        r1.appendChild(document.createTextNode("code written AGAINST the test \u2192 rerun \u2192 GREEN \u2713."));
-        listB.appendChild(r1);
-        var v = el("p", "", "ctlverdict");
-        v.style.setProperty("--pgc", "var(--l3)");
-        v.appendChild(el("b", "\u2713 DEFECT NEVER SHIPPED \u2014 the red named it before it existed.", "ok"));
-        v.appendChild(document.createElement("br"));
-        v.appendChild(document.createTextNode("verification: " + B_MIN + " min \u00B7 bugs caught: 1. slower per round; sensitive every round."));
-        listB.appendChild(v);
-      }
-      idxB += 1;
-      if (idxB >= 3) { btnB.disabled = true; btnB.textContent = "track B done"; tryFinish(); }
-    }
-
-    function fmtRate(c, m) {
-      return (m === 0 ? "0.00" : (c / m).toFixed(2));
-    }
-
-    function tryFinish() {
-      if (idxA < 3 || idxB < 3) return;
-      minsA += A_MIN; minsB += B_MIN;
-      caughtB += 1;
-      started = false;
-      startBtn.disabled = false;
-      startBtn.textContent = "\u25B6 start round " + (round + 1);
-      statusChip.textContent = "round " + round + " complete \u00B7 defect drawn: " + bug.name;
-      var marker = board.querySelector(".ctlboard-live");
-      if (marker) marker.parentNode.removeChild(marker);
-      board.appendChild(el("p", "round " + round + " \u00B7 defect: " + bug.name +
-        " \u2014 A: shipped wrong (" + A_MIN + " min) \u2717 \u00B7 B: caught pre-ship (" + B_MIN + " min) \u2713", "ctlline ctlboard-live"));
-      board.appendChild(el("p", "totals after " + round + " round" + (round > 1 ? "s" : "") +
-        " \u2014 A: " + minsA + " min, " + caughtA + " bugs, " + fmtRate(caughtA, minsA) + " bugs/min \u00B7 B: " +
-        minsB + " min, " + caughtB + " bugs, " + fmtRate(caughtB, minsB) + " bugs/min", "ctlline ctlboard-live"));
-      board.appendChild(el("p", "read it straight: A verifies faster AND catches nothing, every round \u2014 its checks are incapable of failing. B pays one extra minute and catches everything. sensitivity beats speed.", "ctlline ctlline-muted ctlboard-live"));
-    }
-
-    function startRound() {
-      bug = drawBug();
-      round += 1;
-      idxA = 0; idxB = 0;
-      started = true;
-      startBtn.disabled = true;
-      btnA.disabled = false; btnB.disabled = false;
-      btnA.textContent = "press: next A step";
-      btnB.textContent = "press: next B step";
-      clearList(listA); clearList(listB);
-      hint(listA, "round " + round + " \u2014 defect #" + round + " placed. press through.");
-      hint(listB, "round " + round + " \u2014 same defect. different order.");
-      statusChip.textContent = "round " + round + " running \u00B7 defect hidden from both tracks";
-    }
-
-    function resetAll() {
-      bag = []; bug = null; round = 0;
-      idxA = 0; idxB = 0;
-      minsA = 0; minsB = 0; caughtA = 0; caughtB = 0;
-      started = false;
-      startBtn.disabled = false;
-      startBtn.textContent = "\u25B6 start round 1";
-      btnA.disabled = true; btnB.disabled = true;
-      btnA.textContent = "press: next A step";
-      btnB.textContent = "press: next B step";
-      hint(listA, "idle \u2014 waiting for round start.");
-      hint(listB, "idle \u2014 waiting for round start.");
-      board.innerHTML = "";
-      board.appendChild(el("p", "scoreboard \u00B7 bugs caught per minute of verification", "ctlboard-title"));
-      board.appendChild(el("p", "no rounds played yet. A spends less time verifying; B spends more. Watch what each minute buys.", "ctlline ctlline-muted"));
-      statusChip.textContent = "round 0 \u00B7 defect undrawn \u00B7 press start";
-    }
-
-    startBtn.addEventListener("click", startRound);
-    btnA.addEventListener("click", function () { if (started) addStepA(); });
-    btnB.addEventListener("click", function () { if (started) addStepB(); });
-    resetBtn.addEventListener("click", resetAll);
-  })();
-  </script>
-
-  <p>Play at least three rounds so the shuffle deals you all three defects. Then read
-  the totals the way a QA lead would. Track&nbsp;A posts the fastest verification time
-  in the building and a permanently perfect green suite — and a bug-catching rate of
-  zero, forever, because a test that merely restates the code <em>cannot</em> fail.
-  Its green light certifies agreement, not correctness: 1&nbsp;&divide;&nbsp;0 shipping
-  as "Infinity — verified ✓" is the tautology trap made visible. Track&nbsp;B looks
-  slower on paper and catches every defect at step one, because the red run happens
-  <em>before</em> the code exists and names the violation in the spec's own words.
-  That asymmetry is the whole chapter: verification time buys nothing without
-  sensitivity, and   sensitivity comes from order.</p>
-
-  <div class="pull-fact pf-l3">
-    <p>Verification time buys nothing without sensitivity, and sensitivity comes
-    from order.</p>
-  </div>
-
-  <div class="callout co-tip">
-    <span class="c-tag">tip</span>
-    <p>Make the agent write the check <strong>before</strong> the fix. One line of
-    prompt does it: "write a failing test first, confirm it fails, then make it
-    pass." The confirmation step is non-negotiable — an unconfirmed red is a guess,
-    a confirmed red is a measurement.</p>
-  </div>
-
-  <div class="callout co-warn">
-    <span class="c-tag">warning</span>
-    <p><strong>Green ≠ correct.</strong> A test that cannot fail is decoration. Before
-    trusting any suite — especially one the agent wrote after the code — ask the only
-    question that matters: what change would make this turn red? If the honest answer
-    is "none," you are looking at Track&nbsp;A.</p>
-  </div>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;3</span>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§3</span></div>
-
-<h2 id="ch09-s3"><span class="css-icon-gate" aria-hidden="true"></span> Browser evidence for UI: the trace as a review gate</h2>
-  <p>Unit tests argue about logic; interfaces need evidence a human can eyeball. For
-  UI work, the strongest non-coder-reviewable artifact in current practice is the
-  browser trace: Playwright's trace viewer records a screenshot, DOM snapshot,
-  network activity and console output for <em>every action</em> in a run, replayable
-  step by step. You do not read the code to review the feature — you open the trace
-  and watch what actually happened. That is a gate a non-coder can operate: did the
-  right request fire, did the right pixels render, did the console stay quiet?</p>
-
-  <div class="tracebox">
-    <style>
-      .tracebox { border: 1.5px solid var(--line-strong); border-radius: 10px; background: var(--paper-raised); padding: 0.8rem 1rem; margin: 0.9rem 0; }
-      .tracebox-tag { display: block; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 0.4rem; }
-      .tracebox p { margin: 0.35rem 0; font-size: 0.86rem; }
-      .tracebox code { font-family: var(--font-mono); font-size: 0.78rem; }
-    </style>
-    <span class="tracebox-tag">operate the gate · two commands · per playwright.dev/docs/trace-viewer</span>
-    <ul class="rail">
-      <li><strong>Record a trace:</strong> run <code>npx playwright test --trace on</code> — or set
-      <code>trace: 'on'</code> in your Playwright Test configuration.</li>
-      <li><strong>Open it:</strong> run <code>npx playwright show-trace path/to/trace.zip</code>,
-      or drag the zip file into trace.playwright.dev.</li>
-    </ul>
-  </div>
-
-  <p>Getting that evidence through an agent involves one genuine tradeoff, and
-  Microsoft documents both sides of it. The <strong>@playwright/cli</strong> route is
-  token-cheap: it deliberately does not push page data, accessibility trees, or tool
-  schemas into the model's context, and it ships a <code>show --annotate</code>
-  dashboard built for UI review. The <strong>Playwright MCP</strong> server takes the
-  opposite deal — heavier context load in exchange for continuous, stateful
-  back-and-forth with the live page across many turns. An independent hands-on
-  comparison measured the difference at roughly 68 tokens of skill description versus
-  about 3.6k tokens of loaded schema — treat those digits as one third-party
-  measurement, not gospel, but the <em>direction</em> is stated plainly in
-  Microsoft's own repos: CLI when you want cheap bursts of evidence, MCP when a long
-  interactive session genuinely needs shared page state. For review gates, bursts win
-  most of the time. Performance checks ride the same rails: "check the performance of
-  this URL" through a browser-driving agent produces trace-backed timing evidence as
-  an acceptance artifact.</p>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;4</span>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§4</span></div>
-
-<h2 id="ch09-s4">Evals-lite: grading what assertions can't</h2>
-  <p>Some qualities refuse to become booleans — "is this summary faithful," "does
-  this reply sound right." The lightweight version of an eval, per Anthropic's
-  engineering team, needs exactly three parts: a <strong>task</strong>, one or more
-  <strong>graders</strong>, and a judged <strong>outcome</strong>. Their operating
-  advice reads like QA folklore distilled: grade real outcomes rather than
-  proxy signals, read the transcripts yourself instead of trusting aggregate scores,
-  and maintain the suite like any other test asset. Chapter&nbsp;06 covered the full
-  ladder and the judge-alignment discipline; here, take the floor: even five graded
-  examples beat vibes, because the grader forces you to write down what "good"
-  means before the agent touches anything.</p>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;5</span>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§5</span></div>
-
-<h2 id="ch09-s5">Two practitioner moves worth stealing</h2>
-  <p>The <strong>conformance-suite trick</strong>: when several implementations must
-  agree, write the shared passing suite <em>first</em> — every implementation, human
-  or agent, then earns green by conforming to it. Willison documents the pattern with
-  a worked example; it converts "please match the existing behavior" from a hope
-  into a gate.</p>
-  <p>The <strong>evidence mandate</strong>: from the same field notes, "tests are
-  effectively free now… no longer optional" — the marginal cost of asking the agent
-  to prove its work has collapsed, so the excuse not to has collapsed with it. Bake
-  it into your standing prompts: <em>show me the command and its output</em>.</p>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;6</span>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§6</span></div>
-
-<h2 id="ch09-s6">Where this lands in your build</h2>
-  <p>The compass build already runs this chapter in miniature. Its
-  <code>npm run verify</code> is nine pinned assertions — hand-checked pricing
-  calculations, including deliberately asymmetric cases — and the milestone log
-  records math passing 9/9, independently re-run during review. Nobody trusted that
-  result by reading calculator code; the reviewer ran one command and read nine
-  lines of pass/fail. That is a review gate a non-coder operates, and Build&nbsp;2
-  extends the same shape from math to facts: quiz-forge's batch gates require every
-  generated question to be read against the actual textbook before it ships. Same
-  skeleton in all three places — checks that can fail, executed by someone who did
-  not write the thing being checked. When Chapter&nbsp;12 wires CI pipelines, these
-  are the commands that become merge-blocking gates; the habit you build now is the
-  config you will paste later.</p>
-
-  <div class="sec-rule">
-    <span class="sec-rule-label">&sect;7</span>
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§7</span></div>
-
-<h2 id="ch09-s7">Receipts</h2>
-  <p>Tier key: T1 official docs or established practitioners · T2 vendor blog or
-  secondary · T3 lead only, never cited alone. Every card below is a source-ledger
-  row.</p>
-  <style>.xref { color: var(--muted); font-weight: 400; }</style>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://codewithseb.com/test-driven-agentic-development-guide</span>
-    <span class="tier xref">also anchors ch06</span>
-    <span class="as-of">checked 2026-08-01 · tests-written-after-code encode the model's misreadings (tautology problem); contract tests reviewed as spec; hermeticity audit</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 research · PREPRINT — not yet peer-reviewed</span>
-    <span class="r-url">https://arxiv.org/html/2607.12068v1</span>
-    <span class="as-of">checked 2026-08-26 · companion receipt for the card above — "Beyond Test Presence: Assessing the Quality and Robustness of Agent-Generated Tests in Open-Source Projects": the 204,673-file AIDev-dataset study (24,941 human vs 179,732 agent-generated test files) that codewithseb synthesizes</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span>
-    <span class="tier xref">also anchors ch06</span>
-    <span class="as-of">checked 2026-02-23 · red/green TDD as agent control: failing test first, confirmed failure prevents broken AND unused code; works as one-line prompt</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span>
-    <span class="as-of">checked 2026-03-14 · agents must exercise what they build (boot server, hit API) and show evidence, not assert success</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 practitioner</span>
-    <span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span>
-    <span class="as-of">checked 2026-03-14 · "tests are effectively free now… no longer optional"; conformance-suite trick with worked example</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://github.com/microsoft/playwright-cli</span>
-    <span class="as-of">checked 2026-08-26 · CLI avoids forcing page data/schemas/a11y trees into LLM context; includes show --annotate UI-review dashboard</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://github.com/microsoft/playwright-mcp</span>
-    <span class="as-of">checked 2026-08-26 · MCP for stateful loops when continuous context beats token cost; README frames the tradeoff honestly</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 vendor blog</span>
-    <span class="r-url">https://betterstack.com/community/guides/ai/playwright-cli-vs-mcp-browser</span>
-    <span class="as-of">checked 2026-02-22 · reproducible hands-on: ~68-token skill description vs ~3.6k-token MCP schema · third-party measurement, direction corroborated by T1 rows above</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://playwright.dev/docs/trace-viewer</span>
-    <span class="as-of">checked 2026-08-26 · trace viewer records screenshots/DOM snapshots/network/console per action — reviewable evidence gate for non-coders</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t1">T1 official</span>
-    <span class="r-url">https://github.com/ChromeDevTools/chrome-devtools-mcp</span>
-    <span class="as-of">checked 2026-08-26 · performance traces as acceptance checks via browser-driving agent ("check performance of url" pattern)</span>
-  </div>
-  <div class="receipt">
-    <span class="tier tier-t2">T2 vendor blog</span>
-    <span class="r-url">https://anthropic.com/engineering/demystifying-evals-for-ai-agents</span>
-    <span class="as-of">checked 2026-01-09 · evals-lite: task + graders + outcome; grade real outcomes, read transcripts, maintain suites like tests · written by the team running these evals</span>
-  </div>
-
-  <section class="exercise">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§8</span></div>
-
-<h2 id="ch09-s8">Try it yourself</h2>
-    <ol>
-      <li><strong>Exact-click checkpoint.</strong> Play four rounds of the lab above.
-      Before each round, predict which defect the shuffle holds and which track will
-      surface it. After round&nbsp;4, read the totals line aloud: what is Track&nbsp;A's
-      bugs-per-minute, and would you hire that number?</li>
-      <li><strong>Break it on purpose.</strong> Open
-      <code>playwright.dev/docs/trace-viewer</code> and find the list of what a trace
-      records per action. Write down the four evidence types, then answer: which one
-      would have exposed the Infinity bug from the lab without reading any code?</li>
-      <li><strong>Ship-sized task.</strong> In your next real agent session, paste
-      Willison's one-liner — "write a failing test first, confirm it fails, then make
-      it pass" — and add the evidence mandate: "end by showing the test run's command
-      and output." Compare how much you trusted this session's result versus last
-      session's "done!".</li>
-    </ol>
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · proof before belief</p>
+    <h2><span class="s-n">i.</span>Ship the function with its proof</h2>
+    <p>A green test suite is not proof that code works. It is proof that code satisfies the assertions somebody wrote — and when the same agent wrote both, that somebody agreed with itself. The proof this session demands is narrower and stronger: a failure you watched fail, then pass. Run the tests before the implementation exists, capture the red, then implement until green. The red is the receipt that the test can detect anything at all.</p>
+    <p>Order is the instrument. A test written first, from the specification alone, is a specification in executable form: it pins behavior the code must grow into. A test written after, from the code, is a biography: it describes whatever the code already does, defects included. Tests learned from code agree with code — that is not verification, it is transcription. The largest study of agent-generated tests to date found the failure is subtler than shallow coverage: agent suites check more edge cases than human ones yet go flaky more often, because they touch clocks, filesystems, and randomness instead of isolating them. Broad coverage you cannot trust, plus a suite that trains the team to ignore red.</p>
+    <p>"It passed" is a claim; command plus output is a fact. From here on, no task is done without both: the exact command typed and the output observed, pasted where another person can replay it. Agents narrate success fluently; only command output keeps them honest.</p>
+    <p>The same habit travels to two harder venues. In the browser, per-action traces record what the agent actually did — screenshot, DOM, network, console for every step — reviewable without reading a line of code. Where behavior is fuzzy and no boolean fits, evals-lite applies: a task, a grader, and an outcome, a handful of graded examples beating vibes every time, reading transcripts instead of aggregates. And the conformance trick compresses all of it into one line: build the passing suite against several independent implementations first, then implement yours against the suite.</p>
+    <p>Where it breaks down: suites rot as code drifts and nobody re-reads assertions; specifications have blind spots that tests inherit silently; fuzzy behavior resists booleans, which is exactly what graders are for. None of this removes the mandate. It explains why the mandate needs maintenance.</p>
   </section>
 
-  <section class="selfcheck">
+  <h2><span class="s-n">ii.</span>Order is the instrument <span class="time">· specification vs biography</span></h2>
+  <p>The defect below is identical on both tracks: division by zero returns 0 instead of throwing. On the left track the test was written from the held specification, so the defect dies at birth — the suite was already red on that behavior before any code existed. On the right track the test was written from the defective code, so the defect ships with a passing badge: the suite learned that zero-division returns 0 and now defends it. Same defect, same runner. The only variable is what the test was allowed to know.</p>
+  <figure>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Two rails: spec to test to code kills the defect; code to test ships the defect with a passing suite.">
+      <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="currentColor">
+        <text x="170" y="24">SPEC FIRST — defect dies</text>
+        <rect x="70" y="40" width="90" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="115" y="65">spec</text>
+        <rect x="200" y="40" width="90" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="245" y="65">test</text>
+        <rect x="330" y="40" width="90" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="375" y="65">code</text>
+        <circle cx="170" cy="160" r="34" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="170" y="156">red</text>
+        <text x="170" y="172">first ✓</text>
+        <rect x="90" y="220" width="160" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="170" y="239">defect dies</text>
+        <text x="170" y="255">✖ suite rejects it</text>
+        <text x="505" y="24">CODE FIRST — defect ships</text>
+        <rect x="405" y="40" width="90" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="450" y="65">code</text>
+        <rect x="520" y="40" width="90" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="565" y="65">test</text>
+        <circle cx="505" cy="160" r="34" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="505" y="156">green</text>
+        <text x="505" y="172">at once ⚠</text>
+        <rect x="425" y="220" width="160" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="505" y="239">defect ships</text>
+        <text x="505" y="255">✔ suite defends it</text>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M160,80 L160,126" marker-end="url(#ah9)"/>
+        <path d="M245,80 L205,126" marker-end="url(#ah9)"/>
+        <path d="M375,80 L205,126" marker-end="url(#ah9)"/>
+        <path d="M170,194 L170,220"/>
+        <path d="M450,80 L490,126" marker-end="url(#ah9)"/>
+        <path d="M565,80 L520,126" marker-end="url(#ah9)"/>
+        <path d="M505,194 L505,220"/>
+        <path d="M115,60 L200,60" marker-end="url(#ah9)"/>
+        <path d="M290,60 L330,60" marker-end="url(#ah9)"/>
+      </g>
+      <defs><marker id="ah9" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+    </svg>
+    <figcaption><strong>Fig. 9 — the order.</strong> Why does the same defect die on one track and ship on the other? Left: the test knew only the spec. Right: the test learned the defect.</figcaption>
+  </figure>
+  <p>The trap has three working parts, and this session springs each on purpose. First, the enshrined defect: a test asserting the buggy value — <code>divide(1, 0)</code> returns 0 — so the suite fails if anyone fixes the bug. Second, the self-confirming assertion: the code compared against itself, which passes for every implementation including unwritten ones. Third, the untested path, where deletions go unnoticed. One preprint study of 204,673 test files puts numbers on this shape: agents beat humans on edge-case variety (0.62 vs 0.32) and null-safety checks (13.40% vs 8.3%), trail slightly on assertion strength (85.37% vs 88.1%), and carry higher flakiness risk (0.41 vs 0.30) — thoroughness without hermeticity, a lack of "environmental awareness" in the authors' framing. Read it as a preprint, not a verdict: one dataset, one method, version 1.</p>
+  <p>Practitioner guidance converges on the same loop. Write the tests yourself — or co-write and review every assertion, asking of each: if the implementation were subtly wrong, would this fail? Confirm it fails for the right reason, hand the agent the failing test as the requirement rather than the prose around it, let it iterate to green hands-off, then review the diff against the test. The three-to-five contract assertions that define the feature must not be delegated; the agent earns the boundary cases afterward without touching them. Split the roles harder and the tautology dies structurally: one agent writes tests and cannot edit source, another implements and cannot edit tests.</p>
+  <p>Below is the session's own red-to-green, captured verbatim from <code>node --test</code> on 2026-09-04 (Node v24.13.0). It is the worked example and the expectation for steps 1–2: your runs must look like this, including the failing part.</p>
+  <figure>
+    <div class="term">◆ red — implementation file does not exist yet; the suite must fail
+node:internal/modules/esm/resolve:274
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
 
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§9</span></div>
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\Aman\AppData\Local\Temp\opencode\verify-lab\divide.js' imported from C:\Users\Aman\AppData\Local\Temp\opencode\verify-lab\divide.test.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:718:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:735:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:764:52)
+    at #resolve (node:internal/modules/esm/loader:700:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:620:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:143:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:228:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///C:/Users/Aman/AppData/Local/Temp/opencode/verify-lab/divide.js'
+}
 
-<h2 id="ch09-s9">Self-check</h2>
-    <details>
-      <summary>Why does Track A's suite stay green while the page is wrong?</summary>
-      <p>The tests were written after the code and read back off it, so they encode
-      whatever the code does — including the misreading. The suite proves the code
-      agrees with itself, which is a tautology, not a verification. Only a check
-      derived from an independent source (the spec) can disagree with the code, and
-      disagreement is what catching bugs means.</p>
-    </details>
-    <details>
-      <summary>What does the confirmed red buy that a passing test never can?</summary>
-      <p>Proof of sensitivity. A confirmed failing test demonstrates it detects the
-      missing behavior before any code exists; the later green then measures real
-      progress. A test that starts green has demonstrated nothing except that it
-      matches whatever is already there.</p>
-    </details>
-    <details>
-      <summary>Name one situation where clicking manually beats writing automation.</summary>
-      <p>One-shot or heavily aesthetic work — a landing page you will rebuild next
-      month, a visual taste call, first exploratory contact with a feature. If the
-      check would outlive the thing it checks, or the judgment is yours alone, spend
-      the click, not the harness. Automation earns its keep on behavior that must
-      keep working after today.</p>
-    </details>
+Node.js v24.13.0
+✖ divide.test.js (194.6335ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 241.4738
+
+✖ failing tests:
+
+test at divide.test.js:1:1
+✖ divide.test.js (194.6335ms)
+  'test failed'
+◆ green — same command after implementing divide.js to the held spec
+✔ divides evenly (1.6386ms)
+✔ keeps fractions (0.5537ms)
+✔ zero divisor throws RangeError (1.2607ms)
+✔ non-number argument throws TypeError (1.9549ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 258.2601
+<span class="term-note">Executed 2026-09-04. Roles deterministic and labeled: headless opencode runs have no API path from this machine ("Cannot connect to API"). Replay the same roles through your own harness.</span></div>
+    <figcaption><strong>Fig. 10 — red then green.</strong> The red names the missing module; the green names four spec behaviors. A test that never looked like the top half has proven nothing.</figcaption>
+  </figure>
+  <p>The diff below is the trap sprung: three assertions that all pass against defective code. The left column holds spec-true assertions from the held spec; the right holds code-true assertions learned from the defective copy. Lines marked ⚠ pass while wrong. Your step-3 job is to produce this shape, then prove the decoration by deleting untested behavior and watching green survive.</p>
+  <figure>
+    <div class="diff">
+      <div class="dh">spec-true (from the held spec, before code) vs code-true (learned from defective code)</div>
+      <div class="da">+ assert.throws(() =&gt; divide(1, 0), RangeError) — spec: zero divisor throws</div>
+      <div class="dd">− ⚠ assert.equal(divide(1, 0), 0) — enshrines the seeded defect as correct</div>
+      <div class="da">+ assert.throws(() =&gt; divide("4", 2), TypeError) — spec: non-numbers rejected</div>
+      <div class="dd">− ⚠ assert.equal(divide(6, 3), divide(6, 3)) — self-comparison; passes for any code</div>
+      <div class="dc">common: assert.equal(divide(4, 2), 2) — true on both tracks; proves nothing alone</div>
+    </div>
+    <figcaption><strong>Fig. 12 — the tautology diff.</strong> ⚠ lines pass while wrong; the shared middle line proves agreement is not verification.</figcaption>
+  </figure>
+
+  <h2><span class="s-n">iii.</span>Proof you can replay <span class="time">· command plus output, everywhere</span></h2>
+  <p>The standing rule fits on one line — save it verbatim in step 4: <em>never "done" without the command and its output.</em> A green suite proves the code satisfies the assertions; it does not prove the feature works, the server boots, or the page renders. So the agent exercises what it built: start the server in the background, probe the API it just created, paste the exchange. Manual probes routinely find bugs the suite missed, because suites check assertions while probes check behavior. The resulting document — command, output, verdict, next probe — is the demo: evidence assembled as it happens, not narrated afterward.</p>
+  <p>In the browser the same rule becomes per-action evidence. A trace records every step with its screenshot, DOM snapshot, network calls, and console output attached to the action timeline, reviewable without reading code. Four evidence types carry a session; each doubles as a checkable with one question — what change would make this turn red?</p>
+  <figure>
+    <div class="table-scroll"><table>
+      <tr><th>Evidence type</th><th>What it shows per action</th><th>What change would make this turn red?</th></tr>
+      <tr><td><strong>Screenshot</strong></td><td>Page frame at that step</td><td>Any visual regression the frame would catch</td></tr>
+      <tr><td><strong>DOM snapshot</strong></td><td>Before / action / after states, exact click position</td><td>A locator change detaching the action from its target</td></tr>
+      <tr><td><strong>Network</strong></td><td>Requests during the action: status, bodies, duration</td><td>A failing or slow endpoint the filter would surface</td></tr>
+      <tr><td><strong>Console</strong></td><td>Browser and test logs scoped to the actions</td><td>An error the run currently swallows</td></tr>
+    </table></div>
+    <figcaption><strong>Fig. 11 — the evidence rail.</strong> Four checkables per action, each with its red-question. A trace nobody could turn red is a recording, not a test.</figcaption>
+  </figure>
+  <p>Tooling choice here is a token budget, not a loyalty test. The CLI path keeps browser control in discrete shell commands and never forces page data into the model — one third-party measurement put the awareness cost at 68 tokens for the skill description against roughly 3.6k for the MCP tool schema, with the sample task at 16% full success on the CLI versus 18% partial on MCP — success rates, not context share. Fence those digits: one hands-on comparison, one task, one agent — direction, not benchmark. The MCP path earns its keep where continuous context beats token cost: logged-in multi-step flows, exploratory automation, self-healing scripts, long-running agents. Record traces on the first retry of failed tests so every failure arrives with evidence attached, and open them where they load locally without transmitting data.</p>
+  <p>Where no boolean fits, evals-lite carries the same discipline one rung up. A task with defined inputs and success criteria, a grader scoring the outcome, trials run more than once because single runs lie — a handful of graded examples beat vibes every time. Start with tasks drawn from real failures, write each so two experts would reach the same verdict, and maintain the suite like tests: capability evals that start near zero and climb, regression evals near one hundred percent that guard the climb. Above all, read the transcripts, not the aggregates — only the transcript tells you whether the agent erred or the grader rejected a valid solution.</p>
+  <p>The conformance trick is the one-line version of everything above: build the passing suite against several independent implementations first, then implement yours against the suite. One worked example built file-upload tests that passed on six web frameworks, then grew the seventh implementation under them.</p>
+  <h3>Beyond this build</h3>
+  <p>The pattern ports anywhere an agent's word must become checkable fact: migrations (row counts before and after, pasted), documentation (every command executed fresh, outputs pasted), model upgrades (the eval suite re-run, deltas logged). It breaks down where observation is expensive — flaky end-to-end suites, paid calls per trial, hardware-bound runs — and there the answer is fewer, harder trials over hermetic unit tests, never belief on credit.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Spec plus red-first</h3>
+    <p class="goal"><strong>Goal:</strong> the agent writes tests from the held spec only — no implementation. You run them and capture the red.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Write tests only, in divide.test.js, from this spec and nothing else. Do NOT write divide.js. Spec: divide(a,b) returns a/b; divide(x,0) throws RangeError; non-number input throws TypeError. Then stop — I run the suite myself.</div>
+    <div class="term">◆ expected — your run must fail before any implementation exists (verbatim shape from Fig. 10):
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '...\verify-lab\divide.js' ...
+✖ divide.test.js
+ℹ tests 1
+ℹ pass 0
+ℹ fail 1
+<span class="term-note">Abridged to the load-bearing lines; the full capture is Fig. 10. What matters: fail 1, pass 0, implementation untouched.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Suite fails with implementation absent — quote the failing output</li><li>No divide.js created or edited (check the listing, not the agent's word)</li><li>Every assertion traces to one spec sentence — nothing learned from code</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Agent implemented anyway? Delete divide.js, keep the test file, re-run to confirm red. Only your keystrokes verify. Zero tests? Narrow the spec to one behavior and demand that single failing test.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Green with your own keystrokes</h3>
+    <p class="goal"><strong>Goal:</strong> the agent implements to the failing suite. You re-run the command yourself — outputs must match.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>The suite in divide.test.js is the whole requirement. Implement divide.js with the smallest change that turns it green. Do not touch divide.test.js. Report the exact command and its full output.</div>
+    <div class="term">◆ expected — all four spec behaviors green (verbatim from the executed run):
+✔ divides evenly (1.6386ms)
+✔ keeps fractions (0.5537ms)
+✔ zero divisor throws RangeError (1.2607ms)
+✔ non-number argument throws TypeError (1.9549ms)
+ℹ tests 4
+ℹ pass 4
+ℹ fail 0
+<span class="term-note">Timings will differ; counts must not. Type the command yourself — a transcript you never ran is a claim, not a fact.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>You typed the command yourself and saw 4 pass / 0 fail</li><li>Test file diff is empty — the agent did not "fix" assertions to earn green</li><li>Each green traces to a red captured in step 1</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Green on the first try with no red behind it? That is decoration — revert, confirm red, re-apply. Agent edited the tests? Restore them from step 1 and re-run; the test file is off-limits during green.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Spring the trap</h3>
+    <p class="goal"><strong>Goal:</strong> the agent tests a defective copy from the code. The suite passes while wrong — your mutation proves it.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Here is divide-buggy.js (a copy with a seeded defect you must NOT fix). Write buggy.test.js from the code as-is: cover what it does, including the zero-divisor path. Do not consult any spec. Report command plus output.</div>
+    <div class="term">◆ expected — passing while wrong, then mutation-proof (both verbatim from executed runs):
+✔ divides evenly (learned from code) (1.5303ms)
+✔ zero divisor returns 0 (learned from code) (0.2753ms)
+✔ agrees with itself (0.198ms)
+ℹ tests 3
+ℹ pass 3
+ℹ fail 0
+◆ after deleting the TypeError guard from divide-buggy.js — still green:
+✔ divides evenly (learned from code) (1.5054ms)
+✔ zero divisor returns 0 (learned from code) (0.3808ms)
+✔ agrees with itself (0.4078ms)
+ℹ tests 3
+ℹ pass 3
+ℹ fail 0
+◆ what the green hides (probed directly, same session):
+string input: NO THROW (spec violated, suite silent)
+zero divisor returned: 0 (spec demands RangeError)
+<span class="term-note">Executed 2026-09-04. Three lines deleted, zero tests noticed. That silence is the verdict.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Code-true suite green on defective code — passing-while-wrong assertion named</li><li>Your mutation leaves the suite green — quote it</li><li>Held-spec suite fails on the defective copy — biography vs specification</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Suite catches the defect? It consulted the spec — regenerate strictly from the code: assert each observed value, including the wrong one. Mutation breaks the suite? Delete behavior no test names instead (an untested branch, a missing type check).</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Evidence gate, reader-run</h3>
+    <p class="goal"><strong>Goal:</strong> close with two artifacts that travel: the trace checklist and the mandate line.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>No new code. From the trace-rail table: name the 4 per-action evidence types and, for each, one change that would make it turn red. Then write the mandate line you will save.</div>
+    <div class="term">◆ expected — your own words, checked against Fig. 11, plus the mandate line:
+screenshot / DOM snapshot / network / console — each with its red-question answered.
+never "done" without the command and its output.
+<span class="term-note">Docs-only where tools are absent: if no browser harness is installed here, answer from the table and label it reader-run. The behavior — naming evidence before claiming done — is the deliverable.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>All 4 evidence types named with a red-question each (screenshot, snapshot, network, console)</li><li>Mandate line saved where your next session will see it (prompt footer, notes file, harness memory)</li><li>One evals-lite sentence drafted for your own work: task + grader + what outcome you will read</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Cannot name all four? Re-open Fig. 11 and copy the rail by hand. No place to save it? Append it to the notes file you open most.</p></div>
+  </div>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>I ran the red myself — failing output quoted before implementation existed.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I caught one passing-while-wrong test and proved it with an ignored mutation.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>I saved the evidence-mandate line where my next session will see it.</span></label>
   </section>
 
-  <section class="beyond">
-
-  <div class="sec-rule"><span class="sec-rule-label" aria-hidden="true">§10</span></div>
-
-<h2 id="ch09-s10">Beyond this build</h2>
-    <p><strong>Pipelines.</strong> A test only steers while someone runs it. Chapter&nbsp;12
-    promotes these checks to CI gates — run automatically on every proposed change,
-    blocking merges — which is where the compass <code>verify</code> script and the
-    quiz-forge content lints are headed. The ordering lesson survives the promotion
-    unchanged: a pipeline full of tautologies blocks nothing.</p>
-    <p><strong>Property-based testing.</strong> Instead of pinning example inputs,
-    you state a property — "sign is preserved," "result times divisor rounds back to
-    the dividend" — and a generator throws hundreds of random cases at it. It pairs
-    naturally with agents: the property is short enough to specify in a prompt, and
-    the machine does the tedious case enumeration.</p>
-    <p><strong>Where it breaks down.</strong> Suites rot: behavior changes, tests
-    fossilize, and a green legacy suite can certify yesterday's product. Fuzzy
-    qualities resist assertion — that is what evals-lite is for, and why graders
-    need periodic re-alignment against human judgment. And the deepest limit is the
-    spec itself: tests inherit the spec's blind spots, so a miswritten requirement
-    passes forever. Verification amplifies the quality of your intent; it cannot
-    substitute for it.</p>
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · re-verified live 2026-09-04 unless marked</p>
+    <details><summary>Red-green TDD: test-first, confirmed failure, one-line prompt; page created Feb 2026</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span> · re-verified 2026-09-04 · content holds</span></details>
+    <details><summary>Red→green + tautology trap executed 2026-09-04: divide red, green 4/4, code-true suite 3/3 on defective copy, guard-deletion still green</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://simonwillison.net/guides/agentic-engineering-patterns/red-green-tdd/</span> · transcripts verbatim; roles deterministic (no API path for headless runs)</span></details>
+    <details><summary>Agent-test quality keystone (PREPRINT): 204,673 files, variety 0.62 vs 0.32, flakiness 0.41 vs 0.30</summary><span class="receipt"><span class="tier">T1 research</span><span class="r-url">https://arxiv.org/abs/2607.12068</span> · PREPRINT v1, 13 Jul 2026, fetched live 2026-09-04 · single-study numbers, labeled as such</span></details>
+    <details><summary>Tautology mechanics: tests-after-code encode misreadings; contract tests reviewed as spec; role-split agents; paste-the-output rule</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://www.codewithseb.com/blog/test-driven-agentic-development-guide</span> · fetched live 2026-09-04 · URL-form row</span></details>
+    <details><summary>Tests free; red-green as a five-token prompt; sessions start with how to run tests; curl plus Showboat demos</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span> · fetched live 2026-09-04</span></details>
+    <details><summary>Conformance-suite trick: passing suite built across six frameworks first, seventh grown under it</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://simonwillison.net/2026/Mar/14/pragmatic-summit/</span> · fetched live 2026-09-04 · same page, second claim</span></details>
+    <details><summary>Evals-lite: task plus grader plus outcome; read transcripts not aggregates; maintain suites like tests</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://anthropic.com/engineering/demystifying-evals-for-ai-agents</span> · fetched live 2026-09-04 (Jan 2026 piece)</span></details>
+    <details><summary>Evals ladder: assertions to judge to A/B; align judge on 25–50 human labels; missing evals stall most</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://hamel.dev/blog/posts/evals/</span> · ledger row · named case study</span></details>
+    <details><summary>Playwright CLI token rationale: no page data forced into the model; show --annotate review dashboard</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://github.com/microsoft/playwright-cli</span> · fetched live 2026-09-04</span></details>
+    <details><summary>Playwright MCP for stateful loops where continuous context beats token cost</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://github.com/microsoft/playwright-mcp</span> · fetched live 2026-09-04 · README frames the tradeoff both ways</span></details>
+    <details><summary>Trace viewer as evidence gate: per-action screenshots, DOM, network, console; on-first-retry</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://playwright.dev/docs/trace-viewer</span> · fetched live 2026-09-04</span></details>
+    <details><summary>CLI-vs-MCP context cost, single measurement: 68-token skill vs ~3.6k-token schema; 16% full success vs 18% partial</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://betterstack.com/community/guides/ai/playwright-cli-vs-mcp-browser</span> · fetched live 2026-09-04 (Feb 2026) · one task, one agent — fenced, not a benchmark</span></details>
+    <details><summary>Performance traces as acceptance checks via a browser-driving agent ("check the performance" pattern)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://github.com/ChromeDevTools/chrome-devtools-mcp</span> · fetched live 2026-09-04 · first-prompt pattern on README</span></details>
+    <details><summary>Reproduce-first and exercise-what-you-build: screenshot loop, boot it and probe it, show evidence</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · ledger row</span></details>
+    <details><summary>Paste-block default: opencode runs as the session vehicle</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs</span> · ledger row · headless runs unavailable here, roles labeled deterministic</span></details>
   </section>
 
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch08/index.html">← session 08</a>
+    <a href="../ch10/index.html">session 10 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch09-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
 </main>
-<footer class="site-foot"><span>the agentic coding field manual</span><span><a href="../../index.html">home</a> · <a href="../../toc.html">contents</a></span></footer>
 <script src="../../assets/js/theme.js"></script>
 </body>
 </html>
