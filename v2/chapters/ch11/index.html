@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11 · Brownfield reality — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
+</head>
+<body>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 11</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
+</header>
+<main>
+  <p class="kicker">Session 11 · brownfield reality · opencode default</p>
+  <h1>Map first, touch last</h1>
+  <p class="lede">Hand an agent a shop you never wrote and walk out with a one-file fix: branch it, map it read-only, pin its behavior, and fence the edit before a single line changes.</p>
+  <p class="kicker" style="margin-top:1rem">75 min · scratch repo · needs ch06 · verified 2026-09-04</p>
+
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · the map is the work</p>
+    <h2><span class="s-n">i.</span>Brownfield in one paragraph</h2>
+    <p>Brownfield means code you inherited: it runs, it earns, nobody remembers every decision inside it. You arrive with zero intuition and an agent that rewrites what it should reuse — one field report watched an agent build a duplicate email-service beside the existing one. So: three artifacts before any edit. A reversible baseline, a read-only neighborhood map, and a written blast-radius naming what may change, what must not, and which test proves it. No baseline, no map, no radius — no edit.</p>
+    <p>The arithmetic, illustrative rather than measured: no working context holds a whole repo, so every session is compression with judgment — sketch first, expand where the change lands, edit last. Aider's repo map is the canonical example: parse symbols, rank them by graph over file dependencies, pack the top under a token budget (default 1,000 tokens, verified live 2026-09-04). The budget buys visibility; what it cannot hold is blindness you chose. Name it in writing — "the map shows signatures, not timing" — and you hold the KNOW/MISS split of Fig. 11.</p>
+    <figure>
+      <svg viewBox="0 0 640 300" role="img" aria-label="Budget funnel: a 400-file repo narrows through ranking and a token budget choke into a visible map plus a labeled KNOW versus MISS split.">
+        <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="currentColor">
+          <rect x="40" y="30" width="170" height="240" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="125" y="55">400-file repo</text>
+          <text x="125" y="75" font-size="10">symbols parsed</text>
+          <text x="125" y="150" font-size="28">▦</text>
+          <text x="125" y="200" font-size="10">full map:</text>
+          <text x="125" y="216" font-size="10">too big to hold</text>
+          <polygon points="245,120 295,120 270,160" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="270" y="185" font-size="10">graph-ranked</text>
+          <rect x="330" y="30" width="110" height="240" rx="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="385" y="55">budget</text>
+          <text x="385" y="75" font-size="10">1k tokens</text>
+          <text x="385" y="150" font-size="28">⏳</text>
+          <text x="385" y="200" font-size="10">the choke:</text>
+          <text x="385" y="216" font-size="10">top-ranked only</text>
+          <rect x="475" y="30" width="125" height="110" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="537" y="55">KNOW ✓</text>
+          <text x="537" y="75" font-size="10">entry · hubs</text>
+          <text x="537" y="91" font-size="10">tests · suspects</text>
+          <rect x="475" y="160" width="125" height="110" rx="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="537" y="185">MISS ⚠</text>
+          <text x="537" y="205" font-size="10">timing · coupling</text>
+          <text x="537" y="221" font-size="10">named in writing</text>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M210,140 L245,140" marker-end="url(#ah11)"/>
+          <path d="M295,140 L330,140" marker-end="url(#ah11)"/>
+          <path d="M440,80 L475,80" marker-end="url(#ah11)"/>
+          <path d="M440,200 L475,200" marker-end="url(#ah11)"/>
+        </g>
+        <defs><marker id="ah11" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+      </svg>
+      <figcaption><strong>Fig. 11 — the budget funnel.</strong> Four hundred files enter; a visible map plus a labeled MISS list exits. It answers: what does the agent see at this budget?</figcaption>
+    </figure>
+    <p>Then the arc: verify first, then explore, plan, implement, commit — the four-phase shape the Claude Code best-practices page prescribes, re-verified live 2026-09-04. Verification precedes exploration: hand the agent a runnable check so "looks done" is never the only signal. Exploration stays read-only; the plan names untouched files before changed ones; the timebox ends when the plan fits one breath. Ship the smallest change that satisfies it.</p>
+    <p>Two vocabularies keep the arc cheap. Refactoring moves: Fowler's catalog of behavior-preserving steps — rename, extract, move — each checked by the pinning test, never by taste. One move per session, never restructuring plus feature in one diff. Legibility: Ronacher's rule that agent-shaped code (local reasoning, grep-able names) steers better than rule lists, with Willison's field note concurring that agents mirror existing repo conventions, for good and ill. Point at the exemplar — "like that one" — not a style memo.</p>
+    <p>Specs on inherited ground: characterize current behavior first — Feathers' discipline of pinning what the code does today before judging it. Spec the delta, never the system: the Existing Projects guide on the Spec Kit repo (verified live 2026-09-04) starts from a reviewable baseline, captures guardrails already true, and scopes the first change to one slice. One enterprise case study argues ~80% per-phase accuracy compounds to 0.8⁵ ≈ 0.33, justifying gates every phase — a single-project sample, suggestive not proven. Boundary: maps rank symbols, not coupling, so pair every map with a runtime check.</p>
+  </section>
+
+  <h2><span class="s-n">ii.</span>What the agent actually sees <span class="time">· budgets buy visibility</span></h2>
+  <p>Walk the funnel left to right and each stage has exactly one job. Parsing turns files into symbols: class names, function signatures, the lines that define them. Ranking scores those symbols by how much of the codebase references them, so entry points and hubs float up and leaf utilities sink. Packing fills the token budget top-down and stops — everything below the line is the MISS list, and the MISS list is a deliverable, not an apology. A map that cost 1,000 tokens and names its blindness beats a 50,000-token dump nobody can audit, because the small map can be read, challenged, and re-run.</p>
+  <div class="term">◆ neighborhood map · inherited-shop · read-only, 3 files
+entry: shop.js (exports cartTotal, legacyCartTotal)
+hub: rates.js (TAX_RATE / THRESHOLD / RATE — the truth table)
+tests: shop.test.js (3: live 9% · discount &gt;$100 · stale 7%)
+suspect: legacyCartTotal — stale duplicate, hard-coded 1.07, do NOT fix
+PINNING TEST: cartTotal follows the rates.js truth table (9% tax)
+<span class="term-note">Executed 2026-09-04 via opencode run (no edits made). Per-line roles: entry says where the behavior lives, hub says where the truth lives, tests say what proves it, suspect says where the trap lives.</span></div>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">KNOW ✓</span><span class="stat-label">entry · hubs · tests · suspect duplicate</span></div>
+    <div class="stat"><span class="stat-num">MISS ⚠</span><span class="stat-label">call timing · load order · who calls the duplicate in prod</span></div>
+    <div class="stat"><span class="stat-num">1k</span><span class="stat-label">default map-token budget that drew the line</span></div>
+  </div>
+  <p>The MISS row is where coupling hides. The map says the duplicate exists; only the test run says whether production touches it. That is the standing rule for this chapter: a symbol map is never a behavior proof. Every claim the map suggests — "the duplicate is dead," "the rate flows from rates.js" — gets a runtime check before any edit, and the check is the pinning test of step 3.</p>
+
+  <h2><span class="s-n">iii.</span>Fences before edits <span class="time">· the blast-radius plan</span></h2>
+  <p>The blast-radius is a written plan with three lanes, approved before the agent may write. Read-only lanes hold files the agent may open but never modify; the planned lane holds the one file it may change; the pinning test holds the behavior that must stay green. Untouched files are walled off by name — shape plus label, never a vague "don't break anything." The table below is the actual plan from the executed session, and step 4 pastes it verbatim.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Lane</th><th>Files</th><th>Rule</th></tr>
+    <tr><td><strong>Read-only</strong></td><td>rates.js, shop.test.js</td><td>Open, quote, never modify — truth table and proof stay fixed</td></tr>
+    <tr><td><strong>Planned (1 file)</strong></td><td>shop.js → cartTotal only</td><td>Replace hard-coded 1.07 with (1 + TAX_RATE); nothing else in the file</td></tr>
+    <tr><td><strong>Walled off ⛔</strong></td><td>shop.js → legacyCartTotal</td><td>Stale duplicate; fixing it would keep the bug alive on the live path</td></tr>
+    <tr><td><strong>Pinning test ✓</strong></td><td>cartTotal 9% tax case</td><td>Red before the edit (53.5 ≠ 54.5), green after — the edit's license</td></tr>
+  </table></div>
+  <p>Two vocabularies keep the fenced edit small. Refactoring moves stay mechanical: this session's fix is a constant-substitution, the smallest move in Fowler's catalog, verifiable line by line. Legibility does the steering the rules cannot: the fixed line reads its rate from the hub module the way the discount already does, so the file converges on one exemplar pattern — every rate comes from rates.js — instead of obeying a comment. When the next session maps this repo, the map shows one truth table and zero suspects, because the fix deleted a suspicion rather than adding a rule.</p>
+
+  <h2><span class="s-n">iv.</span>Specs on inherited ground <span class="time">· characterize, then delta</span></h2>
+  <p>Feathers' order of operations is invariant first, judgment second: write the test that captures what the system does today, watch it pass, and only then decide whether today's behavior is correct. The legacy-cart test that asserts the duplicate still computes 7% looks strange — why pin a bug? — until the surgical edit lands: the pinned duplicate proves the fix went to the live path, because a fix routed through the duplicate would have moved the pinned number. Characterization tests are documentation that bites back.</p>
+  <div class="diff">pin (shop.test.js, unchanged by the fix) + surgical diff (shop.js, the only file touched)
+<div class="dc">  assert.equal(legacyCartTotal([{ price: 25, qty: 2 }]), 53.5); // stale 7% pinned</div>
+<div class="dh">@@ shop.js — 2 insertions, 2 deletions, every line explained @@</div>
+<div class="dd">-const { DISCOUNT_THRESHOLD, DISCOUNT_RATE } = require("./rates");</div>
+<div class="da">+const { DISCOUNT_THRESHOLD, DISCOUNT_RATE, TAX_RATE } = require("./rates"); // line 1: import the truth</div>
+<div class="dd">-  const taxed = (subtotal - discount) * 1.07;</div>
+<div class="da">+  const taxed = (subtotal - discount) * (1 + TAX_RATE); // line 12: read the rate, stop hard-coding</div>
+<div class="dc">  proof: node --test shop.test.js → 3 pass, 0 fail (executed 2026-09-04)</div></div>
+  <p>The spec for the delta reads as a change request, not a system overview: "cartTotal follows rates.js; legacyCartTotal stays untouched." The Existing Projects guide's brownfield loop — baseline, guardrails, one bounded slice, plan against the repo — is exactly steps 1–4 below, and the community's loudest request (a first-party brownfield bootstrap, spec-kit issue 1436) is lead-only signal, never cited as fact: it tells you where teams feel friction, not what the tool guarantees. Where this breaks down: specs describe intended deltas, maps describe static symbols, and neither describes runtime coupling — the pinning test is the third leg, and a session missing any one of the three is guessing.</p>
+
+  <h2><span class="s-n">v.</span>Session — the inherited shop <span class="time">· executed 2026-09-04</span></h2>
+  <p>Three files, plain <code>node --test</code>, zero installs. The shop arrives broken the way inherited code is broken: a live total that hard-codes last year's 7% tax, a truth table that already says 9%, and a stale duplicate waiting to absorb your fix. Run every step with your own keystrokes; the transcripts below are the executed reference.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Branch before you brief</h3>
+    <p class="goal"><strong>Goal:</strong> a reversible baseline. Commit the inheritance untouched, open an <code>agent-fix</code> branch, verify the tree is clean — reversibility before comprehension.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>git init; git add -A; git commit -m "baseline: inherited shop before mapping"; git checkout -b agent-fix; git status</div>
+    <div class="term">◆ baseline · [master (root-commit)] 3 files changed
+◆ branch agent-fix · <span class="g">nothing to commit, working tree clean ✓</span>
+<span class="term-note">Executed 2026-09-04. The commit message says "before mapping" on purpose: the baseline must predate every observation, so any later diff is attributable to the session.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li><code>git status</code> prints clean on the <code>agent-fix</code> branch; baseline commit exists on the parent</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Branch already exists from a previous attempt? Delete it (<code>git branch -D agent-fix</code>) and re-cut from the baseline — a stale branch is an unprotected checkout wearing a costume.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Map read-only</h3>
+    <p class="goal"><strong>Goal:</strong> a neighborhood map that names entry, hubs, tests, and the suspect duplicate — with zero modified files and MAP-NOTES naming the pinning test.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Do NOT edit any file. Read-only map of this repo (shop.js, rates.js, shop.test.js): list entry point, hubs, tests, and any suspect duplicate function. End with one line: PINNING TEST: &lt;test name&gt;. Output MAP-NOTES only.</div>
+    <div class="term">◆ map · read 3 files · edits 0 · <span class="g">git status still clean ✓</span>
+MAP-NOTES: entry shop.js · hub rates.js · tests shop.test.js · suspect legacyCartTotal
+PINNING TEST: cartTotal follows the rates.js truth table (9% tax)
+<span class="term-note">Executed 2026-09-04 via opencode run. The map read all three files and changed none — the clean status after a full read is the verification, not a formality.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li><code>git status --short</code> prints nothing after the map run; MAP-NOTES names entry, hub, tests, suspect, and one pinning test</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Map edited a file "helpfully"? Revert (<code>git checkout -- .</code>), then re-run with the read-only instruction first and the file list second — constraints placed last are obeyed most.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Pin behavior — report only</h3>
+    <p class="goal"><strong>Goal:</strong> a behavior report with no source edits. Run the suite, quote the failure, name the duplicate path as unpinned — characterization before judgment.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Run node --test shop.test.js and report only: per-test pass/fail, the exact assertion that fails, and which function the duplicate path covers. Do NOT edit any source file.</div>
+    <div class="term">◆ pin · tests 3 · <span class="c">pass 1 · fail 2 — 53.5 !== 54.5</span>
+live cartTotal computes 7% (stale) · duplicate covers legacyCartTotal only, unpinned
+<span class="term-note">Executed 2026-09-04. The red is the license: the pinning test fails on the live path (53.5 at hard-coded 7% vs 54.5 at the true 9%) while the duplicate's stale expectation passes — proof the trap is armed.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Failure quoted exactly (<code>53.5 !== 54.5</code>); no source file modified — <code>git status</code> still clean</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>All green on arrival? The truth table drifted — check that rates.js says 0.09 and shop.js still hard-codes 1.07. A pin that passes before the fix is decoration, not proof.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Surgical edit in a written blast-radius</h3>
+    <p class="goal"><strong>Goal:</strong> state the plan (touch / NOT-touch / pinning test), approve it, then land a 1-file diff with every line explained and the suite green.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>BLAST RADIUS (approved): TOUCH shop.js cartTotal only — replace hard-coded 1.07 with (1 + TAX_RATE) imported from ./rates.js. NOT-TOUCH: rates.js, shop.test.js, legacyCartTotal. PINNING TEST: cartTotal follows the rates.js truth table (9 percent tax). Make the edit, then run node --test shop.test.js and report.</div>
+    <div class="term">◆ surgical · <span class="g">shop.js | 4 ++-- · 1 file changed, 2 insertions(+), 2 deletions(-)</span>
+◆ proof · <span class="g">tests 3 · pass 3 · fail 0 ✓</span>
+<span class="term-note">Executed 2026-09-04 via opencode run. Line 1 imports the truth; line 12 reads it. Every other line of the repo is byte-identical — that is what "surgical" means here.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li><code>git diff --stat</code> shows exactly 1 file; each changed line explained; suite green from your own terminal run</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Diff touches 2+ files? Revert and re-paste the NOT-TOUCH list — the plan failed, not the fix. A second file in the diff is a second review you never scheduled.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">5.</span>Break it on purpose (optional, reader-run)</h3>
+    <p class="goal"><strong>Goal:</strong> feel what the map saved you. Apply the same rate change through the duplicate instead, watch the pinning test stay red, then revert — contrast as teacher.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Revert to the baseline commit. Now fix ONLY legacyCartTotal to use TAX_RATE (leave cartTotal hard-coded). Run node --test shop.test.js and report. Then revert again.</div>
+    <div class="term">◆ contrast (expected) · duplicate fixed · <span class="c">pinning test still red — 53.5 !== 54.5</span>
+<span class="term-note">Reference expectation, not an executed run: the pinning test watches the live path, so a duplicate-only fix changes the suite's output nowhere. Revert when done — the branch must end green.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Pinning test stayed red through the duplicate fix; working tree returned to the green step-4 state</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Lost track of which state you're in? <code>git stash</code> then <code>git diff --stat</code> — empty means you're at baseline, one file means you're mid-contrast. Name the state before the next command.</p></div>
+  </div>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>An <code>agent-fix</code> branch cut from a clean baseline commit exists (reversible baseline).</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>My MAP-NOTES names entry, hubs, tests, the suspect duplicate, and the pinning test — written with a clean tree.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>My diff touches 1 file and I can explain every changed line; the written blast-radius approved it first.</span></label>
+    <label class="check-line"><input type="checkbox" id="c4"><span>I re-ran the suite with my own keystrokes: red before (53.5 vs 54.5 quoted), green after.</span></label>
+  </section>
+
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Understand-before-edit arc: verify-first, then explore → plan → implement → commit</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · re-verified live 2026-09-04 · wording holds</span></details>
+    <details><summary>Plan-first mechanics: read-only plan, approve before edits, plan names untouched files</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/common-workflows</span> · ledger row · prescriptive</span></details>
+    <details><summary>Repo-map mechanics: parse → graph-rank → pack under budget; default map budget 1k tokens</summary><span class="receipt"><span class="tier">T1 official</span> aider repo-map page · fetched live 2026-09-04 · ledger row proposed in build report</span></details>
+    <details><summary>Spec Kit Existing Projects track: baseline → guardrails → bounded slice → plan against the repo</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://github.com/github/spec-kit</span> · guide verified live 2026-09-04 · repair row proposed</span></details>
+    <details><summary>Enterprise brownfield case: ~80% per phase, 0.8⁵ ≈ 0.33 compounding, review gates every phase</summary><span class="receipt"><span class="tier">T2 vendor</span> EPAM brownfield essay · verified live 2026-09-04 · single-project sample, full-URL row proposed</span></details>
+    <details><summary>Characterization-test discipline: pin actual behavior first, judge second (Feathers; practitioner essay)</summary><span class="receipt"><span class="tier">T1 practitioner</span> practitioner essay · ledger row proposed in build report</span></details>
+    <details><summary>Conventions steer agent output: agents mirror the repo's existing patterns closely</summary><span class="receipt"><span class="tier">T1 practitioner</span> Willison pragmatic-summit field note · bare-form ledger row · qualitative, consistent</span></details>
+    <details><summary>Brownfield-bootstrap gap discussion (spec-kit issue 1436): community friction signal</summary><span class="receipt"><span class="tier">T3 lead-only</span> community issue thread · never cited as fact · see build report</span></details>
+    <details><summary>Non-interactive agent runs: opencode run with model flag, used for map + surgical steps</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://opencode.ai/docs/cli/</span> · ledger row · executed 2026-09-04</span></details>
+    <details><summary>Executed 2026-09-04: baseline branch, read-only map, red pin (53.5 vs 54.5), 1-file diff, 3/3 green</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · transcripts quoted verbatim above</span></details>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <!-- ch10 not yet appended: prev points home until it lands -->
+    <a href="../ch10/index.html">← session 10</a>
+    <a href="../../index.html">Book III →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch11-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
+</main>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

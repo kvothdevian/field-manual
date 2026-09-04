@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 · Autopsy before belief — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
+</head>
+<body>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 07</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
+</header>
+<main>
+  <p class="kicker">Session 07 · source literacy · opencode default</p>
+  <h1>Autopsy before belief</h1>
+  <p class="lede">Grade any AI-productivity claim into a written verdict — tier and date attached — before you repeat it, and keep a mini-ledger of your own.</p>
+  <p class="kicker" style="margin-top:1rem">60 min · scratch repo claim-lab · needs ch01 · verified 2026-09-04</p>
+
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · the coroner's five wounds</p>
+    <h2><span class="s-n">i.</span>Every claim arrives dead</h2>
+    <p>Treat each AI-productivity number as a body on the table: interesting, possibly informative, nothing yet proven. The autopsy asks five wounds in order — <strong>control?</strong> (was something compared against something), <strong>measurer?</strong> (did the seller or a stranger hold the clock), <strong>funding?</strong> (who paid for the answer), <strong>contamination?</strong> (could the answers have leaked into training), <strong>scope?</strong> (what task, what people, what date). A claim that bleeds at any wound is not repeated with adjectives. It gets a written verdict — tier and date attached — and your agent repeats nothing lacking one.</p>
+    <p>The same question shows why rigor matters more than the headline. An independent nonprofit randomized experienced open-source developers into AI-allowed and AI-disallowed issues: developers <strong>felt</strong> 20% faster and <strong>measured</strong> 19% slower, with public data and code, plus a later follow-up flagging their own selection effects. A vendor study randomized 95 developers on one JavaScript task and reported 55% faster — self-timed, vendor-measured, vendor-funded, confidence interval 21% to 89%. Both are real measurements. Only one survives the five wounds intact; the table in §ii shows where the other dies.</p>
+    <figure>
+      <svg viewBox="0 0 640 300" role="img" aria-label="Autopsy flow: a staged claim passes five wound-gates, earns a tier grade, and lands in one of four verdict buckets.">
+        <g font-family="Consolas, monospace" font-size="11" text-anchor="middle" fill="currentColor">
+          <rect x="235" y="12" width="170" height="40" rx="20" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="37">staged claim</text>
+          <rect x="60" y="92" width="100" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="110" y="116">control?</text>
+          <rect x="172" y="92" width="100" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="222" y="116">measurer?</text>
+          <rect x="284" y="92" width="100" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="334" y="116">funding?</text>
+          <rect x="396" y="92" width="112" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="452" y="116">contamination?</text>
+          <rect x="520" y="92" width="90" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="565" y="116">scope?</text>
+          <rect x="235" y="172" width="170" height="40" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="197">tier + date grade</text>
+          <rect x="30" y="248" width="135" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="97" y="271">earn-belief</text>
+          <rect x="177" y="248" width="135" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="244" y="271">fails-scrutiny</text>
+          <rect x="324" y="248" width="135" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="391" y="271">wrong-frame</text>
+          <rect x="471" y="248" width="139" height="36" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="540" y="271">insufficient-alone</text>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M320,52 L110,92" marker-end="url(#ah7)"/>
+          <path d="M320,52 L222,92" marker-end="url(#ah7)"/>
+          <path d="M320,52 L334,92" marker-end="url(#ah7)"/>
+          <path d="M320,52 L452,92" marker-end="url(#ah7)"/>
+          <path d="M320,52 L565,92" marker-end="url(#ah7)"/>
+          <path d="M110,132 L320,172" marker-end="url(#ah7)"/>
+          <path d="M222,132 L320,172" marker-end="url(#ah7)"/>
+          <path d="M334,132 L320,172" marker-end="url(#ah7)"/>
+          <path d="M452,132 L320,172" marker-end="url(#ah7)"/>
+          <path d="M565,132 L320,172" marker-end="url(#ah7)"/>
+          <path d="M320,212 L97,248" marker-end="url(#ah7)"/>
+          <path d="M320,212 L244,248" marker-end="url(#ah7)"/>
+          <path d="M320,212 L391,248" marker-end="url(#ah7)"/>
+          <path d="M320,212 L540,248" marker-end="url(#ah7)"/>
+        </g>
+        <defs><marker id="ah7" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+      </svg>
+      <figcaption><strong>Fig. 7 — the autopsy flow.</strong> A claim enters at the top, bleeds at whichever wound-gate fails, earns a tier and date, and lands in exactly one bucket. The pipeline answers one question: where does THIS claim die?</figcaption>
+    </figure>
+    <p>Benchmarks get the same treatment, because a benchmark score is a marketing claim wearing a lab coat until proven otherwise. One audit found roughly a third of resolved SWE-bench instances leak solutions and a quarter pass on weak tests — filtering both drops the headline from 12.47% to 4.58%. A memorization test showed models localizing SWE-Bench-Verified files three to six times better than comparable fresh benchmarks: recall, not skill. And one governance case showed the failure no statistic catches — the funding vendor held problems plus solutions pre-record, disclosed late, and now owns everything except a 50-question holdout. Leakage, contamination, governance: three wounds, three different smells.</p>
+    <p>Close the briefing with the working vocabulary. Four verdicts cover every card: <strong>earn-belief</strong> (independent measure, control, dated, public data — actionable inside its scope), <strong>fails-scrutiny</strong> (a wound fails: no control, vendor-measured, leaked answers — do not repeat as fact), <strong>wrong-frame</strong> (the number is real but answers a different question than the headline), <strong>insufficient-alone</strong> (one study, needs corroboration before action). Each verdict rides with a tier — T1 official or practitioner, T2 vendor, T3 lead-only, never cited as fact — and a date. Transfer rule: anything your agent asserts in a session gets claim plus source plus tier plus date, or it gets cut. The checklist cannot manufacture certainty: it filters bad evidence, and the filtered pile can still be empty. An empty pile is itself a finding — act on less, not on wishes.</p>
+  </section>
+
+  <h2><span class="s-n">ii.</span>The same question, opposite rigor <span class="time">· verified 2026-09-04</span></h2>
+  <p>Both studies below ask whether AI tools speed up developers. Read them wound by wound instead of headline by headline, because the headlines point opposite directions while the methods explain why. The nonprofit trial recruited 16 experienced developers on large open-source repos they had contributed to for years, randomized 246 real issues into AI-allowed and AI-disallowed arms at $150 per hour. Developers forecast a 24% speedup, believed afterward they had gained 20% — and measured 19% slower. The vendor study recruited 95 professional developers already familiar with JavaScript, randomized them onto writing one HTTP server, and timed both arms: 1 hour 11 minutes with the tool against 2 hours 41 minutes without, P=.0017, 95% interval 21% to 89%.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Wound</th><th>METR RCT (early-2025 tools)</th><th>Copilot study (2022)</th></tr>
+    <tr><td><strong>Measurer</strong></td><td>Independent nonprofit; public data and code</td><td>The vendor selling the tool (GitHub Next)</td></tr>
+    <tr><td><strong>Control</strong></td><td>Randomized per issue, 246 issues, both arms</td><td>Randomized, two groups, one task</td></tr>
+    <tr><td><strong>Funding</strong></td><td>Donation-funded nonprofit</td><td>Vendor plus vendor-aligned research office</td></tr>
+    <tr><td><strong>Instrument</strong></td><td>Screen-recorded issues, self-reported time, similar-quality PRs both arms</td><td>Self-timed completion, auto-graded correctness</td></tr>
+    <tr><td><strong>Scope</strong></td><td>Experienced OSS devs, own repos, 20-minute to 4-hour real issues</td><td>One JavaScript HTTP server, ~1–3 hours</td></tr>
+    <tr><td><strong>Verdict</strong></td><td><strong>Earn-belief</strong>, narrow scope</td><td><strong>Fails-scrutiny</strong> as fact; usable as vendor-reports</td></tr>
+  </table></div>
+  <p>Three details decide the row you actually act on. First, the instrument: self-reported time is the same clock both studies use, and the nonprofit trial proved that clock runs on feeling — developers misjudged their own speedup by nearly forty points. A self-timed arm run by the party selling the tool inherits that fog unchecked. Second, the interval: 21% to 89% is wide, and the headline quotes the midpoint as though the width were decoration. Third, the follow-up: the nonprofit's original page now carries an out-of-date banner pointing at a February 2026 update, where the authors report that developers who most value AI refused the no-AI arm — selection effects that bias the new estimate downward — plus a pay cut from $150 to $50 per hour that likely deepened the skew. Researchers downgrading confidence in their own method is the honesty model: date every verdict, because tools move and yesterday's earn-belief is today's re-check.</p>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">+20 / −19</span><span class="stat-label">METR: felt faster vs measured slower</span></div>
+    <div class="stat"><span class="stat-num">21–89%</span><span class="stat-label">Copilot 55%: the interval behind the headline</span></div>
+    <div class="stat"><span class="stat-num">12.47→4.58</span><span class="stat-label">headline score after leakage filtering</span></div>
+  </div>
+  <p>The practical takeaway fits in one habit: never repeat a productivity number without its wounds attached. "55% faster" with no measurer, no interval, and no scope is not a finding — it is a rumor with a decimal point. "A 2022 vendor study of 95 developers on one JavaScript task reported 55%, interval 21–89%, vendor-measured" is a verdict a teammate can check and act inside of. The session below makes you write four such verdicts before any agent in your loop is allowed to assert one.</p>
+
+  <h2><span class="s-n">iii.</span>Benchmarks are marketing until proven otherwise <span class="time">· verified 2026-09-04</span></h2>
+  <p>Benchmark scores fail in patterns, and each pattern has a name so you can spot it at reading speed. <strong>Leakage</strong> means the test answers were in the training data: the SWE-bench audit put numbers on it — about one third of resolved instances leak solutions, about one quarter pass on weak tests, and filtering both collapses the headline from 12.47% to 4.58%. The honest response is a method: continuously collect post-release problems so the test set postdates training — the LiveCodeBench design. <strong>Contamination</strong> is leakage's quieter sibling — the model saw the neighborhood, not the key. The Waterloo-group memorization test caught it cleanly: two Claude models localized SWE-Bench-Verified files three times better, and edited files six times better, than comparable fresh benchmarks — a gap that reads as recall wearing a skill costume. That paper is still an arXiv preprint (second revision, December 2025, never peer-reviewed), which is why its verdict is insufficient-alone rather than earn-belief: clever design, single group, await corroboration.</p>
+  <p><strong>Governance</strong> is the wound no statistic catches. The FrontierMath case reads like a checklist answer key: OpenAI commissioned and funded 300 problems, owned them, and held problems plus solutions before its record score — disclosed only after press pressure, with the evaluators admitting the disclosure failure in writing and building a 50-question holdout (statements shared, solutions withheld) so at least one slice stays uncontaminated. Press coverage quoting named actors corroborates the timeline. Your ledger habit: ask who paid, who saw the answers, and when funding was disclosed — before reading the score. Then the Devin walk-back, the fastest corpse in this chapter: "completed real jobs on freelance work" headlines in March 2024, walked back within a month by practitioner-journalist documentation, with a frame-by-frame video debunk circulating as a lead (unverified video — watch it for the questions it raises, cite the written documentation for the facts). Demos are claims, not evidence; the falsifier for any demo is a replication by hands that don't work for the vendor.</p>
+  <figure>
+    <div class="stat-strip">
+      <div class="stat"><span class="stat-num">earn-belief</span><span class="stat-label">TELL: independent clock, control, date — act inside its scope</span></div>
+      <div class="stat"><span class="stat-num">fails-scrutiny</span><span class="stat-label">TELL: a wound fails — do not repeat as fact</span></div>
+      <div class="stat"><span class="stat-num">wrong-frame</span><span class="stat-label">TELL: real number, different question — restate the question</span></div>
+      <div class="stat"><span class="stat-num">insufficient-alone</span><span class="stat-label">TELL: one study — corroborate before acting</span></div>
+    </div>
+    <figcaption><strong>Fig. 8 — the verdict-bucket rail.</strong> Four buckets, one-line tells, and the six transfer questions below. Anything your agent asserts must survive all six or carry its wounds in writing.</figcaption>
+    <ol>
+      <li>Who measured this — the seller or a stranger?</li>
+      <li>What observation would prove it wrong?</li>
+      <li>Was anything compared against anything (control)?</li>
+      <li>Could the answers have leaked into training (contamination)?</li>
+      <li>What scope does the number actually cover — task, people, date?</li>
+      <li>What tier and date ride with it — and what would restamp them?</li>
+    </ol>
+  </figure>
+  <p>The non-expert's backstop is a written checklist used symmetrically — on claims you like, not only claims that annoy you. The checklist tradition behind this chapter (Narayanan and Kapoor's verification heuristics, including a 32-item reporting standard from 19 researchers after leakage errors across dozens of fields) makes one demand: an unanswered question marks a claim <em>unverified</em>, which is a different and more useful status than wrong. Unverified means "do not act yet"; wrong means "act opposite." Confusing the two is how skepticism curdles into cynicism. Your agent loop inherits the discipline: every assertion arrives with claim plus source plus tier plus date, or the harness cuts it unread.</p>
+
+  <h2><span class="s-n">iv.</span>Session — the claim lab <span class="time">· executed 2026-09-04</span></h2>
+  <p>Four steps in a scratch repo named <code>claim-lab</code> holding at most three files (<code>CLAIM.md</code>, <code>EVIDENCE.md</code>, <code>LEDGER.md</code>). You stage one claim, wound-check it, sort four evidence cards into buckets, and bank a mini-ledger. The agent never fetches credentials and never browses: you open URLs in your own browser, paste short quotes into the prompts, and the agent reasons only over what you hand it. Terminals below quote verbatim output from runs executed 2026-09-04 with <code>opencode run</code> (non-interactive) in the scratch dir.</p>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Stage the claim</h3>
+    <p class="goal"><strong>Goal:</strong> one claim on the table, restated in ≤25 words, with its measurer and one falsifier named. No evaluation yet — staging is not judging.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Restate this AI-productivity claim in ≤25 words: "Developers using GitHub Copilot finished an HTTP-server task 55% faster than developers without it." Name the measurer and one observation that would falsify it. Save all three as CLAIM.md. Do not evaluate the claim yet.</div>
+    <div class="term">◆ staged CLAIM.md, executed 2026-09-04:
+&gt; Developers using GitHub Copilot finished an HTTP-server task 55% faster than developers without it. <span class="g">(24 words ✓)</span>
+◆ measurer: GitHub Next + Microsoft Office of the Chief Economist <span class="c">(the vendor)</span>
+◆ falsifier: same-clock replication where the gap falls inside [21%, 89%] or vanishes under blinded grading
+<span class="term-note">Count the words before anything else: a claim you cannot restate shortly is a claim you do not understand yet.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>CLAIM.md exists with ≤25-word restatement (count shown)</li><li>Measurer named explicitly; falsifier is an observation, not a vibe</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Restatement keeps ballooning past 25 words? You are smuggling two claims in one sentence — split them and stage the stronger half. Adjectives ("dramatically", "significantly") are banned from the staged line; numbers and nouns only.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Five-wound check</h3>
+    <p class="goal"><strong>Goal:</strong> five lines, one per wound, each ending PASS, FAIL, or UNKNOWN with a quoted backing. The agent reasons only over quotes you paste from pages you opened.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Five-wound check on the claim in CLAIM.md. Use ONLY the backing quotes I paste below — quote one per wound. Output EXACTLY five lines, format "1. Control — &lt;one sentence with a short quote&gt; — PASS" (or FAIL/UNKNOWN), wounds: Control, Measurer, Funding, Contamination, Scope. No other text. Backing: [paste 2–4 short quotes from the source page you opened: randomization line, byline/credit line, timing/grading line, task-scope line].</div>
+    <div class="term">◆ wound check, verbatim agent output, executed 2026-09-04:
+1. Control — Randomization via "split them randomly into two groups" provides a control group — <span class="g">PASS</span>
+2. Measurer — Measurement by "The GitHub Next team" lacks independence from the vendor — <span class="c">FAIL</span>
+3. Funding — Work done "in partnership with the Microsoft Office of the Chief Economist" shows vendor funding — <span class="c">FAIL</span>
+4. Contamination — Controls used "we gave everyone the same instructions" with auto-grading and no leakage concept — <span class="g">PASS</span>
+5. Scope — Claim matches "write an HTTP server in JavaScript" by developers "already familiar with JavaScript" — <span class="g">PASS</span>
+<span class="term-note">Wound 4 is generous: self-timing is a foggy instrument, and "no leakage concept" is my gloss, not a finding.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Exactly five lines, each ending PASS/FAIL/UNKNOWN</li><li>Every line carries a short quote from a page you opened yourself</li><li>At least one wound challenged (a 5×PASS card is a press release, re-run it)</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Agent invents backing you never pasted? Stop the run — you handed it room to hallucinate. Re-run with quotes inline and the instruction "use ONLY the backing quotes"; anything unquoted becomes UNKNOWN by rule, and UNKNOWN is a valid, honorable result.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Four-bucket sort</h3>
+    <p class="goal"><strong>Goal:</strong> you pre-commit placements on paper FIRST, then the agent places all four cards. Disagreements get argued against the ledger — the argument is the skill.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Four-bucket sort. Buckets: EARN-BELIEF (independent measure, control, dated, public data), FAILS-SCRUTINY (a wound fails), WRONG-FRAME (real number, different question than the headline), INSUFFICIENT-ALONE (one study, needs corroboration). Place four cards using ONLY my backing: (A) Copilot-55pct: n=95 randomized, vendor-measured, vendor-funded, single JS task. (B) METR-RCT: independent nonprofit RCT, felt +20pct measured -19pct, public data+code, authors later flagged selection effects. (C) SWE-Bench headline: ~1/3 of resolved instances leak solutions, ~1/4 pass weak tests. (D) FrontierMath o3 record: vendor owned problems+solutions pre-record except 50-question holdout. Output EXACTLY four lines "A: &lt;BUCKET&gt; — &lt;one clause why&gt;" through "D: ...". No other text.</div>
+    <div class="term">◆ sort, verbatim agent output, executed 2026-09-04:
+A: FAILS-SCRUTINY — vendor-measured and vendor-funded single JS task
+B: EARN-BELIEF — independent RCT with public data and code
+C: WRONG-FRAME — score counts leaked solutions and weak-test passes
+D: INSUFFICIENT-ALONE — only 50-question holdout left uncontaminated
+<span class="term-note">My paper pre-commit read D as FAILS-SCRUTINY — the record was set on problems the vendor had seen. The agent's softer bucket lost the argument; final D FAILS-SCRUTINY.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Your paper pre-commit exists BEFORE the agent output (photo or timestamp it)</li><li>Agent placed all four cards, one bucket each, reasons quoted</li><li>Every disagreement resolved in writing against a ledger row</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Agent agrees with your pre-commit on all four cards? Your backing handed it the answers — thin the quotes (facts only, no verdict words like "fails" or "leak") and re-run. A sort that cannot surprise you cannot teach you.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Bank the mini-ledger</h3>
+    <p class="goal"><strong>Goal:</strong> every card becomes one ledger row — URL, claim, tier, as-of, fetched — and anything you could not re-verify gets flagged STALE, never silently inherited.</p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Write LEDGER.md: one row per sorted card as "URL · claim supported · tier · as-of · fetched (y/n)". Tiers: T1 official/practitioner, T2 vendor, T3 lead-only (never cited as fact). Flag any row I could not re-verify today as STALE with one clause why. Four rows plus the STALE watch line. No other text.</div>
+    <div class="term">◆ banked LEDGER.md, executed 2026-09-04:
+Copilot 55% · T2 · 2026-09-04 · y — FAILS-SCRUTINY
+METR RCT + banner · T1 · 2026-09-04 · y — EARN-BELIEF, narrow scope
+SWE-Bench+ audit · T1 · 2024-10 · n <span class="c">(ledger row, unrefetched)</span> — WRONG-FRAME
+Epoch holdout admission · T1 · 2026-09-04 · y — D FAILS-SCRUTINY
+<span class="w">STALE watch: the verification-heuristics hub has moved to a renamed subscription page — re-anchor that row before citing it again.</span>
+<span class="term-note">Four rows banked, one STALE flag raised. A ledger with no STALE flags is either fresh or dishonest — check which before trusting it.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>LEDGER.md has URL · claim · tier · as-of · fetched on every row</li><li>No T3 row cited as fact; STALE flags carry reasons</li><li>claim-lab holds ≤3 files (CLAIM.md, EVIDENCE.md, LEDGER.md)</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Cannot open a URL to verify (paywall, dead link, redirect)? That IS the result: mark fetched n, flag STALE with the reason, and downgrade any verdict that depended on it one bucket toward insufficient-alone. Unverifiable claims get cut or labeled — never inherited.</p></div>
+  </div>
+
+  <ol class="timeline">
+    <li><b>stage</b> — 24-word claim, vendor measurer, written falsifier. No judging yet.</li>
+    <li><b>wound-check</b> — control PASS, measurer FAIL, funding FAIL, contamination PASS, scope PASS.</li>
+    <li><b>sort</b> — pre-commit on paper, agent places four cards, disagreement on D resolved against the ledger.</li>
+    <li><b>bank</b> — four ledger rows with tiers and dates, one STALE flag raised.</li>
+  </ol>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>I staged a claim in ≤25 words with measurer and falsifier written down.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I wrote five wound lines, each ending PASS/FAIL/UNKNOWN with a quote I opened myself.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>I pre-committed bucket placements on paper, then argued at least one disagreement to a written verdict.</span></label>
+    <label class="check-line"><input type="checkbox" id="c4"><span>My LEDGER.md banks URL · claim · tier · as-of · fetched per row and flags anything stale.</span></label>
+  </section>
+
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>METR RCT: felt +20%, measured −19%, 16 devs, 246 issues, public data + out-of-date banner</summary><span class="receipt"><span class="tier">T1 nonprofit</span><span class="r-url">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</span> · re-verified 2026-09-04 · banner + Feb-2026 pointer hold, figures unchanged</span></details>
+    <details><summary>METR uplift update: selection effects, $150→$50 pay cut, unreliable new signal</summary><span class="receipt"><span class="tier">T1 nonprofit</span><span class="r-url">https://metr.org/blog/2026-02-24-uplift-update/</span> · fetched live 2026-09-04 · authors downgrade own method, raw −18%/−4% with wide intervals</span></details>
+    <details><summary>Copilot 55%: n=95, HTTP server in JS, 1h11m vs 2h41m, P=.0017, CI 21–89%, vendor-measured</summary><span class="receipt"><span class="tier">T2 vendor</span><span class="r-url">https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/</span> · re-verified 2026-09-04 · self-timed, vendor-funded</span></details>
+    <details><summary>SWE-Bench+ audit: ~33% leaked solutions, ~25% weak-test passes, 12.47%→4.58%</summary><span class="receipt"><span class="tier">T1 research</span><span class="r-url">https://arxiv.org/abs/2410.06992</span> · ledger row · benchmark-inflation anatomy</span></details>
+    <details><summary>LiveCodeBench: post-release collection, contamination-free eval template</summary><span class="receipt"><span class="tier">T1 research</span><span class="r-url">https://arxiv.org/abs/2403.07974</span> · ledger row · the honest-response method</span></details>
+    <details><summary>Waterloo memorization test: 3x file / 6x edited-file gaps, recall vs skill</summary><span class="receipt"><span class="tier">T1 preprint</span><span class="r-url">https://arxiv.org/abs/2512.10218</span> · re-verified 2026-09-04 · still arXiv-only (v2, Dec 2025), never peer-reviewed</span></details>
+    <details><summary>Epoch admission: 300 commissioned problems, vendor held statements+solutions, 50-question holdout</summary><span class="receipt"><span class="tier">T1 primary</span><span class="r-url">https://epoch.ai/latest/openai-and-frontiermath</span> · re-verified 2026-09-04 · holdout wording holds verbatim</span></details>
+    <details><summary>Press corroboration of the FrontierMath disclosure timeline</summary><span class="receipt"><span class="tier">T2 press</span><span class="r-url">https://techcrunch.com/2025/01/19/ai-benchmarking-organization-criticized-for-waiting-to-disclose-funding-from-openai/</span> · ledger row · named actors quoted</span></details>
+    <details><summary>Devin walk-back: freelance-work headlines withdrawn within a month</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://newsletter.pragmaticengineer.com/p/the-pulse-90</span> · ledger row · contemporaneous documentation</span></details>
+    <details><summary>Devin video debunk (lead only — questions, not facts)</summary><span class="receipt"><span class="tier">T3 lead-only</span><span class="r-url">https://www.youtube.com/watch?v=tNmgmwEtoWE</span> · ledger row · never cited as fact; pair with the written row above</span></details>
+    <details><summary>Verification heuristics hub (redirected since — re-anchor before reuse)</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">https://www.aisnakeoil.com/</span> · fetched 2026-09-04 · now forwards to a renamed subscription page; STALE watch</span></details>
+    <details><summary>Executed 2026-09-04: staged claim, five-wound check, four-bucket sort, banked mini-ledger</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</span> · ledger row · transcripts quoted verbatim in session terminals</span></details>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch06/index.html">← session 06</a>
+    <!-- ch08 landed -->
+    <a href="../ch08/index.html">session 08 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch07-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
+</main>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>

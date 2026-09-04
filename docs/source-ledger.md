@@ -61,6 +61,10 @@ Rows below are lightly normalized; wording preserved from the vetting pass.
 | Memorization test: Claude models localize SWE-Bench-Verified files 3–6x better than comparable fresh benchmarks — recall vs skill | https://arxiv.org/abs/2512.10218 | T1 | 2025-12 | n | Waterloo-group preprint; clever design |
 | Vendor study to teach scrutiny of: Copilot "55% faster" (n=95, self-timed, no control, vendor-funded) | https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/ | T2 | 2022-12 | n | Classic contrast case vs controlled design |
 | Non-expert verification heuristics: checklists for AI-hype metrics, bad benchmarks, unfalsifiable claims | https://www.aisnakeoil.com/ | T1 | ongoing | n | Narayanan & Kapoor, credentialed skeptics |
+| Copilot 55% re-verified: n=95, HTTP server in JS, 1h11m vs 2h41m, P=.0017, 95% CI [21%, 89%], self-timed, vendor-measured/funded | https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/ | T2 | 2026-09-04 | y | v2 ch07 evidence packing: live page confirms design + interval behind the headline |
+| Waterloo memorization test still arXiv-only preprint (v2, 22 Dec 2025, never peer-reviewed); 3x file / 6x edited-file localization gaps, recall-vs-skill | https://arxiv.org/abs/2512.10218 | T1 | 2026-09-04 | y | v2 ch07: preprint status = insufficient-alone, not earn-belief |
+| REFORMS checklist: 32 reporting items by 19 researchers; hit-song 97%-to-chance leakage case + Nature oncology leakage case | https://www.normaltech.ai/p/introducing-the-reforms-checklist | T1 | 2026-09-04 | y | v2 ch07: dated deep link behind the checklist tradition; authors' new domain after hub move |
+| Verification-heuristics hub now forwards to renamed subscription page; re-anchor before reuse for checklist specifics | https://www.aisnakeoil.com/ | T1 | 2026-09-04 | y | v2 ch07: STALE watch, do not cite for checklist specifics until re-anchored |
 
 ## Ch 02 — The harness landscape (+ Appendix A data)
 
@@ -277,6 +281,12 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Accessibility-tree snapshot loop alternative | github.com/microsoft/playwright-mcp | T1 | current | y | Documents MCP-vs-CLI tradeoff itself |
 | Visual-craft gold standard exemplar | ciechanow.ski/moon/ | T1 | 2024-12-17 | y | Exemplar artifact; no colophon documenting tooling |
 | Agents follow existing codebase patterns "almost to a tee" — inverse evidence missing conventions yield generic output | simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-03-14 | y | Anecdotal but leading practitioner |
+| Relative luminance: L = 0.2126R + 0.7152G + 0.0722B after sRGB linearization, threshold 0.04045 (corrected from 0.03928 May 2021, no practical effect); contrast ratio (L1+0.05)/(L2+0.05), range 1–21 | https://www.w3.org/TR/WCAG22/ | T1 | 2026-09-04 | y | v2 ch08: fetched live; threshold corrected per live text |
+| Contrast minimum: body text/images of text ≥ 4.5:1; large-scale text ≥ 3:1 (1.4.3) | https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
+| Use of color: color never the only visual means of conveying info/indicating action (1.4.1) | https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html | T1 | 2026-09-04 | y | v2 ch08: fetched live; backs glyph+word verdicts |
+| Target size minimum: pointer targets ≥ 24×24 CSS px (2.5.8); book holds 38/44px above it | https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
+| Focus visible: keyboard-operable UI has a mode where the focus indicator is visible (2.4.7) | https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
+| Animation from interactions can be disabled unless essential (2.3.3, reduced-motion) | https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html | T1 | 2026-09-04 | y | v2 ch08: fetched live |
 
 ## Ch 09 — Testing what agents build
 
@@ -291,6 +301,16 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Conformance-suite trick: cross-framework passing suite first, then implement against it | simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-03-14 | y | Worked example included |
 | Performance traces as acceptance checks via browser-driving agent | github.com/ChromeDevTools/chrome-devtools-mcp | T1 | current | y | "Check performance of <url>" pattern |
 | Third-party explainer corroborating CLI-as-token-efficient-alternative | testcollab.com/blog/playwright-cli | T3 | 2026-02-12 | y | Corroboration, not primary |
+| Agent-test quality keystone (PREPRINT): 204,673 files (24,941 human + 179,732 agent); assertion strength 88.1% vs 85.37%; edge variety 0.62 vs 0.32; null-safety 13.40% vs 8.3%; flakiness 0.41 vs 0.30; "environmental awareness" framing | https://arxiv.org/abs/2607.12068 | T1 | 2026-09-04 | y | v2 ch09: fetched live, PREPRINT v1 (13 Jul 2026); single-study numbers, labeled preprint-not-verdict |
+| Tests-after-code encode misreadings (tautology); contract tests reviewed as spec; hermeticity audit; role-split agents; "run the suite before claiming done, paste the output" | https://www.codewithseb.com/blog/test-driven-agentic-development-guide | T1 | 2026-09-04 | y | v2 ch09: fetched live; URL-form row; cites the 2607.12068 study |
+| Tests effectively free/no-longer-optional; red-green as five-token prompt; sessions start with how to run tests; curl + Showboat command-output demos (exercise-evidence split) | https://simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-09-04 | y | v2 ch09: fetched live; exercise-evidence split row |
+| Conformance-suite trick: passing suite built across six frameworks first, seventh implementation grown under it | https://simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-09-04 | y | v2 ch09: same page, second claim; worked Datasette example |
+| Evals-lite URL-form: task + grader + outcome; grade outcomes; read transcripts not aggregates; maintain suites like tests | https://anthropic.com/engineering/demystifying-evals-for-ai-agents | T2 | 2026-09-04 | y | v2 ch09: fetched live (Jan 2026 piece); vendor-authored |
+| @playwright/cli token rationale URL-form: does not force page data into LLM; show --annotate review dashboard | https://github.com/microsoft/playwright-cli | T1 | 2026-09-04 | y | v2 ch09: README fetched live; re-verified trio |
+| Playwright MCP URL-form: stateful loops where continuous context beats token cost | https://github.com/microsoft/playwright-mcp | T1 | 2026-09-04 | y | v2 ch09: README fetched live; frames tradeoff both ways |
+| Trace viewer URL-form: per-action screenshots/DOM/network/console; on-first-retry; loads locally | https://playwright.dev/docs/trace-viewer | T1 | 2026-09-04 | y | v2 ch09: docs fetched live |
+| CLI-vs-MCP context cost URL-form, single measurement: 68-token skill vs ~3.6k-token schema; 16% full success vs 18% partial | https://betterstack.com/community/guides/ai/playwright-cli-vs-mcp-browser | T2 | 2026-09-04 | y | v2 ch09: fetched live (Feb 2026); fenced single-measurement, not a benchmark |
+| Performance traces as acceptance checks ("check the performance" first-prompt pattern) URL-form | https://github.com/ChromeDevTools/chrome-devtools-mcp | T1 | 2026-09-04 | y | v2 ch09: README fetched live |
 
 ## Ch 10 — Debugging when it breaks
 
@@ -304,6 +324,10 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Agents must exercise what they build (boot server, curl API) and show evidence, not assert success | simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-03-14 | y | Showboat evidence-document workflow |
 | Packaged systematic-debugging skill: root-cause tracing backward through call stack | github.com/obra/superpowers/blob/main/skills/debugging/root-cause-tracing/SKILL.md | T1 | current | y | Jesse Vincent library, highlighted by Willison |
 | Systematic production-agent debugging: normalize trajectories, earliest failing step, replay failures as test artifacts | tianpan.co/blog/2026-02-19-systematic-debugging-ai-agents-production | T2 | 2026-04-15 upd | y | Sound synthesis, not independently reviewed |
+| Claude hatch claims re-verified: /rewind restores conversation+code (or summarizes), /clear after two failed corrections with better prompt, Stop hook blocks turn until check passes, overridden after 8 consecutive blocks | https://code.claude.com/docs/en/best-practices | T1 | 2026-09-04 | y | v2 ch10: fetched live; highest-churn claims re-verified |
+| git bisect run exit-code contract: 0 = good/old, 1–127 except 125 = bad/new, 125 = skip untestable, anything else aborts; test script kept outside the repo | https://git-scm.com/docs/git-bisect | T1 | 2026-09-04 | y | v2 ch10: fetched live (manual v2.55.0); executed via debug-lab bisect |
+| opencode session exits: run --continue/--session/--fork/--share; session list/delete; TUI multi-session + /new + git-backed /undo | https://opencode.ai/docs/cli/ | T1 | 2026-09-04 | y | v2 ch10: local `opencode run --help` / `opencode session --help` output; PING-OK executed |
+| opencode TUI exits corroboration: multi-session, /new, git-backed /undo + redo | https://opencode.ai/docs/tui | T1 | 2026-09-04 | y | v2 ch10: pairs with local --help row above |
 
 ## Ch 11 — Brownfield reality
 
@@ -318,6 +342,11 @@ credit systems, free-tier training tradeoffs, off-peak routing economics.
 | Safe-refactoring vocabulary: cataloged behavior-preserving moves agents can execute mechanically | refactoring.com/catalog/ | T1 | current | y | Fowler canon |
 | Conventions steer agent quality in existing repos ("first person to use Redis must do it perfectly") | simonwillison.net/2026/Mar/14/pragmatic-summit/ | T1 | 2026-03-14 | y | Qualitative, consistent |
 | Enterprise brownfield case study: spec-kit phases on legacy portal; ~0.8^5 compounding justifies per-phase review gates | epam.com insights using-spec-kit-for-brownfield-codebase | T2 | 2025-12-30 | y | Single-project sample |
+| Repo-map mechanics URL-form: parse symbols, graph-rank over file dependencies, pack top-ranked under budget; --map-tokens default 1k, expands when no files in chat | https://aider.chat/docs/repomap.html | T1 | 2026-09-04 | y | v2 ch11: fetched live; default-budget figure quoted from page |
+| Characterization tests: pin actual behavior first (wrong-assertion → read failure → set expectation → repeat); document actuality, not correctness | https://www.artima.com/weblogs/viewpost.jsp?thread=198296 | T1 | 2026-09-04 | y | v2 ch11: Savoia practitioner essay on Feathers' discipline |
+| Spec Kit Existing Projects track URL-form (REPAIR: replaces bare github.github.com row): reviewable baseline, guardrails already true, one bounded slice, plan against the repo | https://github.com/github/spec-kit/blob/main/docs/guides/existing-projects.md | T1 | 2026-09-04 | y | v2 ch11: guide confirmed live; correct repo-path URL |
+| Enterprise brownfield case URL-form (REPAIR: full canonical URL, single-sample caveat kept): ~80%/phase, 0.8^5 = 0.33 compounding, per-phase review gates; agent duplicated email-service instead of reusing | https://www.epam.com/insights/ai/blogs/using-spec-kit-for-brownfield-codebase | T2 | 2026-09-04 | y | v2 ch11: fetched live; figure confirmed on page, single-project sample |
+| Understand-before-edit arc URL-form (re-verified: Explore → Plan → Implement → Commit; "Give Claude a way to verify its work") | https://code.claude.com/docs/en/best-practices | T1 | 2026-09-04 | y | v2 ch11: re-fetched live; wording holds |
 
 ---
 

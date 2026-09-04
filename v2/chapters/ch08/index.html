@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>08 · Good UI with agents — The Agentic Coding Field Manual (v2)</title>
+<script>(function(){var t;try{t=localStorage.getItem("fm-v2-theme")}catch(e){}if(!t)t="light";document.documentElement.dataset.theme=t})();</script>
+<link rel="stylesheet" href="../../assets/css/style-b.css">
+</head>
+<body>
+<header class="site">
+  <a href="../../index.html"><b>field manual</b> · v2</a>
+  <a href="../../index.html">tracks</a><a href="index.html" class="here">session 08</a>
+  <button class="theme-btn" id="themeBtn" type="button">Night</button>
+</header>
+<main>
+  <p class="kicker">Session 08 · UI with agents · opencode default</p>
+  <h1>Good UI with agents</h1>
+  <p class="lede">Ship an agent-built quiz card you can defend with numbers: every pair's ratio recomputed by your own keystrokes, and a screenshot loop that halts on a sentence you wrote first.</p>
+  <p class="kicker" style="margin-top:1rem">70 min · scratch repo · needs ch04 · verified 2026-09-04</p>
+
+  <section class="briefing" aria-label="Briefing">
+    <p>Briefing · 5 min · constrain, then measure</p>
+    <h2><span class="s-n">i.</span>The median ships unless you forbid it</h2>
+    <p>Ask an agent for a quiz card with no constraints and you get the training-data median: a dark card, slate text, rounded buttons, green-means-go feedback. It looks competent because it is the average of ten thousand competent cards. The failure is not aesthetic: nothing in the prompt forbids a 3.07:1 hint, color-only feedback, or buttons a keyboard can never reach. The median is wrong by default, because unwritten rules lose to pattern frequency. The practitioner inverse states it from the other side: agents follow existing codebase patterns closely, so a repo with no patterns gets generic output. Supply the pattern or the median ships.</p>
+    <p>Three constraint layers fix three different defaults. <strong>Tokens</strong> are named values — paper, ink, go, stop — kept in one file, so an off-palette color is not a judgment call but unwritable: the literal has nowhere legal to live. <strong>Component contracts</strong> make the compliant path the path of least resistance: buttons carry their pressed state, verdicts carry glyph plus word plus a live region, targets clear 44px by construction rather than by review. <strong>The accessibility floor is arithmetic</strong>, not taste: body pairs hold 4.5:1, large text 3:1, the book's own enhanced bar 7:1 where it claims it; meaning never rides on color alone; targets clear the 24px minimum with margin; focus stays visible; motion answers to the user's reduced-motion setting. They stack in that order: values, shapes, numbers.</p>
+    <figure>
+      <svg viewBox="0 0 640 300" role="img" aria-label="Constraint stack: tokens, contracts, and the accessibility gate filter generation; unconstrained vibes bounce off, judged UI exits.">
+        <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="currentColor">
+          <rect x="200" y="20" width="240" height="48" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="48">tokens · named values only</text>
+          <rect x="200" y="96" width="240" height="48" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="124">contracts · legal shapes only</text>
+          <rect x="200" y="172" width="240" height="48" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="194">a11y gate · ratios ≥ 4.5:1</text>
+          <rect x="200" y="248" width="240" height="40" rx="20" fill="none" stroke="currentColor" stroke-width="2"/>
+          <text x="320" y="273">judged UI exits</text>
+          <text x="90" y="130">vibes →</text>
+          <text x="90" y="150">bounce off</text>
+          <text x="548" y="130">← median</text>
+          <text x="548" y="150">rejected</text>
+        </g>
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M320,68 L320,96" marker-end="url(#ah8)"/>
+          <path d="M320,144 L320,172" marker-end="url(#ah8)"/>
+          <path d="M320,220 L320,248" marker-end="url(#ah8)"/>
+          <path d="M140,140 L200,120" marker-end="url(#ah8)"/>
+          <path d="M500,140 L440,120" marker-end="url(#ah8)"/>
+        </g>
+        <defs><marker id="ah8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="currentColor" stroke-width="1.5"/></marker></defs>
+      </svg>
+      <figcaption><strong>Fig. 8 — the constraint stack.</strong> Generation passes down through values, shapes, and numbers. Anything that cannot name its ratio never reaches the exit.</figcaption>
+    </figure>
+    <p>Then the loop with eyes. The official prescription is a screenshot loop: hand the agent a check it can run — a test suite, a build, a screenshot compared against a design — because that check is the difference between a session you watch and one you walk away from. The UI form is explicit: take a screenshot of the result, compare it to the original, list differences, fix them. The warning rides with the prescription: a loop without acceptance criteria polishes forever, so the stop rule is written before the first screenshot. This session's halt rule names four checks and a two-cycle cap, and the loop below exits after a single genuine catch.</p>
+    <p>One honest boundary to close the briefing. Constraints scale an identity; they do not originate one. No token sheet invents taste, systems ossify around yesterday's answers, and tokens drift — this book confesses its own: the first draft of this session's sheet shipped a border token at 1.48:1, caught only because the arithmetic ran before the prose did. The discipline is noticing: write the numbers down, recompute one by hand, fix the token instead of the component.</p>
+  </section>
+
+  <h2><span class="s-n">ii.</span>Three layers, one card <span class="time">· values, shapes, numbers</span></h2>
+  <p>Tokens answer "what values exist." The format is standardized enough to interchange: name, value, type, alias — the Design Tokens Community Group's 2025.10 module, verified live 2026-09-04, still explicitly a Community Group Draft rather than a W3C Standard. In this session the sheet is eight names in one JSON file: paper, ink, muted, wash, go, stop, line, focus, plus radius and target size. The enforcement is a one-line search: after the rebuild, hex literals appear on exactly two lines — the token block itself — versus twelve scattered lines in the baseline. A literal anywhere else is not a style nit; it is a value the system cannot name, audit, or change in one place.</p>
+  <p>Contracts answer "what shapes are legal." A component library states the same idea at scale: predictable, documented pieces an agent can compose without inventing. The session's contract fits in five sentences. Buttons expose pressed state and stay disabled after a pick. Verdicts speak in three channels at once — glyph, word, and a live region — so no meaning travels by hue alone. Targets hold a 48px minimum, above both the platform 24px floor and the book's 44px bar. Focus is always drawn, 3px, at 6.70:1 against paper. Motion dies under reduced-motion. None of this is reviewed after the fact; it is built into the markup the agent is told to emit, which is what "path of least resistance" means in practice.</p>
+  <p>Arithmetic answers "prove it." Relative luminance linearizes each sRGB channel — threshold 0.04045 in the current WCAG 2.2 text, corrected from the older 0.03928 in May 2021 with no practical effect on results — weights them 0.2126 / 0.7152 / 0.0722, and the contrast ratio is lighter-plus-0.05 over darker-plus-0.05, ranging 1 to 21. The bars: 4.5:1 for body text, 3:1 for large text, 7:1 at the enhanced level. Color is never the only channel. Targets hold 24 by 24 CSS pixels minimum. Focus indicators stay visible to keyboard users. Motion triggered by interaction can be disabled. Six rows, six numbers or sentences, zero adjectives — that is the whole gate, and the session runs it by hand.</p>
+  <div class="table-scroll"><table>
+    <tr><th>#</th><th>Halt criterion</th><th>How it fails in the wild</th><th>Checked by</th></tr>
+    <tr><td><strong>1</strong></td><td>Every text pair ≥ 4.5:1</td><td>Muted hint at 3.07:1 — readable to the author, faint to the reader</td><td>node -e recompute, own keystrokes</td></tr>
+    <tr><td><strong>2</strong></td><td>Zero hex literals outside the token block</td><td>One-off colors that no audit can find and no theme can change</td><td>literal search over the file</td></tr>
+    <tr><td><strong>3</strong></td><td>Card survives 360px with no horizontal scroll</td><td>Fixed-width cards that burst their viewport on small phones</td><td>browser resize, reader-run</td></tr>
+    <tr><td><strong>4</strong></td><td>Every control Tab-reachable with a visible ring</td><td>Mouse-only cards: operable in the demo, locked in the keyboard test</td><td>keyboard-only Tab pass</td></tr>
+  </table></div>
+  <p>Read the rail as a contract with yourself, in this order: numbers first, because a failing ratio vetoes everything below it; provenance second, because unnamed values rot; viewport third, because the phone is not an edge case; keyboard fourth, because it is the test most demos skip. The rail is written before the loop runs — that ordering is the entire difference between a stopping condition and a wish. Two cycles maximum, then the halt statement goes in the notes file whether the card ships or not.</p>
+  <div class="table-scroll"><table>
+    <tr><th>Pair (fg on bg)</th><th>Lighter L</th><th>Darker L</th><th>Ratio</th><th>Verdict</th></tr>
+    <tr><td><strong>Hint #64748B on card #1E293B</strong> (baseline)</td><td>0.1706</td><td>0.0219</td><td>3.07:1</td><td>FAIL — below 4.5:1</td></tr>
+    <tr><td><strong>Ink #1B1B1B on paper #FFFFFF</strong></td><td>1.0000</td><td>0.0110</td><td>17.22:1</td><td>PASS — clears 7:1 enhanced</td></tr>
+    <tr><td><strong>Muted #4A5568 on paper #FFFFFF</strong></td><td>1.0000</td><td>0.0833</td><td>7.53:1</td><td>PASS — clears 7:1 enhanced</td></tr>
+    <tr><td><strong>Go #1E6B3A on wash #EAF5EE</strong></td><td>0.8897</td><td>0.1110</td><td>5.84:1</td><td>PASS</td></tr>
+    <tr><td><strong>Paper #FFFFFF on go #1E6B3A</strong></td><td>1.0000</td><td>0.1110</td><td>6.52:1</td><td>PASS</td></tr>
+    <tr><td><strong>Stop #B91C1C on paper #FFFFFF</strong></td><td>1.0000</td><td>0.1123</td><td>6.47:1</td><td>PASS</td></tr>
+  </table></div>
+  <p>The table is the session's audit ledger, executed 2026-09-04: one failing baseline pair against five passing token pairs. Note what the numbers do not say. The baseline's eyebrow at 5.71:1 passes, and two passing buttons at 8.40:1 pass — the median is not uniformly bad, which is precisely why taste cannot judge it. Only the per-pair arithmetic finds the single faint line. That is the habit this chapter installs: never "looks fine" when a division is available.</p>
+  <h2><span class="s-n">iii.</span>Before, after, and the loop that stays honest <span class="time">· executed 2026-09-04</span></h2>
+  <p>Same quiz card, two builds. The left card is agent output under a bare prompt — thirty-one lines, dark slate, confident. The right card is the token rebuild. Six decisions changed between them, and each one is checkable without opening an opinion:</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin:1rem 0;">
+    <div style="flex:1 1 220px;border:2px solid currentColor;border-radius:10px;padding:14px;opacity:.92;">
+      <p style="margin:0 0 6px;font-size:11px;letter-spacing:1px;">BEFORE · unconstrained</p>
+      <p style="margin:0 0 6px;font-size:15px;font-weight:700;">What is the capital of France?</p>
+      <p style="margin:0 0 6px;font-size:13px;">Berlin · Paris · Madrid · Rome</p>
+      <p style="margin:0;font-size:12px;">Feedback: button turns green or red.</p>
+    </div>
+    <div style="flex:1 1 220px;border:2px solid currentColor;border-radius:10px;padding:14px;">
+      <p style="margin:0 0 6px;font-size:11px;letter-spacing:1px;">AFTER · token sheet</p>
+      <p style="margin:0 0 6px;font-size:15px;font-weight:700;">What is the capital of France?</p>
+      <p style="margin:0 0 6px;font-size:13px;">48px targets · pressed states · focus ring</p>
+      <p style="margin:0;font-size:12px;">✓ Correct — Paris · ✗ Wrong — the answer is Paris.</p>
+    </div>
+  </div>
+  <p>The six, in order: (1) eleven scattered hex literals collapse into eight named tokens, so the palette is writable in exactly one place; (2) the 3.07:1 hint becomes muted-on-paper at 7.53:1, clearing even the enhanced bar; (3) color-only feedback gains glyph, word, and live region — ✓/✗ plus text plus role=status; (4) targets hold a 48px minimum, doubling the platform floor; (5) a 3px focus ring at 6.70:1 appears where no focus style existed; (6) animation and transitions answer to prefers-reduced-motion. Cost of all six: one JSON file and a contract paragraph in the prompt. That price is the chapter's thesis in miniature.</p>
+  <div class="diff">--- tokens.json (draft) · line token failed the gate
++++ tokens.json (shipped) · fix the token, not the component
+-  "line": "#CBD5E1",   →  1.48:1 on paper · boundary invisible to low vision
++  "line": "#64748B",   →  4.76:1 on paper · boundary holds without shouting</div>
+  <p>The diff above is the loop's single catch, and it is the book's confession in miniature: the first token draft shipped a border at 1.48:1, found only because the halt rule demanded every boundary pair be measured. Borders are not text, but they are the component's edge — and an edge nobody can see is a missing control. The fix landed in tokens.json, one line, every component inheriting it. Fix the token, not the component: that sentence is worth more than the other four thousand words here.</p>
+  <div class="term">◆ loop 1 · screenshot vs stop rule · <span class="g">halt checks 3/4 → fix token → 4/4 SHIP</span>
+<span class="term-note">Authored example from the executed 2026-09-04 run: the only fix cycle this session needed. Written stop rule first, one token changed, halt statement filed in notes.md. A second cycle was budgeted and unspent.</span></div>
+  <div class="stat-strip">
+    <div class="stat"><span class="stat-num">1 / 2</span><span class="stat-label">fix cycles spent of budgeted two</span></div>
+    <div class="stat"><span class="stat-num">5 / 5</span><span class="stat-label">token pairs ≥ 4.5:1 by own keystrokes</span></div>
+    <div class="stat"><span class="stat-num">12 → 2</span><span class="stat-label">literal-bearing lines, baseline to rebuild</span></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">1.</span>Ship the median</h3>
+    <p class="goal"><strong>Goal:</strong> generate one unconstrained quiz card, then hand-measure a single failing pair. Stopping condition: <em>one ratio quoted, below 4.5:1, recomputed by you.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Build quiz-baseline.html: one multiple-choice quiz card (question + 4 buttons + hint line), inline CSS, dark styling, your choice of colors. No token file. Reply with the filename only.</div>
+    <div class="term">◆ agent · opencode run, free-tier model · Wrote quiz-baseline.html · <span class="g">31 lines, dark slate, confident</span>
+◆ hand-measure · #64748B on #1E293B = <span class="c">3.07:1 — FAILS 4.5:1</span>
+<span class="term-note">Executed 2026-09-04. The card looks finished — eyebrow 5.71:1, buttons 8.40:1 — and exactly one line, the faint hint, fails. Taste would have shipped it; division rejects it.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Baseline file exists and renders; one failing pair named as fg-on-bg with its ratio</li><li>Ratio recomputed with your own node -e, not quoted from the agent</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Every pair passes? Measure the smallest, faintest text first — hints, placeholders, disabled states. The median hides its failures in the lines nobody re-reads. If the agent asks which colors to use, that is the point: say "your choice" and measure what freedom produces.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">2.</span>Constrain it</h3>
+    <p class="goal"><strong>Goal:</strong> rebuild under tokens.json so off-palette is unwritable. Stopping condition: <em>literal search clean outside the token block, verdicts speak glyph+word, targets hold 44px.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Rebuild as index.html driven ONLY by this tokens.json (paper/ink/muted/wash/go/stop/line/focus + 48px target). No hex outside :root. Verdicts use glyph + word + live region. Visible focus ring. Reply with the grep line count.</div>
+    <pre>{
+  "paper": "#FFFFFF", "ink": "#1B1B1B", "muted": "#4A5568",
+  "wash": "#EAF5EE", "go": "#1E6B3A", "stop": "#B91C1C",
+  "line": "#64748B", "focus": "#1D4ED8",
+  "radius": "10px", "target": "48px"
+}</pre>
+    <div class="term">◆ literals · baseline: 12 lines (8, 9, 10, 11, 13–16, 18, 24, 25, 27) · rebuild: <span class="g">lines 9–10 only — the :root token block</span>
+<span class="term-note">Executed 2026-09-04 via literal search over both files. Twelve scattered lines collapse to the two lines where values are allowed to live. Anything hex elsewhere is now a build failure, not a preference.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Literal search shows hex only in the token block; buttons measure ≥44px; verdict shows ✓/✗ plus words</li><li>Tab through every control keyboard-only with the ring visible on each stop</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>No grep on your machine (Windows)? Run Select-String -Path "index.html" -Pattern '#[0-9a-fA-F]{3,6}' — same question, native tool. Agent keeps inventing colors? The prompt said "driven ONLY by" — that is a wish, not a gate; the search output is the gate. Trust the line numbers, not the reply text.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">3.</span>Measure it</h3>
+    <p class="goal"><strong>Goal:</strong> the agent reports every pair's luminance math; you recompute one ratio with node -e. Stopping condition: <em>your keystrokes confirm at least one ratio to two decimals.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>Report every text pair in index.html as fg ON bg with both relative-luminance values and the ratio. Then stop — I recompute one by hand before anything ships.</div>
+    <div class="term">◆ audit · ink/paper 17.22 · muted/paper 7.53 · go/wash 5.84 · paper/go 6.52 · stop/paper 6.47
+◆ recompute · node -e → <span class="g">"muted/paper: 7.53" — matches to two decimals ✓</span>
+<span class="term-note">Executed 2026-09-04. Five pairs, all ≥ 4.5:1, two clearing the 7:1 enhanced bar. The recompute is the whole step: the agent's table is a claim, your keystrokes are the evidence.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>Your terminal shows the recompute output; numbers match the agent's table exactly</li><li>Any mismatch is fixed in tokens.json, never patched inline in the component</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Numbers disagree in the third decimal? Check the background assumption first: undeclared backgrounds default to white per the spec's own measurement note, and a transparent wash over paper is not paper. Recompute against the rendered background, not the token name.</p></div>
+  </div>
+
+  <div class="step">
+    <h3><span class="n">4.</span>Loop with eyes, bounded</h3>
+    <p class="goal"><strong>Goal:</strong> one screenshot-compare cycle against the written stop rule, max two cycles. Stopping condition: <em>SHIP or HALT statement filed in notes.md with the four checks named.</em></p>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>My stop rule: pairs ≥4.5:1 · zero literals · 360px survives · focus visible. Max 2 fix cycles. Screenshot the card, list differences vs the rule, fix, re-shoot, then print SHIP or HALT with all four checks.</div>
+    <div class="term">◆ cycle 1 · pairs ✓ · literals ✓ · 360px ✓ · focus ✓ — <span class="c">line token 1.48:1 caught by the rail</span> → token fixed → <span class="g">4/4 SHIP</span>
+<span class="term-note">Executed 2026-09-04: the halt statement in notes.md records the catch verbatim — border token #CBD5E1 at 1.48:1 on paper, fixed in tokens.json to #64748B at 4.76:1. Loop exits 1–0 with one budgeted cycle unspent.</span></div>
+    <div class="verify"><span>✓ Verify</span><ul><li>notes.md holds the stop rule (written first) plus the SHIP/HALT statement with cycle count</li><li>Reader checks: 360px resize with no scroll; full keyboard-only Tab pass by your own hands</li></ul></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Loop wants a third cycle? That wanting is the failure the cap exists to catch: file HALT, name the failing check, and change the token sheet or the rule — never run an unbudgeted cycle. Browser-capture tools are optional here; resize plus Tab is the required gate, screenshots the bonus.</p></div>
+  </div>
+
+  <ol class="timeline">
+    <li><b>median</b> — 31-line agent card, one hand-measured failure: hint at 3.07:1.</li>
+    <li><b>constrain</b> — literals collapse 12 lines → token block; glyph+word verdicts; 48px targets.</li>
+    <li><b>measure</b> — five pairs audited, one recomputed by hand to two decimals.</li>
+    <li><b>bounded loop</b> — stop rule first, one token fixed, SHIP 4/4 with a cycle to spare.</li>
+  </ol>
+
+  <section class="checkpoint" aria-label="Checkpoint">
+    <h2>Checkpoint — prove it worked</h2>
+    <label class="check-line"><input type="checkbox" id="c1"><span>My literal search is clean outside the token block (line numbers logged).</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I recomputed one ratio with my own keystrokes and it matched to two decimals.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>My halt rule was written before the loop, and the SHIP/HALT statement is filed.</span></label>
+  </section>
+
+  <section class="receipts" aria-label="Receipts">
+    <p>Receipts · every claim above traces here · fetched-live where marked</p>
+    <details><summary>Screenshot loop + verify-your-work prescription and loop wording</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://code.claude.com/docs/en/best-practices</span> · re-verified 2026-09-04 · "a screenshot to compare", compare-and-fix wording holds</span></details>
+    <details><summary>WCAG 2.2 quick reference (all six criteria below indexed here)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/WAI/WCAG22/quickref/</span> · re-verified 2026-09-04 · WCAG 2.2 structure confirms</span></details>
+    <details><summary>Relative luminance: 0.2126/0.7152/0.0722 weights, 0.04045 threshold, (L1+0.05)/(L2+0.05)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/TR/WCAG22/</span> · NEW · fetched y 2026-09-04 · threshold corrected from brief's 0.03928</span></details>
+    <details><summary>Contrast minimum 4.5:1 body / 3:1 large text (1.4.3)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html</span> · NEW · fetched y 2026-09-04</span></details>
+    <details><summary>Use of color: never the only visual means (1.4.1)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html</span> · NEW · fetched y 2026-09-04</span></details>
+    <details><summary>Target size minimum 24×24 CSS px (2.5.8); book holds 38/44px above it</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html</span> · NEW · fetched y 2026-09-04</span></details>
+    <details><summary>Focus visible for keyboard operation (2.4.7)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html</span> · NEW · fetched y 2026-09-04</span></details>
+    <details><summary>Animation from interactions can be disabled (2.3.3, reduced-motion)</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html</span> · NEW · fetched y 2026-09-04</span></details>
+    <details><summary>Design Tokens 2025.10: Community Group Draft, not a W3C Standard</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">designtokens.org/TR/2025.10/format/</span> · ledger row · re-verified 2026-09-04 · status caveat holds</span></details>
+    <details><summary>Tailwind v4.3 line (v4.3.3 tagged 2026-07-16) as the utility-constraint layer</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">tailwindcss.com/docs</span> · ledger row · re-verified 2026-09-04 · version restamped</span></details>
+    <details><summary>Browser-driving tools: DevTools MCP ≈51k stars at checking time; Playwright MCP as the snapshot-loop alternative</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">github.com/ChromeDevTools/chrome-devtools-mcp</span> · ledger row · stars re-verified 2026-09-04 (50,866) · plus <span class="r-url">github.com/microsoft/playwright-mcp</span> ledger row (tradeoff)</span></details>
+    <details><summary>Component contracts as AI-readable pieces</summary><span class="receipt"><span class="tier">T1 official</span><span class="r-url">ui.shadcn.com/docs</span> · ledger row · predictability-for-LLMs principle</span></details>
+    <details><summary>Agents follow codebase patterns closely — the median's inverse</summary><span class="receipt"><span class="tier">T1 practitioner</span><span class="r-url">simonwillison.net/2026/Mar/14/pragmatic-summit/</span> · ledger row · convention-supplied or median-ships</span></details>
+    <details><summary>Visual-craft exemplar held as the bar, not the method</summary><span class="receipt"><span class="tier">T1 exemplar</span><span class="r-url">ciechanow.ski/moon/</span> · ledger row · artifact, no tooling colophon</span></details>
+    <details><summary>Executed 2026-09-04: agent baseline (31 lines), literal search, node -e ratios, halt statement</summary><span class="receipt"><span class="tier">T1 own-execution</span><span class="r-url">https://opencode.ai/docs</span> · ledger row · free-tier opencode run + local keystroke math</span></details>
+  </section>
+
+  <nav class="pager" aria-label="Chapter navigation">
+    <a href="../ch07/index.html">← session 07</a>
+    <a href="../ch09/index.html">session 09 →</a>
+  </nav>
+<script>
+(function(){
+  document.querySelectorAll(".copy-btn").forEach(function(btn){btn.addEventListener("click",function(){var t=btn.parentNode.textContent.replace(/^copy/,"");function done(s){btn.textContent=s;setTimeout(function(){btn.textContent="copy"},1500);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){done("copied ✓")},function(){done("select + Ctrl+C")});}else{done("select + Ctrl+C");}})});
+  document.querySelectorAll(".checkpoint input").forEach(function(box){var k="fm-v2-ch08-"+box.id;try{if(localStorage.getItem(k)==="1")box.checked=true;}catch(e){}box.addEventListener("change",function(){try{localStorage.setItem(k,box.checked?"1":"0")}catch(e){}})});
+})();
+</script>
+</main>
+<script src="../../assets/js/theme.js"></script>
+</body>
+</html>
