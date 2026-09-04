@@ -25,7 +25,7 @@
     <p>A localhost demo dies with your laptop lid; a public URL keeps working while you sleep and forces the agent's output to meet the real network. Tonight's move is small on purpose: one static folder, one free host, one link you can text to a friend. The stakes are not traffic — the toy gets none — they are the habit. Every later project inherits the ritual you set here: preview before production, gate before push, card before claims.</p>
     <p>The ritual itself is vendor-free and fits in one sentence: a static folder goes into git, git connects to a host once, and from then on every push is a deploy. Branch previews give you a disposable URL per change, so review happens on the live artifact. Merge to the main branch and production updates. No server to feed, no pipeline to babysit at this scale — the host watches the branch and rebuilds. Learn the shape once and all four hosts below feel familiar, because the shape is the product.</p>
     <p>Two wall species guard the $0 tier, and they warn you differently. Numeric walls are meters: builds per month, bandwidth per month, credits per deploy. They trip silently — the 501st build simply does not run, and nobody emails you. Legal walls are clauses: the terms bar commercial hosting and SaaS storefronts on a free showcase tier. Clauses have no meter; enforcement arrives as an email or a disabled site. Read the meter for the first species and the terms page for the second, because each wall is invisible to the other's instrument.</p>
-    <p>Under an agent, the $0 budget needs writing down, because an agent treats deploys as free keystrokes. The card carries three lines: N production deploys allowed, previews-first as the default lane, and a stop line naming what halts the run. Previews are the free rehearsal — unlimited on three of the four hosts below — so the agent can burn twenty preview URLs learning and still cost nothing. Production is the metered lane. State the number before the run, and the agent spends against a budget instead of against your surprise.</p>
+    <p>Under an agent, the $0 budget needs writing down, because an agent treats deploys as free keystrokes. The card carries three lines: N production deploys allowed, previews-first as the default lane, and a stop line naming what halts the run. Previews are the free rehearsal — unlimited on Cloudflare and Netlify's published lanes (Vercel's preview terms are unpinned in the table below: verify before relying on that lane) — so the agent can burn preview URLs learning and still cost nothing where the host publishes it. Production is the metered lane. State the number before the run, and the agent spends against a budget instead of against your surprise.</p>
     <p>Gate before push, card after. The pre-publish gate runs locally with no account and checks three things: every link resolves, the weight fits the published wall, and no secret-shaped string ships in the folder. Red means fix, green means you may merge. The card then records the decision: host, numeric first-wall, as-of date, and the constraining terms line. Where this breaks down: static hosts serve files only; free numbers move silently, so re-stamp figures quarterly; and silence about a limit is hope, not architecture — write UNPINNED where the page names no number, never infinity.</p>
   </section>
 
@@ -63,7 +63,7 @@
     </svg>
     <figcaption><strong>Fig. 13 — the two-species wall.</strong> The meter fills without telling you; the clause fires without metering you; previews rehearse without spending either. It answers: which wall warns me, and which needs a terms page?</figcaption>
   </figure>
-  <p>The previews-first arrow is the whole budget strategy in one glyph. Every host below except one hands out branch previews outside the production meter — unlimited on Cloudflare, Netlify, and Vercel's lane — so the agent's trial-and-error happens where trial is free. Production merges are the only moves that spend: a build off the monthly quota, bytes off the bandwidth allowance, credits off the refill. Count production deploys the way you count anything scarce, and let previews absorb everything else. The readiness card in step 4 is where that count becomes a promise.</p>
+  <p>The previews-first arrow is the whole budget strategy in one glyph. Cloudflare and Netlify publish unlimited branch previews outside the production meter — Vercel's preview terms are unpinned in this chapter's table, so check the page before relying on that lane — and the agent's trial-and-error happens where trial is free. Production merges are the only moves that spend: a build off the monthly quota, bytes off the bandwidth allowance, credits off the refill. Count production deploys the way you count anything scarce, and let previews absorb everything else. The readiness card in step 4 is where that count becomes a promise.</p>
 
   <h2><span class="s-n">iii.</span>The ritual, once <span class="time">· folder → git → connect-once</span></h2>
   <p>Seven nodes, one connection step, and only the last two spend money-that-isn't-money. The folder holds plain files; git gives the folder a memory; connect-once ties a branch to the host in the dashboard — the single step this book labels docs-only, because no account is opened in this session and the card records intent, not a live hookup. From there the loop is mechanical: push a branch, open its preview URL, review the artifact, merge, and watch production update. Teach the loop with the toy and it transfers to every static host unchanged, because the differences between hosts live in the walls, never in the ritual.</p>
@@ -94,8 +94,8 @@
   <div class="table-scroll"><table>
     <tr><th>Host ($0 lane)</th><th>Site / file / build wall</th><th>Previews</th><th>What bites first at toy weight</th><th>As-of</th></tr>
     <tr><td><strong>Cloudflare Pages</strong></td><td>20k files · 25 MiB/file · 500 builds/mo, 20-min timeout · transfer UNPINNED on cited page</td><td>Unlimited</td><td>500 builds/mo — an agent left pushing hits this in weeks</td><td>2026-09-04</td></tr>
-    <tr><td><strong>Vercel Hobby</strong></td><td>200 projects · 100 deploys/day · 45-min builds, 1 concurrent · 100 GB/mo transfer · per-output-file UNPINNED</td><td>Per-branch lane included</td><td>100 deploys/day — generous until preview-loops run wild</td><td>2026-09-04</td></tr>
-    <tr><td><strong>Netlify Free</strong></td><td>300 credits/refill · 15 credits per production deploy · bandwidth 20 credits/GB · file-count walls UNPINNED (credit model)</td><td>Unlimited</td><td>20 production deploys per refill — previews-first or starve</td><td>2026-09-04</td></tr>
+    <tr><td><strong>Vercel Hobby</strong></td><td>200 projects · 100 deploys/day · 45-min builds, 1 concurrent · 100 GB/mo transfer · per-output-file UNPINNED</td><td>Per-branch previews UNPINNED — rehearse free only where the host publishes it</td><td>100 deploys/day — generous until preview-loops run wild</td><td>2026-09-04</td></tr>
+    <tr><td><strong>Netlify Free</strong></td><td>300 credits/refill · 15 credits per production deploy · per-GB bandwidth cost UNPINNED · file-count walls UNPINNED (credit model)</td><td>Unlimited</td><td>20 production deploys per refill — previews-first or starve</td><td>2026-09-04</td></tr>
     <tr><td><strong>GitHub Pages</strong></td><td>1 GB source · 1 GB published site · 10-min timeout · ~100 GB/mo soft · 10 builds/hr soft (waived with custom Actions)</td><td>UNPINNED on cited pages — ships on push, rehearse locally</td><td>10 builds/hr soft — plus the legal wall: no storefronts, donations OK</td><td>2026-09-04</td></tr>
   </table></div>
   <figcaption><strong>Fig. 14 — first-wall comparison.</strong> Four hosts, the published walls that bind a static toy, and what bites first when bytes are not the problem. It answers: which host fits my pace, and which line of the terms constrains my project?</figcaption>
@@ -135,21 +135,24 @@ GATE GREEN — all checks pass
   <div class="step">
     <h3><span class="n">3.</span>Fit the host wall on paper; recompute one row; UNPINNED where unpinned</h3>
     <p class="goal"><strong>Goal:</strong> weigh the toy, recompute one comparison row with your own arithmetic, and write UNPINNED anywhere the cited page names no number.</p>
-    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Do NOT edit files. Sum the bytes of ship-lab/*.html, divide by the 1 GB GitHub Pages published-site wall, and state the headroom percent. Report numbers only."</div>
+    <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Do NOT edit files. Sum the bytes of ship-lab/*.html, divide by the 1 GB GitHub Pages published-site wall, and state the usage percent. Report numbers only."</div>
     <div class="term">SITE_BYTES:601
-PAGES_HEADROOM_PCT:0.0001
-<span class="term-note">Executed 2026-09-04 via node. 601 bytes against a 1 GB wall: the toy fits thousands of times over, so behavior walls (builds/hr, credits) bind before bytes do.</span></div>
+PAGES_USAGE_PCT:0.0001
+<span class="term-note">Executed 2026-09-04 via node. 601 bytes against a 1 GB wall: usage rounds to 0.0001% — the toy fits ~1.7M times over — so behavior walls (builds/hr, credits) bind before bytes do.</span></div>
     <div class="verify"><span>✓ Verify</span><ul><li>Your hand arithmetic matches <code>601</code> bytes; your chosen row's division matches the table; every unnumbered cell in your notes says UNPINNED, never infinity</li></ul></div>
-    <div class="stuck"><span>⚠ If stuck</span><p>Numbers disagree? Re-sum with the shell glob (<code>*.html</code>) — counting READY.md or gate.mjs as shipped weight is the usual slip, and the gate excludes the card on purpose.</p></div>
+    <div class="stuck"><span>⚠ If stuck</span><p>Numbers disagree? Re-sum with the shell glob (<code>*.html</code>) — shipped weight is <code>*.html</code> only. The gate scans the whole folder, so its WEIGHT line honestly names gate.mjs as heaviest; READY.md is excluded from both scans on purpose. Counting either as shipped weight is the usual slip.</p></div>
   </div>
 
   <div class="step">
     <h3><span class="n">4.</span>Fill READY.md docs-only; card holds host + wall + date</h3>
     <p class="goal"><strong>Goal:</strong> a dated readiness card naming host, numeric first-wall, as-of stamp, and terms line — with nothing pushed, no accounts, no credentials.</p>
     <div class="paste"><button class="copy-btn" type="button">copy</button>opencode run "Read ship-lab/READY.md and report: does the card name a host, a numeric first-wall, an as-of date, and a ToS line? Do NOT push, deploy, or open any account."</div>
-    <div class="term">?? READY.md
+    <div class="term">◆ READY.md — card contents, quoted verbatim (authored card, filled docs-only):
+HOST GitHub Pages · FIRST WALL ~100 GB/mo bandwidth (soft) · CHECKED 2026-09-04 · TERMS no business/e-commerce/SaaS hosting; donations permitted · STATUS no push, no login, no secret typed
+◆ git status --short →
+?? READY.md
 ?? guide.html
-<span class="term-note">Executed 2026-09-04 via git status --short against the baseline commit. Exactly two files outside baseline: the step-2 fix and the card — untouched status everywhere else.</span></div>
+<span class="term-note">Executed 2026-09-04: the status lines are the run output; the card above is the authored deliverable they vouch for — host, numeric first-wall, as-of date, ToS line, all present. Exactly two files outside baseline: the step-2 fix and the card.</span></div>
     <div class="verify"><span>✓ Verify</span><ul><li>Card holds host + numeric first-wall + as-of + ToS line; <code>git status --short</code> shows exactly the fix and the card; no push, no login, no secret ever typed</li></ul></div>
     <div class="stuck"><span>⚠ If stuck</span><p>More than two files changed? Diff them — anything beyond the fix and the card gets reverted. A readiness card that ships with stray edits vouches for work it never reviewed.</p></div>
   </div>
@@ -157,8 +160,8 @@ PAGES_HEADROOM_PCT:0.0001
   <section class="checkpoint" aria-label="Checkpoint">
     <h2>Checkpoint — prove it worked</h2>
     <label class="check-line"><input type="checkbox" id="c1"><span>My gate ran RED then GREEN from my own keystrokes, and I can quote both runs.</span></label>
-    <label class="check-line"><input type="checkbox" id="c2"><span>I recomputed one comparison row by hand (bytes, division, headroom) and wrote UNPINNED where the page names no number.</span></label>
-    <label class="check-line"><input type="checkbox" id="c3"><span>My READY.md names a host, a numeric first-wall, and an as-of date — filled docs-only, nothing pushed.</span></label>
+    <label class="check-line"><input type="checkbox" id="c2"><span>I recomputed one comparison row by hand (bytes, division, usage share) and wrote UNPINNED where the page names no number.</span></label>
+    <label class="check-line"><input type="checkbox" id="c3"><span>My READY.md names a host, a numeric first-wall, an as-of date, and a ToS line — filled docs-only, nothing pushed.</span></label>
   </section>
 
   <section class="receipts" aria-label="Receipts">
